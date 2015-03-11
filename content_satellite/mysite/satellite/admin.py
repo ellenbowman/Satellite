@@ -10,4 +10,7 @@ admin.site.register(ServiceTake)
 
 admin.site.register(Article)
 
-admin.site.register(Scorecard)
+class ScorecardAdmin(admin.ModelAdmin):
+	list_display = ['name', 'service', 'pretty_name']
+
+admin.site.register(Scorecard, ScorecardAdmin)
