@@ -2,6 +2,8 @@ import urllib
 import json
 from models import Scorecard
 from models import Ticker
+from models import ServiceTake
+import datetime
 
 base_url = 'http://apiary.fool.com/PremiumScorecards/v1/scorecards/'
 
@@ -27,7 +29,7 @@ for scorecard in Scorecard.objects.all():
         # create a Ticker for this symbol if it doesn't exist
         matches = Ticker.objects.filter(ticker_symbol=ticker_symbol)
         if len(matches)==0:
-
+            print "oops"
             t = Ticker()
             t.ticker_symbol = ticker_symbol
             t.instrument_id = o['InstrumentId']
@@ -37,11 +39,20 @@ for scorecard in Scorecard.objects.all():
             t.save()
         else:
             t = matches[0]
-        """
+        
         # create a ServiceTake
         st = ServiceTake()
-        st.isCore = o['IsCore']
+        st.is_core = o['IsCore']
+        st.is_first = o['IsFirst']
+        st.is_newest = o['IsNewest']
+        st.action = o['Action']
+        st.is_present = True
         st.ticker = t
         st.scorecard = scorecard
+        temp = o['OpenDate']
+        temp = temp.split('T')[0]
+        st.open_date = datetime.datetime.strptime(temp, '%Y-%m-%d')
+
+
         st.save()
-        """
+        

@@ -31,8 +31,9 @@ class ServiceTake(models.Model):
 	is_present = models.BooleanField(default=False)
 	ticker = models.ForeignKey(Ticker)
 	scorecard = models.ForeignKey(Scorecard)
+	open_date = models.DateField(null=True, blank=True)
 	def __unicode__(self):
-		return str(self.ticker) + " " + str(self.scorecard)
+		return str(self.ticker)
 
 class Article(models.Model):
 	title = models.CharField(max_length=100)
