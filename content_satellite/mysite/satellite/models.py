@@ -11,6 +11,9 @@ class Ticker(models.Model):
 	def __unicode__(self):
 		return self.ticker_symbol
 
+	class Meta:
+		ordering = ['ticker_symbol'] 
+
 class Service(models.Model):
 	name = models.CharField(max_length=50)
 	def __unicode__(self):
