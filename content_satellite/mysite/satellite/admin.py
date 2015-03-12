@@ -2,7 +2,11 @@ from django.contrib import admin
 
 from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard
 
-admin.site.register(Ticker)
+class TickerAdmin(admin.ModelAdmin):
+	list_display = ['ticker_symbol', 'exchange_symbol','num_followers','earnings_announcement','percent_change_historical','company_name',]
+	search_fields = ['ticker_symbol', 'instrument_id',]
+
+admin.site.register(Ticker, TickerAdmin)
 
 admin.site.register(Service)
 
@@ -18,16 +22,9 @@ class ServiceTakeAdmin(admin.ModelAdmin):
 
 admin.site.register(ServiceTake, ServiceTakeAdmin)
 
-#what else.... it'd be cool if in the satellite's admin.py,
-#we had custom admins for the Article and Ticker,
-
 class ArticleAdmin(admin.ModelAdmin):
 	list_display = ['title', 'author', 'date_pub', 'url', 'service', 'ticker']
 	list_filter = ['service', 'author',]
-	search_fields = ['ticker__ticker_symbol',]
+	search_fields = ['ticker__ticker_symbol', 'title',]
 
 admin.site.register(Article, ArticleAdmin)
-
-#like how you already set up ScorecardAdmin so that additional columns
-#are displayed, and ServiceTakeAdmin, so that additional columns are
-#displayed AND you can filter AND you can search by ticker symbol
