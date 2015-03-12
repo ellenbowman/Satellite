@@ -1,13 +1,13 @@
 from django.db import models
 
 class Ticker(models.Model):
-	ticker_symbol = models.CharField(max_length=5)
-	exchange_symbol = models.CharField(max_length=10)
+	ticker_symbol = models.CharField(max_length=5, verbose_name='symbol')
+	exchange_symbol = models.CharField(max_length=10, verbose_name='exchange')
 	instrument_id = models.IntegerField(default=0)
-	num_followers = models.IntegerField(default=0)
-	earnings_announcement = models.DateField(null=True, blank=True)
-	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3)
-	company_name = models.CharField(max_length=120, null=True, blank=True)
+	num_followers = models.IntegerField(default=0, verbose_name='followers')
+	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='earnings date')
+	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='% change 50d')
+	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
 
 	def __unicode__(self):
 		return self.ticker_symbol
@@ -15,7 +15,7 @@ class Ticker(models.Model):
 	class Meta:
 		ordering = ['ticker_symbol'] 
 
-	def num_scorecards(self):
+	def scorecards(self):
 		""" how many scorecards have this ticker? """
 
 		# find the ServiceTakes that have this ticker as a foreign key
@@ -29,7 +29,7 @@ class Ticker(models.Model):
 
 		return len(scorecards_represented)
 
-	def num_services(self):
+	def services(self):
 		""" how many services have this ticker? """
 
 		# find the ServiceTakes that have this ticker as a foreign key
