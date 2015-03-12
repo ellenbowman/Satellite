@@ -8,11 +8,42 @@ class Ticker(models.Model):
 	earnings_announcement = models.DateField(null=True, blank=True)
 	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3)
 	company_name = models.CharField(max_length=120, null=True, blank=True)
+
 	def __unicode__(self):
 		return self.ticker_symbol
 
 	class Meta:
 		ordering = ['ticker_symbol'] 
+
+	def num_scorecards(self):
+		""" how many scorecards have this ticker? """
+
+		# find the ServiceTakes that have this ticker as a foreign key
+		service_takes_on_this_ticker = ServiceTake.objects.filter(ticker=self)
+
+		# of those, find the number of unique scorecards. use set() to avoid
+		# counting cases where a scorecard has rec'd a ticker more than once
+		scorecards_represented = set()
+		for service_take in service_takes_on_this_ticker:
+			scorecards_represented.add(service_take.scorecard.name)
+
+		return len(scorecards_represented)
+
+	def num_services(self):
+		""" how many services have this ticker? """
+
+		# find the ServiceTakes that have this ticker as a foreign key
+		service_takes_on_this_ticker = ServiceTake.objects.filter(ticker=self)
+
+		# of those, find the number of unique services. use set() so that if
+		# a service has multiple scorecards (eg supernova & stock advisor),
+		# we don't inflate the count
+		services_represented = set()
+		for service_take in service_takes_on_this_ticker:
+			services_represented.add(service_take.scorecard.service.name)
+
+		return len(services_represented)
+
 
 class Service(models.Model):
 	name = models.CharField(max_length=50)
