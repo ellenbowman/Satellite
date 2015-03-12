@@ -8,6 +8,55 @@ import datetime
 
 from models import Ticker
 
+
+
+def set_meta_data(quandl_auth_token, start_idx=None, batch_size=None):
+	""" the 'public' function that we'll execute from the shell/admin """
+	script_start_time = datetime.datetime.now()
+
+	ticker_subset = Ticker.objects.all().order_by('ticker_symbol') 
+	if start_idx is not None:
+		ticker_subset = ticker_subset[start_idx:]
+	if batch_size is not None:
+		ticker_subset = ticker_subset[:batch_size]
+
+	for ticker in ticker_subset:
+		ticker_symbol = ticker.ticker_symbol
+
+		print ticker_symbol
+
+		# performance ---------
+		try:
+			percent_change_fifty_day_moving_average = get_historical_percent_change(ticker_symbol)
+			print percent_change_fifty_day_moving_average
+			ticker.percent_change_historical = percent_change_fifty_day_moving_average
+		except:
+			print "couldn't set performance change"
+
+		# date of next earnings announcement (estimate) ---------
+		try:
+			earnings_announcement_date = get_earnings_announcement_date(ticker_symbol, quandl_auth_token)
+			print earnings_announcement_date
+			ticker.earnings_announcement = earnings_announcement_date
+		except:
+			print "couldn't set earnings date"
+
+		# scorecard followers ---------
+		try:
+			num_followers = get_num_scorecard_followers(ticker_symbol)
+			print num_followers
+			ticker.num_followers = num_followers
+		except:
+			print "couldn't set number of followers"
+
+		# IMPORTANT!
+		ticker.save()
+
+	script_end_time = datetime.datetime.now()
+	total_seconds = (script_end_time - script_start_time).total_seconds()
+	print 'time elapsed: %d seconds' %  total_seconds	
+
+
 # helper functions -- START ---
 
 def get_historical_percent_change(ticker_symbol):
@@ -43,14 +92,12 @@ def get_historical_percent_change(ticker_symbol):
 	return percent_change_moving_average
 
 
-def get_earnings_announcement_date(ticker_symbol):
+def get_earnings_announcement_date(ticker_symbol, quandl_auth_token):
 	""" get the 'EXP_RPT_DATE_QR1' (expected report date for 1st quarter?) 
 	from Quandl, which pulls from Zachs Research """
 
-	auth_token = 'x2U_6KiQBV3Y8c2zMaQc'
-
-	# sample url: http://www.quandl.com/api/v1/datasets/ZEA/AOL.json?column=4&auth_token=[auth_token]
-	earnings_announcement_url = 'http://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, auth_token)
+	# sample url: http://www.quandl.com/api/v1/datasets/ZEA/AOL.json?column=4&auth_token=[quandl_auth_token]
+	earnings_announcement_url = 'http://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, quandl_auth_token)
 	
 	earnings_response = urllib.urlopen(earnings_announcement_url).read()
 	earnings_json = json.loads(earnings_response)
@@ -63,7 +110,7 @@ def get_earnings_announcement_date(ticker_symbol):
 
 def get_num_scorecard_followers(ticker_symbol):
 	""" returns the number of Fool One members who follow this ticker in their Scorecard """
-	
+
 	url='http://apiary.fool.com/leads/.json?serviceIds=1255&tickers=%s' % ticker_symbol   # note: 1255 is the Fool One service 'id'
 	lookie='Lookie=C6203A9167ABA57562DD83D6AEA13BCC1EDC892BE430D6915FA389C5437EDE6F4E8F70E752E1838A1C6343E400F5D8C230FB1395D04410E2049CA550A09989D258D66CC6C03D2201454FC58D4909FC982C45F62419E9EAFD323772179CB7C85F59970D042D2EB71BFD9F168B626BAA4A732E3E53A322D3CC4783BA8B56C6663A39BC100F'
 
@@ -78,46 +125,3 @@ def get_num_scorecard_followers(ticker_symbol):
 
 # helper functions -- END ---
 
-
-
-script_start_time = datetime.datetime.now()
-
-for ticker in Ticker.objects.all().order_by('ticker_symbol'):
-	ticker_symbol = ticker.ticker_symbol
-
-	print ticker_symbol
-
-	# performance ---------
-	try:
-		percent_change_fifty_day_moving_average = get_historical_percent_change(ticker_symbol)
-		print percent_change_fifty_day_moving_average
-		ticker.percent_change_historical = percent_change_fifty_day_moving_average
-	except:
-		print "couldn't set performance change"
-
-
-	# date of next earnings announcement (estimate) ---------
-	try:
-		earnings_announcement_date = get_earnings_announcement_date(ticker_symbol)
-		print earnings_announcement_date
-		ticker.earnings_announcement = earnings_announcement_date
-	except:
-		print "couldn't set earnings date"
-
-
-	# scorecard followers ---------
-	try:
-		num_followers = get_num_scorecard_followers(ticker_symbol)
-		print num_followers
-		ticker.num_followers = num_followers
-	except:
-		print "couldn't set number of followers"
-
-	# IMPORTANT!
-	ticker.save()
-
-
-
-script_end_time = datetime.datetime.now()
-total_seconds = (script_end_time - script_start_time).total_seconds()
-print 'time elapsed: %d seconds' %  total_seconds	
