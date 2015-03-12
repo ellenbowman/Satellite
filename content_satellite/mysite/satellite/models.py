@@ -47,15 +47,25 @@ class Ticker(models.Model):
 
 class Service(models.Model):
 	name = models.CharField(max_length=50)
+
 	def __unicode__(self):
 		return self.name
+
+	class Meta:
+		ordering = ['name'] 
+
 
 class Scorecard(models.Model):
 	name = models.CharField(max_length=30)
 	service = models.ForeignKey(Service)
 	pretty_name = models.CharField(max_length=30)
+
 	def __unicode__(self):
 		return self.pretty_name
+
+	class Meta:
+		ordering = ['pretty_name'] 
+
 
 class ServiceTake(models.Model):
 	is_first = models.BooleanField(default=False)
@@ -66,8 +76,13 @@ class ServiceTake(models.Model):
 	ticker = models.ForeignKey(Ticker)
 	scorecard = models.ForeignKey(Scorecard)
 	open_date = models.DateField(null=True, blank=True)
+	
 	def __unicode__(self):
 		return str(self.ticker)
+
+	class Meta:
+		ordering = ['scorecard'] 
+
 
 class Article(models.Model):
 	title = models.CharField(max_length=100)
@@ -76,5 +91,9 @@ class Article(models.Model):
 	url = models.URLField(max_length=400)
 	service = models.ForeignKey(Service)
 	ticker = models.ForeignKey(Ticker)
+
 	def __unicode__(self):
 		return self.title
+
+	class Meta:
+		ordering = ['-date_pub'] 
