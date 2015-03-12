@@ -6,7 +6,7 @@ class Ticker(models.Model):
 	instrument_id = models.IntegerField(default=0)
 	num_followers = models.IntegerField(default=0)
 	earnings_announcement = models.DateField(null=True, blank=True)
-	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=5)
+	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3)
 	company_name = models.CharField(max_length=120, null=True, blank=True)
 	def __unicode__(self):
 		return self.ticker_symbol
