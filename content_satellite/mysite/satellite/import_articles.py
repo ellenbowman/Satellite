@@ -9,10 +9,12 @@ import datetime
 from models import Article, Ticker, Service
 
 
-BASE_HYDRA_URL = 'https://hydra.fool.com/api/secure/content/query/?stop=5&format=json&instrument_ids='
+script_start_time = datetime.datetime.now()
+
+BASE_HYDRA_URL = 'https://hydra.fool.com/api/secure/content/query/?stop=3&format=json&instrument_ids='
 
 
-for ticker in Ticker.objects.all():
+for ticker in Ticker.objects.all().order_by('ticker_symbol'):
 	
 	print ticker.ticker_symbol
 
@@ -20,7 +22,11 @@ for ticker in Ticker.objects.all():
 
 	url = BASE_HYDRA_URL + str(instrument_id)
 	response = urllib.urlopen(url).read()
-	json_response = json.loads(response)
+	try:
+		json_response = json.loads(response)
+	except:
+		print 'Error processing ' + url
+		continue
 
 	if len(json_response) == 1:
 		# this means we didn't get results for this ticker;
@@ -62,3 +68,7 @@ for ticker in Ticker.objects.all():
 		article.ticker  = ticker
 		
 		article.save()
+
+script_end_time = datetime.datetime.now()
+total_seconds = (script_end_time - script_start_time).total_seconds()
+print 'time elapsed: %d seconds' %  total_seconds
