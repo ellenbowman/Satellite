@@ -1,6 +1,6 @@
 # Satellite of Love
 
-Envisioned & implemented by Ellen Bowman. 
+Envisioned & implemented by Lisa Chung and Ellen Bowman. 
 
 ## Synopsis
 
