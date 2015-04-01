@@ -1,0 +1,2 @@
+recursive-include content_satellite * 
+global-exclude *.pyc
