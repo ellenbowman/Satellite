@@ -29,7 +29,6 @@ for scorecard in Scorecard.objects.all():
         # create a Ticker for this symbol if it doesn't exist
         matches = Ticker.objects.filter(ticker_symbol=ticker_symbol)
         if len(matches)==0:
-            print "oops"
             t = Ticker()
             t.ticker_symbol = ticker_symbol
             t.instrument_id = o['InstrumentId']
