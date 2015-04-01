@@ -11,7 +11,11 @@ from datetime import datetime
 from fool_deployer.deployment import deploy
 
 
+HOSTS = ['web01.test.sol.fool.com',]
+
+
 fabpath = os.path.dirname(os.path.abspath(__file__))
+env.hosts = HOSTS
 env.colors = True
 env.user = 'deploy'
 env.project_source_path = '/var/src/sol'
@@ -25,6 +29,7 @@ env.newest_virtualenv = posixpath.join(env.project_source_path, '.venv')
 env.run = run
 env.project_name = 'content-satellite'
 env.supervisor_group = "sol:*"
+env.notify_new_relic = False
 
 
 
@@ -32,16 +37,16 @@ env.supervisor_group = "sol:*"
 
 @task
 def test():
-    set_hosts(['web01.test.sol.fool.com',])
     env.environment = 'test'
-    env.get_snapshot = False
-	
+
+    set_hosts(HOSTS)
+
     env.deploy_tasks.insert(0, "build_and_upload_archive")
+    env.deploy_tasks.append("static.collectstatic")
     env.deploy_tasks.append("notify_slack")
 
     env.deploy_tasks.exclude(
         "snapshots.get_snapshot",
-        "static.collectstatic",
         "static.compress",
         "notifications.notify_new_relic",
     )

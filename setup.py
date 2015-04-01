@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='Satellite',
-    version='0.0.4',
+    version='0.0.5',
     long_description=__doc__,
 
     author='Ellen Bowman',
