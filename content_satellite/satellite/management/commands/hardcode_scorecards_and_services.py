@@ -13,6 +13,7 @@ scorecards_by_service = {
 	'rule_breakers':['@RuleBreakersInclusion',],
 	'income_investor':['@IncomeInvestorInclusion',],
 	'inside_value':['@InsideValueInclusion',],
+	'usmf_free':[],
 }
 
 class Command(BaseCommand):
