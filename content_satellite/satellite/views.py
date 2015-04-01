@@ -8,5 +8,5 @@ def index(request):
 		coming soon:  <strong>Satellite of Love</strong>
 		<br/>
 		<br/>Get excited!
-		<br/><img src='https://tsotniashvili.files.wordpress.com/2011/04/funny-cat-faces-2.jpg'/>
+		<br/><a href='/admin'><img src='https://tsotniashvili.files.wordpress.com/2011/04/funny-cat-faces-2.jpg'/></a>
 		""")
