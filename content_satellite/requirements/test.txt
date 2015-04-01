@@ -1,0 +1,3 @@
+--index-url=http://localshop.foolhq.com/simple
+
+-r default.txt
