@@ -11,7 +11,7 @@ from models import Article, Ticker, Service
 
 script_start_time = datetime.datetime.now()
 
-BASE_HYDRA_URL = 'https://hydra.fool.com/api/secure/content/query/?stop=3&format=json&instrument_ids='
+BASE_HYDRA_URL = 'https://hydra.fool.com/api/secure/content/query/?stop=7&format=json&instrument_ids='
 
 
 for ticker in Ticker.objects.all().order_by('ticker_symbol'):
@@ -36,7 +36,7 @@ for ticker in Ticker.objects.all().order_by('ticker_symbol'):
 	# let's get the first 10 items in the list. 
 	for jr in json_response[:10]:
 		article = Article()
-		article.title = jr['headline']
+		article.title = jr['headline'][:100]
 		
 		# examples of values we expect in ['service']['slug']: 'hidden_gems','stock_advisor','supernova'
 		# we need to have corresponding Service records
@@ -60,7 +60,7 @@ for ticker in Ticker.objects.all().order_by('ticker_symbol'):
 			article.url = content_base_url + jr['legacy_uri']
 
 
-		article.author = jr['byline']
+		article.author = jr['byline'][:50]
 		publish_date = jr['publish_at']
 		publish_date = publish_date.split('T')[0]
 		article.date_pub = datetime.datetime.strptime(publish_date, '%Y-%m-%d')
