@@ -45,7 +45,7 @@ for ticker in Ticker.objects.all().order_by('ticker_symbol'):
 		services = Service.objects.filter(name=service_slug)
 		if len(services)==0:
 			# if we don't find a match, then assume it's a usmf article
-			service  = Service.objects.get(name='usmf_free')
+			continue
 		else:
 			service = services[0]
 		article.service = service
@@ -56,8 +56,12 @@ for ticker in Ticker.objects.all().order_by('ticker_symbol'):
 		if jr['legacy_uri']:
 			content_base_url = 'newsletters.fool.com'
 			if service_slug == 'usmf_free':
-				content_base_url = 'www.fool.com'
+				continue
 			article.url = content_base_url + jr['legacy_uri']
+			url_matches = Article.objects.filter(url=article.url, ticker=ticker)
+			if len(url_matches) >0:
+				print 'found duplicate' + article.url
+				continue
 
 
 		article.author = jr['byline'][:50]
