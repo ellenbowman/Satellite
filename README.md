@@ -20,4 +20,9 @@ This is a Django 1.7 project. You need to see Django==1.7.x when you do a `pip f
 4. `python manage.py runserver`
 5. open 127.0.0.1:8000/admin in a browser
 
+## Deployment
+
+Fabric 1.8.x and fool-deployer 1.0.9. Hits web01.test.sol.fool.com.
+
+## Mascot
 ![Get Excited!](https://tsotniashvili.files.wordpress.com/2011/04/funny-cat-faces-2.jpg "Get Excited!")
