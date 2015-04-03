@@ -101,7 +101,7 @@ def notify_slack():
 
     payload = {
         'text': "%s deployed %s!" % (getpass.getuser(), env.project_name),
-        'channel': '#satellite_love_app',
+        'channel': '#satellite-of-love',
         'username': 'derploybot',
         'icon_emoji':':too_cute:',
     }
