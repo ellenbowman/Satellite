@@ -1,7 +1,5 @@
---index-url=http://localshop.foolhq.com/simple
-
 Django==1.7.4
 Werkzeug==0.9.4
 django-compressor==1.4
 django-extensions==1.2.4
-psycopg2==2.5.4
+#psycopg2==2.5.4

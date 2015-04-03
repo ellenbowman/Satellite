@@ -1,0 +1,4 @@
+--index-url http://localshop.foolhq.com/simple
+
+fool-deployer==1.0.9
+Fabric==1.8.0
