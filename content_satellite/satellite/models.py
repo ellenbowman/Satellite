@@ -4,7 +4,7 @@ class Ticker(models.Model):
 	ticker_symbol = models.CharField(max_length=5, verbose_name='symbol')
 	exchange_symbol = models.CharField(max_length=10, verbose_name='exchange')
 	instrument_id = models.IntegerField(default=0)
-	num_followers = models.IntegerField(default=0, verbose_name='followers')
+	num_followers = models.IntegerField(default=0, verbose_name='Fool One followers')
 	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='earnings date')
 	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='% change 50d')
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
@@ -25,9 +25,10 @@ class Ticker(models.Model):
 		# counting cases where a scorecard has rec'd a ticker more than once
 		scorecards_represented = set()
 		for service_take in service_takes_on_this_ticker:
-			scorecards_represented.add(service_take.scorecard.name)
+			scorecards_represented.add(service_take.scorecard.pretty_name)
 
-		return len(scorecards_represented)
+		#return len(scorecards_represented)
+		return ", ".join(scorecards_represented)
 
 	def services(self):
 		""" how many services have this ticker? """
