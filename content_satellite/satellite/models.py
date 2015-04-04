@@ -8,8 +8,7 @@ class Ticker(models.Model):
 	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='earnings date')
 	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='50D%Change')
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
-	notes = models.CharField(max_length=1000, null=True, blank=True, verbose_name='Notes')
-	numscorecards = models.IntegerField(default=0, verbose_name='# Scorecards')
+	notes = models.CharField(max_length=1000, null=True, blank=True, verbose_name='Claim It')
 
 	def __unicode__(self):
 		return self.ticker_symbol
@@ -30,27 +29,11 @@ class Ticker(models.Model):
 			scorecards_represented.add(service_take.scorecard.pretty_name)
 
 		#return len(scorecards_represented)
+		#I would like to return len(scorecards_represented) and the below list of the scorecards
+		#like this: (5) Stock Advisor (David), Income Investor ...
 		return ", ".join(scorecards_represented)
 
-#eb: I'm sure there's a way to combine these two, but I need to learn what it is :)
-
-	def numscorecards(self):
-		""" how many scorecards have this ticker? """
-
-		# find the ServiceTakes that have this ticker as a foreign key
-		service_takes_on_this_ticker = ServiceTake.objects.filter(ticker=self)
-
-		# of those, find the number of unique scorecards. use set() to avoid
-		# counting cases where a scorecard has rec'd a ticker more than once
-		scorecards_represented = set()
-		for service_take in service_takes_on_this_ticker:
-			scorecards_represented.add(service_take.scorecard.pretty_name)
-
-		return len(scorecards_represented)
-		
 #eb end range of comment above :)
-
-
 
 	def services(self):
 		""" how many services have this ticker? """
