@@ -6,8 +6,9 @@ class Ticker(models.Model):
 	instrument_id = models.IntegerField(default=0)
 	num_followers = models.IntegerField(default=0, verbose_name='Fool One followers')
 	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='earnings date')
-	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='% change 50d')
+	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='50-day % change')
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
+	notes = models.CharField(max_length=1000, null=True, blank=True, verbose_name='Notes')
 
 	def __unicode__(self):
 		return self.ticker_symbol

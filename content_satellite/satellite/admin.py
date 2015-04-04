@@ -3,8 +3,9 @@ from django.contrib import admin
 from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard
 
 class TickerAdmin(admin.ModelAdmin):
-	list_display = ['ticker_symbol', 'exchange_symbol','company_name','num_followers','scorecards','services','percent_change_historical','earnings_announcement']
-	search_fields = ['ticker_symbol', 'instrument_id',]
+	list_display = ['ticker_symbol','company_name','exchange_symbol','scorecards','num_followers',
+	'earnings_announcement','notes','percent_change_historical']
+	search_fields = ['ticker_symbol', 'instrument_id','company_name']
 
 admin.site.register(Ticker, TickerAdmin)
 
