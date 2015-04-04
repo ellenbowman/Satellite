@@ -3,7 +3,7 @@ from django.contrib import admin
 from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard
 
 class TickerAdmin(admin.ModelAdmin):
-	list_display = ['ticker_symbol','company_name','exchange_symbol','scorecards','num_followers',
+	list_display = ['ticker_symbol','company_name','exchange_symbol','numscorecards','scorecards','num_followers',
 	'earnings_announcement','notes','percent_change_historical']
 	search_fields = ['ticker_symbol', 'instrument_id','company_name']
 
