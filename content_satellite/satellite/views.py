@@ -5,7 +5,7 @@ from django.http import HttpResponse
 def index(request):
 	return HttpResponse("""
 		<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
-		<p><a href='/admin/satellite/tickers/'><img width='700px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>
+		<p><a href='/admin/satellite/ticker/'><img width='700px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>
 		</div>
 		""")
 
