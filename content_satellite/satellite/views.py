@@ -4,9 +4,16 @@ from django.http import HttpResponse
 # Create your views here.
 def index(request):
 	return HttpResponse("""
-		<p style='font-family:"Lucida Console", Monaco, monospace; font-size:35px'>
-		coming soon:  <strong>Satellite of Love</strong>
-		<br/>
-		<br/>Get excited!
-		<br/><a href='/admin/satellite'><img src='https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xaf1/t31.0-8/11092652_797813696962016_8473060809451116005_o.jpg' width="500"/></a>
+		<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
+		<p><a href='/admin/satellite/tickers/'><img width='700px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>
+		</div>
 		""")
+
+def editors(request):
+	context = {
+		'page-title': 'Satellite'
+	}
+	return render(request, 'satellite/editors.html', context)
+
+	#font-size:35px
+	#<p><a href='/admin/satellite'><img width='700px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>

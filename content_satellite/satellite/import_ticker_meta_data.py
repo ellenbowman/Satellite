@@ -109,9 +109,13 @@ def get_earnings_announcement_date(ticker_symbol, quandl_auth_token):
 	
 
 def get_num_scorecard_followers(ticker_symbol):
-	""" returns the number of Fool One members who follow this ticker in their Scorecard """
+	""" returns the number of One members who follow this ticker in their Scorecard """
 
-	url='http://apiary.fool.com/leads/.json?serviceIds=1255&tickers=%s' % ticker_symbol   # note: 1255 is the Fool One service 'id'
+	url='http://apiary.fool.com/leads/.json?serviceIds=1255&tickers=%s' % (ticker_symbol)
+	#,1228,1008,1048,1066,1451,30,50,1069,52,18,1502&
+	#,1228,1008,1048,1066,1451,30,50,1069,52,18,1502&tickers=%s' 
+	# note: 1255 is Fool One, 1228 is Pro, 1008 is HG, 1048 is II, 1066 is IV, 1451 is DV,
+	# 30 is MDP, 50 is Options, 1069 is RB, 52 is SpOps, 18 is SA, 1502 is SN
 	lookie='Lookie=C6203A9167ABA57562DD83D6AEA13BCC1EDC892BE430D6915FA389C5437EDE6F4E8F70E752E1838A1C6343E400F5D8C230FB1395D04410E2049CA550A09989D258D66CC6C03D2201454FC58D4909FC982C45F62419E9EAFD323772179CB7C85F59970D042D2EB71BFD9F168B626BAA4A732E3E53A322D3CC4783BA8B56C6663A39BC100F'
 
 	opener = urllib2.build_opener()
