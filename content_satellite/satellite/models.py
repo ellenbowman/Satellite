@@ -1,6 +1,9 @@
 from django.db import models
+#for customization of text field, I hope
+from django.forms import TextInput, Textarea
 
 class Ticker(models.Model):
+	
 	ticker_symbol = models.CharField(max_length=5, verbose_name='symbol')
 	exchange_symbol = models.CharField(max_length=10, verbose_name='exchange')
 	instrument_id = models.IntegerField(default=0)
@@ -8,15 +11,15 @@ class Ticker(models.Model):
 	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='earnings date')
 	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='50D%Change')
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
-	notes = models.CharField(max_length=5000, null=True, blank=True, verbose_name='Claim It: In Which It Is Claimed By Us')
+	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Claim It: In Which It Is Claimed By Us')
 	def __unicode__(self):
 		return self.ticker_symbol
 
 
-		#'size': 100, 'max_length':200}
-
 	class Meta:
-		ordering = ['ticker_symbol'] 
+		ordering = ['ticker_symbol']
+
+
 
 	def scorecards(self):
 		""" which scorecards have this ticker? """
