@@ -10,7 +10,7 @@ class Ticker(models.Model):
 	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='earnings date')
 	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='50D%Change')
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
-	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Claim It: In Which It Is Claimed By Us')
+	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Upcoming Coverage')
 
 
 	def __unicode__(self):

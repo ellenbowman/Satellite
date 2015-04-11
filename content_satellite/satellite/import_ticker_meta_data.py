@@ -109,7 +109,8 @@ def get_earnings_announcement_date(ticker_symbol, quandl_auth_token):
 	
 
 def get_num_scorecard_followers(ticker_symbol):
-	""" returns the number of One members who follow this ticker in their Scorecard """
+	""" returns the number of One members who follow this ticker in their Scorecard
+	Quandl auth key is SStNVWYv6_t4Q74MEooN"""
 
 	url='http://apiary.fool.com/leads/.json?serviceIds=1255&tickers=%s' % (ticker_symbol)
 	#,1228,1008,1048,1066,1451,30,50,1069,52,18,1502&
