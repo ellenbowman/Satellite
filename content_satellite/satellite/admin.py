@@ -27,7 +27,7 @@ admin.site.register(ServiceTake, ServiceTakeAdmin)
 
 class ArticleAdmin(admin.ModelAdmin):
 	list_display = ['title', 'author', 'date_pub', 'service', 'ticker', 'url']
-	list_filter = ['service', 'author',]
+	list_filter = ['service']
 	search_fields = ['ticker__ticker_symbol', 'title',]
 
 admin.site.register(Article, ArticleAdmin)

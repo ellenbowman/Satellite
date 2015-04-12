@@ -61,12 +61,13 @@ class Ticker(models.Model):
 
 class Service(models.Model):
 	name = models.CharField(max_length=50)
+	pretty_name = models.CharField(max_length=30)
 
 	def __unicode__(self):
-		return self.name
+		return self.pretty_name
 
 	class Meta:
-		ordering = ['name'] 
+		ordering = ['pretty_name'] 
 
 
 class Scorecard(models.Model):
