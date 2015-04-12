@@ -4,8 +4,8 @@ from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard
 
 
 class TickerAdmin(admin.ModelAdmin):
-	list_display = ['ticker_symbol','company_name','exchange_symbol','services','scorecards','num_followers',
-	'daily_percent_change', 'earnings_announcement','notes']
+	list_display = ['ticker_symbol','daily_percent_change','company_name','exchange_symbol','services','scorecards','num_followers',
+	'earnings_announcement','notes']
 	#list_filter = ['num_services']
 	search_fields = ['ticker_symbol', 'instrument_id','company_name']
 
