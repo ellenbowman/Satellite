@@ -28,7 +28,8 @@ def set_meta_data(quandl_auth_token, start_idx=None, batch_size=None):
 		print ticker_symbol
 
 
-	# daily percent change ---------
+	# daily percent change (eventually I'd like to sort by this automatically
+	# after the script runs also automatically! ---------
 		try:
 			daily_percent_change = get_daily_percent_change(ticker_symbol)
 			print daily_percent_change
@@ -141,8 +142,6 @@ def get_num_scorecard_followers(ticker_symbol):
 
 	return num_followers
 
-# helper functions -- END ---
-
 
 '''
 let's try to build a view where you can see the daily percentage change, latest articles and upcoming articles? 
@@ -182,4 +181,6 @@ def get_daily_percent_change(ticker_symbol):
 		daily_percent_change = daily_percent_change[:-1]
 
 	return daily_percent_change
+
+# helper functions -- END ---
 
