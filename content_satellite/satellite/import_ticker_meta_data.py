@@ -32,7 +32,7 @@ def set_meta_data(quandl_auth_token, start_idx=None, batch_size=None):
 		try:
 			daily_percent_change = get_daily_percent_change(ticker_symbol)
 			print daily_percent_change
-			ticker.percent_change_historical = daily_percent_change
+			ticker.daily_percent_change = daily_percent_change
 		except:
 			print "couldn't set daily percent change"
 		
