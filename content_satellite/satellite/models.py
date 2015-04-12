@@ -7,10 +7,11 @@ class Ticker(models.Model):
 	exchange_symbol = models.CharField(max_length=10, verbose_name='exchange')
 	instrument_id = models.IntegerField(default=0)
 	num_followers = models.IntegerField(default=0, verbose_name='One followers')
-	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='earnings date')
+	earnings_announcement = models.DateField(null=True, blank=True, verbose_name='next earnings date')
+	daily_percent_change = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='Daily % change')
 	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='50D%Change')
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
-	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Upcoming Coverage')
+	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Upcoming coverage')
 
 
 	def __unicode__(self):

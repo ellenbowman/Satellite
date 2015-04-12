@@ -1,6 +1,8 @@
 # find additional data for each ticker - the percent change from a previous period (using yahoo finance), 
 # get the earnings announcement (using Quandl.com), and get the number of scorecard followers (internal Leads API)
 
+#Quandl auth key is SStNVWYv6_t4Q74MEooN
+
 import urllib
 import urllib2
 import json
@@ -25,13 +27,23 @@ def set_meta_data(quandl_auth_token, start_idx=None, batch_size=None):
 
 		print ticker_symbol
 
-		# performance ---------
+
+	# daily percent change ---------
 		try:
-			percent_change_fifty_day_moving_average = get_historical_percent_change(ticker_symbol)
-			print percent_change_fifty_day_moving_average
-			ticker.percent_change_historical = percent_change_fifty_day_moving_average
+			daily_percent_change = get_daily_percent_change(ticker_symbol)
+			print daily_percent_change
+			ticker.percent_change_historical = daily_percent_change
 		except:
-			print "couldn't set performance change"
+			print "couldn't set daily percent change"
+		
+		# performance ---------
+		#try:
+		#	percent_change_fifty_day_moving_average = get_historical_percent_change(ticker_symbol)
+		#	print percent_change_fifty_day_moving_average
+		#	ticker.percent_change_historical = percent_change_fifty_day_moving_average
+		#except:
+		#	print "couldn't set performance change"
+	
 
 		# date of next earnings announcement (estimate) ---------
 		try:
@@ -94,7 +106,8 @@ def get_historical_percent_change(ticker_symbol):
 
 def get_earnings_announcement_date(ticker_symbol, quandl_auth_token):
 	""" get the 'EXP_RPT_DATE_QR1' (expected report date for 1st quarter?) 
-	from Quandl, which pulls from Zachs Research """
+	from Quandl, which pulls from Zachs Research
+	Quandl auth key is SStNVWYv6_t4Q74MEooN"""
 
 	# sample url: http://www.quandl.com/api/v1/datasets/ZEA/AOL.json?column=4&auth_token=[quandl_auth_token]
 	earnings_announcement_url = 'http://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, quandl_auth_token)
@@ -109,8 +122,8 @@ def get_earnings_announcement_date(ticker_symbol, quandl_auth_token):
 	
 
 def get_num_scorecard_followers(ticker_symbol):
-	""" returns the number of One members who follow this ticker in their Scorecard
-	Quandl auth key is SStNVWYv6_t4Q74MEooN"""
+	""" returns the number of One members
+	who follow this ticker in their Scorecard"""
 
 	url='http://apiary.fool.com/leads/.json?serviceIds=1255&tickers=%s' % (ticker_symbol)
 	#,1228,1008,1048,1066,1451,30,50,1069,52,18,1502&
@@ -129,4 +142,44 @@ def get_num_scorecard_followers(ticker_symbol):
 	return num_followers
 
 # helper functions -- END ---
+
+
+'''
+let's try to build a view where you can see the daily percentage change, latest articles and upcoming articles? 
+
+'''
+
+
+def get_daily_percent_change(ticker_symbol):
+	""" get the daily percent change, as reported by Yahoo Finance
+	At least, I assume it's daily. Just says 'percent change'
+	"""
+	yahoo_finance_url = 'http://query.yahooapis.com/v1/public/yql'
+
+	# when we make the request, pass along additional preferences, eg the SQL query
+	data = {'q': "select Symbol, PercentChange from yahoo.finance.quotes where symbol='%s'" % ticker_symbol, 
+	'format': 'json',
+	'diagnostics':'false',
+	'env': 'http://datatables.org/alltables.env',}
+
+	encoded_data = urllib.urlencode(data)
+	url = "%s?%s" % (yahoo_finance_url, encoded_data)
+
+	yahoo_response = urllib.urlopen(url).read()
+	yahoo_json = json.loads(yahoo_response)
+
+	daily_percent_change = yahoo_json['query']['results']['quote']['PercentChange']  
+
+	# we noticed that the percent change is often reported as a string like "+14.35%"...
+	# let's get rid of the leading "+"/"-" and the trailing "%"
+	if daily_percent_change.startswith('+') or daily_percent_change.startswith('-'):
+		# 'slice' the string (my_value[start_index:stop_index]); define the start index, and in this case, no need to specify the end index
+		daily_percent_change = daily_percent_change[1:]  
+	
+	# get rid of the trailing "%" 
+	if daily_percent_change.endswith('%'):
+		# 'slice' the string. this time, no need to define the start index, but definiely define the end index
+		daily_percent_change = daily_percent_change[:-1]
+
+	return daily_percent_change
 
