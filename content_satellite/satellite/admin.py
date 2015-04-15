@@ -1,6 +1,13 @@
 from django.contrib import admin
+from django.db import models
 
 from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard
+
+
+
+class MoversAdmin(admin.ModelAdmin):
+	list_display = ['daily_percent_change',]
+
 
 
 class TickerAdmin(admin.ModelAdmin):

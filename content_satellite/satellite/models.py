@@ -112,3 +112,15 @@ class Article(models.Model):
 
 	class Meta:
 		ordering = ['-date_pub'] 
+
+
+class Movers(models.Model):
+	name = models.CharField(max_length=50)
+	pretty_name = models.CharField(max_length=30)
+	daily_percent_change = models.ForeignKey(Ticker)
+
+	def __unicode__(self):
+		return self.pretty_name
+
+	class Meta:
+		ordering = ['pretty_name'] 
