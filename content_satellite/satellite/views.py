@@ -23,13 +23,7 @@ def movers(request):
 	context = {
 		'pagetitle': "Today's Biggest Movers",
 		'tickers': Ticker.objects.all().order_by('ticker_symbol')[:10],
+		'scorecards': Scorecard.objects.all().order_by('pretty_name'),
+		'biggestmovers': Ticker.objects.all().order_by('-daily_percent_change')[:20],
 	}
 	return render(request, 'satellite/movers.html', context)
-
-
-
-
-
-
-	#font-size:35px
-	#<p><a href='/admin/satellite'><img width='700px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>
