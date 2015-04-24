@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from models import Ticker, Service, Scorecard, ServiceTake
 
 # Create your views here.
 def index(request):
@@ -18,11 +19,17 @@ def index(request):
 
 
 
-def editors(request):
+def movers(request):
 	context = {
-		'page-title': 'Satellite'
+		'pagetitle': "Today's Biggest Movers",
+		'tickers': Ticker.objects.all().order_by('ticker_symbol')[:10],
 	}
-	return render(request, 'satellite/editors.html', context)
+	return render(request, 'satellite/movers.html', context)
+
+
+
+
+
 
 	#font-size:35px
 	#<p><a href='/admin/satellite'><img width='700px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>

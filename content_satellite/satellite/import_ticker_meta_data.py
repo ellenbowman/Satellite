@@ -1,5 +1,6 @@
 # find additional data for each ticker - the percent change from a previous period (using yahoo finance), 
-# get the earnings announcement (using Quandl.com), and get the number of scorecard followers (internal Leads API)
+# get the earnings announcement (using Quandl.com), and get the number of scorecard followers
+# (internal Leads API)
 
 #Quandl auth key is SStNVWYv6_t4Q74MEooN
 
@@ -142,11 +143,6 @@ def get_num_scorecard_followers(ticker_symbol):
 
 	return num_followers
 
-
-'''
-let's try to build a view where you can see the daily percentage change, latest articles and upcoming articles? 
-
-'''
 
 
 def get_daily_percent_change(ticker_symbol):

@@ -1,14 +1,12 @@
 from django.contrib import admin
 from django.db import models
 
-from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard
+from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard #, Mover
 
+#class MoverAdmin(admin.ModelAdmin):
+#	list_display = ['daily_percent_change']
 
-
-class MoversAdmin(admin.ModelAdmin):
-	list_display = ['daily_percent_change',]
-
-
+#admin.site.register(Mover, MoverAdmin)
 
 class TickerAdmin(admin.ModelAdmin):
 	list_display = ['ticker_symbol','company_name','daily_percent_change','exchange_symbol','services','scorecards','num_followers',

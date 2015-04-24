@@ -113,14 +113,32 @@ class Article(models.Model):
 	class Meta:
 		ordering = ['-date_pub'] 
 
+'''
+let's try to build a view where you can see the daily percentage change,
+latest articles and upcoming articles? Mover view. Over in import_ticker_meta_data,
+we are gathering that info already. Seems like something with a ForeignKey that I don't understand
+would do it.
 
-class Movers(models.Model):
-	name = models.CharField(max_length=50)
-	pretty_name = models.CharField(max_length=30)
-	daily_percent_change = models.ForeignKey(Ticker)
+'''
 
-	def __unicode__(self):
-		return self.pretty_name
 
-	class Meta:
-		ordering = ['pretty_name'] 
+#class Mover(models.Model):
+	#daily_percent_change = models.DecimalField(max_digits=11, default=0,
+		#decimal_places=2, verbose_name='Daily % change')
+
+	#def __unicode__(self):
+		#return Ticker.daily_percent_change
+
+
+
+
+
+
+
+
+
+
+
+
+
+
