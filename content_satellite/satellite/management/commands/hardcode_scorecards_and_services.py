@@ -24,6 +24,7 @@ class Command(BaseCommand):
 		for service in scorecards_by_service.keys():
 			s = Service()
 			s.name = service
+			s.pretty_name = service.replace('_', ' ')
 			s.save()
 
 			for scorecard in scorecards_by_service[service]:
