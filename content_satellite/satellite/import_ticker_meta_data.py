@@ -168,7 +168,8 @@ def get_daily_percent_change(ticker_symbol):
 	# we noticed that the percent change is often reported as a string like "+14.35%"...
 	# let's get rid of the leading "+"/"-" and the trailing "%"
 	if daily_percent_change.startswith('+') or daily_percent_change.startswith('-'):
-		# 'slice' the string (my_value[start_index:stop_index]); define the start index, and in this case, no need to specify the end index
+		# 'slice' the string (my_value[start_index:stop_index]); define the start index,
+		# and in this case, no need to specify the end index
 		daily_percent_change = daily_percent_change[1:]  
 	
 	# get rid of the trailing "%" 
