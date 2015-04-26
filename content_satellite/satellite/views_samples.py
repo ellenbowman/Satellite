@@ -128,9 +128,12 @@ def grand_vision_articles(request):
 	article_oldest_date = articles[len(articles)-1].date_pub
 
 	## how many authors?
+	authors = [art.author for art in articles]
+	'''  the above line is equivalent to the bottom 3! an example of "list comprehension"
 	authors = []
 	for art in articles:
 		authors.append(art.author)
+	'''
 	## convert into a set, so that we toss out duplicates
 	authors_set = set(authors)
 	num_authors = len(authors_set)
