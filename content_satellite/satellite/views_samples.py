@@ -84,4 +84,17 @@ def extra_views_homepage(request):
 	"""
 	return render(request, 'satellite/extra_pages.html')
 
-	
+
+def grand_vision_articles(request):
+	"""
+	shows all articles and some meta data
+	(time range of the articles, unique authors)
+
+	contains a form that lets you specify tickers and services
+
+	if a service name is detected in the request's GET or POST dictionary, then filters to articles for that service
+	if a ticker is detected in the request's GET or POST dictionary, then filters to articles on that ticker
+	"""
+
+
+	return render(request, 'satellite/index_of_articles.html')
