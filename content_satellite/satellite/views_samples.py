@@ -127,10 +127,19 @@ def grand_vision_articles(request):
 	article_most_recent_date = articles[0].date_pub  
 	article_oldest_date = articles[len(articles)-1].date_pub
 
+	## how many authors?
+	authors = []
+	for art in articles:
+		authors.append(art.author)
+	## convert into a set, so that we toss out duplicates
+	authors_set = set(authors)
+	num_authors = len(authors_set)
+
 
 	dictionary_of_values = {
 		'articles': articles_subset,
 		'pub_date_newest': article_most_recent_date,
 		'pub_date_oldest': article_oldest_date,
+		'num_authors' : num_authors,
 	}
 	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)
