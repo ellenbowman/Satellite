@@ -78,6 +78,10 @@ def articles_by_service(request):
 	return render(request, 'satellite/my_awesome_articles.html', dictionary_of_values)
 
 
-
+def extra_views_homepage(request):
+	"""
+	show a page with links to the views defined in this file
+	"""
+	return render(request, 'satellite/extra_pages.html')
 
 	
