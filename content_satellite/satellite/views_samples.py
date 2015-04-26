@@ -96,5 +96,10 @@ def grand_vision_articles(request):
 	if a ticker is detected in the request's GET or POST dictionary, then filters to articles on that ticker
 	"""
 
+	# let's sort the articles by descending date (most recent first), and take just the first 30
+	articles = Article.objects.all().order_by('-date_pub')[:30]
 
-	return render(request, 'satellite/index_of_articles.html')
+	dictionary_of_values = {
+		'articles': articles
+	}
+	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)

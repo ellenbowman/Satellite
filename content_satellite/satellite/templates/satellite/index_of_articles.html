@@ -7,10 +7,28 @@
 
 
 	<div>
-		working on this!
+		<table>
+			<thead>
+				<tr>
+					<th>Headline</th>
+					<th>Author</th>
+					<th>Ticker</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for art in articles %}
+			<tr>
+				<td><a href='{{art.url}}'>{{art.title}}</a></td>
+				<td>{{art.author}}</td>
+				<td>{{art.ticker}}</td>
+				<td>{{art.date_pub}}</td>
+			</tr>
+			{% endfor %}
+			</tbody>
 	</div>
 
-	
+
 	<a href='/sol/extras/'><button type='button'>take me to the Extras overview</button></a>
 </body>
 </html>
