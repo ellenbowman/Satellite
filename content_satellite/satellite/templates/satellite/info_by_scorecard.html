@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title>Tickers by Scorecard</title>
+</head>
+<body>
+	<p>
+Ticker Matches <br/>
+	{{ticker_matches}}
+<hr/>
+Ticker Matches List<br/>
+	{{ticker_matches_list}}
+
+</p>
+
+	<h2>let's look at some tickers!</h2>
+
+	<div>
+		Are these specific to a scorecard?
+		
+		<br/>
+
+		{% if scorecard_match %}
+		Yes! this is the service: <strong>{{scorecard_match}}</strong>.
+		To see a version of this page that's not specific to a service, try removing the query string from the url (the query string starts with the "?").
+		{% else %}
+		No! 
+		to see a version of this page that's specific to a service, try appending "?service=hidden_gems" to the url.
+		{% endif %}
+
+		<br/>
+		You could imagine making these specific to a service and/or ticker!
+	</div>
+
+{% for tm in ticker_matches_list %}
+
+<p>
+	{{tm.ticker_symbol}} {{tm.company_name}} {{tm.daily_percent_change}}
+
+	{% endfor %}
+
+	<hr/>
+
+
+</body>
+</html>

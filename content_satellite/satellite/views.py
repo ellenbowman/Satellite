@@ -52,6 +52,9 @@ def articles_by_service(request):
 	else:
 		articles = Article.objects.all()[:max_count]
 
+# ServiceTakes have both a ticker and a scorecard, and a scorecard has a service.
+# So show me ServiceTakes by scorecard?
+
 	dictionary_of_values = {
 		'articles' : articles,
 		'service_name': service_name,
@@ -59,19 +62,77 @@ def articles_by_service(request):
 	}
 
 	return render(request, 'satellite/articles_by_service.html', dictionary_of_values)
+	
+
+
+
+	
+###############################################################################
+
+def info_by_scorecard(request):
+	
+	scorecard_name = None
+	    # let's see if the user passed along a 'scorecard' in the query string
+	if 'scorecard' in request.GET:
+		scorecard_name = request.GET['scorecard']
+		# i see a match! let's store it in a local variable
+		# (ie exists only for the life of this function) called 'scorecard_name'
+
+
+	max_count = 100
+
+	if scorecard_name:
+		scorecard_match = Scorecard.objects.filter(pretty_name=scorecard_name)
+		print 'any matches?', len(scorecard_match), scorecard_match, '!!!!!!!!!!!!!!!!!'
+		scorecard_take = ServiceTake.objects.filter(scorecard__in=scorecard_match)[:max_count]
+		scorecard_match = scorecard_match
+	else:
+		scorecard_take = ServiceTake.objects.all()[:max_count]
+
+		# so now you have ServiceTake objects that are associated with the Scorecard objects
+		# that have name 'IP-Pro-Charter' -- below it prints the number of 'em in the terminal --
+		# unsurprisingly, it's 20, which is what we asked for
+
+	print 'how many scorecard_take ?', len(scorecard_take), '!!!!!!!!!!!!'
+
+# now, to get the ticker symbols associated with ServiceTake objects?
+# how about a "for" loop that collects the value of the 'ticker' field from each ServiceTake?
+
+
+	ticker_matches = set()
+	for st in scorecard_take:
+		ticker_matches.add(st.ticker)
+
+
+	# that's all we need. but let's refine things. let's alphabetize the tickers.
+    # while a 'set' is convenient because we'll avoid duplicates,
+    # sets don't have a sense of ordering. lists have a sense of ordering. let's convert the set to a list and sort it.
+	ticker_matches_list = list(ticker_matches)
+	ticker_matches_list.sort(reverse=True)
+
+	dictionary_of_values = {
+		'scorecard_take' : scorecard_take,
+		'ticker_matches_list' : ticker_matches_list,
+		'scorecard_match' : scorecard_match,
+		'ticker_matches' : ticker_matches,
+	}
+	
+
+	return render(request, 'satellite/info_by_scorecard.html', dictionary_of_values)	
+
 
 
 ###############################################################################
 
-def service_index(request):
+def scorecard_index(request):
 	"""
-	a listing of the services, ordered by pretty name
+	a listing of the scorecards, ordered by pretty name
 	"""
 
-	all_services = Service.objects.all().order_by('pretty_name')
+	all_scorecards = Scorecard.objects.all().order_by('pretty_name')
 
 	dictionary_of_values = {
-		'services_in_alpha_order':all_services,
+		'scorecards_in_alpha_order' : all_scorecards,
 	}
 
 	return render(request, 'satellite/service_index.html', dictionary_of_values)
