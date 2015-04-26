@@ -47,13 +47,22 @@ def my_sample_view(request):
 def articles_by_service(request):
 	
 	service_name = None
+	# let's see if the user passed along a 'service' in the query string
 	if 'service' in request.GET:
 		service_name = request.GET['service']
 
 	max_count = 20
 
+	# if we happen to have the local variable called 'service_name', 
+	# let's user it to filter the articles
 	if service_name:
+		# we happen to have the local variable! let's get all Service objects that have a 
+		# name that matches the value of service_name
+		# capture those Service object matches into a variable named 'service_match'
 		service_match = Service.objects.filter(name=service_name)
+
+		# we've identified the service(s) that satisfy our constraint. 
+		# let's now query for all Article objects whose service field references a Service object in our service_match.
 		articles = Article.objects.filter(service__in=service_match)[:max_count]
 	else:
 		articles = Article.objects.all()[:max_count]
