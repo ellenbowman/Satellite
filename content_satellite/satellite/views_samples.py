@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.http import HttpResponse
 from models import Article, Service
@@ -96,10 +97,30 @@ def grand_vision_articles(request):
 	if a ticker is detected in the request's GET or POST dictionary, then filters to articles on that ticker
 	"""
 
-	# let's sort the articles by descending date (most recent first), and take just the first 30
-	articles = Article.objects.all().order_by('-date_pub')[:30]
+	# let's sort the articles by descending date (most recent first)
+	articles = Article.objects.all().order_by('-date_pub')
+
+	# introduce django's built-in pagination!! let each page show 30 articles
+	# https://docs.djangoproject.com/en/1.7/topics/pagination/
+	paginator = Paginator(articles, 30) 
+
+	# let's see if the query string already has a value for which 
+	# page we should show (eg: '/sol/articles_vomit/?page=4')
+	# this could be introduced by the user or by a link on our page
+	page_num = request.GET.get('page')
+
+	try:
+		articles_subset = paginator.page(page_num)
+	except PageNotAnInteger:
+		# page is not an integer; let's show the first page of results
+		articles_subset = paginator.page(1)
+	except EmptyPage:
+		# the user asked for a page way beyond what we have available;
+		# let's show the last page of articles, which we can calculate
+		# with paginator.num_pages
+		articles_subset = paginator.page(paginator.num_pages)
 
 	dictionary_of_values = {
-		'articles': articles
+		'articles': articles_subset
 	}
 	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)
