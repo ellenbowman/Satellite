@@ -120,7 +120,17 @@ def grand_vision_articles(request):
 		# with paginator.num_pages
 		articles_subset = paginator.page(paginator.num_pages)
 
+
+	# compile meta data -------------------
+	## we already sorted the articles by pub date. to get the newest and oldest, 
+	## we just look at the first element in the list, and the last element
+	article_most_recent_date = articles[0].date_pub  
+	article_oldest_date = articles[len(articles)-1].date_pub
+
+
 	dictionary_of_values = {
-		'articles': articles_subset
+		'articles': articles_subset,
+		'pub_date_newest': article_most_recent_date,
+		'pub_date_oldest': article_oldest_date,
 	}
 	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)
