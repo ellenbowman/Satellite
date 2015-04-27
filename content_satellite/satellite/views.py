@@ -64,9 +64,6 @@ def articles_by_service(request):
 	}
 
 	return render(request, 'satellite/articles_by_service.html', dictionary_of_values)
-	
-
-
 
 	
 ###############################################################################
@@ -82,14 +79,14 @@ def info_by_scorecard(request):
 		# eb: below I made it a global variable, I believe, so I could put it
 		# into the html view
 
-	# max_count = 10
+	max_count = 10
 
 # so the below is showing us all the tickers in the Pro scorecard.
 
 	if scorecard_name:
 		scorecard_match = Scorecard.objects.filter(pretty_name=scorecard_name)
 		print 'any matches?', len(scorecard_match), scorecard_match, '!!!!!!!!!!!!!!!!!'
-		scorecard_take = ServiceTake.objects.filter(scorecard__in=scorecard_match) #[:max_count]
+		scorecard_take = ServiceTake.objects.filter(scorecard__in=scorecard_match)[:max_count]
 		scorecard_match = scorecard_match
 	else:
 		scorecard_take = ServiceTake.objects.all() #[:max_count]	
@@ -107,12 +104,7 @@ def info_by_scorecard(request):
 	ticker_matches = set()
 	for st in scorecard_take:
 		ticker_matches.add(st.ticker)
-		print 'what is the ticker?', st, '!!!!!!!!'
-
-
-# if you watch the above run in Terminal, it lists 321 tickers, but it only prints each of
-# them once on the results page, which is good. I guess that's what set() is doing up there --
-# it scans through each but only records them once. 
+		# print 'what is the ticker?', st, '!!!!!!!!'
 
 	# that's all we need. but let's refine things. let's alphabetize the tickers.
     # while a 'set' is convenient because we'll avoid duplicates,
@@ -128,7 +120,6 @@ def info_by_scorecard(request):
 	dictionary_of_values = {
 		'scorecard_take' : scorecard_take,
 		'ticker_matches_list' : ticker_matches_list,
-		'scorecard_match' : scorecard_match,
 		}
 	
 
@@ -137,31 +128,23 @@ def info_by_scorecard(request):
 
 
 ################################################
-
+ 
 def edit_notes(request):
-	# if this is a POST request we need to process the form data
-	if request.method == 'POST':
-		# create a form instance and populate it with data from the request:
-		form = NotesForm(request.POST)
-		# check whether it's valid:
-		if form.is_valid():
-			
-			#process the data in form.cleaned_data as required
-			###########################################################
-			# eb: save the text you just got and display it, please
-			###########################################################
-			# redirect back to the previous info_by_scorecard page
-			# for your service, now displaying your edits (i.e., not Google)
-			###########################################################
-
-			return HttpResponseRedirect('http://www.google.com/')
-
-	# if a GET (or any other method) we'll create a blank form
-		else:
-			form = NotesForm()
-
-	return render (request, 'satellite/edit_notes.html', {'form': form})
-
+    if request.method == 'GET':
+        form = NotesForm()
+    else:
+        # A POST request: Handle Form Upload
+        form = NotesForm(request.POST) # Bind data from request.POST into a PostForm
+ 
+        # If data is valid, proceeds to create a new post and redirect the user
+        if form.is_valid():
+            notes = m.Post.objects.create(edit_notes=edit_notes)
+            return HttpResponseRedirect(reverse('post_detail',
+                                                kwargs={'post_id': post.id}))
+ 
+    return render(request, 'satellite/edit_notes.html', {
+        'form': form,
+    })
 
 ###############################################################################
 

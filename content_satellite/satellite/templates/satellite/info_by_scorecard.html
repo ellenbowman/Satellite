@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tickers by Scorecard</title>
+	<title>Info by Scorecard</title>
 </head>
 <body>
 
@@ -15,28 +15,20 @@
 
 {% for tm in ticker_matches_list %}
 
-<table>
-<tbody>
-<tr>
-	<td>{{tm.daily_percent_change}} |  </td>
-	<td>{{tm.ticker_symbol}}  |  </td>
-	<td>{{tm.company_name}}  |  </td>
-	<td>{{tm.exchange_symbol}}  |  </td>
-	<td>{{tm.notes}}
-		<form action="/sol/edit_notes/" method="post">
-			{% csrf_token %}
-			<label for="edit_notes">Edit notes: </label>
-			<input id="{{edit_notes}}" type="text" name="edit_notes" value="{{ tm.notes }}">
-			<input type="submit" value="OK">
-		</form>
-	</td>
-</tr>
-</tbody>
-</table>
+	{{tm.daily_percent_change}} | {{tm.company_name}} | {{tm.exchange_symbol}} | {{tm.ticker_symbol}}
+<br/>
+<strong>Notes:</strong> {{tm.notes}}<br />
+	<form action="{satellite/edit_notes}" method="post">
+		{% csrf_token %}
+		<label for="edit_notes">Edit notes: </label>
+		<input id="{{edit_notes}}" type="text" name="edit_notes" value="{{ tm.notes }}">
+		<input type="submit" value="OK">
+	</form>
 
 {% endfor %}
 
 </p>
+
 
 </body>
 </html>
