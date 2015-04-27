@@ -198,6 +198,8 @@ def grand_vision_articles(request):
 	authors_set = set(authors)
 	num_authors = len(authors_set)
 
+	### how many articles?
+	num_articles = len(articles)
 
 	service_options = Service.objects.all().order_by('pretty_name')
 
@@ -206,6 +208,7 @@ def grand_vision_articles(request):
 		'pub_date_newest': article_most_recent_date,
 		'pub_date_oldest': article_oldest_date,
 		'num_authors' : num_authors,
+		'num_articles' : num_articles,
 		'service_options' : service_options, 
 		'service_filter_description': service_filter_description,
 		'ticker_filter_description': ticker_filter_description
