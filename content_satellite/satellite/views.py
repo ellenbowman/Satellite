@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from models import Ticker, Service, Scorecard, ServiceTake, Article
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
 ###############################################################################
 
-### will make way for service_index
+### will make way for info_by_scorecard or something quite like it
 
 def index(request):
 	context = {
@@ -77,23 +78,26 @@ def info_by_scorecard(request):
 		scorecard_name = request.GET['scorecard']
 		# i see a match! let's store it in a local variable
 		# (ie exists only for the life of this function) called 'scorecard_name'
+		# eb: below I made it a global variable, I believe, so I could put it
+		# into the html view
 
+	# max_count = 10
 
-	max_count = 100
+# so the below is showing us all the tickers in the Pro scorecard.
 
 	if scorecard_name:
 		scorecard_match = Scorecard.objects.filter(pretty_name=scorecard_name)
 		print 'any matches?', len(scorecard_match), scorecard_match, '!!!!!!!!!!!!!!!!!'
-		scorecard_take = ServiceTake.objects.filter(scorecard__in=scorecard_match)[:max_count]
+		scorecard_take = ServiceTake.objects.filter(scorecard__in=scorecard_match) #[:max_count]
 		scorecard_match = scorecard_match
 	else:
-		scorecard_take = ServiceTake.objects.all()[:max_count]
+		scorecard_take = ServiceTake.objects.all() #[:max_count]	
 
 		# so now you have ServiceTake objects that are associated with the Scorecard objects
-		# that have name 'IP-Pro-Charter' -- below it prints the number of 'em in the terminal --
-		# unsurprisingly, it's 20, which is what we asked for
+		# that have name 'Pro' -- below it prints the number of 'em in the terminal
 
 	print 'how many scorecard_take ?', len(scorecard_take), '!!!!!!!!!!!!'
+
 
 # now, to get the ticker symbols associated with ServiceTake objects?
 # how about a "for" loop that collects the value of the 'ticker' field from each ServiceTake?
@@ -102,19 +106,50 @@ def info_by_scorecard(request):
 	ticker_matches = set()
 	for st in scorecard_take:
 		ticker_matches.add(st.ticker)
+		print 'what is the ticker?', st, '!!!!!!!!'
 
+
+# if you watch the above run in Terminal, it lists 321 tickers, but it only prints each of
+# them once on the results page, which is good. I guess that's what set() is doing up there --
+# it scans through each but only records them once. 
 
 	# that's all we need. but let's refine things. let's alphabetize the tickers.
     # while a 'set' is convenient because we'll avoid duplicates,
-    # sets don't have a sense of ordering. lists have a sense of ordering. let's convert the set to a list and sort it.
+    # sets don't have a sense of ordering. lists have a sense of ordering.
+    # let's convert the set to a list and sort it.
+
+
 	ticker_matches_list = list(ticker_matches)
-	ticker_matches_list.sort(reverse=True)
+	print ticker_matches_list
+	ticker_matches_list.sort(key=lambda x: x.daily_percent_change, reverse=True)
+	print ticker_matches_list
+
+#############################
+
+def edit_notes(request):
+	# if this is a POST request we need to process the form data
+	if request.method == 'POST':
+		# create a form instance and populate it with data from the request:
+		form = NotesForm(request.POST)
+		# check whether it's valid:
+		if form.is_valid():
+			#process the data in form.cleaned_data as required
+			#...
+			#redirect to a new URL:
+				return HttpResponseRedirect('/info_by_scorecard.html')
+
+	# if a GET (or any other method) we'll create a blank form
+	else:
+		form = NameForm()
+
+	return render (request, 'name.html', {'form': form})
+
+#########################################################
 
 	dictionary_of_values = {
 		'scorecard_take' : scorecard_take,
 		'ticker_matches_list' : ticker_matches_list,
 		'scorecard_match' : scorecard_match,
-		'ticker_matches' : ticker_matches,
 	}
 	
 

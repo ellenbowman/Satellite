@@ -67,7 +67,7 @@ class Service(models.Model):
 		return self.pretty_name
 
 	class Meta:
-		ordering = ['pretty_name'] 
+		ordering = ['pretty_name']
 
 # one Service can have many Scorecards, but one Scorecard can have only one Service
 
