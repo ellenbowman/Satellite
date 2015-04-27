@@ -176,6 +176,6 @@ def scorecard_index(request):
 		'scorecards_in_alpha_order' : all_scorecards,
 	}
 
-	return render(request, 'satellite/service_index.html', dictionary_of_values)
+	return render(request, 'satellite/scorecard_index.html', dictionary_of_values)
 
 ###############################################################################
