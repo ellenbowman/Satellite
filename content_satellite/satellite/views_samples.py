@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import Article, Service
+from models import Article, Service, Ticker
 
 
 
@@ -93,12 +93,72 @@ def grand_vision_articles(request):
 
 	contains a form that lets you specify tickers and services
 
-	if a service name is detected in the request's GET or POST dictionary, then filters to articles for that service
-	if a ticker is detected in the request's GET or POST dictionary, then filters to articles on that ticker
+	if a service name is detected in the request's POST dictionary, then filters to articles for that service
+	if a ticker is detected in the request's POST dictionary, then filters to articles on that ticker
 	"""
 
-	# let's sort the articles by descending date (most recent first)
-	articles = Article.objects.all().order_by('-date_pub')
+
+	tickers_to_filter_by = None 	# will hold the Ticker objects that satisfy our filter
+	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
+ 	ticker_filter_description = None 	# this will be a string description of the ticker filter. we'll display this value on the page.
+	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
+
+
+	#---- start of handling a ticker/service filter submitted via POST request ---------
+	if request.POST:
+		if 'filter_tickers' in request.POST:
+			tickers_user_input = request.POST['filter_tickers']
+			user_tickers_as_list = tickers_user_input.split(",")
+
+			# take the user input and try to find corresponding Ticker objects 
+			# the list of matches across all of the tickers in user_tickers_as_list
+			tickers_to_filter_by = [] 
+			for ticker_symbol in user_tickers_as_list:
+				# let's remove whitespace
+				cleaned_up_ticker_symbol = ticker_symbol.strip()
+				ticker_matches_for_this_single_ticker_symbol = Ticker.objects.filter(ticker_symbol__iexact=cleaned_up_ticker_symbol)
+
+				# add the list of matches on this particular ticker symbol to tickers_to_filter_by
+				# http://www.tutorialspoint.com/python/list_extend.htm
+				tickers_to_filter_by.extend(ticker_matches_for_this_single_ticker_symbol)
+
+			# make the pretty description of the tickers we found. 
+			ticker_symbols_we_matched = [t.ticker_symbol for t in tickers_to_filter_by]
+			ticker_symbols_we_matched.sort()
+			ticker_filter_description = ', '.join(ticker_symbols_we_matched)
+
+		# figure out what services were selected in the form. 
+		# we've coded the html so that the input checkboxes are named 'filter_service_x', where
+		# x is the id of a service, and the value is also the id of a service
+		# in this step, we find out which of those 'filter_service_x' have been passed back in the POST
+		service_filter_keys = [k for k in request.POST.keys() if k.startswith('filter_service_')]
+		if len(service_filter_keys):
+
+			services_to_filter_by = []
+			for key in service_filter_keys:
+				service_id = request.POST[key]  # we know the value will be a service id, b/c that's how we coded the html!
+				service_match_for_this_id = Service.objects.get(id=service_id) 
+				services_to_filter_by.append(service_match_for_this_id)
+
+			# make the pretty description of the services we found. 
+			pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
+			pretty_names_of_services_we_matched.sort()
+			service_filter_description = ', '.join(pretty_names_of_services_we_matched)
+		else:	
+			# user didn't specify any services. that's fine. our services_to_filter_by, earlier set to None, is untouched.
+			pass
+	#---- end of handling a ticker/service filter submitted via POST request ---------
+
+	# get the set of articles, filtered by ticker/service, if those filters are defined
+	if tickers_to_filter_by and services_to_filter_by:
+		articles = Article.objects.filter(ticker__in=tickers_to_filter_by, service__in=services_to_filter_by).order_by('-date_pub')
+	elif tickers_to_filter_by:
+		articles = Article.objects.filter(ticker__in=tickers_to_filter_by).order_by('-date_pub')
+	elif services_to_filter_by:
+		articles = Article.objects.filter(service__in=services_to_filter_by).order_by('-date_pub')		
+	else:
+		# get all articles, and sort by descending date
+		articles = Article.objects.all().order_by('-date_pub')
 
 	# introduce django's built-in pagination!! let each page show 30 articles
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
@@ -139,10 +199,15 @@ def grand_vision_articles(request):
 	num_authors = len(authors_set)
 
 
+	service_options = Service.objects.all().order_by('pretty_name')
+
 	dictionary_of_values = {
 		'articles': articles_subset,
 		'pub_date_newest': article_most_recent_date,
 		'pub_date_oldest': article_oldest_date,
 		'num_authors' : num_authors,
+		'service_options' : service_options, 
+		'service_filter_description': service_filter_description,
+		'ticker_filter_description': ticker_filter_description
 	}
 	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)

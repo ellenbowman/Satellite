@@ -12,6 +12,50 @@
 		how many authors are represented? {{num_authors}}
 	</p>
 
+
+	<div style='background-color:lightgray'>
+		are these results filtered by service and/or ticker?
+		<br/>
+
+		service filter:
+		{% if service_filter_description %}
+		<strong>{{service_filter_description}}</strong>
+		{% else %}
+		<em>none</em>
+		{% endif %}
+
+		<br/>
+
+		ticker filter:
+		{% if ticker_filter_description %}
+		<strong>{{ticker_filter_description}}</strong>
+		{% else %}
+		<em>none</em>
+		{% endif %}
+		
+		<div style='background-color:yellow'>
+			Filter the results!
+			<form action="" method="post">
+				{% csrf_token %}
+				
+					ticker(s): <input type='text' name='filter_tickers'> <em>(as a csv, eg: 'AAPL,MSFT,YHOO')</em>
+
+					<br/>
+
+					service(s):
+					<br/>
+					{% for s in service_options %}
+					&nbsp; <input type="checkbox" name="filter_service_{{s.id}}" value="{{s.id}}">{{s.pretty_name}}<br>
+					{% endfor %}
+
+				 <input type="submit" value="filter by these params!">
+			</form>
+		</div>
+	</div>
+
+
+
+
 	<div>
 		<table>
 			<thead>
@@ -20,15 +64,17 @@
 					<th>Author</th>
 					<th>Ticker</th>
 					<th>Date</th>
+					<th>Service</th>
 				</tr>
 			</thead>
 			<tbody>
 			{% for art in articles %}
 			<tr>
-				<td><a href='{{art.url}}'>{{art.title}}</a></td>
+				<td><a href='http://{{art.url}}'>{{art.title}}</a></td>
 				<td>{{art.author}}</td>
 				<td>{{art.ticker}}</td>
 				<td>{{art.date_pub}}</td>
+				<td>{{art.service.pretty_name}}</td>
 			</tr>
 			{% endfor %}
 			</tbody>
