@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>My awesome articles</title>
+</head>
+<body>
+	<h2>let's look at some articles! at most {{articles_max_count}}.</h2>
+
+	<div>
+		Are these specific to a service?
+		
+		<br/>
+
+		{% if service_name %}
+		Yes! this is the service: <strong>{{service_name}}</strong>.
+		To see a version of this page that's not specific to a service, try removing the query string from the url (the query string starts with the "?").
+		{% else %}
+		No! 
+		to see a version of this page that's specific to a service, try appending "?service=hidden_gems" to the url.
+		{% endif %}
+
+		<br/>
+		You could imagine making these specific to a service and/or ticker!
+	</div>
+
+	<hr/>
+
+	<div>
+		<ul>
+			{% for art in articles %}
+			<li>
+				<strong>{{art.title}}</strong> written by {{art.author}} on {{art.date_pub}}.
+				<br/> service: {{art.service}}. ticker: {{art.ticker}}.
+				<br/> <a href='http://{{art.url}}'>take me to the article!</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</body>
+</html>
