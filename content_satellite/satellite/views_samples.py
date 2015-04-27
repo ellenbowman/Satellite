@@ -160,9 +160,9 @@ def grand_vision_articles(request):
 		# get all articles, and sort by descending date
 		articles = Article.objects.all().order_by('-date_pub')
 
-	# introduce django's built-in pagination!! let each page show 30 articles
+	# introduce django's built-in pagination!! let each page show 50 articles
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
-	paginator = Paginator(articles, 30) 
+	paginator = Paginator(articles, 50) 
 
 	# let's see if the query string already has a value for which 
 	# page we should show (eg: '/sol/articles_vomit/?page=4')
