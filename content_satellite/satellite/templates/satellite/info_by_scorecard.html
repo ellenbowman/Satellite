@@ -18,12 +18,14 @@
 	{{tm.daily_percent_change}} | {{tm.company_name}} | {{tm.exchange_symbol}} | {{tm.ticker_symbol}}
 <br/>
 <strong>Notes:</strong> {{tm.notes}}<br />
-	<form action="{satellite/edit_notes}" method="post">
-		{% csrf_token %}
-		<label for="edit_notes">Edit notes: </label>
-		<input id="{{edit_notes}}" type="text" name="edit_notes" value="{{ tm.notes }}">
-		<input type="submit" value="OK">
-	</form>
+
+<form action="/sol/edit_notes/" method="post" id="edit_notes">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Edit notes" />
+</form>
+
+    </body>
 
 {% endfor %}
 

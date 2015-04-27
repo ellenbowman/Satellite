@@ -86,8 +86,8 @@ def info_by_scorecard(request):
 	if scorecard_name:
 		scorecard_match = Scorecard.objects.filter(pretty_name=scorecard_name)
 		print 'any matches?', len(scorecard_match), scorecard_match, '!!!!!!!!!!!!!!!!!'
-		scorecard_take = ServiceTake.objects.filter(scorecard__in=scorecard_match)[:max_count]
-		scorecard_match = scorecard_match
+		scorecard_take = ServiceTake.objects.filter(scorecard__in=scorecard_match) #[:max_count]
+
 	else:
 		scorecard_take = ServiceTake.objects.all() #[:max_count]	
 
@@ -120,27 +120,29 @@ def info_by_scorecard(request):
 	dictionary_of_values = {
 		'scorecard_take' : scorecard_take,
 		'ticker_matches_list' : ticker_matches_list,
+		'scorecard_match' : scorecard_match,
 		}
 	
 
 	return render(request, 'satellite/info_by_scorecard.html', dictionary_of_values)	
 
 
-
-################################################
+#############################################################################
  
 def edit_notes(request):
-    if request.method == 'GET':
-        form = NotesForm()
-    else:
-        # A POST request: Handle Form Upload
-        form = NotesForm(request.POST) # Bind data from request.POST into a PostForm
- 
-        # If data is valid, proceeds to create a new post and redirect the user
-        if form.is_valid():
-            notes = m.Post.objects.create(edit_notes=edit_notes)
-            return HttpResponseRedirect(reverse('post_detail',
-                                                kwargs={'post_id': post.id}))
+	# if this is a POST request we need to process the form data
+    if request.method == 'POST':
+    # create a form instance and populate it with data from the request:
+       form = NotesForm(request.POST)
+       # check whether it's valid:
+       if form.is_valid():
+       		# process the data in form.cleaned_data as required
+       		# ...
+       		# ... redirect to a new URL:
+            return HttpResponseRedirect('/sol/info_by_scorecard/')
+        	# if a GET (or any other method) we'll create a blank form
+       else:
+        	form = NotesForm()
  
     return render(request, 'satellite/edit_notes.html', {
         'form': form,
