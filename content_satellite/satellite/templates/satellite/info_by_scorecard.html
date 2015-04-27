@@ -23,7 +23,8 @@
 	<td>{{tm.company_name}}  |  </td>
 	<td>{{tm.exchange_symbol}}  |  </td>
 	<td>{{tm.notes}}
-		<form action="/edit_notes" method="post">
+		<form action="/sol/edit_notes/" method="post">
+			{% csrf_token %}
 			<label for="edit_notes">Edit notes: </label>
 			<input id="{{edit_notes}}" type="text" name="edit_notes" value="{{ tm.notes }}">
 			<input type="submit" value="OK">
@@ -34,16 +35,6 @@
 </table>
 
 {% endfor %}
-
-</p>
-
-<p>
-
-<form action="/your-name/" method="post">
-    <label for="your_name">Your name: </label>
-    <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-    <input type="submit" value="OK">
-</form>
 
 </p>
 

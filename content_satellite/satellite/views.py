@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from models import Ticker, Service, Scorecard, ServiceTake, Article
 from django.http import HttpResponseRedirect
+from forms import NotesForm
 
 # Create your views here.
 
@@ -124,7 +125,18 @@ def info_by_scorecard(request):
 	ticker_matches_list.sort(key=lambda x: x.daily_percent_change, reverse=True)
 	print ticker_matches_list
 
-#############################
+	dictionary_of_values = {
+		'scorecard_take' : scorecard_take,
+		'ticker_matches_list' : ticker_matches_list,
+		'scorecard_match' : scorecard_match,
+		}
+	
+
+	return render(request, 'satellite/info_by_scorecard.html', dictionary_of_values)	
+
+
+
+################################################
 
 def edit_notes(request):
 	# if this is a POST request we need to process the form data
@@ -133,28 +145,22 @@ def edit_notes(request):
 		form = NotesForm(request.POST)
 		# check whether it's valid:
 		if form.is_valid():
+			
 			#process the data in form.cleaned_data as required
-			#...
-			#redirect to a new URL:
-				return HttpResponseRedirect('/info_by_scorecard.html')
+			###########################################################
+			# eb: save the text you just got and display it, please
+			###########################################################
+			# redirect back to the previous info_by_scorecard page
+			# for your service, now displaying your edits (i.e., not Google)
+			###########################################################
+
+			return HttpResponseRedirect('http://www.google.com/')
 
 	# if a GET (or any other method) we'll create a blank form
-	else:
-		form = NameForm()
+		else:
+			form = NotesForm()
 
-	return render (request, 'name.html', {'form': form})
-
-#########################################################
-
-	dictionary_of_values = {
-		'scorecard_take' : scorecard_take,
-		'ticker_matches_list' : ticker_matches_list,
-		'scorecard_match' : scorecard_match,
-	}
-	
-
-	return render(request, 'satellite/info_by_scorecard.html', dictionary_of_values)	
-
+	return render (request, 'satellite/edit_notes.html', {'form': form})
 
 
 ###############################################################################
