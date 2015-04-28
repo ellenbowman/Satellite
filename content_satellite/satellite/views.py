@@ -113,10 +113,8 @@ def info_by_scorecard(request):
 
 
 	ticker_matches_list = list(ticker_matches)
-	print ticker_matches_list
+	print 'ticker matches:', len(ticker_matches_list), '------------------'
 	ticker_matches_list.sort(key=lambda x: x.daily_percent_change, reverse=True)
-	print ticker_matches_list
-
 
 	dictionary_of_values = {
 		'scorecard_take' : scorecard_take,
