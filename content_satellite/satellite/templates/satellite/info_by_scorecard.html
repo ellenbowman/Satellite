@@ -20,7 +20,7 @@
 <form action="" method="post">
 {{ form }}
     {% csrf_token %}
-    <input id = "edit_notes" type = value="{{ tm.notes }}" />
+    <input id = "edit_notes" value="{{ tm.notes }}" />
     <input type="submit" value="OK">
 </form>
 </p>
