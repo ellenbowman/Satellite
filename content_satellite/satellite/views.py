@@ -114,7 +114,14 @@ def info_by_scorecard(request):
 
 	# get the set of tickers, filtered by service, if those filters are defined
 	if services_to_filter_by:
-		tickers = Ticker.objects.filter(servicetake=services_to_filter_by) #.order_by('-date_pub')		
+		scorecards_of_services = Scorecard.objects.filter(service__in=services_to_filter_by)
+		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services)
+		tickers = set()
+		for st in service_takes_of_scorecards:
+			tickers.add(st.ticker)
+		tickers = list(tickers)
+		tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
+
 	else:
 		# get all tickers, and sort by biggest mover
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')

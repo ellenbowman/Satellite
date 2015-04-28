@@ -1,35 +1,55 @@
 <html>
 <head>
-	<title>Info by Scorecard:
+	<title>Biggest Movers:
 		{% if scorecard_name %}
 		{{scorecard_name}}
 		{% else %}
-		Everything
+		All (Zool)
 		{% endif %}</title>
 </head>
 <body>
 
-	<h2>Info by Scorecard:
+	<h2>Biggest Movers:
 		{% if scorecard_name %}
 		<strong>{{scorecard_name}}</strong>
 		{% else %}
-		There is no scorecard, only Zool
+		All (There is no scorecard, only Zool)
 		{% endif %}</h2>
 <p><em>These are sorted by daily percentage change, with the highest at the top</em></p>
+<p><strong>Filters:</strong> {{service_filter_description}}</p>
 <p>
-{% for tm in ticker_matches_list %}
-	{{tm.daily_percent_change}}% | <strong>{{tm.company_name}}</strong> | {{tm.exchange_symbol}} | <strong>{{tm.ticker_symbol}}</strong>
+	Filter the results!
+			<form action="" method="post">
+				{% csrf_token %}
+
+					service(s):
+					<br/>
+					{% for s in service_options %}
+					&nbsp; <input type="checkbox" name="filter_service_{{s.id}}" value="{{s.id}}">{{s.pretty_name}}<br>
+					{% endfor %}
+
+				 <input type="submit" value="Filter!">
+			</form>
+		</p>
+	<hr/>
+<p>
+{% for t in tickers %}
+	{{t.daily_percent_change}}% | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}} | <strong>{{t.ticker_symbol}}</strong>
 <br/>
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
-    <textarea cols=40 rows=10 id = "edit_notes" name="ticker_notes_{{tm.id}}"/>{{ tm.notes|default_if_none:''}}</textarea></br>
+    <textarea cols=40 rows=10 id = "edit_notes" name="ticker_notes_{{t.id}}"/>{{ t.notes|default_if_none:''}}</textarea></br>
     <input type="submit" value="Edit notes">
-    <hr/>
+	</p>
+	<p>
+	<em>More info to come here I dunno what yet perhaps Tier I status</em>.
+	<hr/>
+</p>
 </form>
 {% endfor %}
-</p>
-
+<hr/>
+<hr/>
 
 </body>
 </html>
