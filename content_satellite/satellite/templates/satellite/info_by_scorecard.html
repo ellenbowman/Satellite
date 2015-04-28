@@ -18,7 +18,6 @@
 <strong>Notes:</strong> {{tm.notes}}
 <br/>
 <form action="" method="post">
-{{ form }}
     {% csrf_token %}
     <input id = "edit_notes" value="{{ tm.notes|default_if_none:''}}" name="ticker_notes_{{tm.id}}"/>
     <input type="submit" value="OK">
