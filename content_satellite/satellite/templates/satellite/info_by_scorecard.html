@@ -1,29 +1,33 @@
 <html>
 <head>
-	<title>Info by Scorecard</title>
+	<title>Info by Scorecard:
+		{% if scorecard_name %}
+		{{scorecard_name}}
+		{% else %}
+		Everything
+		{% endif %}</title>
 </head>
 <body>
 
-	<h2>Today's Movers by Scorecard:
+	<h2>Info by Scorecard:
 		{% if scorecard_name %}
-		<strong>{{scorecard_name}}</strong>.
+		<strong>{{scorecard_name}}</strong>
 		{% else %}
-		There is no scorecard here
+		There is no scorecard, only Zool
 		{% endif %}</h2>
-
+<p><em>These are sorted by daily percentage change, with the highest at the top</em></p>
 <p>
 {% for tm in ticker_matches_list %}
-	{{tm.daily_percent_change}} | {{tm.company_name}} | {{tm.exchange_symbol}} | {{tm.ticker_symbol}}
-<br/>
-<strong>Notes:</strong> {{ tm.notes|default_if_none:''}}
+	{{tm.daily_percent_change}}% | <strong>{{tm.company_name}}</strong> | {{tm.exchange_symbol}} | <strong>{{tm.ticker_symbol}}</strong>
 <br/>
 <form action="" method="post">
     {% csrf_token %}
-    <input id = "edit_notes" value="{{ tm.notes|default_if_none:''}}" name="ticker_notes_{{tm.id}}"/>
-    <input type="submit" value="OK">
+    <strong>Notes:</strong><br/>
+    <textarea cols=40 rows=10 id = "edit_notes" name="ticker_notes_{{tm.id}}"/>{{ tm.notes|default_if_none:''}}</textarea></br>
+    <input type="submit" value="Edit notes">
+    <hr/>
 </form>
 {% endfor %}
-
 </p>
 
 
