@@ -15,7 +15,7 @@
 {% for tm in ticker_matches_list %}
 	{{tm.daily_percent_change}} | {{tm.company_name}} | {{tm.exchange_symbol}} | {{tm.ticker_symbol}}
 <br/>
-<strong>Notes:</strong> {{tm.notes}}
+<strong>Notes:</strong> {{ tm.notes|default_if_none:''}}
 <br/>
 <form action="" method="post">
     {% csrf_token %}
