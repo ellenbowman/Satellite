@@ -117,10 +117,10 @@ def info_by_scorecard(request):
 	ticker_matches_list.sort(key=lambda x: x.daily_percent_change, reverse=True)
 	print ticker_matches_list
 
+
 	dictionary_of_values = {
 		'scorecard_take' : scorecard_take,
 		'ticker_matches_list' : ticker_matches_list,
-		'scorecard_match' : scorecard_match,
 		}
 	
 
@@ -129,7 +129,7 @@ def info_by_scorecard(request):
 
 #############################################################################
  
-def edit_notes(request):
+def edit_notes_page(request):
 	# if this is a POST request we need to process the form data
     if request.method == 'POST':
     # create a form instance and populate it with data from the request:
@@ -139,14 +139,13 @@ def edit_notes(request):
        		# process the data in form.cleaned_data as required
        		# ...
        		# ... redirect to a new URL:
-            return HttpResponseRedirect('/sol/info_by_scorecard/')
+            return HttpResponseRedirect('/sol/edit_notes_page/')
         	# if a GET (or any other method) we'll create a blank form
-       else:
-        	form = NotesForm()
- 
-    return render(request, 'satellite/edit_notes.html', {
-        'form': form,
-    })
+    else:
+    	form = NotesForm()
+
+    return render(request, 'satellite/edit_notes_page.html', { 'form': form}) #sol/edit_notes_page
+
 
 ###############################################################################
 

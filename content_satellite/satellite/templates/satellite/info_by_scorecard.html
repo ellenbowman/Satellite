@@ -12,18 +12,18 @@
 		{% endif %}</h2>
 
 <p>
-
 {% for tm in ticker_matches_list %}
-
 	{{tm.daily_percent_change}} | {{tm.company_name}} | {{tm.exchange_symbol}} | {{tm.ticker_symbol}}
 <br/>
-<strong>Notes:</strong> {{tm.notes}}<br />
-
-<form action="/sol/edit_notes/" method="post" id="edit_notes">
+<strong>Notes:</strong> {{tm.notes}}
+<br/>
+<form action="" method="post">
+{{ form }}
     {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Edit notes" />
+    <input id = "edit_notes" type = value="{{ tm.notes }}" />
+    <input type="submit" value="OK">
 </form>
+</p>
 
     </body>
 
