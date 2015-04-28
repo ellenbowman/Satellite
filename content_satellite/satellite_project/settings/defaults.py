@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'compressor',
+    'fool_auth_for_django',
     'satellite',
 )
 
@@ -106,3 +107,17 @@ COMPRESS_URL = STATIC_URL
 COMPRESS_ROOT = STATIC_ROOT
 
 QUANDL_AUTH_TOKEN='SStNVWYv6_t4Q74MEooN'
+
+
+AUTHENTICATION_BACKENDS = (
+    'fool_auth_for_django.backends.FoolAuthenticationAPIBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+ADMINS = (
+    ('Ellen Bowman', 'ebowman@fool.com'),
+    ('Lisa Chung', 'lchung@fool.com'),
+)
+
+FOOL_AUTH_STAFF = 'CMSUsers'
+FOOL_AUTH_SU = 'SatelliteOfLoveAdmin' 
