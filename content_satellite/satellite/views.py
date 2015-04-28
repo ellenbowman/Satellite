@@ -18,7 +18,10 @@ def index(request):
 
 	return HttpResponse("""
 		<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
-		<p><a href='/admin/satellite/ticker/'><img width='700px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>
+		<h3>A bunch of our ship fell off, and nobody likes me.</h3>
+		<p><a href='/admin/satellite/ticker/'><img width='500px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>
+		<p><a href='/sol/info_by_scorecard/'>Info by scorecard</a></p>
+		<p><a href=''
 		<p><a href="http://satellite.fool.com/admin/satellite/">Other views</a></p>
 		</div>
 		""", context)
@@ -151,6 +154,7 @@ def info_by_scorecard(request):
 	ticker_matches_list.sort(key=lambda x: x.daily_percent_change, reverse=True)
 
 	dictionary_of_values = {
+		'scorecard_name' : scorecard_name,
 		'scorecard_take' : scorecard_take,
 		'ticker_matches_list' : ticker_matches_list,
 		}
