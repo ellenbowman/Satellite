@@ -110,6 +110,9 @@ def movers_by_service(request):
 		pass
 	#---- end of handling a service filter submitted via POST request ---------
 
+	# here's where I'm trying to display services by ticker
+	takes_on_this_ticker = ServiceTake.objects.filter(ticker=)
+
 
 
 	# get the set of tickers, filtered by service, if those filters are defined
@@ -125,6 +128,10 @@ def movers_by_service(request):
 	else:
 		# get all tickers, and sort by biggest mover
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')
+
+
+	num_tickers = len(tickers)
+	print num_tickers, '!!!!!!!!!!!!!!!!'
 
 	# introduce django's built-in pagination!! let each page show 50 articles
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
@@ -203,14 +210,14 @@ def movers_by_service(request):
 
 	dictionary_of_values = {
 		'tickers': tickers_subset,
+		'takes_on_this_ticker': takes_on_this_ticker,
 		#'pub_date_newest': article_most_recent_date,
 		#'pub_date_oldest': article_oldest_date,
-		#'num_authors' : num_authors,
-		# 'num_tickers' : num_tickers,
+		'num_tickers' : num_tickers,
 		'service_options' : service_options, 
 		'service_filter_description': service_filter_description,
-		#'ticker_filter_description': ticker_filter_description
 	}
+
 	return render(request, 'satellite/movers_by_service.html', dictionary_of_values)
 
 ###############################################################################

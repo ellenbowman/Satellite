@@ -1,8 +1,8 @@
 <html>
 <head>
 	<title>Biggest Movers:
-		{% if scorecard_name %}
-		{{scorecard_name}}
+		{% if service_filter_description %}
+		{{service_filter_description}}
 		{% else %}
 		All (Zool)
 		{% endif %}</title>
@@ -10,36 +10,38 @@
 <body>
 
 	<h2>Biggest Movers:
-		{% if scorecard_name %}
-		<strong>{{scorecard_name}}</strong>
+		{% if service_filter_description %}
+		<strong>{{service_filter_description}}</strong>
 		{% else %}
 		All (There is no scorecard, only Zool)
 		{% endif %}</h2>
 <p><em>These are sorted by daily percentage change, with the highest at the top</em></p>
-<p><strong>Filters:</strong> {{service_filter_description}}</p>
+		<p><strong>Number of tickers:</strong> {{num_tickers}} |
+<strong>Filters:</strong> {{service_filter_description}}</p>
 <p>
-	Filter the results!
+	<strong>Filter the results!</strong>
 			<form action="" method="post">
 				{% csrf_token %}
 
-					service(s):
-					<br/>
+					Service(s):
 					{% for s in service_options %}
-					&nbsp; <input type="checkbox" name="filter_service_{{s.id}}" value="{{s.id}}">{{s.pretty_name}}<br>
+					&nbsp; <input type="checkbox" name="filter_service_{{s.id}}" value="{{s.id}}">{{s.pretty_name}}  
 					{% endfor %}
-
+					<br/>
 				 <input type="submit" value="Filter!">
 			</form>
 		</p>
-		<hr />
-		<p><strong>Number of tickers</strong>: Code goes here</p>
-	<hr/>
+	<hr />
+<p>
+{{takes_on_this_ticker}}
+</p>
+
 <p>
 {% for t in tickers %}
-	{{t.daily_percent_change}}% | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}} | <strong>{{t.ticker_symbol}}</strong>
+	{{t.daily_percent_change}}% | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <strong>{{t.ticker_symbol}}</strong>
 </p>
 <p>
-<strong>Services</strong>: Code goes here | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: Code goes here <br />
+<strong>Services</strong>: {{services_to_filter_by}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} <br />
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
@@ -47,7 +49,7 @@
     <input type="submit" value="Edit notes">
 	</p>
 	<p>
-	<em>More info to come here I dunno what yet perhaps Tier I status</em>.
+	<em>Maybe this takes you to the most recent articles for each ticker?</em>
 	<hr/>
 </p>
 </form>
