@@ -112,7 +112,7 @@ def get_earnings_announcement_date(ticker_symbol, quandl_auth_token):
 	Quandl auth key is SStNVWYv6_t4Q74MEooN"""
 
 	# sample url: http://www.quandl.com/api/v1/datasets/ZEA/AOL.json?column=4&auth_token=[quandl_auth_token]
-	earnings_announcement_url = 'http://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, quandl_auth_token)
+	earnings_announcement_url = 'https://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, quandl_auth_token)
 	
 	earnings_response = urllib.urlopen(earnings_announcement_url).read()
 	earnings_json = json.loads(earnings_response)
