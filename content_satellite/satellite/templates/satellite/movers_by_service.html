@@ -32,14 +32,18 @@
 			</form>
 		</p>
 	<hr />
+
 <p>
-{{takes_on_this_ticker}}
+{% for a in article_options %}
+{{a.title}} | {{a.ticker}}<br/>
+{% endfor %}
 </p>
 
 <p>
 {% for t in tickers %}
 	{{t.daily_percent_change}}% | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <strong>{{t.ticker_symbol}}</strong>
 </p>
+
 <p>
 <strong>Services</strong>: {{services_to_filter_by}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} <br />
 <form action="" method="post">
@@ -51,11 +55,9 @@
 	<p>
 	<em>Maybe this takes you to the most recent articles for each ticker?</em>
 	<hr/>
-</p>
 </form>
+</p>
 {% endfor %}
-<hr/>
-<hr/>
 
 </body>
 </html>

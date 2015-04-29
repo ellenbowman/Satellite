@@ -12,17 +12,16 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
 	context = {
-		'page-title': 'Satellite'
+		'page-title': 'Welcome to the Satellite'
 	}
 
 
 	return HttpResponse("""
 		<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
 		<h3>A bunch of our ship fell off, and nobody likes me.</h3>
-		<p><a href='/admin/satellite/ticker/'><img width='500px' src='http://g.foolcdn.com/editorial/images/150992/welcome_large.png'/></a></p>
-		<p><a href='/sol/info_by_scorecard/'>Info by scorecard</a></p>
-		<p><a href=''
-		<p><a href="http://satellite.fool.com/admin/satellite/">Other views</a></p>
+		<p><a href='/admin/satellite/ticker/'>Ticker view: admin</a></p>
+		<p><a href='/sol/articles_by_service/'>Articles by service</a></p>
+		<p><a href='/sol/movers_by_service/'>Today's biggest movers by service</a></p>
 		</div>
 		""", context)
 
@@ -110,18 +109,16 @@ def movers_by_service(request):
 		pass
 	#---- end of handling a service filter submitted via POST request ---------
 
-	# here's where I'm trying to display services by ticker
-	takes_on_this_ticker = ServiceTake.objects.all
-
 
 
 	# get the set of tickers, filtered by service, if those filters are defined
 	if services_to_filter_by:
 		scorecards_of_services = Scorecard.objects.filter(service__in=services_to_filter_by)
-		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services)
+		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services) 
 		tickers = set()
 		for st in service_takes_of_scorecards:
 			tickers.add(st.ticker)
+
 		tickers = list(tickers)
 		tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
 
@@ -130,51 +127,13 @@ def movers_by_service(request):
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')
 
 
+
 	num_tickers = len(tickers)
 	print num_tickers, '!!!!!!!!!!!!!!!!'
 
-	# introduce django's built-in pagination!! let each page show 50 articles
-	# https://docs.djangoproject.com/en/1.7/topics/pagination/
-	paginator = Paginator(tickers, 50) 
-
-	# let's see if the query string already has a value for which 
-	# page we should show (eg: '/sol/articles_vomit/?page=4')
-	# this could be introduced by the user or by a link on our page
-	page_num = request.GET.get('page')
-
-	try:
-		tickers_subset = paginator.page(page_num)
-	except PageNotAnInteger:
-		# page is not an integer; let's show the first page of results
-		tickers_subset = paginator.page(1)
-	except EmptyPage:
-		# the user asked for a page way beyond what we have available;
-		# let's show the last page of articles, which we can calculate
-		# with paginator.num_pages
-		tickers_subset = paginator.page(paginator.num_pages)
+####### pagination goes here when you figure that out #########
 
 
-	# compile meta data -------------------
-	## we already sorted the articles by pub date. to get the newest and oldest, 
-	## we just look at the first element in the list, and the last element
-	# article_most_recent_date = articles[0].date_pub  
-	#article_oldest_date = articles[len(articles)-1].date_pub
-
-	## how many authors?
-	# authors = [art.author for art in articles]
-	# '''  the above line is equivalent to the bottom 3! an example of "list comprehension"
-	# authors = []
-	# for art in articles:
-	#	authors.append(art.author)
-	# '''
-	## convert into a set, so that we toss out duplicates
-	# authors_set = set(authors)
-	# num_authors = len(authors_set)
-
-	### how many articles?
-	# num_articles = len(articles)
-
-	service_options = Service.objects.all().order_by('pretty_name')
 
 	# and now, let's see if there's anything interesting in the PUT dictionary
 	# one use case of the PUT dictionary: from form actions, where data is passed 
@@ -209,13 +168,12 @@ def movers_by_service(request):
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
 
 	dictionary_of_values = {
-		'tickers': tickers_subset,
-		'takes_on_this_ticker': takes_on_this_ticker,
+		'tickers': tickers,
 		#'pub_date_newest': article_most_recent_date,
 		#'pub_date_oldest': article_oldest_date,
 		'num_tickers' : num_tickers,
-		'service_options' : service_options, 
 		'service_filter_description': service_filter_description,
+		# 'articles_in_services': articles_in_services,
 	}
 
 	return render(request, 'satellite/movers_by_service.html', dictionary_of_values)
