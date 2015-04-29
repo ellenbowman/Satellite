@@ -111,7 +111,7 @@ def movers_by_service(request):
 	#---- end of handling a service filter submitted via POST request ---------
 
 	# here's where I'm trying to display services by ticker
-	takes_on_this_ticker = ServiceTake.objects.filter(ticker=)
+	takes_on_this_ticker = ServiceTake.objects.all
 
 
 
