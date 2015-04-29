@@ -83,7 +83,7 @@ def movers_by_service(request):
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
-
+	service_options = Service.objects.all()
 
 	#---- start of handling a service filter submitted via POST request ---------
 
@@ -173,6 +173,8 @@ def movers_by_service(request):
 		#'pub_date_oldest': article_oldest_date,
 		'num_tickers' : num_tickers,
 		'service_filter_description': service_filter_description,
+		'services_to_filter_by': services_to_filter_by,
+		'service_options': service_options,
 		# 'articles_in_services': articles_in_services,
 	}
 
