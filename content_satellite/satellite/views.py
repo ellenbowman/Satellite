@@ -110,96 +110,28 @@ def movers_by_service(request):
 
 
 	# get the set of tickers, filtered by service, if those filters are defined
-# 	if services_to_filter_by:
-# 		scorecards_of_services = Scorecard.objects.filter(service__in=services_to_filter_by)
-# 		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services)
-		# tickers = set()
-		# for st in service_takes_of_scorecards:
-		# 	tickers.add(st.ticker)
-
-##################################################################################
-
-# attempted modifications go here
-
-# get the set of tickers, filtered by service, from the ServiceTake object -- but store
-# not just the tickers but the whole object w/ meta data.
-
-# service_take_defns will be a list of service_take "profiles" - 
-	# each element in service_take_defns will be a dictionary
-	# each dictionary will have the full ServiceTake object, as well as meta data
-	# our template will iterate over service_take_defns
 	if services_to_filter_by:
 		scorecards_of_services = Scorecard.objects.filter(service__in=services_to_filter_by)
-		# ^ that gets the list of scorecards relevant for the services selected.
 		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services)
-		# ^ that gets the service takes for each scorecard specified.
-		service_take_defns = []
-		# ^ create a set called service_take_defns. each element is a dictionary that has the full
-		# ServiceTake object, as well as meta data. our template will iterate over this
+		tickers = set()
 		for st in service_takes_of_scorecards:
-			ticker_for_this_service_take = [st.ticker.ticker_symbol for st in service_takes_of_scorecards]
-			scorecard_for_this_service_take = [st.scorecard.pretty_name for st in service_takes_of_scorecards]
-
-			ticker_for_this_service_take = set(ticker_for_this_service_take)
-		
-			service_take_defns.append({
-				'ticker_for_this_service_take': ticker_for_this_service_take,
-				'scorecard_for_this_service_take': scorecard_for_this_service_take,
-				})
-
-##################################################################################
-
-		# tickers = list(tickers)
-		# tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
+			tickers.add(st.ticker)
+		tickers = list(tickers)
+		tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
 
 	else:
 		# get all tickers, and sort by biggest mover
-		# tickers = Ticker.objects.all().order_by('-daily_percent_change')
-		service_take_defns = ServiceTake.objects.all().order_by('-ticker__daily_percent_change')
-		service_take_defns = set(service_take_defns)
-
-##################################################################################
-	"""
-
-	# ALL THIS COPIED FROM GRAND_VISION_ARTICLES
-
-	# service_take_defns will be a list of article "profiles" - 
-	# each element in service_take_defns will be a dictionary
-	# each dictionary will have the full ServiceTake object, as well as meta data
-	# our template will iterate over service_take__defns
-	service_take_defns = []
-	for st in articles_subset:
-
-		# find some meta data: what other articles are by this author? across what services? 
-		# how many articles has he written in the last 10 days?
-		articles_by_this_author = Article.objects.filter(author=article.author)	
-		
-		services_of_those_articles = [art.service.pretty_name for art in articles_by_this_author]
-		services_of_those_articles = set(services_of_those_articles) # convert to a set so that we toss out duplicates
-		services_of_those_articles = list(services_of_those_articles) # convert to a list so that we can put in alpha order
-		services_of_those_articles.sort()
-		services_in_which_this_author_writes = ', '.join(services_of_those_articles) 
-
-		ten_days_ago = datetime.today() - timedelta(days=10)
-		# filter this author's articles by the "date_pub" field. we're interested only in the ones with
-		# a date greater than ('gt') ten days ago
-		articles_by_this_author_from_within_last_ten_days = articles_by_this_author.filter(date_pub__gt=ten_days_ago)
-
-		article_defns.append({
-			'article':article,
-			'num_articles_by_this_author': len(articles_by_this_author),
-			'author_service_associations': services_in_which_this_author_writes, 
-			'num_author_articles_last_ten_dates': len(articles_by_this_author_from_within_last_ten_days)
-			})
-	"""
-
-##################################################################################
-
-	num_service_take_defns = len(service_take_defns)
-	print num_service_take_defns, '!!!!!!!!!!'
+		tickers = Ticker.objects.all().order_by('-daily_percent_change')
 
 
-####### pagination goes here when you figure that out ###########################
+	num_tickers = len(tickers)
+	print num_tickers, '!!!!!!!!!!!!!!!!'
+	##################################################################################
+
+	##################################################################################
+
+
+	####### pagination goes here when you figure that out ###########################
 
 
 	# and now, let's see if there's anything interesting in the PUT dictionary
@@ -234,13 +166,29 @@ def movers_by_service(request):
 			# print to console a sanity check
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
 
-###############################################################################
+	###############################################################################
+	
+	ticker_definitions=[]
+	for t in tickers[:5]:
+		print 'creating ticker def'
+		scorecards_pretty_name = 'Lisa!!!!!!!!!!'
+
+		scorecard_pretty_names = set()
+		for st in ServiceTake.objects.all():
+			if st.ticker.instrument_id == t.instrument_id:
+				scorecard_pretty_names.add(st.scorecard.pretty_name)
+
+		scorecards_pretty_name = ', '.join(scorecard_pretty_names)
+
+		ticker_definitions.append({'ticker_object': t, 'scorecards': scorecards_pretty_name})
+
 
 	dictionary_of_values = {
-		# 'tickers': tickers,
+		'tickers': tickers,
+		'ticker_definitions': ticker_definitions,
 		#'service_takes_of_scorecards': service_takes_of_scorecards,
-		'service_take_defns': service_take_defns,
-		'num_service_take_defns' : num_service_take_defns,
+		# 'service_take_defns': service_take_defns,
+		# 'num_service_take_defns' : num_service_take_defns,
 		'service_filter_description': service_filter_description,
 		'services_to_filter_by': services_to_filter_by,
 		'service_options': service_options,

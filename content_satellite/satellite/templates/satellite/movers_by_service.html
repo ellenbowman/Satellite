@@ -15,7 +15,7 @@
 		{% else %}
 		All (There is no scorecard, only Zool)
 		{% endif %}</h2>
-<p><em>These are sorted by daily percentage change, with the highest at the top.</br>
+<p><em>These are (intended to be) sorted by daily percentage change, with the highest at the top.</br>
 Perhaps someday they could be secondarily sorted by tier status. </em></p>
 <div style='background-color:lightgray'>
 <p>
@@ -41,16 +41,16 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 
 <p>
 <hr/>
-{% for st in service_take_defns %}
-	<span style='background-color:yellow'>{{st.ticker.daily_percent_change}}%</span> | <strong>{{st.ticker.company_name}}</strong> | {{st.ticker.exchange_symbol}}: <strong>{{st.ticker.ticker_symbol}}</strong>
+{% for t in ticker_definitions %}
+	<span style='background-color:yellow'>{{t.ticker_object.daily_percent_change}}%</span> | <strong>{{t.ticker_object.company_name}}</strong> | {{t.ticker_object.exchange_symbol}}: <strong>{{t.ticker_object.ticker_symbol}}</strong>
 </p>
 
 <p>
-<strong>Scorecard for this take</strong>: {{st.scorecard.pretty_name}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{st.ticker.earnings_announcement}} <br />
+<strong>Scorecard for this take</strong>: {{t.scorecards}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.ticker_object.earnings_announcement}} <br />
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
-    <textarea cols=150 rows=5 id = "edit_notes" name="ticker_notes_{{t.id}}"/>{{ t.notes|default_if_none:''}}</textarea></br>
+    <textarea cols=150 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_object.id}}"/>{{ t.ticker_object.notes|default_if_none:''}}</textarea></br>
     <input type="submit" value="Edit notes">
 	</p>
 	<p>
