@@ -48,7 +48,7 @@
 					{% endif %}
 				</td>
 				<td>
-					<div style='padding-left:15px;'>
+					<div style='padding-left:15px;max-width:180px'>
 						Filter options
 						<form action="" method="post">
 							{% csrf_token %}
@@ -58,9 +58,12 @@
 							<br/>
 							<br/>
 							Services:<br/>{{form.services}}
+
+							<br/>
 							<hr/>
 							 <input type="submit" value="Apply filter">
 						</form>
+						* we could also filter by authors and date
 					</div>
 				</td>
 			</tr>
