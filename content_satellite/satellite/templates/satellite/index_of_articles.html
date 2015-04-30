@@ -9,10 +9,7 @@
 </head>
 <body>
 	<h2>Article matches</h2>
-
-
 	
-		
 	<div>
 		<table>
 			<tr>
@@ -73,22 +70,30 @@
 	<div>
 		<table>
 			<thead>
-				<tr>
-					<th>Headline</th>
-					<th>Author</th>
-					<th>Ticker</th>
-					<th>Date</th>
-					<th>Service</th>
+				<tr style='text-align:left'>
+					<th width='40%'>Headline</th>
+					<th width='25%'>Author</th>
+					<th width='5%'>Ticker</th>
+					<th width='10%'>Date</th>
+					<th width='10%'>Service</th>
+					<th width='5%'># articles by this author (in SOL)</th>
+					<th width='5%'># articles by this author (in SOL),last 10 days</th>
 				</tr>
 			</thead>
 			<tbody>
-			{% for art in articles %}
+			{% for article_defn in article_defns %}
 			<tr>
-				<td><a href='http://{{art.url}}'>{{art.title}}</a></td>
-				<td>{{art.author}}</td>
-				<td>{{art.ticker}}</td>
-				<td>{{art.date_pub}}</td>
-				<td>{{art.service.pretty_name}}</td>
+				<td><a href='http://{{article_defn.article.url}}'>{{article_defn.article.title}}</a></td>
+				<td>
+					{{article_defn.article.author}}
+					<br/>
+					<small>{{article_defn.author_service_associations}}</small>
+				</td>
+				<td>{{article_defn.article.ticker}}</td>
+				<td>{{article_defn.article.date_pub}}</td>
+				<td>{{article_defn.article.service.pretty_name}}</td>
+				<td>{{article_defn.num_articles_by_this_author}}</td>
+				<td>{{article_defn.num_author_articles_last_ten_dates}}</td>
 			</tr>
 			{% endfor %}
 			</tbody>

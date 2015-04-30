@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -202,9 +203,39 @@ def grand_vision_articles(request):
 	### how many articles?
 	num_articles = len(articles)
 
+	# article_defns will be a list of article "profiles" - 
+	# each element in article_defns will be a dictionary
+	# each dictionary will have the full Article object, as well as meta data
+	# our template will iterate over article_defns
+	article_defns = []
+	for article in articles_subset:
+
+		# find some meta data: what other articles are by this author? across what services? 
+		# how many articles has he written in the last 10 days?
+		articles_by_this_author = Article.objects.filter(author=article.author)	
+		
+		services_of_those_articles = [art.service.pretty_name for art in articles_by_this_author]
+		services_of_those_articles = set(services_of_those_articles) # convert to a set so that we toss out duplicates
+		services_of_those_articles = list(services_of_those_articles) # convert to a list so that we can put in alpha order
+		services_of_those_articles.sort()
+		services_in_which_this_author_writes = ', '.join(services_of_those_articles) 
+
+		ten_days_ago = datetime.today() - timedelta(days=10)
+		# filter this author's articles by the "date_pub" field. we're interested only in the ones with
+		# a date greater than ('gt') ten days ago
+		articles_by_this_author_from_within_last_ten_days = articles_by_this_author.filter(date_pub__gt=ten_days_ago)
+
+		article_defns.append({
+			'article':article,
+			'num_articles_by_this_author': len(articles_by_this_author),
+			'author_service_associations': services_in_which_this_author_writes, 
+			'num_author_articles_last_ten_dates': len(articles_by_this_author_from_within_last_ten_days)
+			})
+
 	dictionary_of_values = {
 		'form': article_filter_form,
 		'articles': articles_subset,
+		'article_defns': article_defns,
 		'pub_date_newest': article_most_recent_date,
 		'pub_date_oldest': article_oldest_date,
 		'num_authors' : num_authors,
