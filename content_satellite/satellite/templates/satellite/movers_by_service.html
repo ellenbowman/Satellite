@@ -15,9 +15,9 @@
 		{% else %}
 		All (There is no scorecard, only Zool)
 		{% endif %}</h2>
-<p><em>These are sorted by daily percentage change, with the highest at the top</em></p>
-		<p><strong>Number of tickers:</strong> {{num_tickers}} |
-<strong>Filters:</strong> {{service_filter_description}}</p>
+<p><em>These are sorted by daily percentage change, with the highest at the top.</br>
+Perhaps someday they could be secondarily sorted by tier status. </em></p>
+<div style='background-color:lightgray'>
 <p>
 	<strong>Filter the results!</strong>
 			<form action="" method="post">
@@ -31,21 +31,22 @@
 				 <input type="submit" value="Filter!">
 			</form>
 		</p>
+</div>
+	<p><strong>Number of service takes:</strong> {{num_service_take_defns}} | <strong>Filters:</strong> {{service_filter_description}}</p>
 	<hr />
 
 <p>
-{% for a in article_options %}
-{{a.title}} | {{a.ticker}}<br/>
-{% endfor %}
+
 </p>
 
 <p>
-{% for t in tickers %}
-	{{t.daily_percent_change}}% | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <strong>{{t.ticker_symbol}}</strong>
+<hr/>
+{% for st in service_take_defns %}
+	<span style='background-color:yellow'>{{st.ticker.daily_percent_change}}%</span> | <strong>{{st.ticker.company_name}}</strong> | {{st.ticker.exchange_symbol}}: <strong>{{st.ticker.ticker_symbol}}</strong>
 </p>
 
 <p>
-<strong>Services</strong>: {{services_to_filter_by}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} <br />
+<strong>Scorecard for this take</strong>: {{st.scorecard.pretty_name}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{st.ticker.earnings_announcement}} <br />
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>

@@ -15,12 +15,11 @@ def index(request):
 		'page-title': 'Welcome to the Satellite'
 	}
 
-
 	return HttpResponse("""
 		<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
 		<h3>A bunch of our ship fell off, and nobody likes me.</h3>
 		<p><a href='/admin/satellite/ticker/'>Ticker view: admin</a></p>
-		<p><a href='/sol/articles_by_service/'>Articles by service</a></p>
+		<p><a href='/sol/articles_vomit/'>Everything you ever wanted to know about articles</a></p>
 		<p><a href='/sol/movers_by_service/'>Today's biggest movers by service</a></p>
 		</div>
 		""", context)
@@ -110,29 +109,97 @@ def movers_by_service(request):
 	#---- end of handling a service filter submitted via POST request ---------
 
 
-
 	# get the set of tickers, filtered by service, if those filters are defined
+# 	if services_to_filter_by:
+# 		scorecards_of_services = Scorecard.objects.filter(service__in=services_to_filter_by)
+# 		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services)
+		# tickers = set()
+		# for st in service_takes_of_scorecards:
+		# 	tickers.add(st.ticker)
+
+##################################################################################
+
+# attempted modifications go here
+
+# get the set of tickers, filtered by service, from the ServiceTake object -- but store
+# not just the tickers but the whole object w/ meta data.
+
+# service_take_defns will be a list of service_take "profiles" - 
+	# each element in service_take_defns will be a dictionary
+	# each dictionary will have the full ServiceTake object, as well as meta data
+	# our template will iterate over service_take_defns
 	if services_to_filter_by:
 		scorecards_of_services = Scorecard.objects.filter(service__in=services_to_filter_by)
-		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services) 
-		tickers = set()
+		# ^ that gets the list of scorecards relevant for the services selected.
+		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services)
+		# ^ that gets the service takes for each scorecard specified.
+		service_take_defns = []
+		# ^ create a set called service_take_defns. each element is a dictionary that has the full
+		# ServiceTake object, as well as meta data. our template will iterate over this
 		for st in service_takes_of_scorecards:
-			tickers.add(st.ticker)
+			ticker_for_this_service_take = [st.ticker.ticker_symbol for st in service_takes_of_scorecards]
+			scorecard_for_this_service_take = [st.scorecard.pretty_name for st in service_takes_of_scorecards]
 
-		tickers = list(tickers)
-		tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
+			ticker_for_this_service_take = set(ticker_for_this_service_take)
+		
+			service_take_defns.append({
+				'ticker_for_this_service_take': ticker_for_this_service_take,
+				'scorecard_for_this_service_take': scorecard_for_this_service_take,
+				})
+
+##################################################################################
+
+		# tickers = list(tickers)
+		# tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
 
 	else:
 		# get all tickers, and sort by biggest mover
-		tickers = Ticker.objects.all().order_by('-daily_percent_change')
+		# tickers = Ticker.objects.all().order_by('-daily_percent_change')
+		service_take_defns = ServiceTake.objects.all().order_by('-ticker__daily_percent_change')
+		service_take_defns = set(service_take_defns)
+
+##################################################################################
+	"""
+
+	# ALL THIS COPIED FROM GRAND_VISION_ARTICLES
+
+	# service_take_defns will be a list of article "profiles" - 
+	# each element in service_take_defns will be a dictionary
+	# each dictionary will have the full ServiceTake object, as well as meta data
+	# our template will iterate over service_take__defns
+	service_take_defns = []
+	for st in articles_subset:
+
+		# find some meta data: what other articles are by this author? across what services? 
+		# how many articles has he written in the last 10 days?
+		articles_by_this_author = Article.objects.filter(author=article.author)	
+		
+		services_of_those_articles = [art.service.pretty_name for art in articles_by_this_author]
+		services_of_those_articles = set(services_of_those_articles) # convert to a set so that we toss out duplicates
+		services_of_those_articles = list(services_of_those_articles) # convert to a list so that we can put in alpha order
+		services_of_those_articles.sort()
+		services_in_which_this_author_writes = ', '.join(services_of_those_articles) 
+
+		ten_days_ago = datetime.today() - timedelta(days=10)
+		# filter this author's articles by the "date_pub" field. we're interested only in the ones with
+		# a date greater than ('gt') ten days ago
+		articles_by_this_author_from_within_last_ten_days = articles_by_this_author.filter(date_pub__gt=ten_days_ago)
+
+		article_defns.append({
+			'article':article,
+			'num_articles_by_this_author': len(articles_by_this_author),
+			'author_service_associations': services_in_which_this_author_writes, 
+			'num_author_articles_last_ten_dates': len(articles_by_this_author_from_within_last_ten_days)
+			})
+	"""
+
+##################################################################################
+
+	num_service_take_defns = len(service_take_defns)
+	print num_service_take_defns, '!!!!!!!!!!'
 
 
-
-	num_tickers = len(tickers)
-	print num_tickers, '!!!!!!!!!!!!!!!!'
-
-####### pagination goes here when you figure that out #########
-
+####### pagination goes here when you figure that out ###########################
 
 
 	# and now, let's see if there's anything interesting in the PUT dictionary
@@ -167,15 +234,16 @@ def movers_by_service(request):
 			# print to console a sanity check
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
 
+###############################################################################
+
 	dictionary_of_values = {
-		'tickers': tickers,
-		#'pub_date_newest': article_most_recent_date,
-		#'pub_date_oldest': article_oldest_date,
-		'num_tickers' : num_tickers,
+		# 'tickers': tickers,
+		#'service_takes_of_scorecards': service_takes_of_scorecards,
+		'service_take_defns': service_take_defns,
+		'num_service_take_defns' : num_service_take_defns,
 		'service_filter_description': service_filter_description,
 		'services_to_filter_by': services_to_filter_by,
 		'service_options': service_options,
-		# 'articles_in_services': articles_in_services,
 	}
 
 	return render(request, 'satellite/movers_by_service.html', dictionary_of_values)
