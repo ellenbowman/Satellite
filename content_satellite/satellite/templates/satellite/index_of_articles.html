@@ -92,7 +92,10 @@
 					<br/>
 					<small>{{article_defn.author_service_associations}}</small>
 				</td>
-				<td>{{article_defn.article.ticker}}</td>
+				<td>
+					<img width='21px' src='http://g.foolcdn.com/art/companylogos/mark/{{article_defn.article.ticker}}.png' alt='{{article_defn.article.ticker}}'/>
+					<small>{{article_defn.article.ticker}}</small>
+				</td>
 				<td>{{article_defn.article.date_pub|date:"M d, Y" }}</td>
 				<td>{{article_defn.article.service.pretty_name}}</td>
 				<td>{{article_defn.num_articles_by_this_author}}</td>
