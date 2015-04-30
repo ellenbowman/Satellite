@@ -34,8 +34,8 @@ def get_daily_percent_change(ticker_symbol):
 		return None
 
 	# we noticed that the percent change is often reported as a string like "+14.35%"...
-	# let's get rid of the leading "+"/"-" and the trailing "%"
-	if daily_percent_change.startswith('+') or daily_percent_change.startswith('-'):
+	# let's get rid of the leading "+" and the trailing "%"
+	if daily_percent_change.startswith('+'):
 		# 'slice' the string (my_value[start_index:stop_index]); define the start index,
 		# and in this case, no need to specify the end index
 		daily_percent_change = daily_percent_change[1:]  
@@ -54,6 +54,9 @@ class Command(BaseCommand):
 
 		script_start_time = datetime.datetime.now()
 		tickers = Ticker.objects.all().order_by('ticker_symbol')
+
+		tickers_symbols_that_errored = set()
+
 		for ticker in tickers:
 			ticker_symbol = ticker.ticker_symbol
 			try:
@@ -64,9 +67,12 @@ class Command(BaseCommand):
 					ticker.save()
 			except Exception as e:
 				print "couldn't set daily percent change", ticker_symbol, str(e)
+				tickers_symbols_that_errored.add(ticker_symbol)
 
 		script_end_time = datetime.datetime.now()
 		total_seconds = (script_end_time - script_start_time).total_seconds()
 
 		print 'time elapsed: %d seconds' %  total_seconds
 		print 'finished script'
+		print 'tickers that errored: %d' % len(tickers_symbols_that_errored)
+		print ', '.join(tickers_symbols_that_errored)
