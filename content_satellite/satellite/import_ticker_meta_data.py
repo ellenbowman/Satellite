@@ -47,14 +47,6 @@ def set_meta_data(quandl_auth_token, start_idx=None, batch_size=None):
 		#	print "couldn't set performance change"
 	
 
-		# date of next earnings announcement (estimate) ---------
-		try:
-			earnings_announcement_date = get_earnings_announcement_date(ticker_symbol, quandl_auth_token)
-			print earnings_announcement_date
-			ticker.earnings_announcement = earnings_announcement_date
-		except:
-			print "couldn't set earnings date"
-
 		# scorecard followers ---------
 		try:
 			num_followers = get_num_scorecard_followers(ticker_symbol)
@@ -104,23 +96,6 @@ def get_historical_percent_change(ticker_symbol):
 		percent_change_moving_average = percent_change_moving_average[:-1]
 
 	return percent_change_moving_average
-
-
-def get_earnings_announcement_date(ticker_symbol, quandl_auth_token):
-	""" get the 'EXP_RPT_DATE_QR1' (expected report date for 1st quarter?) 
-	from Quandl, which pulls from Zachs Research
-	Quandl auth key is SStNVWYv6_t4Q74MEooN"""
-
-	# sample url: http://www.quandl.com/api/v1/datasets/ZEA/AOL.json?column=4&auth_token=[quandl_auth_token]
-	earnings_announcement_url = 'https://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, quandl_auth_token)
-	
-	earnings_response = urllib.urlopen(earnings_announcement_url).read()
-	earnings_json = json.loads(earnings_response)
-
-	expected_report_date_quarter1 = str(int(earnings_json['data'][0][1]))
-	earnings_announcement_date = datetime.datetime.strptime(expected_report_date_quarter1, '%Y%m%d')
-
-	return earnings_announcement_date
 	
 
 def get_num_scorecard_followers(ticker_symbol):
