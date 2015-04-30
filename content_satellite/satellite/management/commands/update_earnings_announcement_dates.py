@@ -18,7 +18,7 @@ def get_earnings_announcement_date(ticker_symbol):
 	"""
 
 	# sample url: http://www.quandl.com/api/v1/datasets/ZEA/AOL.json?column=4&auth_token=[quandl_auth_token]
-	earnings_announcement_url = 'http://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, settings.QUANDL_AUTH_TOKEN)
+	earnings_announcement_url = 'https://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, settings.QUANDL_AUTH_TOKEN)
 
 	earnings_response = urllib.urlopen(earnings_announcement_url).read()
 	earnings_json = json.loads(earnings_response)
