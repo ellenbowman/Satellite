@@ -1,62 +1,74 @@
 <html>
 <head>
 	<title>index of articles</title>
+	<style>
+		select.service-select-tall{
+			min-height: 210px;
+		}
+	</style>
 </head>
 <body>
 	<h2>Article matches</h2>
-	<p>
-		how many articles are represented? {{num_articles}}
-		<br/>
-		the most recent article in this result set was published on {{pub_date_newest}}
-		<br/>
-		the oldest article in this results set was published on {{pub_date_oldest}}
-		<br/>
-		how many authors are represented? {{num_authors}}
-	</p>
 
 
-	<div style='background-color:lightgray'>
-		are these results filtered by service and/or ticker?
-		<br/>
-
-		service filter:
-		{% if service_filter_description %}
-		<strong>{{service_filter_description}}</strong>
-		{% else %}
-		<em>none</em>
-		{% endif %}
-
-		<br/>
-
-		ticker filter:
-		{% if ticker_filter_description %}
-		<strong>{{ticker_filter_description}}</strong>
-		{% else %}
-		<em>none</em>
-		{% endif %}
+	
 		
-		<div style='background-color:yellow'>
-			Filter the results!
-			<form action="" method="post">
-				{% csrf_token %}
-				
-					ticker(s): <input type='text' name='filter_tickers'> <em>(as a csv, eg: 'AAPL,MSFT,YHOO')</em>
-
+	<div>
+		<table>
+			<tr>
+				<td style='vertical-align:top'>
+					how many articles are represented? {{num_articles}}
 					<br/>
-
-					service(s):
+					the most recent article in this result set was published on {{pub_date_newest}}
 					<br/>
-					{% for s in service_options %}
-					&nbsp; <input type="checkbox" name="filter_service_{{s.id}}" value="{{s.id}}">{{s.pretty_name}}<br>
-					{% endfor %}
+					the oldest article in this results set was published on {{pub_date_oldest}}
+					<br/>
+					how many authors are represented? {{num_authors}}
 
-				 <input type="submit" value="filter by these params!">
-			</form>
-		</div>
+					{% if service_filter_description or ticker_filter_description %}
+					<div style='background-color:lightgray;width:500px;margin:12px 2px;'>
+						These results are filtered.
+						<br/>
+
+						{% if service_filter_description %}
+						<br/>
+						service filter: <strong>{{service_filter_description}}</strong>
+						<br/>
+						{% endif %}
+						
+						{% if ticker_filter_description %}
+						<br/>
+						ticker filter: <strong>{{ticker_filter_description}}</strong>
+						<br/>
+						{% endif %}
+
+						<br/>
+						<a href='/sol/articles_vomit/'><button type='button'>Remove filter</button></a>
+						<br/>
+
+						*known bug: if the results span more than one page... sorry, but we lose the filter when advancing to subsequent pages. 
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div style='padding-left:15px;'>
+						Filter options
+						<form action="" method="post">
+							{% csrf_token %}
+							<hr/>
+							Tickers:<br/>
+							{{form.tickers}}
+							<br/>
+							<br/>
+							Services:<br/>{{form.services}}
+							<hr/>
+							 <input type="submit" value="Apply filter">
+						</form>
+					</div>
+				</td>
+			</tr>
+		</table>
 	</div>
-
-
-
 
 	<div>
 		<table>
@@ -99,11 +111,6 @@
 	    </span>
 	</div>
 
-	<div>
-		<a href='/sol/extras/'><button type='button'>take me to the Extras overview</button></a>
-
-		<a href='/sol/articles_vomit/'><button type='button'>take me to the very first page of results</button></a>
-	</div>
 </div>
 </body>
 </html>

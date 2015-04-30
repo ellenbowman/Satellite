@@ -1,8 +1,8 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.http import HttpResponse
+from forms import ArticlesFilterForm
 from models import Article, Service, Ticker
-
 
 
 def services_index(request):
@@ -97,7 +97,6 @@ def grand_vision_articles(request):
 	if a ticker is detected in the request's POST dictionary, then filters to articles on that ticker
 	"""
 
-
 	tickers_to_filter_by = None 	# will hold the Ticker objects that satisfy our filter
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
  	ticker_filter_description = None 	# this will be a string description of the ticker filter. we'll display this value on the page.
@@ -105,56 +104,54 @@ def grand_vision_articles(request):
 
 
 	#---- start of handling a ticker/service filter submitted via POST request ---------
+
 	if request.POST:
-		if 'filter_tickers' in request.POST:
-			tickers_user_input = request.POST['filter_tickers']
-			user_tickers_as_list = tickers_user_input.split(",")
+		article_filter_form = ArticlesFilterForm(request.POST)
+		
+		if article_filter_form.is_valid():
+			if 'tickers' in article_filter_form.cleaned_data:
 
-			# take the user input and try to find corresponding Ticker objects 
-			# the list of matches across all of the tickers in user_tickers_as_list
-			tickers_to_filter_by = [] 
-			for ticker_symbol in user_tickers_as_list:
-				# let's remove whitespace
-				cleaned_up_ticker_symbol = ticker_symbol.strip()
-				ticker_matches_for_this_single_ticker_symbol = Ticker.objects.filter(ticker_symbol__iexact=cleaned_up_ticker_symbol)
+				tickers_user_input = article_filter_form.cleaned_data['tickers'].strip()
+				if tickers_user_input != '':
+					user_tickers_as_list = tickers_user_input.split(",")
 
-				# add the list of matches on this particular ticker symbol to tickers_to_filter_by
-				# http://www.tutorialspoint.com/python/list_extend.htm
-				tickers_to_filter_by.extend(ticker_matches_for_this_single_ticker_symbol)
+					# take the user input and try to find corresponding Ticker objects 
+					# the list of matches across all of the tickers in user_tickers_as_list
+					tickers_to_filter_by = [] 
+					for ticker_symbol in user_tickers_as_list:
+						cleaned_up_ticker_symbol = ticker_symbol.strip()
+						ticker_matches_for_this_single_ticker_symbol = Ticker.objects.filter(ticker_symbol__iexact=cleaned_up_ticker_symbol)
 
-			# make the pretty description of the tickers we found. 
-			ticker_symbols_we_matched = [t.ticker_symbol for t in tickers_to_filter_by]
-			ticker_symbols_we_matched.sort()
-			ticker_filter_description = ', '.join(ticker_symbols_we_matched)
+						# add the list of matches on this particular ticker symbol to tickers_to_filter_by
+						# http://www.tutorialspoint.com/python/list_extend.htm
+						tickers_to_filter_by.extend(ticker_matches_for_this_single_ticker_symbol)
 
-		# figure out what services were selected in the form. 
-		# we've coded the html so that the input checkboxes are named 'filter_service_x', where
-		# x is the id of a service, and the value is also the id of a service
-		# in this step, we find out which of those 'filter_service_x' have been passed back in the POST
-		service_filter_keys = [k for k in request.POST.keys() if k.startswith('filter_service_')]
-		if len(service_filter_keys):
+					# make the pretty description of the tickers
+					ticker_filter_description = tickers_user_input.upper()
 
-			services_to_filter_by = []
-			for key in service_filter_keys:
-				service_id = request.POST[key]  # we know the value will be a service id, b/c that's how we coded the html!
-				service_match_for_this_id = Service.objects.get(id=service_id) 
-				services_to_filter_by.append(service_match_for_this_id)
+			# retrieve the services that were selected in the form. 
+			if 'services' in article_filter_form.cleaned_data:
+				# the form makes available "cleaned data" that's pretty convenient - 
+				# in this case, it returns a list of Service objects that correspond
+				# to what the user selected.
+				services_to_filter_by = article_filter_form.cleaned_data['services']
 
-			# make the pretty description of the services we found. 
-			pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
-			pretty_names_of_services_we_matched.sort()
-			service_filter_description = ', '.join(pretty_names_of_services_we_matched)
-		else:	
-			# user didn't specify any services. that's fine. our services_to_filter_by, earlier set to None, is untouched.
-			pass
+				# make the pretty description of the services we found. 
+				pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
+				pretty_names_of_services_we_matched.sort()
+				service_filter_description = ', '.join(pretty_names_of_services_we_matched)
+		
 	#---- end of handling a ticker/service filter submitted via POST request ---------
+	else:
+		article_filter_form = ArticlesFilterForm()
+
 
 	# get the set of articles, filtered by ticker/service, if those filters are defined
-	if tickers_to_filter_by and services_to_filter_by:
+	if tickers_to_filter_by is not None and services_to_filter_by is not None:
 		articles = Article.objects.filter(ticker__in=tickers_to_filter_by, service__in=services_to_filter_by).order_by('-date_pub')
-	elif tickers_to_filter_by:
+	elif tickers_to_filter_by is not None:
 		articles = Article.objects.filter(ticker__in=tickers_to_filter_by).order_by('-date_pub')
-	elif services_to_filter_by:
+	elif services_to_filter_by is not None:
 		articles = Article.objects.filter(service__in=services_to_filter_by).order_by('-date_pub')		
 	else:
 		# get all articles, and sort by descending date
@@ -184,8 +181,12 @@ def grand_vision_articles(request):
 	# compile meta data -------------------
 	## we already sorted the articles by pub date. to get the newest and oldest, 
 	## we just look at the first element in the list, and the last element
-	article_most_recent_date = articles[0].date_pub  
-	article_oldest_date = articles[len(articles)-1].date_pub
+	if len(articles):
+		article_most_recent_date = articles[0].date_pub  
+		article_oldest_date = articles[len(articles)-1].date_pub
+	else:
+		article_most_recent_date = "n/a"
+		article_oldest_date = "n/a"
 
 	## how many authors?
 	authors = [art.author for art in articles]
@@ -201,15 +202,13 @@ def grand_vision_articles(request):
 	### how many articles?
 	num_articles = len(articles)
 
-	service_options = Service.objects.all().order_by('pretty_name')
-
 	dictionary_of_values = {
+		'form': article_filter_form,
 		'articles': articles_subset,
 		'pub_date_newest': article_most_recent_date,
 		'pub_date_oldest': article_oldest_date,
 		'num_authors' : num_authors,
 		'num_articles' : num_articles,
-		'service_options' : service_options, 
 		'service_filter_description': service_filter_description,
 		'ticker_filter_description': ticker_filter_description
 	}
