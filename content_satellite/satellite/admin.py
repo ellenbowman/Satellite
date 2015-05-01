@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 
-from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard #, Mover
+from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard, DataHarvestEventLog #, Mover
 
 #class MoverAdmin(admin.ModelAdmin):
 #	list_display = ['daily_percent_change']
@@ -36,3 +36,8 @@ class ArticleAdmin(admin.ModelAdmin):
 	search_fields = ['ticker__ticker_symbol', 'title',]
 
 admin.site.register(Article, ArticleAdmin)
+
+class DataHarvestEventLogAdmin(admin.ModelAdmin):
+	list_display = ['date_type_pretty_name', 'date_started', 'date_finished', 'notes']
+
+admin.site.register(DataHarvestEventLog, DataHarvestEventLogAdmin)	
