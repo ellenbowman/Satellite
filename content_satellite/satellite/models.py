@@ -148,7 +148,7 @@ class DataHarvestEventLog(models.Model):
 		return 'unknown type'
 
 	def __unicode__(self):
-		return self.title + " - " + date_started.strftime('%b %M %d')
+		return self.date_type_pretty_name + " - " + date_started.strftime('%b %M %d')
 
 	class Meta:
 		ordering = ['-date_started']
