@@ -6,9 +6,11 @@ from django.core.management import call_command
 # python manage.py installtasks
 # http://www.thegeekstuff.com/2009/06/15-practical-crontab-examples/
 # http://alvinalexander.com/linux/unix-linux-crontab-every-minute-hour-day-syntax
+# http://www.cronchecker.net/  
 
-# run every day between 7AM and 8PM, at 20 minute intervals
-@kronos.register('00,20,40 * * * *')
+
+# runs at 30 minute intervals, every day, 7 AM to 8 PM
+@kronos.register('0,30 7-20 * * *')
 def update_articles():
 	print 'starting cron task for importing articles'
 	try:
@@ -19,8 +21,8 @@ def update_articles():
 
 
 
-# every weekday 8AM-5PM, at 20 minute intervals
-@kronos.register('00,20,40 08-17 * * 1-5')
+# every weekday 10:00AM-5PM, at 15 minute intervals
+@kronos.register('0,15,30,45 10-17 * * 1-5')
 def update_daily_percent_change():
 	print 'starting cron task for updating daily percent change'
 	try:
