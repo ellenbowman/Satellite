@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'compressor',
     'fool_auth_for_django',
+    'kronos',
     'satellite',
 )
 
