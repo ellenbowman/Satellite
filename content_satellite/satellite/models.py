@@ -116,3 +116,39 @@ class Article(models.Model):
 
 	class Meta:
 		ordering = ['-date_pub'] 
+
+
+
+DATA_HARVEST_TYPE_ARTICLES = 1
+DATA_HARVEST_TYPE_MARKET_DATA = 2
+DATA_HARVEST_TYPE_EARNINGS_DATES = 3
+DATA_HARVEST_TYPE_SCORECARD_RECS = 4
+
+
+DATA_HARVEST_TYPE_CHOICES = (
+    (DATA_HARVEST_TYPE_ARTICLES, 'articles import'),
+    (DATA_HARVEST_TYPE_MARKET_DATA, 'market performance'),
+    (DATA_HARVEST_TYPE_EARNINGS_DATES, 'earnings dates'),
+    (DATA_HARVEST_TYPE_SCORECARD_RECS, 'scorecard recs')
+)
+
+class DataHarvestEventLog(models.Model):
+	data_type = models.IntegerField(choices=DATA_HARVEST_TYPE_CHOICES, default=DATA_HARVEST_TYPE_ARTICLES)
+
+	date_started = models.DateTimeField(auto_now_add=True)
+	date_finished = models.DateTimeField(auto_now=True)
+
+	notes = models.TextField(max_length=5000, null=True, blank=True)
+
+	@property 
+	def date_type_pretty_name(self):
+		choice_matches = [dht[1] for dht in DATA_HARVEST_TYPE_CHOICES if dht[0]==self.data_type]
+		if choice_matches:
+			return choice_matches[0]
+		return 'unknown type'
+
+	def __unicode__(self):
+		return self.title + " - " + date_started.strftime('%b %M %d')
+
+	class Meta:
+		ordering = ['-date_started']
