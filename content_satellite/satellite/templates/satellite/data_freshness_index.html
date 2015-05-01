@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title>Data Freshness</title>
+</head>
+<body>
+	<h2>Is Satellite showing us the latest news?</h2>
+	
+	<p>
+	Satellite harvests its ticker, article, and service recs data from APIs.
+	Here's a log of that activity.
+	</p>
+
+	<strong>Summary</strong>
+	<table style='background-color:lightgray'>
+		<tr style='text-align:left'>
+			<th width='200px'>
+				Type
+			</th>
+			<th width='100px'>
+				Last run
+			</th>
+		</tr>
+						
+		<form action='' method='post'>
+		{% csrf_token %}
+		{% for mre in most_recent_event_per_type %}
+		<tr>
+			<td>
+				{{mre.pretty_name}}
+			</td>
+			<td>
+				{{mre.date}}
+			</td>
+		</tr>
+		{% endfor %}
+		</form>
+	</table>
+
+	<hr/>
+
+	<div>
+		<table>
+			<thead>
+				<tr style='text-align:left'>
+					<th width='200px'>Type</th>
+					<th width='150px'>Start Time</th>
+					<th width='200px'>Script Output</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for log_event in recent_events %}
+				<tr style='text-align:left'>
+					<td>{{log_event.date_type_pretty_name}}</td>
+					<td>{{log_event.date_started|date:'M d'}} {{log_event.date_started|time:'H:i'}}</td>
+					<td>{{log_event.notes|default_if_none:''}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
+</body>
+</html>

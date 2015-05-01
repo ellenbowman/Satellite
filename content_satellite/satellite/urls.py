@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from satellite import views, views_samples
+from satellite import views, views_samples, views_data_freshness
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     url(r'^movers_by_service/$', views.movers_by_service, name='movers_by_service'),
     url(r'^scorecard_index/$', views.scorecard_index, name="scorecard index"),
     # url(r'^my_sample_view/$', views.my_sample_view, name="my sample view"),
+    url(r'^data_freshness/$', views_data_freshness.data_freshness_index, name="data_freshness"),
+
     # some practice urls
     url(r'^all_the_bloody_services/$', views_samples.services_index, name='all_the_services'),
     url(r'^lola_rocks/$', views_samples.my_sample_view, name='lola_rocks'),
