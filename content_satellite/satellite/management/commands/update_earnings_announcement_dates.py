@@ -8,7 +8,7 @@ import datetime
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from satellite.models import Ticker
+from satellite.models import Ticker, DataHarvestEventLog, DATA_HARVEST_TYPE_EARNINGS_DATES
 
 
 def get_earnings_announcement_date(ticker_symbol):
@@ -36,7 +36,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 		print 'starting script'
 
+		event_log = DataHarvestEventLog()
+		event_log.data_type = DATA_HARVEST_TYPE_EARNINGS_DATES
+		event_log.notes = 'running'
+		event_log.save()
+
 		script_start_time = datetime.datetime.now()
+
+		tickers_symbols_that_errored = set()
 		tickers = Ticker.objects.all().order_by('ticker_symbol')
 		for ticker in tickers:
 			ticker_symbol = ticker.ticker_symbol
@@ -47,9 +54,22 @@ class Command(BaseCommand):
 				ticker.save()
 			except Exception as e:
 				print "couldn't set earnings date", ticker_symbol, str(e)
+				tickers_symbols_that_errored.add(ticker_symbol)
 
 		script_end_time = datetime.datetime.now()
 		total_seconds = (script_end_time - script_start_time).total_seconds()
 
 		print 'time elapsed: %d seconds' %  total_seconds
+
+
+		if tickers_symbols_that_errored:
+			event_log.notes = 'errors: ' + ', '.join(tickers_symbols_that_errored)
+		else:
+			event_log.notes = 'no errors'
+		event_log.save()
+
+
 		print 'finished script'
+
+		print 'tickers that errored: %d' % len(tickers_symbols_that_errored)
+		print ', '.join(tickers_symbols_that_errored)		

@@ -7,7 +7,7 @@ import datetime
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from satellite.models import Ticker
+from satellite.models import Ticker, DataHarvestEventLog, DATA_HARVEST_TYPE_MARKET_DATA
 
 
 def get_daily_percent_change(ticker_symbol):
@@ -52,6 +52,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 		print 'starting script'
 
+		event_log = DataHarvestEventLog()
+		event_log.data_type = DATA_HARVEST_TYPE_MARKET_DATA
+		event_log.notes = 'running'
+		event_log.save()
+
 		script_start_time = datetime.datetime.now()
 		tickers = Ticker.objects.all().order_by('ticker_symbol')
 
@@ -72,7 +77,17 @@ class Command(BaseCommand):
 		script_end_time = datetime.datetime.now()
 		total_seconds = (script_end_time - script_start_time).total_seconds()
 
+
 		print 'time elapsed: %d seconds' %  total_seconds
+
+		if tickers_symbols_that_errored:
+			event_log.notes = 'errors: ' + ', '.join(tickers_symbols_that_errored)
+		else:
+			event_log.notes = 'no errors'
+		event_log.save()
+
+
 		print 'finished script'
+
 		print 'tickers that errored: %d' % len(tickers_symbols_that_errored)
 		print ', '.join(tickers_symbols_that_errored)

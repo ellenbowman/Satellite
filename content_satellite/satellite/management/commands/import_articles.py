@@ -8,8 +8,7 @@ import datetime
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from satellite.models import Article, Service, Ticker
-
+from satellite.models import Article, Service, Ticker, DataHarvestEventLog, DATA_HARVEST_TYPE_ARTICLES
 
 num_articles_to_retrieve = 300
 stop_value = num_articles_to_retrieve - 1  # the API treats the stop arg as zero-based and inclusive; eg to get 5 results, tell it to go up to (and include) index 4
@@ -92,7 +91,7 @@ def get_articles():
 
 			count_of_articles_added += 1
 
-	print 'number of articles added (one per url/ticker pair): %d' % count_of_articles_added
+	return 'number of articles added (one per url/ticker pair): %d' % count_of_articles_added
 
 
 
@@ -100,14 +99,25 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 		print 'starting script'
 
+		event_log = DataHarvestEventLog()
+		event_log.data_type = DATA_HARVEST_TYPE_ARTICLES
+		event_log.notes = 'running'
+		event_log.save()
+
 		script_start_time = datetime.datetime.now()
 		try:
-			get_articles()
+			status_message = get_articles()
+			log_notes = status_message
 		except Exception as e:
 			print "error getting articles.", str(e)
+			log_notes = str(e)
 
 		script_end_time = datetime.datetime.now()
 		total_seconds = (script_end_time - script_start_time).total_seconds()
 
 		print 'time elapsed: %d seconds' %  total_seconds
+
+		event_log.notes = log_notes
+		event_log.save()
+
 		print 'finished script'
