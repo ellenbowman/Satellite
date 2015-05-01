@@ -126,6 +126,9 @@ def movers_by_service(request):
 
 	num_tickers = len(tickers)
 	print num_tickers, '!!!!!!!!!!!!!!!!'
+
+
+
 	##################################################################################
 
 	##################################################################################
@@ -168,6 +171,7 @@ def movers_by_service(request):
 
 	###############################################################################
 	
+	"""
 	ticker_definitions=[]
 	for t in tickers[:5]:
 		print 'creating ticker def'
@@ -181,20 +185,21 @@ def movers_by_service(request):
 		scorecards_pretty_name = ', '.join(scorecard_pretty_names)
 
 		ticker_definitions.append({'ticker_object': t, 'scorecards': scorecards_pretty_name})
-
+	"""
 
 	dictionary_of_values = {
 		'tickers': tickers,
-		'ticker_definitions': ticker_definitions,
+		'num_tickers': num_tickers,
+		# 'ticker_definitions': ticker_definitions,
 		#'service_takes_of_scorecards': service_takes_of_scorecards,
-		# 'service_take_defns': service_take_defns,
-		# 'num_service_take_defns' : num_service_take_defns,
+		# 'scorecard_pretty_names': scorecard_pretty_names,
 		'service_filter_description': service_filter_description,
 		'services_to_filter_by': services_to_filter_by,
 		'service_options': service_options,
 	}
 
 	return render(request, 'satellite/movers_by_service.html', dictionary_of_values)
+
 
 ###############################################################################
 

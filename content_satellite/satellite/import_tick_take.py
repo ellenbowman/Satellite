@@ -28,6 +28,8 @@ for scorecard in Scorecard.objects.all():
         print ticker_symbol
         # create a Ticker for this symbol if it doesn't exist
         matches = Ticker.objects.filter(ticker_symbol=ticker_symbol)
+
+        
         if len(matches)==0:
             t = Ticker()
             t.ticker_symbol = ticker_symbol
@@ -52,6 +54,24 @@ for scorecard in Scorecard.objects.all():
         temp = temp.split('T')[0]
         st.open_date = datetime.datetime.strptime(temp, '%Y-%m-%d')
 
-
         st.save()
+
+        service_takes_on_this_ticker = ServiceTake.objects.filter(ticker=t)
+        scorecards_for_ticker = set()
+        for st in service_takes_on_this_ticker:
+            scorecards_for_ticker.add(st.scorecard.pretty_name)
+            t.scorecards_for_ticker = scorecards_for_ticker
+            t.save()
         
+
+
+
+
+
+
+
+
+
+
+
+

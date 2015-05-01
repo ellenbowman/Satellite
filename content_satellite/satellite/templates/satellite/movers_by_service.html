@@ -15,7 +15,7 @@
 		{% else %}
 		All (There is no scorecard, only Zool)
 		{% endif %}</h2>
-<p><em>These are (intended to be) sorted by daily percentage change, with the highest at the top.</br>
+<p><em>These are sorted by daily percentage change, with the highest at the top.</br>
 Perhaps someday they could be secondarily sorted by tier status. </em></p>
 <div style='background-color:lightgray'>
 <p>
@@ -28,25 +28,25 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 					&nbsp; <input type="checkbox" name="filter_service_{{s.id}}" value="{{s.id}}">{{s.pretty_name}}  
 					{% endfor %}
 					<br/>
+					<br/>
 				 <input type="submit" value="Filter!">
 			</form>
 		</p>
 </div>
-	<p><strong>Number of service takes:</strong> {{num_service_take_defns}} | <strong>Filters:</strong> {{service_filter_description}}</p>
+	<p><strong>Number of tickers:</strong> {{num_tickers}} | <strong>Filters:</strong> {{service_filter_description}}</p>
 	<hr />
 
 <p>
-
 </p>
 
 <p>
 <hr/>
-{% for t in ticker_definitions %}
-	<span style='background-color:yellow'>{{t.ticker_object.daily_percent_change}}%</span> | <strong>{{t.ticker_object.company_name}}</strong> | {{t.ticker_object.exchange_symbol}}: <strong>{{t.ticker_object.ticker_symbol}}</strong>
+{% for t in tickers %}
+	<img align="middle" width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>   <span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <strong>{{t.ticker_symbol}}</strong>
 </p>
 
 <p>
-<strong>Scorecard for this take</strong>: {{t.scorecards}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.ticker_object.earnings_announcement}} <br />
+<strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} <br />
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
