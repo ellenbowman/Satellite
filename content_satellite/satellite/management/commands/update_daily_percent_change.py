@@ -59,6 +59,8 @@ def get_daily_percent_change(ticker_symbols_as_list):
 
 
 class Command(BaseCommand):
+    help = 'Updates the daily_percent_change for all Ticker objects'
+
     def handle(self, *args, **options):
 		print 'starting script'
 

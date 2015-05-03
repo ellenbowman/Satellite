@@ -23,6 +23,8 @@ def get_number_fool_one_followers(ticker_symbol):
 
 
 class Command(BaseCommand):
+    help = 'Updates the num_followers for all Ticker objects. assigns the number of Fool One members following that ticker symbol in a personal scorecard.'
+
     def handle(self, *args, **options):
 		print 'starting script'
 

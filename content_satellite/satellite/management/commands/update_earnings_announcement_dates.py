@@ -33,6 +33,8 @@ def get_earnings_announcement_date(ticker_symbol):
 
 
 class Command(BaseCommand):
+    help = 'Updates the earnings_announcement for all Ticker objects'
+
     def handle(self, *args, **options):
 		print 'starting script'
 

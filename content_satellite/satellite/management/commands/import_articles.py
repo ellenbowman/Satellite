@@ -96,6 +96,8 @@ def get_articles():
 
 
 class Command(BaseCommand):
+    help = 'Retrieves from the hydra/napi API the most recent 100 articles across the premium services and creates corresponding Article objects'
+
     def handle(self, *args, **options):
 		print 'starting script'
 
