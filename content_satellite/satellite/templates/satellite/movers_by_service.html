@@ -54,7 +54,7 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
     <input type="submit" value="Edit notes">
 	</p>
 	<p>
-	<em>Maybe this takes you to the most recent articles for each ticker?</em>
+	<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>articles</a>
 	<hr/>
 </form>
 </p>
