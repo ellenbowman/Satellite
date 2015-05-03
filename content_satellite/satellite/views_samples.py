@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
 from forms import ArticlesFilterForm
@@ -87,7 +88,33 @@ def extra_views_homepage(request):
 	return render(request, 'satellite/extra_pages.html')
 
 
+def _get_ticker_objects_for_ticker_symbols(ticker_symbols_csv='AAPL,SWIR,Z'):
+	"""
+	given a set of ticker symbols as a single string, symbols separated by commas, find corresponding Ticker objects
+	"""
+	csv_elements = ticker_symbols_csv.split(',')
+
+	# clean up - for each element, strip whitespace and convert to uppercase
+	csv_elements = [el.strip().upper() for el in csv_elements]
+
+	return Ticker.objects.filter(ticker_symbol__in=csv_elements)
+
+def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
+	"""
+	given a set of db ids of services, find corresponding Service objects
+	# note: these ids were assigned by our db. they are *not* the service's product ids (eg Rule Breakers might have
+		a product id of 1069, but in our db, its db id might be 3)
+	"""	
+	csv_elements = service_ids_csv.split(',')
+
+	# clean up - for each element, strip whitespace and convert to an integer
+	csv_elements = [int(el.strip()) for el in csv_elements]
+
+	return Service.objects.filter(id__in=csv_elements)
+
+
 def grand_vision_articles(request):
+
 	"""
 	shows all articles and some meta data
 	(time range of the articles, unique authors)
@@ -103,32 +130,24 @@ def grand_vision_articles(request):
  	ticker_filter_description = None 	# this will be a string description of the ticker filter. we'll display this value on the page.
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
 
+	page_num = 1
 
-	#---- start of handling a ticker/service filter submitted via POST request ---------
+	# filter by ticker/service if we detect that preference in the query string (in the request.GET)
+	# or via a form post (in the request.POST)
+	# additionally, if this is a GET, let's attempt to set the page_num. otherwise, we'll default to page_num of 1.
 
 	if request.POST:
+		if 'page_number' in request.POST:
+			page_num = int(request.POST['page_number'])
+
 		article_filter_form = ArticlesFilterForm(request.POST)
 		
 		if article_filter_form.is_valid():
 			if 'tickers' in article_filter_form.cleaned_data:
-
 				tickers_user_input = article_filter_form.cleaned_data['tickers'].strip()
 				if tickers_user_input != '':
-					user_tickers_as_list = tickers_user_input.split(",")
-
 					# take the user input and try to find corresponding Ticker objects 
-					# the list of matches across all of the tickers in user_tickers_as_list
-					tickers_to_filter_by = [] 
-					for ticker_symbol in user_tickers_as_list:
-						cleaned_up_ticker_symbol = ticker_symbol.strip()
-						ticker_matches_for_this_single_ticker_symbol = Ticker.objects.filter(ticker_symbol__iexact=cleaned_up_ticker_symbol)
-
-						# add the list of matches on this particular ticker symbol to tickers_to_filter_by
-						# http://www.tutorialspoint.com/python/list_extend.htm
-						tickers_to_filter_by.extend(ticker_matches_for_this_single_ticker_symbol)
-
-					# make the pretty description of the tickers
-					ticker_filter_description = tickers_user_input.upper()
+					tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
 
 			# retrieve the services that were selected in the form. 
 			if 'services' in article_filter_form.cleaned_data:
@@ -137,14 +156,33 @@ def grand_vision_articles(request):
 				# to what the user selected.
 				services_to_filter_by = article_filter_form.cleaned_data['services']
 
-				# make the pretty description of the services we found. 
-				pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
-				pretty_names_of_services_we_matched.sort()
-				service_filter_description = ', '.join(pretty_names_of_services_we_matched)
-		
-	#---- end of handling a ticker/service filter submitted via POST request ---------
+	elif request.GET:
+		initial_form_values = {}
+
+		if 'tickers' in request.GET:
+			tickers_user_input = request.GET.get('tickers')
+			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
+
+			initial_form_values['tickers'] = tickers_user_input
+		if 'service_ids' in request.GET:
+			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
+			initial_form_values['services'] = services_to_filter_by
+
+		article_filter_form = ArticlesFilterForm(initial=initial_form_values)
+
 	else:
 		article_filter_form = ArticlesFilterForm()
+
+	# end of inspecting request.GET and request.POST for ticker/service filter
+
+	if tickers_to_filter_by:
+		# make the pretty description of the tickers
+		ticker_filter_description = tickers_user_input.upper()
+	if services_to_filter_by:
+		# make the pretty description of the services we found. 
+		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
+		pretty_names_of_services_we_matched.sort()
+		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
 
 
 	# get the set of articles, filtered by ticker/service, if those filters are defined
@@ -162,10 +200,6 @@ def grand_vision_articles(request):
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
 	paginator = Paginator(articles, 25) 
 
-	# let's see if the query string already has a value for which 
-	# page we should show (eg: '/sol/articles_vomit/?page=4')
-	# this could be introduced by the user or by a link on our page
-	page_num = request.GET.get('page')
 
 	try:
 		articles_subset = paginator.page(page_num)
@@ -243,4 +277,5 @@ def grand_vision_articles(request):
 		'service_filter_description': service_filter_description,
 		'ticker_filter_description': ticker_filter_description
 	}
+
 	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)

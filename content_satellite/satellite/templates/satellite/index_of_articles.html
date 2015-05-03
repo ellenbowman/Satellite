@@ -3,27 +3,39 @@
 	<title>index of articles</title>
 	<style>
 		select.service-select-tall{
-			min-height: 210px;
+			min-height: 140px;
+		}
+
+		.button-link {
+			background-color: transparent;
+			
+			color: blue;
+		}
+
+		.button-link.disabled {
+			background-color: transparent;
+			
+			color: lightgray;
 		}
 	</style>
 </head>
 <body>
-	<h2>Article matches</h2>
+	<h2>Articles</h2>
 	
 	<div>
 		<table>
 			<tr>
 				<td style='vertical-align:top'>
-					how many articles are represented? {{num_articles}}
+					how many articles are in this result set? {{num_articles}}
 					<br/>
 					the most recent article in this result set was published on {{pub_date_newest}}
 					<br/>
 					the oldest article in this results set was published on {{pub_date_oldest}}
 					<br/>
-					how many authors are represented? {{num_authors}}
+					how many authors are in this result set? {{num_authors}}
 
 					{% if service_filter_description or ticker_filter_description %}
-					<div style='background-color:lightgray;width:500px;margin:12px 2px;'>
+					<div style='padding:12px;background-color:lightgray;width:500px;margin:12px 2px;'>
 						These results are filtered.
 						<br/>
 
@@ -42,28 +54,22 @@
 						<br/>
 						<a href='/sol/articles_vomit/'><button type='button'>Remove filter</button></a>
 						<br/>
-
-						*known bug: if the results span more than one page... sorry, but we lose the filter when advancing to subsequent pages. 
 					</div>
 					{% endif %}
 				</td>
 				<td>
-					<div style='padding-left:15px;max-width:180px'>
-						Filter options
+					<div style='padding:15px;max-width:280px;background-color:lightgray'>
 						<form action="" method="post">
 							{% csrf_token %}
-							<hr/>
 							Tickers:<br/>
 							{{form.tickers}}
 							<br/>
 							<br/>
 							Services:<br/>{{form.services}}
-
 							<br/>
 							<hr/>
 							 <input type="submit" value="Apply filter">
 						</form>
-						* we could also filter by authors and date
 					</div>
 				</td>
 			</tr>
@@ -107,9 +113,22 @@
 
 
 	<div class="pagination">
-	    <span class="step-links">
+		<form action="" method="POST">
+			{% csrf_token %}
+			<div style='display:none'>
+				{{form.as_p}}
+			</div>
+			
+
+
+			<span class="step-links">
+
+
+
 	        {% if articles.has_previous %}
-	            <a href="?page={{ articles.previous_page_number }}">previous</a>
+	        	<button type='submit' class="button-link" name='page_number' value="{{articles.previous_page_number}}">&lt;&lt;</button>
+	        {% else %}
+	        	<button type='button' class="button-link disabled" disabled='disabled'> &lt;&lt;</button>
 	        {% endif %}
 
 	        <span class="current">
@@ -117,9 +136,15 @@
 	        </span>
 
 	        {% if articles.has_next %}
-	            <a href="?page={{ articles.next_page_number }}">next</a>
+	            <button type='submit' class="button-link" name='page_number' value="{{articles.next_page_number}}">&gt;&gt;</button>
+	        {% else %}
+	        	<button type='button' class="button-link disabled" disabled='disabled'> &gt;&gt;</button>
 	        {% endif %}
 	    </span>
+
+		</form>
+
+	    
 	</div>
 
 </div>
