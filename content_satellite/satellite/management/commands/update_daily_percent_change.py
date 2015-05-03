@@ -10,13 +10,14 @@ from django.core.management.base import BaseCommand, CommandError
 from satellite.models import Ticker, DataHarvestEventLog, DATA_HARVEST_TYPE_MARKET_DATA
 
 
-def get_daily_percent_change(ticker_symbol):
+def get_daily_percent_change(ticker_symbols_as_list):
 	""" get the daily percent change, as reported by Yahoo Finance
 	"""
 	yahoo_finance_url = 'http://query.yahooapis.com/v1/public/yql'
 
 	# when we make the request, pass along additional preferences, eg the SQL query
-	data = {'q': "select Symbol, PercentChange from yahoo.finance.quotes where symbol='%s'" % ticker_symbol, 
+	ticker_symbols_as_string = ','.join(ticker_symbols_as_list)
+	data = {'q': "select Symbol, PercentChange from yahoo.finance.quotes where symbol in (%s)" % ticker_symbols_as_string, 
 	'format': 'json',
 	'diagnostics':'false',
 	'env': 'http://datatables.org/alltables.env',}
@@ -27,25 +28,34 @@ def get_daily_percent_change(ticker_symbol):
 	yahoo_response = urllib.urlopen(url).read()
 	yahoo_json = json.loads(yahoo_response)
 
-	daily_percent_change = yahoo_json['query']['results']['quote']['PercentChange']  
+	daily_percent_change_keyed_by_ticker_symbol = {}
 
-	if daily_percent_change is None:
-		print 'warning: no value found for percent change', ticker_symbol
-		return None
+	for quote_result in yahoo_json['query']['results']['quote']:
 
-	# we noticed that the percent change is often reported as a string like "+14.35%"...
-	# let's get rid of the leading "+" and the trailing "%"
-	if daily_percent_change.startswith('+'):
-		# 'slice' the string (my_value[start_index:stop_index]); define the start index,
-		# and in this case, no need to specify the end index
-		daily_percent_change = daily_percent_change[1:]  
-	
-	# get rid of the trailing "%" 
-	if daily_percent_change.endswith('%'):
-		# 'slice' the string. this time, no need to define the start index, but definiely define the end index
-		daily_percent_change = daily_percent_change[:-1]
+		symbol = quote_result['Symbol']  
+		daily_percent_change = quote_result['PercentChange']  
 
-	return daily_percent_change
+		if daily_percent_change is None:
+			print 'warning: no value found for percent change', ticker_symbol
+			return None
+
+		# we noticed that the percent change is often reported as a string like "+14.35%"...
+		# let's get rid of the leading "+" and the trailing "%"
+		if daily_percent_change.startswith('+'):
+			# 'slice' the string (my_value[start_index:stop_index]); define the start index,
+			# and in this case, no need to specify the end index
+			daily_percent_change = daily_percent_change[1:]  
+		
+		# get rid of the trailing "%" 
+		if daily_percent_change.endswith('%'):
+			# 'slice' the string. this time, no need to define the start index, but definiely define the end index
+			daily_percent_change = daily_percent_change[:-1]
+
+		print symbol, daily_percent_change
+
+		daily_percent_change_keyed_by_ticker_symbol[symbol] = daily_percent_change
+
+	return daily_percent_change_keyed_by_ticker_symbol
 
 
 class Command(BaseCommand):
@@ -61,31 +71,42 @@ class Command(BaseCommand):
 		tickers = Ticker.objects.all().order_by('ticker_symbol')
 
 		tickers_symbols_that_errored = set()
+		count_tickers_successfully_updated = 0
 
-		for ticker in tickers:
-			ticker_symbol = ticker.ticker_symbol
-			try:
-				daily_percent_change = get_daily_percent_change(ticker_symbol)
-				print ticker_symbol, daily_percent_change
-				if daily_percent_change is not None:
-					ticker.daily_percent_change = daily_percent_change
-					ticker.save()
-			except Exception as e:
-				print "couldn't set daily percent change", ticker_symbol, str(e)
-				tickers_symbols_that_errored.add(ticker_symbol)
+		# let's process 25 tickers at a time. one implementation: use a for loop, where each loop
+		# processes tickers of index x up to index x+25
+		batch_size = 25
+		start_idx = 0
+		while start_idx < len(tickers):
+			
+			tickers_to_process = tickers[start_idx: start_idx+batch_size]
+
+			symbols_as_list = ['\"'+t.ticker_symbol+'\"' for t in tickers_to_process]
+			percent_changes_keyed_by_ticker_symbol = get_daily_percent_change(symbols_as_list)
+			
+			for ticker_to_process in tickers_to_process:
+
+				try:
+					ticker_to_process.daily_percent_change = percent_changes_keyed_by_ticker_symbol[ticker_to_process.ticker_symbol]
+					ticker_to_process.save()
+					count_tickers_successfully_updated += 1
+				except Exception as e:
+					print "couldn't set daily percent change", ticker_symbol, str(e)
+					tickers_symbols_that_errored.add(ticker_symbol)
+
+			start_idx += batch_size
 
 		script_end_time = datetime.datetime.now()
 		total_seconds = (script_end_time - script_start_time).total_seconds()
 
-
 		print 'time elapsed: %d seconds' %  total_seconds
-
+		notes = 'tickers updated: %d; ' % count_tickers_successfully_updated
 		if tickers_symbols_that_errored:
-			event_log.notes = 'errors: ' + ', '.join(tickers_symbols_that_errored)
+			notes += 'errors: ' + ', '.join(tickers_symbols_that_errored)
 		else:
-			event_log.notes = 'no errors'
+			notes += 'no errors'
+		event_log.notes = notes			
 		event_log.save()
-
 
 		print 'finished script'
 
