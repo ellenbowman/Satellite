@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import ArticlesFilterForm
+from forms import FilterForm
 from models import Article, Service, Ticker, Scorecard, ServiceTake
 
 # Create your views here.
@@ -104,111 +104,116 @@ def movers_by_service(request):
 	shows all tickers and some meta data
 	(daily percent change, company name, exchange, ticker symbol)
 
-	contains a form that lets you specify services
+	contains a form that lets you specify services and tickers
 
-	if a service name is detected in the request's POST dictionary, then filters to tickers for that service
+	if a service or ticker's name is detected in the request's POST dictionary, then filters to tickers for that service or ticker
 	"""
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
+	tickers_to_filter_by = None
+	ticker_filter_description = None
 	service_options = Service.objects.all()
 
-	#---- start of handling a service filter submitted via POST request ---------
+	page_num = 1
 
-		# figure out what services were selected in the form. 
-		# we've coded the html so that the input checkboxes are named 'filter_service_x', where
-		# x is the id of a service, and the value is also the id of a service
-		# in this step, we find out which of those 'filter_service_x' have been passed back in the POST
-	service_filter_keys = [k for k in request.POST.keys() if k.startswith('filter_service_')]
-	if len(service_filter_keys):
 
-		services_to_filter_by = []
-		for key in service_filter_keys:
-			service_id = request.POST[key]  # we know the value will be a service id, b/c that's how we coded the html!
-			service_match_for_this_id = Service.objects.get(id=service_id) 
-			services_to_filter_by.append(service_match_for_this_id)
+	# filter by ticker/service if we detect that preference in the query string (in the request.GET)
+	# or via a form post (in the request.POST)
+	# additionally, if this is a GET, let's attempt to set the page_num. otherwise, we'll default to page_num of 1.
 
+	if request.POST:
+		if 'page_number' in request.POST:
+			page_num = int(request.POST['page_number'])
+
+		movers_filter_form = FilterForm(request.POST)
+		
+		if movers_filter_form.is_valid():
+			if 'tickers' in movers_filter_form.cleaned_data:
+				tickers_user_input = movers_filter_form.cleaned_data['tickers'].strip()
+				if tickers_user_input != '':
+					# take the user input and try to find corresponding Ticker objects 
+					tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
+
+			# retrieve the services that were selected in the form. 
+			if 'services' in movers_filter_form.cleaned_data:
+				# the form makes available "cleaned data" that's pretty convenient - 
+				# in this case, it returns a list of Service objects that correspond
+				# to what the user selected.
+				services_to_filter_by = movers_filter_form.cleaned_data['services']
+
+	elif request.GET:
+		initial_form_values = {}
+
+		if 'tickers' in request.GET:
+			tickers_user_input = request.GET.get('tickers')
+			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
+
+			initial_form_values['tickers'] = tickers_user_input
+		if 'service_ids' in request.GET:
+			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
+			initial_form_values['services'] = services_to_filter_by
+
+		movers_filter_form = FilterForm(initial=initial_form_values)
+
+	else:
+		movers_filter_form = FilterForm()
+
+	# end of inspecting request.GET and request.POST for ticker/service filter
+
+	if tickers_to_filter_by:
+		# make the pretty description of the tickers
+		ticker_filter_description = tickers_user_input.upper()
+	if services_to_filter_by:
 		# make the pretty description of the services we found. 
 		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
 		pretty_names_of_services_we_matched.sort()
 		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
-	else:	
-		# user didn't specify any services. that's fine. our services_to_filter_by, earlier set to None, is untouched.
-		pass
-	#---- end of handling a service filter submitted via POST request ---------
-
-
-	# get the set of tickers, filtered by service, if those filters are defined
-	if services_to_filter_by:
-		scorecards_of_services = Scorecard.objects.filter(service__in=services_to_filter_by)
-		service_takes_of_scorecards = ServiceTake.objects.filter(scorecard__in=scorecards_of_services)
-		tickers = set()
-		for st in service_takes_of_scorecards:
-			tickers.add(st.ticker)
-		tickers = list(tickers)
-		tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
-		top_10_gainers = tickers[:10]
-		tickers.sort(key=lambda x: x.daily_percent_change)
-		top_10_losers = tickers[:10]
-		upcoming_earnings_announcements = Ticker.objects.all().order_by('earnings_announcement')[:10]
-		# I need to figure out how to discard any results of "none"
 
 	else:
-		# get all tickers, and sort by biggest mover
+		pass
+
+
+	# get the set of articles, filtered by ticker/service, if those filters are defined
+	if tickers_to_filter_by is not None and services_to_filter_by is not None:
+		tickers = Ticker.objects.filter(ticker_symbol__in=tickers_to_filter_by).order_by('-daily_percent_change')
+	elif tickers_to_filter_by is not None:
+		tickers = Ticker.objects.filter(ticker_symbol__in=tickers_to_filter_by).order_by('-daily_percent_change')
+	elif services_to_filter_by is not None:
+		tickers = Ticker.objects.filter(servicetake__in=services_to_filter_by).order_by('-daily_percent_change')		
+	else:
+		# get all articles, and sort by descending date
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')
-		top_10_gainers = tickers[:10]
-		top_10_losers = Ticker.objects.all().order_by('daily_percent_change')[:10]
-		upcoming_earnings_announcements = Ticker.objects.all().order_by('earnings_announcement')[:10]
+
+	# introduce django's built-in pagination!! 
+	# https://docs.djangoproject.com/en/1.7/topics/pagination/
+	paginator = Paginator(tickers, 25) 
+
+
+	try:
+		tickers_subset = paginator.page(page_num)
+	except PageNotAnInteger:
+		# page is not an integer; let's show the first page of results
+		tickers_subset = paginator.page(1)
+	except EmptyPage:
+		# the user asked for a page way beyond what we have available;
+		# let's show the last page of articles, which we can calculate
+		# with paginator.num_pages
+		tickers_subset = paginator.page(paginator.num_pages)
 
 	num_tickers = len(tickers)
-	print num_tickers, '!!!!!!!!!!!!!!!!'
+	top_10_gainers = tickers[:10]
+	top_10_losers = tickers[:10]
+	upcoming_earnings_announcements = "upcoming earnings announcements"
 
-	"""
-
-	####### pagination goes here when you figure that out ###########################
-
-	# and now, let's see if there's anything interesting in the PUT dictionary
-	# one use case of the PUT dictionary: from form actions, where data is passed 
-	# along in the request, just not as a query string
-	if request.POST:
-		
-		# find the keys that correspond to the 'notes' input. 
-		# since we also have control over the forms markup (embedded in 'info_by_scorecard.html'), 
-		# we know that the form data we're interested in has names that start with 'ticker_notes_'.
-		# it translates that these names should be visible as keys in the request.POST dictionary
-
-		ticker_note_name_prefix = 'ticker_notes_'
-
-		# use 'python list comprehension' to create a list of all the keys in request.POST that 
-		# match this condition: the key must start with 'ticker_notes_' . equivalent to a multi-line
-		# 'for' loop.
-		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
-		
-		for key_of_ticker_note_data in keys_of_ticker_note_data:
-			# from each key, we can extract the Ticker id that we've embedded in the key
-			# (eg, if we see 'ticker_notes_3', we know it corresponds to the Ticker with id 3)
-			# and we can use that id to retrieve the Ticker object from the db,
-			# update its notes field, and save the Ticker. voila!
-
-			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]  # pick out everything in the string that follows the 'ticker_notes_' prefix
-			ticker_to_update = Ticker.objects.get(id=ticker_id)
-
-			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
-			ticker_to_update.save() # write this update to the db!
-			
-			# print to console a sanity check
-			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
-
-	###############################################################################
-	"""
 
 	dictionary_of_values = {
-		# 'form': movers_filter_form,
-		# 'tickers_subset': tickers_subset,
+		'form': movers_filter_form,
 		'tickers': tickers,
 		'num_tickers' : num_tickers,
 		'service_filter_description': service_filter_description,
 		'services_to_filter_by': services_to_filter_by,
+		'tickers_to_filter_by': tickers_to_filter_by,
 		'service_options': service_options,
 		'top_10_gainers': top_10_gainers,
 		'top_10_losers': top_10_losers,

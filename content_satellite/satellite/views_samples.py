@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import ArticlesFilterForm
+from forms import FilterForm
 from models import Article, Service, Ticker
 
 
@@ -140,7 +140,7 @@ def grand_vision_articles(request):
 		if 'page_number' in request.POST:
 			page_num = int(request.POST['page_number'])
 
-		article_filter_form = ArticlesFilterForm(request.POST)
+		article_filter_form = FilterForm(request.POST)
 		
 		if article_filter_form.is_valid():
 			if 'tickers' in article_filter_form.cleaned_data:
@@ -168,10 +168,10 @@ def grand_vision_articles(request):
 			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
 			initial_form_values['services'] = services_to_filter_by
 
-		article_filter_form = ArticlesFilterForm(initial=initial_form_values)
+		article_filter_form = FilterForm(initial=initial_form_values)
 
 	else:
-		article_filter_form = ArticlesFilterForm()
+		article_filter_form = FilterForm()
 
 	# end of inspecting request.GET and request.POST for ticker/service filter
 
@@ -279,3 +279,11 @@ def grand_vision_articles(request):
 	}
 
 	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)
+
+
+
+
+
+
+
+
