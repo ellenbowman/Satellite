@@ -176,9 +176,9 @@ def movers_by_service(request):
 
 	# get the set of articles, filtered by ticker/service, if those filters are defined
 	if tickers_to_filter_by is not None and services_to_filter_by is not None:
-		tickers = Ticker.objects.filter(ticker_symbol__in=tickers_to_filter_by).order_by('-daily_percent_change')
+		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif tickers_to_filter_by is not None:
-		tickers = Ticker.objects.filter(ticker_symbol__in=tickers_to_filter_by).order_by('-daily_percent_change')
+		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif services_to_filter_by is not None:
 		tickers = Ticker.objects.filter(servicetake__in=services_to_filter_by).order_by('-daily_percent_change')		
 	else:
