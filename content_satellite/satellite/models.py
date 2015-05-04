@@ -13,6 +13,7 @@ class Ticker(models.Model):
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
 	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Upcoming coverage')
 	scorecards_for_ticker = models.CharField(max_length=200, null=True, blank=True, verbose_name='scorecards for ticker')
+	services_for_ticker = models.CharField(max_length=200, null=True, blank=True, verbose_name='scorecards for ticker')	
 	tier = models.IntegerField(default=0)
 
 

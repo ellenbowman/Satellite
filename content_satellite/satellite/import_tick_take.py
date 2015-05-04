@@ -56,6 +56,7 @@ for scorecard in Scorecard.objects.all():
 
         st.save()
 
+        #create scorecards_for_ticker and services_for_ticker
         service_takes_on_this_ticker = ServiceTake.objects.filter(ticker=t)
         scorecards_for_ticker = list()
         for st in service_takes_on_this_ticker:
@@ -63,6 +64,13 @@ for scorecard in Scorecard.objects.all():
 
         scorecards_for_ticker = set(scorecards_for_ticker)
         t.scorecards_for_ticker = ", ".join(scorecards_for_ticker)
+
+        services_for_ticker = list()
+        for st in service_takes_on_this_ticker:
+            services_for_ticker.append(st.scorecard.service.pretty_name)
+
+        services_for_ticker = set(services_for_ticker)
+        t.services_for_ticker = ", ".join(services_for_ticker)
 
         t.save()
         
