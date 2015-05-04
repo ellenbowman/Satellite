@@ -21,7 +21,7 @@ def index(request):
 		<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
 		<h3>A bunch of our ship fell off, and nobody likes me.</h3>
 		<p><a href='/admin/satellite/ticker/'>Ticker view: admin</a></p>
-		<p><a href='/sol/articles_vomit/'>Everything you ever wanted to know about articles</a></p>
+		<p><a href='/sol/articles_index/'>Everything you ever wanted to know about articles</a></p>
 		<p><a href='/sol/movers_by_service/'>Today's biggest movers by service</a></p>
 		</div>
 		""", context)

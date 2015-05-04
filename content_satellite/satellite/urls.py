@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^all_the_bloody_services/$', views_samples.services_index, name='all_the_services'),
     url(r'^lola_rocks/$', views_samples.my_sample_view, name='lola_rocks'),
     url(r'^omg_articles/$', views_samples.articles_by_service, name='amazing_articles'),
-    url(r'^articles_vomit/$', views_samples.grand_vision_articles, name='everything_about_articles'),
+    url(r'^articles_index/$', views_samples.grand_vision_articles, name='everything_about_articles'),
     url(r'^extras/$', views_samples.extra_views_homepage, name='extra_pages'),
     )
