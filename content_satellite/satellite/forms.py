@@ -14,7 +14,7 @@ class NotesForm(forms.Form):
 
 class ArticlesFilterForm(forms.Form):
 	tickers = forms.CharField(required=False)
-	
+	notes = forms.CharField(widget=forms.Textarea)
 	services = forms.ModelMultipleChoiceField(
 		widget=forms.SelectMultiple(attrs={'class': 'service-select-tall'}),
 		queryset=Service.objects.all().order_by('pretty_name'), 

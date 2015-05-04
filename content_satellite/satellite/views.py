@@ -1,8 +1,10 @@
+from datetime import datetime, timedelta
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import Ticker, Service, Scorecard, ServiceTake, Article
-from django.http import HttpResponseRedirect
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from forms import ArticlesFilterForm
+from models import Article, Service, Ticker, Scorecard, ServiceTake
 
 # Create your views here.
 
@@ -43,6 +45,7 @@ def movers(request):
 
 def articles_by_service(request):
 	
+	""
 	service_name = None
 	if 'service' in request.GET:
 		service_name = request.GET['service']
@@ -66,6 +69,32 @@ def articles_by_service(request):
 
 	return render(request, 'satellite/articles_by_service.html', dictionary_of_values)
 
+
+###############################################################################
+
+def _get_ticker_objects_for_ticker_symbols(ticker_symbols_csv='AAPL,SWIR,Z'):
+	"""
+	given a set of ticker symbols as a single string, symbols separated by commas, find corresponding Ticker objects
+	"""
+	csv_elements = ticker_symbols_csv.split(',')
+
+	# clean up - for each element, strip whitespace and convert to uppercase
+	csv_elements = [el.strip().upper() for el in csv_elements]
+
+	return Ticker.objects.filter(ticker_symbol__in=csv_elements)
+
+def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
+	"""
+	given a set of db ids of services, find corresponding Service objects
+	# note: these ids were assigned by our db. they are *not* the service's product ids (eg Rule Breakers might have
+		a product id of 1069, but in our db, its db id might be 3)
+	"""	
+	csv_elements = service_ids_csv.split(',')
+
+	# clean up - for each element, strip whitespace and convert to an integer
+	csv_elements = [int(el.strip()) for el in csv_elements]
+
+	return Service.objects.filter(id__in=csv_elements)
 	
 ###############################################################################
 
@@ -127,15 +156,9 @@ def movers_by_service(request):
 	num_tickers = len(tickers)
 	print num_tickers, '!!!!!!!!!!!!!!!!'
 
-
-
-	##################################################################################
-
-	##################################################################################
-
+	"""
 
 	####### pagination goes here when you figure that out ###########################
-
 
 	# and now, let's see if there's anything interesting in the PUT dictionary
 	# one use case of the PUT dictionary: from form actions, where data is passed 
@@ -170,32 +193,17 @@ def movers_by_service(request):
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
 
 	###############################################################################
-	
-	"""
-	ticker_definitions=[]
-	for t in tickers[:5]:
-		print 'creating ticker def'
-		scorecards_pretty_name = 'Lisa!!!!!!!!!!'
-
-		scorecard_pretty_names = set()
-		for st in ServiceTake.objects.all():
-			if st.ticker.instrument_id == t.instrument_id:
-				scorecard_pretty_names.add(st.scorecard.pretty_name)
-
-		scorecards_pretty_name = ', '.join(scorecard_pretty_names)
-
-		ticker_definitions.append({'ticker_object': t, 'scorecards': scorecards_pretty_name})
 	"""
 
 	dictionary_of_values = {
+		# 'form': movers_filter_form,
+		# 'tickers_subset': tickers_subset,
 		'tickers': tickers,
-		'num_tickers': num_tickers,
-		# 'ticker_definitions': ticker_definitions,
-		#'service_takes_of_scorecards': service_takes_of_scorecards,
-		# 'scorecard_pretty_names': scorecard_pretty_names,
+		'num_tickers' : num_tickers,
 		'service_filter_description': service_filter_description,
 		'services_to_filter_by': services_to_filter_by,
 		'service_options': service_options,
+		# 'ticker_filter_description': ticker_filter_description
 	}
 
 	return render(request, 'satellite/movers_by_service.html', dictionary_of_values)

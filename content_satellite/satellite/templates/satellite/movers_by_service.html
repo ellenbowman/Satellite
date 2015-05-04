@@ -1,38 +1,48 @@
 <html>
 <head>
-	<title>Biggest Movers:
+	<title>Welcome to TickerWorld. 
 		{% if service_filter_description %}
-		{{service_filter_description}}
+		These results are for {{service_filter_description}}.
 		{% else %}
-		All (Zool)
+		You're seeing everything.
 		{% endif %}</title>
 </head>
 <body>
 
-	<h2>Biggest Movers:
+	<h2>Welcome to TickerWorld. 
 		{% if service_filter_description %}
-		<strong>{{service_filter_description}}</strong>
+		These results are for {{service_filter_description}}.
 		{% else %}
-		All (There is no scorecard, only Zool)
-		{% endif %}</h2>
+		You're seeing everything.
+		{% endif %}
+	</h2>
 <p><em>These are sorted by daily percentage change, with the highest at the top.</br>
 Perhaps someday they could be secondarily sorted by tier status. </em></p>
-<div style='background-color:lightgray'>
 <p>
-	<strong>Filter the results!</strong>
-			<form action="" method="post">
-				{% csrf_token %}
-
-					Service(s):
-					{% for s in service_options %}
-					&nbsp; <input type="checkbox" name="filter_service_{{s.id}}" value="{{s.id}}">{{s.pretty_name}}  
-					{% endfor %}
-					<br/>
-					<br/>
-				 <input type="submit" value="Filter!">
-			</form>
-		</p>
-</div>
+	<div style='padding:15px;max-width:580px;background-color:lightgray'>
+		<form action="" method="post">
+			{% csrf_token %}
+			<strong>Filter by ticker:</strong><br/>
+			{{form.tickers}}
+			<br/>
+			<br/>
+			<strong>Filter by service:</strong><br/>
+			{{form.services}}
+			<br/>
+			 <div align="center"><input type="submit" value="Apply filter"></div>
+		</form>
+		<p><strong>Active filters:  </strong>
+		{% if service_filter_description %}
+		These results are filtered.
+		<br/>
+		service filter: <strong>{{service_filter_description}}</strong>
+		<br/>
+		{% endif %}
+		<br/>
+		<div align="center"><a href="{% url 'movers_by_service' %}"><button type='button'>Remove filter</button></a></div>
+		<br/>
+	</div>
+</p>
 	<p><strong>Number of tickers:</strong> {{num_tickers}} | <strong>Filters:</strong> {{service_filter_description}}</p>
 	<hr />
 
@@ -59,6 +69,7 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 </form>
 </p>
 {% endfor %}
+
 
 </body>
 </html>

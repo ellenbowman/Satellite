@@ -137,7 +137,6 @@ def grand_vision_articles(request):
 	# additionally, if this is a GET, let's attempt to set the page_num. otherwise, we'll default to page_num of 1.
 
 	if request.POST:
-		print request.POST
 		if 'page_number' in request.POST:
 			page_num = int(request.POST['page_number'])
 
@@ -152,11 +151,10 @@ def grand_vision_articles(request):
 
 			# retrieve the services that were selected in the form. 
 			if 'services' in article_filter_form.cleaned_data:
-				if len(article_filter_form.cleaned_data['services']) > 0:
-					# the form makes available "cleaned data" that's pretty convenient - 
-					# in this case, it returns a list of Service objects that correspond
-					# to what the user selected.
-					services_to_filter_by = article_filter_form.cleaned_data['services']
+				# the form makes available "cleaned data" that's pretty convenient - 
+				# in this case, it returns a list of Service objects that correspond
+				# to what the user selected.
+				services_to_filter_by = article_filter_form.cleaned_data['services']
 
 	elif request.GET:
 		initial_form_values = {}
@@ -263,6 +261,7 @@ def grand_vision_articles(request):
 
 		article_defns.append({
 			'article':article,
+			'num_articles_by_this_author': len(articles_by_this_author),
 			'author_service_associations': services_in_which_this_author_writes, 
 			'num_author_articles_last_ten_dates': len(articles_by_this_author_from_within_last_ten_days)
 			})
