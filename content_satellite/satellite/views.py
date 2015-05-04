@@ -147,11 +147,18 @@ def movers_by_service(request):
 			tickers.add(st.ticker)
 		tickers = list(tickers)
 		tickers.sort(key=lambda x: x.daily_percent_change, reverse=True)
+		top_10_gainers = tickers[:10]
+		tickers.sort(key=lambda x: x.daily_percent_change)
+		top_10_losers = tickers[:10]
+		upcoming_earnings_announcements = Ticker.objects.all().order_by('earnings_announcement')[:10]
+		# I need to figure out how to discard any results of "none"
 
 	else:
 		# get all tickers, and sort by biggest mover
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')
-
+		top_10_gainers = tickers[:10]
+		top_10_losers = Ticker.objects.all().order_by('daily_percent_change')[:10]
+		upcoming_earnings_announcements = Ticker.objects.all().order_by('earnings_announcement')[:10]
 
 	num_tickers = len(tickers)
 	print num_tickers, '!!!!!!!!!!!!!!!!'
@@ -203,6 +210,9 @@ def movers_by_service(request):
 		'service_filter_description': service_filter_description,
 		'services_to_filter_by': services_to_filter_by,
 		'service_options': service_options,
+		'top_10_gainers': top_10_gainers,
+		'top_10_losers': top_10_losers,
+		'upcoming_earnings_announcements': upcoming_earnings_announcements,
 		# 'ticker_filter_description': ticker_filter_description
 	}
 

@@ -16,38 +16,48 @@
 		You're seeing everything.
 		{% endif %}
 	</h2>
-<p><em>These are sorted by daily percentage change, with the highest at the top.</br>
-Perhaps someday they could be secondarily sorted by tier status. </em></p>
+	<table>
+		<tr>
+			<td align="center"><ul>Top 10 Gainers ~~~~~~~~~~</ul>
+				{% for t in top_10_gainers %}
+				{{t.ticker_symbol}}<br/>
+				{% endfor %}
+			</td>
+			<td align="center"><ul>Top 10 Losers ~~~~~~~~~~</ul>
+				{% for t in top_10_losers %}
+				{{t.ticker_symbol}}<br/>
+				{% endfor %}</td>
+			<td align="center"><ul>Upcoming Earnings Announcements ~~~~~~~~~~~</ul>
+				{% for t in upcoming_earnings_announcements %}
+				{{t.ticker_symbol}}: {{t.earnings_announcement}}<br/>
+				{% endfor %}
+			</td>
+		</tr>
+	</table>
 <p>
-	<div style='padding:15px;max-width:580px;background-color:lightgray'>
+	<div style='padding:15px;background-color:lightgray'>
 		<form action="" method="post">
 			{% csrf_token %}
-			<strong>Filter by ticker:</strong><br/>
-			{{form.tickers}}
-			<br/>
-			<br/>
-			<strong>Filter by service:</strong><br/>
-			{{form.services}}
-			<br/>
-			 <div align="center"><input type="submit" value="Apply filter"></div>
+			<strong>Filter by ticker:</strong> ~coming soon~ 
+			{{form.tickers}} | 
+			<strong>Filter by service:</strong> ~coming soon~
+			{{form.services}}  <input type="submit" value="Apply filter">
 		</form>
 		<p><strong>Active filters:  </strong>
 		{% if service_filter_description %}
-		These results are filtered.
-		<br/>
-		service filter: <strong>{{service_filter_description}}</strong>
-		<br/>
+		<strong>service filter: ~coming soon~ </strong>{{service_filter_description}}
+		<strong>ticker filter: ~coming soon~ </strong>{{ticker_filter_description}}
 		{% endif %}
-		<br/>
-		<div align="center"><a href="{% url 'movers_by_service' %}"><button type='button'>Remove filter</button></a></div>
+		<a href="{% url 'movers_by_service' %}"><button type='button'>Remove filter</button></a>
 		<br/>
 	</div>
+</div>
 </p>
 	<p><strong>Number of tickers:</strong> {{num_tickers}} | <strong>Filters:</strong> {{service_filter_description}}</p>
 	<hr />
 
-<p>
-</p>
+<p><em>These are sorted by daily percentage change, with the highest at the top. 
+Perhaps someday they could be secondarily sorted by tier status. </em></p>
 
 <p>
 <hr/>
