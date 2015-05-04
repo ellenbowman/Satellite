@@ -170,6 +170,8 @@ def movers_by_service(request):
 		pretty_names_of_services_we_matched.sort()
 		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
 
+		print services_to_filter_by
+
 	else:
 		pass
 
@@ -180,7 +182,7 @@ def movers_by_service(request):
 	elif tickers_to_filter_by is not None:
 		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif services_to_filter_by is not None:
-		tickers = Ticker.objects.filter(servicetake__in=services_to_filter_by).order_by('-daily_percent_change')		
+		tickers = Ticker.objects.filter(services_for_ticker__in=services_to_filter_by).order_by('-daily_percent_change')		
 	else:
 		# get all articles, and sort by descending date
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')
@@ -203,7 +205,8 @@ def movers_by_service(request):
 
 	num_tickers = len(tickers)
 	top_10_gainers = tickers[:10]
-	top_10_losers = tickers[:10]
+	top_10_losers = tickers[::-1][:10]
+	print top_10_losers
 	upcoming_earnings_announcements = "upcoming earnings announcements"
 
 
