@@ -70,7 +70,7 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
-    <textarea cols=150 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_object.id}}"/>{{ t.ticker_object.notes|default_if_none:''}}</textarea></br>
+    <textarea cols=100 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_object.id}}"/>{{ t.ticker_object.notes|default_if_none:''}}</textarea></br>
     <input type="submit" value="Edit notes">
 	</p>
 	<p>
