@@ -198,7 +198,10 @@ def ticker_world(request):
 
 	# get the set of tickers, filtered by ticker/service, if those filters are defined
 	if tickers_to_filter_by is not None and services_to_filter_by is not None:
-		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
+		tickers = [t for t in Ticker.objects.all() if t.services_for_ticker in pretty_names_of_services_we_matched
+		and t.ticker_symbol in ticker_filter_description]
+		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
+		#tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif tickers_to_filter_by is not None:
 		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif services_to_filter_by is not None:
@@ -207,8 +210,9 @@ def ticker_world(request):
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
 
 	else:
-		# get all articles, and sort by descending date
+		# get all tickers, and sort by descending date
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')
+
 
 	# introduce django's built-in pagination!! 
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
@@ -234,6 +238,7 @@ def ticker_world(request):
 
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
+
 
 
 	dictionary_of_values = {

@@ -16,16 +16,16 @@ SOL: Ticker World
 	</h2>
 	<table>
 		<tr>
-			<td align="center"><ul>Top 10 Gainers ~~~~~~~~~~</ul>
+			<td align="center"><strong>******* Top 10 Gainers *******</strong><br/>
 				{% for t in top_10_gainers %}
 				{{t.ticker_symbol}}: {{t.daily_percent_change}}%<br/>
 				{% endfor %}
 			</td>
-			<td align="center"><ul>Top 10 Losers ~~~~~~~~~~</ul>
+			<td align="center"><strong>******* Top 10 Losers *****</strong><br/>
 				{% for t in top_10_losers %}
 				{{t.ticker_symbol}}: {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
-			<td align="center"><ul>Upcoming Earnings Announcements ~~~~~~~~~~~</ul>
+			<td align="center"><strong>**** Upcoming Earnings Announcements *******</strong><br/>
 				{% for t in tickers_sorted_by_earnings_date %}
 				{{t.ticker_symbol}}: {{t.earnings_announcement}}<br/>
 				{% endfor %}
@@ -64,13 +64,13 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 <p>
 <hr/>
 {% for t in tickers %}
-	<img align="middle" width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>   <span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
+	<img align="middle" width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
 <br/>
 <strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} | 	<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
-<form action="" method="post">
+<form action="/sol/ticker_world/" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
-    <textarea cols=100 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_object.id}}"/>{{ t.ticker_object.notes|default_if_none:''}}</textarea></br>
+    <textarea cols=100 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_symbol}}"/>{{ t.notes|default_if_none:''}}</textarea></br>
     <input type="submit" value="Edit notes">
 	</p>
 	<p>
