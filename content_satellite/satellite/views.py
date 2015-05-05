@@ -98,7 +98,7 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	
 ###############################################################################
 
-def movers_by_service(request):
+def ticker_world(request):
 # copied from grand_vision_articles
 	"""
 	shows all tickers and some meta data
@@ -232,7 +232,7 @@ def movers_by_service(request):
 		# 'ticker_filter_description': ticker_filter_description
 	}
 
-	return render(request, 'satellite/movers_by_service.html', dictionary_of_values)
+	return render(request, 'satellite/ticker_world.html', dictionary_of_values)
 
 
 ###############################################################################
