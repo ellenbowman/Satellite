@@ -6,7 +6,7 @@ from models import DataHarvestEventLog, DATA_HARVEST_TYPE_CHOICES
 
 def data_freshness_index(request):
 	
-	recent_events_overall = DataHarvestEventLog.objects.all().order_by('-date_started')[:50]
+	recent_events_overall = DataHarvestEventLog.objects.all().order_by('-date_started')[:100]
 
 	most_recent_event_per_type = []
 	
