@@ -178,7 +178,7 @@ def grand_vision_articles(request):
 
 	if tickers_to_filter_by:
 		# make the pretty description of the tickers
-		ticker_filter_description = tickers_user_input.upper()
+		ticker_filter_description = ', '.join([t.strip() for t in tickers_user_input.split(",")])
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
 		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
@@ -199,7 +199,7 @@ def grand_vision_articles(request):
 
 	# introduce django's built-in pagination!! 
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
-	paginator = Paginator(articles, 25) 
+	paginator = Paginator(articles, 50) 
 
 
 	try:
