@@ -1,8 +1,10 @@
-<html>
-<head>
-	<title>Data Freshness</title>
-</head>
-<body>
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Data Freshness
+{% endblock %}
+
+{% block container_contents %}
 	<h2>Is Satellite showing us the latest news?</h2>
 	
 	<p>
@@ -59,5 +61,5 @@
 		</table>
 
 	</div>
-</body>
-</html>
+
+{% endblock container_contents %}

@@ -1,23 +1,20 @@
-<html>
-<head>
-<title>Satellite of LOVE</title>
-</head>
-<body>
-	<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
-		<h3>A bunch of our ship fell off, and nobody likes me.</h3>
-		<table>
-			<tr>
-				<td>
-					<p><a href="{% url 'everything_about_articles' %}">Everything you ever wanted to know about articles</a></p>
-				</td>
-				<td>
-					~~~
-				</td>
-				<td>
-					<p><a href="{% url 'ticker_world' %}">Everything you ever wanted to know about tickers</a></p>
-				</td>
-			</tr>
-		</table>
-	</div>
-</body>		
-</html>
+{% extends 'satellite/_base_layout.html' %}
+
+{% block container_contents %}
+<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
+	<h3>A bunch of our ship fell off, and nobody likes me.</h3>
+	<table>
+		<tr>
+			<td>
+				<p><a href="{% url 'everything_about_articles' %}">Everything you ever wanted to know about articles</a></p>
+			</td>
+			<td>
+				~~~
+			</td>
+			<td>
+				<p><a href="{% url 'ticker_world' %}">Everything you ever wanted to know about tickers</a></p>
+			</td>
+		</tr>
+	</table>
+</div>
+{% endblock container_contents %}
