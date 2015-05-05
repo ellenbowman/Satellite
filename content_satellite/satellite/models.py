@@ -119,18 +119,28 @@ class Article(models.Model):
 		ordering = ['-date_pub'] 
 
 
+class BylineMetaData(models.Model):
+	byline = models.CharField(max_length=50)
+	services = models.CharField(max_length=200, null=True, blank=True,verbose_name='services covered in last year')
+	tickers = models.CharField(max_length=1500, null=True, blank=True,verbose_name='tickers covered in the last year')
+
+	def __unicode__(self):
+		return self.byline
+
 
 DATA_HARVEST_TYPE_ARTICLES = 1
 DATA_HARVEST_TYPE_MARKET_DATA = 2
 DATA_HARVEST_TYPE_EARNINGS_DATES = 3
 DATA_HARVEST_TYPE_SCORECARD_RECS = 4
+DATA_HARVEST_TYPE_BYLINE_META_DATA = 5
 
 
 DATA_HARVEST_TYPE_CHOICES = (
     (DATA_HARVEST_TYPE_ARTICLES, 'articles'),
     (DATA_HARVEST_TYPE_MARKET_DATA, 'market performance'),
     (DATA_HARVEST_TYPE_EARNINGS_DATES, 'earnings dates'),
-    (DATA_HARVEST_TYPE_SCORECARD_RECS, 'scorecard recs')
+    (DATA_HARVEST_TYPE_SCORECARD_RECS, 'scorecard recs'),
+    (DATA_HARVEST_TYPE_BYLINE_META_DATA, 'bylines meta data')
 )
 
 class DataHarvestEventLog(models.Model):
