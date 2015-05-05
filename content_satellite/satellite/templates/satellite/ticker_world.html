@@ -6,6 +6,11 @@
 		{% else %}
 		You're seeing everything.
 		{% endif %}</title>
+		<style>
+		select.service-select-tall{
+			min-height: 140px;
+		}
+		</style>
 </head>
 <body>
 	<h2><a href=""><img width=100px src="http://g.foolcdn.com/editorial/images/150992/tickerworld3000_large.jpg"></a>
@@ -18,16 +23,16 @@
 	</h2>
 	<table>
 		<tr>
-			<td align="center"><ul>Top 10 Gainers ~~~~~~~~~~</ul>
+			<td align="center"><ul>Gainers ~~~~~~~~~~</ul>
 				{% for t in top_10_gainers %}
 				{{t.ticker_symbol}}: {{t.daily_percent_change}}%<br/>
 				{% endfor %}
 			</td>
-			<td align="center"><ul>Top 10 Losers ~~~~~~~~~~</ul>
+			<td align="center"><ul>Losers ~~~~~~~~~~</ul>
 				{% for t in top_10_losers %}
 				{{t.ticker_symbol}}: {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
-			<td align="center"><ul>Upcoming Earnings Announcements ~~~~~~~~~~~</ul>
+			<td align="center"><ul>Earnings Announcements ~~~~~~~~~~~</ul>
 				{% for t in tickers_sorted_by_earnings_date %}
 				{{t.ticker_symbol}}: {{t.earnings_announcement}}<br/>
 				{% endfor %}
@@ -68,17 +73,16 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 {% for t in tickers %}
 	<img align="middle" width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>   <span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <strong>{{t.ticker_symbol}}</strong>
 <br/>
-<strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} | 	<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
+<strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Next earnings date</strong>: {{t.earnings_announcement}} | 	<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
+<strong>Tier</strong>: Tier goes here<br/>
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
-    <textarea cols=150 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_object.id}}"/>{{ t.ticker_object.notes|default_if_none:''}}</textarea></br>
+    <textarea cols=150 rows=8 id="edit_notes" name="ticker_notes_{{ticker_id}}"/>{{ t.notes|default_if_none:''}}</textarea></br>
     <input type="submit" value="Edit notes">
-	</p>
-	<p>
-	<hr/>
 </form>
 </p>
+<hr/>
 {% endfor %}
 
 
