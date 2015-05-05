@@ -199,7 +199,7 @@ def grand_vision_articles(request):
 
 	# introduce django's built-in pagination!! 
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
-	paginator = Paginator(articles, 50) 
+	paginator = Paginator(articles, 100) 
 
 
 	try:
@@ -244,6 +244,9 @@ def grand_vision_articles(request):
 	# our template will iterate over article_defns
 	article_defns = []
 	services_keyed_by_byline = {}  # maintain a dictionary of the services in which a byline has an article
+
+	two_years_ago = datetime(datetime.now().year-2, datetime.now().month, datetime.now().day)
+
 	for article in articles_subset:
 
 		# find some meta data: what other articles are by this author? across what services? 
@@ -255,7 +258,7 @@ def grand_vision_articles(request):
 		else:
 			# let's look up the services for this author/byline and additionally store the result in a dictionary;
 			# why: in case we encounter this author/byline again, we can avoid re-crunching the data
-			articles_by_this_author = Article.objects.filter(author=article.author)	
+			articles_by_this_author = Article.objects.filter(author=article.author, date_pub__gt=two_years_ago)	
 			services_of_those_articles = [art.service.pretty_name for art in articles_by_this_author]
 			services_of_those_articles = set(services_of_those_articles) # convert to a set so that we toss out duplicates
 			services_of_those_articles = list(services_of_those_articles) # convert to a list so that we can put in alpha order
