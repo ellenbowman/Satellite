@@ -37,8 +37,8 @@ def get_daily_percent_change(ticker_symbols_as_list):
 
 		if daily_percent_change is None:
 			print 'warning: no value found for percent change', ticker_symbol
-			return None
-
+			continue
+			
 		# we noticed that the percent change is often reported as a string like "+14.35%"...
 		# let's get rid of the leading "+" and the trailing "%"
 		if daily_percent_change.startswith('+'):
