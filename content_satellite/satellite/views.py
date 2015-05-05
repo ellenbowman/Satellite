@@ -17,22 +17,8 @@ def index(request):
 		'page-title': 'Welcome to the Satellite'
 	}
 
-	return HttpResponse("""
-		<div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
-		<h3>A bunch of our ship fell off, and nobody likes me.</h3>
-		<table>
-		<tr>
-		<td>
-		<p><a href='/sol/articles_index/'>Everything you ever wanted to know about articles</a></p>
-		</td>
-		<td>
-		~~~
-		</td>
-		<td>
-		<p><a href='/sol/ticker_world/'>Everything you ever wanted to know about tickers</a></p>
-		</td>
-		</div>
-		""", context)
+	return render(request, 'satellite/index.html', context)
+
 
 ###############################################################################
 
