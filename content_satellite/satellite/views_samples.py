@@ -178,7 +178,7 @@ def grand_vision_articles(request):
 
 	if tickers_to_filter_by:
 		# make the pretty description of the tickers
-		ticker_filter_description = tickers_user_input.upper()
+		ticker_filter_description = ', '.join([t.strip() for t in tickers_user_input.split(",")])
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
 		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
@@ -199,7 +199,7 @@ def grand_vision_articles(request):
 
 	# introduce django's built-in pagination!! 
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
-	paginator = Paginator(articles, 25) 
+	paginator = Paginator(articles, 50) 
 
 
 	try:
@@ -259,11 +259,12 @@ def grand_vision_articles(request):
 		# filter this author's articles by the "date_pub" field. we're interested only in the ones with
 		# a date greater than ('gt') ten days ago
 		articles_by_this_author_from_within_last_ten_days = articles_by_this_author.filter(date_pub__gt=ten_days_ago)
+		count_articles_by_this_author_from_within_last_ten_days = len(set([a.url for a in articles_by_this_author_from_within_last_ten_days]))
 
 		article_defns.append({
 			'article':article,
 			'author_service_associations': services_in_which_this_author_writes, 
-			'num_author_articles_last_ten_dates': len(articles_by_this_author_from_within_last_ten_days)
+			'num_author_articles_last_ten_dates': count_articles_by_this_author_from_within_last_ten_days
 			})
 
 	dictionary_of_values = {
