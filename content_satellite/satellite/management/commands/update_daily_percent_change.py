@@ -36,7 +36,7 @@ def get_daily_percent_change(ticker_symbols_as_list):
 		daily_percent_change = quote_result['PercentChange']  
 
 		if daily_percent_change is None:
-			print 'warning: no value found for percent change', ticker_symbol
+			print 'warning: no value found for percent change', symbol
 			continue
 			
 		# we noticed that the percent change is often reported as a string like "+14.35%"...
@@ -87,14 +87,13 @@ class Command(BaseCommand):
 			percent_changes_keyed_by_ticker_symbol = get_daily_percent_change(symbols_as_list)
 			
 			for ticker_to_process in tickers_to_process:
-
 				try:
 					ticker_to_process.daily_percent_change = percent_changes_keyed_by_ticker_symbol[ticker_to_process.ticker_symbol]
 					ticker_to_process.save()
 					count_tickers_successfully_updated += 1
 				except Exception as e:
-					print "couldn't set daily percent change", ticker_symbol, str(e)
-					tickers_symbols_that_errored.add(ticker_symbol)
+					print "couldn't set daily percent change", ticker_to_process.ticker_symbol, str(e)
+					tickers_symbols_that_errored.add(ticker_to_process.ticker_symbol)
 
 			start_idx += batch_size
 
