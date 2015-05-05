@@ -243,17 +243,27 @@ def grand_vision_articles(request):
 	# each dictionary will have the full Article object, as well as meta data
 	# our template will iterate over article_defns
 	article_defns = []
+	services_keyed_by_byline = {}  # maintain a dictionary of the services in which a byline has an article
 	for article in articles_subset:
 
 		# find some meta data: what other articles are by this author? across what services? 
 		# how many articles has he written in the last 10 days?
-		articles_by_this_author = Article.objects.filter(author=article.author)	
-		
-		services_of_those_articles = [art.service.pretty_name for art in articles_by_this_author]
-		services_of_those_articles = set(services_of_those_articles) # convert to a set so that we toss out duplicates
-		services_of_those_articles = list(services_of_those_articles) # convert to a list so that we can put in alpha order
-		services_of_those_articles.sort()
-		services_in_which_this_author_writes = ', '.join(services_of_those_articles) 
+		if article.author in services_keyed_by_byline:
+			# we already looked up the services for this author/byline and stored the result in a dictionary; let's retrieve that value
+			services_in_which_this_author_writes = services_keyed_by_byline[article.author]
+
+		else:
+			# let's look up the services for this author/byline and additionally store the result in a dictionary;
+			# why: in case we encounter this author/byline again, we can avoid re-crunching the data
+			articles_by_this_author = Article.objects.filter(author=article.author)	
+			services_of_those_articles = [art.service.pretty_name for art in articles_by_this_author]
+			services_of_those_articles = set(services_of_those_articles) # convert to a set so that we toss out duplicates
+			services_of_those_articles = list(services_of_those_articles) # convert to a list so that we can put in alpha order
+			services_of_those_articles.sort()
+			services_in_which_this_author_writes = ', '.join(services_of_those_articles) 
+
+			# here we store the result in the dictionary
+			services_keyed_by_byline[article.author] = services_in_which_this_author_writes
 
 		article_defns.append({
 			'article':article,
