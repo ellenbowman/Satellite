@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
 <head>
 	<title>Welcome to Ticker World. 
@@ -13,6 +14,16 @@
 		</style>
 </head>
 <body>
+=======
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Ticker World
+{% endblock %}
+
+{% block container_contents %}
+
+>>>>>>> 6f354596f52bbffa423c8c057fdc5597bafda53b
 	<h2><a href=""><img width=100px src="http://g.foolcdn.com/editorial/images/150992/tickerworld3000_large.jpg"></a>
 	Welcome to Ticker World. 
 		{% if service_filter_description %}
@@ -78,13 +89,15 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 <form action="" method="post">
     {% csrf_token %}
     <strong>Notes:</strong><br/>
+<<<<<<< HEAD
     <textarea cols=150 rows=8 id="edit_notes" name="ticker_notes_{{ticker_id}}"/>{{ t.notes|default_if_none:''}}</textarea></br>
+=======
+    <textarea cols=100 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_object.id}}"/>{{ t.ticker_object.notes|default_if_none:''}}</textarea></br>
+>>>>>>> 6f354596f52bbffa423c8c057fdc5597bafda53b
     <input type="submit" value="Edit notes">
 </form>
 </p>
 <hr/>
 {% endfor %}
 
-
-</body>
-</html>
+{% endblock container_contents %}

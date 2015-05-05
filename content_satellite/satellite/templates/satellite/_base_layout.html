@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<title>
+	{% block title_value %}
+	Satellite of LOVE
+	{% endblock %}
+</title>
+
+
+<!-- import jquery. immediate why: bootstrap depends on it being available -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+
+<!-- bootstrap ( http://getbootstrap.com/ ) is a popular framework. wire it in,
+and you'll find that much of your markup inherits pretty styles. bootstrap also has a handy way of making sections of your page adjust to mobile devices. they've done the hard work and made their code public. let's use what they've built. -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- end of importing bootstrap helpers -->
+
+<style>
+	<!-- our custom css -->
+    body{
+        padding: 5px;
+        background: #f1f1f1;
+        margin-bottom:15px;
+    }
+
+    table.listTable{
+        width:100%;
+        margin-top:25px;
+        margin-bottom:35px;
+        background-color: #efefef;
+    }
+
+    table.listTable tr:nth-child(odd) {
+        background-color: white;
+    }
+
+    table.listTable th {
+        background-color: lightgray;
+    }
+
+    .topnav-breadcrumb{
+        padding:7px;
+        font-size: 14px;
+    }
+
+    select.service-select-tall{
+			min-height: 140px;
+		}
+
+	.button-link {
+		background-color: transparent;
+		
+		color: blue;
+	}
+
+	.button-link.disabled {
+		background-color: transparent;
+		
+		color: lightgray;
+	}
+
+	body{
+        padding: 5px;
+        background: #f1f1f1;
+        margin-bottom:15px;
+    }
+    .main-panel {
+    	background-color: white;
+    }
+</style>
+
+</head>
+
+<body>
+	<!-- ref: http://getbootstrap.com/components/#navbar-default -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="{% url 'index' %}">
+                    <span>
+                        <img width='50px' src="http://g.foolcdn.com/art/newsletters/18/images/jester_cap.png" alt="Satellite of LOVE"/>
+                    </span>
+                </a>
+
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+            </div>
+		   <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+		      <ul class="nav navbar-nav navbar-right">
+                    <li><a class='topnav-breadcrumb' id='breadcrumb_home' href="{% url 'index' %}">Home</a></li>
+                    <li><a class='topnav-breadcrumb' id='breadcrumb_paths' href="{% url 'everything_about_articles' %}">Articles</a>
+                    </li>
+                    <li>
+                    	<a class='topnav-breadcrumb' id='breadcrumb_consumers' href="{% url 'ticker_world' %}">Ticker World</a>
+                    </li>
+                </ul>
+		    </div>
+		  </div>
+		</nav>
+
+    <div class="container">
+		<div class="row">
+		    <div class="col-md-12 main-panel">
+	        {% block container_contents %}
+
+
+	        {# placeholder for contents to be injected by templates that extend this page #}
+
+
+	        {% endblock container_contents %}
+
+			</div>
+        </div>
+	</div>
+
+
+    {% block script_block %}
+    <script>
+    	console.log('welcome to Satellite of LOVE!');
+        
+	    $(function() {
+	        console.log('ready to go!');
+	    });
+    </script>
+    {% endblock script_block %}
+
+</body>
+</html>

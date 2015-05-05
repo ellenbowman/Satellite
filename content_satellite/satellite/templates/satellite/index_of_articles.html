@@ -1,25 +1,11 @@
-<html>
-<head>
-	<title>index of articles</title>
-	<style>
-		select.service-select-tall{
-			min-height: 140px;
-		}
+{% extends 'satellite/_base_layout.html' %}
 
-		.button-link {
-			background-color: transparent;
-			
-			color: blue;
-		}
+{% block title_value %}
+SOL: Articles
+{% endblock %}
 
-		.button-link.disabled {
-			background-color: transparent;
-			
-			color: lightgray;
-		}
-	</style>
-</head>
-<body>
+{% block container_contents %}
+
 	<h2>Articles</h2>
 	
 	<div>
@@ -77,7 +63,7 @@
 	</div>
 
 	<div>
-		<table>
+		<table class='listTable'>
 			<thead>
 				<tr style='text-align:left'>
 					<th width='40%'>Headline</th>
@@ -146,5 +132,4 @@
 	</div>
 
 </div>
-</body>
-</html>
+{% endblock %}

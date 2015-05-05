@@ -1,13 +1,11 @@
-<html>
-<head>
-	<title>Welcome to Ticker World. 
-		{% if service_filter_description %}
-		These results are for {{service_filter_description}}.
-		{% else %}
-		You're seeing everything.
-		{% endif %}</title>
-</head>
-<body>
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Ticker World
+{% endblock %}
+
+{% block container_contents %}
+
 	<h2><a href=""><img width=100px src="http://g.foolcdn.com/editorial/images/150992/tickerworld3000_large.jpg"></a>
 	Welcome to Ticker World. 
 		{% if service_filter_description %}
@@ -82,6 +80,4 @@ Perhaps someday they could be secondarily sorted by tier status. </em></p>
 </p>
 {% endfor %}
 
-
-</body>
-</html>
+{% endblock %}
