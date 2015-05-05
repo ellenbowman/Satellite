@@ -163,12 +163,7 @@ def movers_by_service(request):
 
 	if tickers_to_filter_by:
 		# make the pretty description of the tickers
-		# ticker_filter_description = tickers_user_input.upper()
-	# if tickers_to_filter_by:
-		ticker_symbols = [t.ticker_symbol for t in tickers_to_filter_by]
-		ticker_symbols.sort()
-		ticker_filter_description = ', '.join(ticker_symbols)
-
+		ticker_filter_description = tickers_user_input.upper()
 
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
@@ -180,11 +175,9 @@ def movers_by_service(request):
 		pass
 
 
-	# get the set of articles, filtered by ticker/service, if those filters are defined
+	# get the set of tickers, filtered by ticker/service, if those filters are defined
 	if tickers_to_filter_by is not None and services_to_filter_by is not None:
-		tickers_in_service = tickers_to_filter_by.order_by('-daily_percent_change')
-	# add another line here for the service filter once you figure it out
-
+		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif tickers_to_filter_by is not None:
 		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif services_to_filter_by is not None:
@@ -200,19 +193,19 @@ def movers_by_service(request):
 
 	# introduce django's built-in pagination!! 
 	# https://docs.djangoproject.com/en/1.7/topics/pagination/
-	paginator = Paginator(tickers, 25) 
+	# paginator = Paginator(tickers, 25) 
 
 
-	try:
-		tickers_subset = paginator.page(page_num)
-	except PageNotAnInteger:
-		# page is not an integer; let's show the first page of results
-		tickers_subset = paginator.page(1)
-	except EmptyPage:
+	# try:
+	# 	tickers_subset = paginator.page(page_num)
+	# except PageNotAnInteger:
+	# 	# page is not an integer; let's show the first page of results
+	# 	tickers_subset = paginator.page(1)
+	# except EmptyPage:
 		# the user asked for a page way beyond what we have available;
 		# let's show the last page of articles, which we can calculate
 		# with paginator.num_pages
-		tickers_subset = paginator.page(paginator.num_pages)
+	# 	tickers_subset = paginator.page(paginator.num_pages)
 
 	num_tickers = len(tickers)
 	top_10_gainers = tickers[:10]

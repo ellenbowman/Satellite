@@ -32,28 +32,31 @@
 				{{t.ticker_symbol}}: {{t.earnings_announcement}}<br/>
 				{% endfor %}
 			</td>
+			<td>
+	<div style='width:200px;padding:15px;background-color:lightgray;align:right;'>
+			<form action="" method="post">
+				{% csrf_token %}
+				<strong>Filter by ticker:</strong>
+				{{form.tickers}} <input type="submit" value="Apply filter"><br/>
+				<br/>
+				<strong>Filter by service:</strong>
+				{{form.services}}  <input type="submit" value="Apply filter">
+			</form>
+			<p><strong><u>Active filters</u>  </strong><br/>
+			{% if service_filter_description %}
+			<strong>Service:  </strong>{{service_filter_description}}
+			{% endif %}<br/>
+			{% if ticker_filter_description %}
+			<strong>Ticker:  </strong>{{ticker_filter_description}}
+			{% endif %}<br/>
+			<a href="{% url 'movers_by_service' %}"><button type='button'>Remove filters</button></a></p>
+			<p><strong>Number of tickers:</strong> {{num_tickers}}
+			</p>
+		</div>
+			</td>
 		</tr>
+
 	</table>
-<p>
-	<div style='padding:15px;background-color:lightgray'>
-		<form action="" method="post">
-			{% csrf_token %}
-			<strong>Filter by ticker:</strong>
-			{{form.tickers}} <input type="submit" value="Apply filter"> 
-			<strong>Filter by service:</strong>
-			{{form.services}}  <input type="submit" value="Apply filter">
-		</form>
-		<p><strong>Active filters:  </strong>
-		{% if service_filter_description %}
-		<strong>Service,  </strong>{{service_filter_description}}
-		{% endif %}<br/>
-		{% if ticker_filter_description %}
-		<strong>Ticker,  </strong>{{ticker_filter_description}}
-		{% endif %}
-		<a href="{% url 'movers_by_service' %}"><button type='button'>Remove filter</button></a></p>
-		<p><strong>Number of tickers:</strong> {{num_tickers}}
-		</p>
-	</div>
 </div>
 	<hr />
 
