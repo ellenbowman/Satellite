@@ -70,8 +70,7 @@ SOL: Articles
 					<th width='25%'>Author</th>
 					<th width='10%'>Ticker</th>
 					<th width='10%'>Date</th>
-					<th width='10%'>Service</th>
-					<th width='5%'># articles by this byline, last 10 days</th>
+					<th width='15%'>Service</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -89,7 +88,6 @@ SOL: Articles
 				</td>
 				<td>{{article_defn.article.date_pub|date:"M d, Y" }}</td>
 				<td>{{article_defn.article.service.pretty_name}}</td>
-				<td>{{article_defn.num_author_articles_last_ten_dates}}</td>
 			</tr>
 			{% endfor %}
 			</tbody>

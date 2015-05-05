@@ -255,16 +255,9 @@ def grand_vision_articles(request):
 		services_of_those_articles.sort()
 		services_in_which_this_author_writes = ', '.join(services_of_those_articles) 
 
-		ten_days_ago = datetime.today() - timedelta(days=10)
-		# filter this author's articles by the "date_pub" field. we're interested only in the ones with
-		# a date greater than ('gt') ten days ago
-		articles_by_this_author_from_within_last_ten_days = articles_by_this_author.filter(date_pub__gt=ten_days_ago)
-		count_articles_by_this_author_from_within_last_ten_days = len(set([a.url for a in articles_by_this_author_from_within_last_ten_days]))
-
 		article_defns.append({
 			'article':article,
-			'author_service_associations': services_in_which_this_author_writes, 
-			'num_author_articles_last_ten_dates': count_articles_by_this_author_from_within_last_ten_days
+			'author_service_associations': services_in_which_this_author_writes
 			})
 
 	dictionary_of_values = {
