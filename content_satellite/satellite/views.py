@@ -133,6 +133,36 @@ def ticker_world(request):
 				# to what the user selected.
 				services_to_filter_by = movers_filter_form.cleaned_data['services']
 
+		
+		# find the keys that correspond to the 'notes' input. 
+		# since we also have control over the forms markup (embedded in 'info_by_scorecard.html'), 
+		# we know that the form data we're interested in has names that start with 'ticker_notes_'.
+		# it translates that these names should be visible as keys in the request.POST dictionary
+
+		ticker_note_name_prefix = 'ticker_notes_'
+
+		# use 'python list comprehension' to create a list of all the keys in request.POST that 
+		# match this condition: the key must start with 'ticker_notes_' . equivalent to a multi-line
+		# 'for' loop.
+		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
+
+		for key_of_ticker_note_data in keys_of_ticker_note_data:
+			# from each key, we can extract the Ticker id that we've embedded in the key
+			# (eg, if we see 'ticker_notes_3', we know it corresponds to the Ticker with id 3)
+			# and we can use that id to retrieve the Ticker object from the db,
+			# update its notes field, and save the Ticker. voila!
+
+			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]  # pick out everything in the string that follows the 'ticker_notes_' prefix
+			print ticker_id
+			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id) # ticker_id is a string, and ticker_symbol is an item from a list
+
+			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
+			ticker_to_update.save() # write this update to the db!
+			
+			# print to console a sanity check
+			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
+
+	
 	elif request.GET:
 		initial_form_values = {}
 
@@ -172,6 +202,7 @@ def ticker_world(request):
 	elif tickers_to_filter_by is not None:
 		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif services_to_filter_by is not None:
+		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
 		tickers = [t for t in Ticker.objects.all() if t.services_for_ticker in pretty_names_of_services_we_matched]
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
 
