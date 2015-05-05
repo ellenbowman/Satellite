@@ -8,7 +8,7 @@
 		{% endif %}</title>
 </head>
 <body>
-
+{{tickers_to_keep}}
 	<h2>Welcome to Ticker World. 
 		{% if service_filter_description %}
 		These results are for {{service_filter_description}}.
@@ -20,15 +20,17 @@
 		<tr>
 			<td align="center"><ul>Top 10 Gainers ~~~~~~~~~~</ul>
 				{% for t in top_10_gainers %}
-				{{t.ticker_symbol}}<br/>
+				{{t.ticker_symbol}}: {{t.daily_percent_change}}%<br/>
 				{% endfor %}
 			</td>
 			<td align="center"><ul>Top 10 Losers ~~~~~~~~~~</ul>
 				{% for t in top_10_losers %}
-				{{t.ticker_symbol}}<br/>
+				{{t.ticker_symbol}}: {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 			<td align="center"><ul>Upcoming Earnings Announcements ~~~~~~~~~~~</ul>
-				{{upcoming_earnings_announcements}}<br/>
+				{% for t in tickers_sorted_by_earnings_date %}
+				{{t.ticker_symbol}}: {{t.earnings_announcement}}<br/>
+				{% endfor %}
 			</td>
 		</tr>
 	</table>
@@ -46,7 +48,7 @@
 		<strong>Service,  </strong>{{service_filter_description}}
 		{% endif %}<br/>
 		{% if ticker_filter_description %}
-		<strong>Ticker, </strong>{{ticker_filter_description}}
+		<strong>Ticker,  </strong>{{ticker_filter_description}}
 		{% endif %}
 		<a href="{% url 'movers_by_service' %}"><button type='button'>Remove filter</button></a></p>
 		<p><strong>Number of tickers:</strong> {{num_tickers}}

@@ -163,14 +163,18 @@ def movers_by_service(request):
 
 	if tickers_to_filter_by:
 		# make the pretty description of the tickers
-		ticker_filter_description = tickers_user_input.upper()
+		# ticker_filter_description = tickers_user_input.upper()
+	# if tickers_to_filter_by:
+		ticker_symbols = [t.ticker_symbol for t in tickers_to_filter_by]
+		ticker_symbols.sort()
+		ticker_filter_description = ', '.join(ticker_symbols)
+
+
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
 		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
 		pretty_names_of_services_we_matched.sort()
 		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
-
-		print services_to_filter_by
 
 	else:
 		pass
@@ -178,11 +182,18 @@ def movers_by_service(request):
 
 	# get the set of articles, filtered by ticker/service, if those filters are defined
 	if tickers_to_filter_by is not None and services_to_filter_by is not None:
-		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
+		tickers_in_service = tickers_to_filter_by.order_by('-daily_percent_change')
+	# add another line here for the service filter once you figure it out
+
 	elif tickers_to_filter_by is not None:
 		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif services_to_filter_by is not None:
-		tickers = Ticker.objects.filter(services_for_ticker__in=services_to_filter_by).order_by('-daily_percent_change')		
+		tickers = [t for t in Ticker.objects.all() if t.services_for_ticker in pretty_names_of_services_we_matched]
+		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
+
+	#tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None]
+	#tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
+
 	else:
 		# get all articles, and sort by descending date
 		tickers = Ticker.objects.all().order_by('-daily_percent_change')
@@ -206,8 +217,11 @@ def movers_by_service(request):
 	num_tickers = len(tickers)
 	top_10_gainers = tickers[:10]
 	top_10_losers = tickers[::-1][:10]
-	print top_10_losers
-	upcoming_earnings_announcements = "upcoming earnings announcements"
+
+	# tickers_sorted_by_earnings_date = tickers.order_by('earnings_announcement')[:10]
+
+	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None]
+	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
 
 
 	dictionary_of_values = {
@@ -215,12 +229,13 @@ def movers_by_service(request):
 		'tickers': tickers,
 		'num_tickers' : num_tickers,
 		'service_filter_description': service_filter_description,
+		'ticker_filter_description': ticker_filter_description,
 		'services_to_filter_by': services_to_filter_by,
 		'tickers_to_filter_by': tickers_to_filter_by,
 		'service_options': service_options,
 		'top_10_gainers': top_10_gainers,
 		'top_10_losers': top_10_losers,
-		'upcoming_earnings_announcements': upcoming_earnings_announcements,
+		'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
 		# 'ticker_filter_description': ticker_filter_description
 	}
 
