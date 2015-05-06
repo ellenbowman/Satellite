@@ -128,10 +128,11 @@ def ticker_world(request):
 
 			# retrieve the services that were selected in the form. 
 			if 'services' in movers_filter_form.cleaned_data:
-				# the form makes available "cleaned data" that's pretty convenient - 
-				# in this case, it returns a list of Service objects that correspond
-				# to what the user selected.
-				services_to_filter_by = movers_filter_form.cleaned_data['services']
+				if len(movers_filter_form.cleaned_data['services']) > 0:
+					# the form makes available "cleaned data" that's pretty convenient - 
+					# in this case, it returns a list of Service objects that correspond
+					# to what the user selected.
+					services_to_filter_by = movers_filter_form.cleaned_data['services']
 
 		
 		# find the keys that correspond to the 'notes' input. 
@@ -208,11 +209,18 @@ def ticker_world(request):
 					break
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
 	elif tickers_to_filter_by is not None:
-		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
+		tickers = sorted(tickers_to_filter_by, key=lambda x: x.daily_percent_change, reverse=True)
 	elif services_to_filter_by is not None:
-		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
-		tickers = [t for t in Ticker.objects.all() if t.services_for_ticker in pretty_names_of_services_we_matched]
-		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
+		tickers = []  # initialize to an empty list
+		for t in Ticker.objects.all():
+			if not t.services_for_ticker:
+				continue
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker:
+					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
+					# overlap between the ticker's services_for_ticker field and the set of services we 
+					# want to filter by 
+					break
 
 	else:
 		# get all tickers, and sort by descending date
@@ -236,8 +244,8 @@ def ticker_world(request):
 	# 	tickers_subset = paginator.page(paginator.num_pages)
 
 	num_tickers = len(tickers)
-	top_10_gainers = tickers[:10]
-	top_10_losers = tickers[::-1][:10]
+	top_gainers = tickers[:10]
+	top_losers = tickers[::-1][:10]
 
 	# tickers_sorted_by_earnings_date = tickers.order_by('earnings_announcement')[:10]
 
@@ -255,8 +263,8 @@ def ticker_world(request):
 		'services_to_filter_by': services_to_filter_by,
 		'tickers_to_filter_by': tickers_to_filter_by,
 		'service_options': service_options,
-		'top_10_gainers': top_10_gainers,
-		'top_10_losers': top_10_losers,
+		'top_gainers': top_gainers,
+		'top_losers': top_losers,
 		'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
 		# 'ticker_filter_description': ticker_filter_description
 	}
