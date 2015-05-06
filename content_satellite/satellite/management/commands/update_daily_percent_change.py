@@ -25,7 +25,7 @@ def get_daily_percent_change(ticker_symbols_as_list):
 	encoded_data = urllib.urlencode(data)
 	url = "%s?%s" % (yahoo_finance_url, encoded_data)
 
-	yahoo_response = urllib.urlopen(url, timeout=5).read()
+	yahoo_response = urllib.urlopen(url).read()
 	yahoo_json = json.loads(yahoo_response)
 
 	daily_percent_change_keyed_by_ticker_symbol = {}
