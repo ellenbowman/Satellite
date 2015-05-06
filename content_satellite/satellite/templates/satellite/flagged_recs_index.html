@@ -1,0 +1,74 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Flagged Recs
+{% endblock %}
+
+{% block container_contents %}
+
+	<h2><img src="http://g.foolcdn.com/editorial/images/150992/tickerworld3000_large.jpg" width=100px>  Flagged Recs <small>(New, BBNs/BFs, Core)</small>
+		<span style='float:right'><a href="{% url 'flagged_recs_as_csv' %}"><button type='button' style='font-size:14px;'>get as csv (beta)</button></a></span>
+	</h2>
+	
+	<div>
+		<table class='listTable'>
+			<thead>
+				<tr style='text-align:left'>
+					<th>Ticker</th>
+					<th width='25%'>Company</th>
+					<th>Service</th>
+					<th>Action</th>
+					<th>Open Date(s)</th>
+					
+					
+					<th>new</th>
+					<th>buy first</th>
+					<th>core</th>
+
+					<th width='15px'>ticker daily % change</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for flagged_rec in flagged_rec_defns %}
+			<tr style='vertical-align:top'>
+				<td>
+					<a href='http://www.fool.com/quote/1255/{{flagged_rec.ticker_symbol}}' target='_blank'>
+						<img width='24px' src='http://g.foolcdn.com/art/companylogos/mark/{{flagged_rec.ticker_symbol}}.png' alt='{{flagged_rec.ticker_symbol}}'/>
+					{{flagged_rec.ticker_symbol}}</a>
+				</td>
+				<td>{{flagged_rec.company}}</td>
+				<td>
+					{{flagged_rec.service_pretty_name}}
+					<br/>
+					<small>{{flagged_rec.scorecard_pretty_name}}</small>
+				</td>
+				<td>{{flagged_rec.action}}</td>
+				<td>{{flagged_rec.open_dates|safe}}</td>
+				
+				<td>
+					{% if flagged_rec.is_new %}
+						new
+					{% endif %}
+				</td>
+				<td>
+					{% if flagged_rec.is_first %}
+						buy first
+					{% endif %}
+				</td>
+				<td>
+					{% if flagged_rec.is_core %}
+						core
+					{% endif %}
+				</td>
+
+				<td style='text-align: right'>
+				 	{{flagged_rec.daily_percent_change}}%
+				</td>
+
+			</tr>
+			{% endfor %}
+			</tbody>
+	</div>
+
+</div>
+{% endblock %}
