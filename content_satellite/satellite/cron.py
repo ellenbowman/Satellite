@@ -37,6 +37,21 @@ def update_articles_nightly():
 
 
 
+
+### author meta data ------------------
+# every morning at 12:15 AM (not too long after the nightly 11:59 sweep for articles), let's re-compile the author meta data
+@kronos.register('15 0 * * *')
+def update_author_meta_data_nightly():
+	try:
+		call_command('update_byline_meta_data')
+	except Exception as e:
+		print str(e)
+
+### end of updating author meta data ------------------
+
+
+
+
 ### ticker performance ----------------
 def _update_daily_percent_change():
 	try:
