@@ -210,7 +210,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 					break
 		
 	elif tickers_to_filter_by is not None:
-		pass
+		tickers = tickers_to_filter_by
 	elif services_to_filter_by is not None:
 		tickers = []  # initialize to an empty list
 		for t in Ticker.objects.all():
