@@ -142,6 +142,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 		# it translates that these names should be visible as keys in the request.POST dictionary
 
 		ticker_note_name_prefix = 'ticker_notes_'
+		print ticker_note_name_prefix
 
 		# use 'python list comprehension' to create a list of all the keys in request.POST that 
 		# match this condition: the key must start with 'ticker_notes_' . equivalent to a multi-line
