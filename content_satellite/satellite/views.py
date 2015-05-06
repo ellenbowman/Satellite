@@ -248,8 +248,10 @@ def ticker_world(request):
 	top_losers = tickers[::-1][:10]
 
 	# tickers_sorted_by_earnings_date = tickers.order_by('earnings_announcement')[:10]
-
-	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None]
+	# let's consider only those that are happening today or in the future
+	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
+	
+	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
 
 
