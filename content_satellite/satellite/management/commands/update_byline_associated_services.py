@@ -16,7 +16,10 @@ def get_dictionaries_of_service_names_and_ticker_symbols_keyed_by_byline():
 
 	one_year_ago = datetime(datetime.now().year-1, datetime.now().month, datetime.now().day)
 	for art in Article.objects.filter(date_pub__gt=one_year_ago):
-		byline = art.author
+		byline = art.author.strip()
+
+		if byline == '':
+			continue
 
 		if byline not in service_names_set_keyed_by_author_name:
 			service_names_set_keyed_by_author_name[byline] = set()
