@@ -92,7 +92,8 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	
 ###############################################################################
 
-def ticker_world(request):
+def ticker_world(request, sort_by='daily_percent_change'):
+
 
 	"""
 	shows all tickers and some meta data
@@ -207,9 +208,9 @@ def ticker_world(request):
 					# overlap between the ticker's services_for_ticker field and the set of services we 
 					# want to filter by 
 					break
-		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
+		
 	elif tickers_to_filter_by is not None:
-		tickers = sorted(tickers_to_filter_by, key=lambda x: x.daily_percent_change, reverse=True)
+		pass
 	elif services_to_filter_by is not None:
 		tickers = []  # initialize to an empty list
 		for t in Ticker.objects.all():
@@ -221,27 +222,31 @@ def ticker_world(request):
 					# overlap between the ticker's services_for_ticker field and the set of services we 
 					# want to filter by 
 					break
-
+		
 	else:
 		# get all tickers, and sort by descending date
-		tickers = Ticker.objects.all().order_by('-daily_percent_change')
+		tickers = Ticker.objects.all()
+	
 
+	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
+	
+	if sort_by=='daily_percent_change':
+		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
+	else:
+		tickers_without_announcement_date = []
+		tickers_with_announcement_date_and_in_past = []
+		tickers_with_announcement_date_and_not_in_past = []
 
-	# introduce django's built-in pagination!! 
-	# https://docs.djangoproject.com/en/1.7/topics/pagination/
-	# paginator = Paginator(tickers, 25) 
+		for t in tickers:
+			if t.earnings_announcement:
+				if t.earnings_announcement > yesterday:
+					tickers_with_announcement_date_and_not_in_past.append(t)
+				else:
+					tickers_with_announcement_date_and_in_past.append(t)
+			else:
+				tickers_without_announcement_date.append(t)
 
-
-	# try:
-	# 	tickers_subset = paginator.page(page_num)
-	# except PageNotAnInteger:
-	# 	# page is not an integer; let's show the first page of results
-	# 	tickers_subset = paginator.page(1)
-	# except EmptyPage:
-		# the user asked for a page way beyond what we have available;
-		# let's show the last page of articles, which we can calculate
-		# with paginator.num_pages
-	# 	tickers_subset = paginator.page(paginator.num_pages)
+		tickers = sorted(tickers_with_announcement_date_and_not_in_past, key=lambda x: x.earnings_announcement) + tickers_without_announcement_date + sorted(tickers_with_announcement_date_and_in_past, key=lambda x: x.earnings_announcement) 
 
 	num_tickers = len(tickers)
 	top_gainers = tickers[:10]
@@ -249,8 +254,7 @@ def ticker_world(request):
 
 	# tickers_sorted_by_earnings_date = tickers.order_by('earnings_announcement')[:10]
 	# let's consider only those that are happening today or in the future
-	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
-	
+
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
 
