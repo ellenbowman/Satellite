@@ -198,10 +198,15 @@ def ticker_world(request):
 
 	# get the set of tickers, filtered by ticker/service, if those filters are defined
 	if tickers_to_filter_by is not None and services_to_filter_by is not None:
-		tickers = [t for t in Ticker.objects.all() if t.services_for_ticker in pretty_names_of_services_we_matched
-		and t.ticker_symbol in ticker_filter_description]
+		tickers = []  # initialize to an empty list
+		for t in tickers_to_filter_by:
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker:
+					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
+					# overlap between the ticker's services_for_ticker field and the set of services we 
+					# want to filter by 
+					break
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
-		#tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif tickers_to_filter_by is not None:
 		tickers = tickers_to_filter_by.order_by('-daily_percent_change')
 	elif services_to_filter_by is not None:
