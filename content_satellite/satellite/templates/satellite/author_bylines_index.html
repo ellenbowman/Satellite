@@ -1,0 +1,32 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Authors
+{% endblock %}
+
+{% block container_contents %}
+
+	<h2><img src="http://g.foolcdn.com/editorial/images/150992/article_world_large.jpg" width=100px>  Authors of Articles published in the last year</h2>
+	
+	<div>
+		<table class='listTable'>
+			<thead>
+				<tr style='text-align:left'>
+					<th width='40%'>Byline</th>
+					<th width='30%'>Services</th>
+					<th width='30%'>Tickers</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for byline in bylines_meta_data %}
+			<tr style='vertical-align:top'>
+				<td>{{byline.byline}}</td>
+				<td>{{byline.services}}</td>
+				<td>{{byline.tickers}}</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+	</div>
+
+</div>
+{% endblock %}

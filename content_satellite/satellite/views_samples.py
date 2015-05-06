@@ -113,6 +113,18 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	return Service.objects.filter(id__in=csv_elements)
 
 
+def get_author_bylines_index(request):
+
+	dictionary_of_values = {
+		'bylines_meta_data': BylineMetaData.objects.all().exclude(services='').order_by('byline')
+	}
+
+	return render(request, 'satellite/author_bylines_index.html', dictionary_of_values)
+
+
+
+
+
 def grand_vision_articles(request):
 
 	"""

@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^scorecard_index/$', views.scorecard_index, name="scorecard index"),
     # url(r'^my_sample_view/$', views.my_sample_view, name="my sample view"),
     url(r'^data_freshness/$', views_data_freshness.data_freshness_index, name="data_freshness"),
-
+    url(r'^author_bylines/$', views_samples.get_author_bylines_index, name='author_bylines'),
     # some practice urls
     url(r'^all_the_bloody_services/$', views_samples.services_index, name='all_the_services'),
     url(r'^lola_rocks/$', views_samples.my_sample_view, name='lola_rocks'),
