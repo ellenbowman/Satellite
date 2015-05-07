@@ -59,10 +59,9 @@ def _update_daily_percent_change():
 	except Exception as e:
 		print str(e)
 
-# every weekday at 9:00 AM, 9:40 AM, 9:45 AM, and 9:50 AM
+# every weekday at 9:40 AM, 9:45 AM, and 9:50 AM
 # the earliest we expect to get values from Yahoo: 9:45. 
 # The 9:40 and 9:50 runs are in case Yahoo is early/late.
-# We additionally run the task at 9 AM to zero-out values.
 @kronos.register('0,40,45,50 9 * * 1-5')
 def update_daily_percent_change_market_open():
 	_update_daily_percent_change()
@@ -72,5 +71,15 @@ def update_daily_percent_change_market_open():
 @kronos.register('0,15,30,45 10-16 * * 1-5')
 def update_daily_percent_change_normal_hours():
 	_update_daily_percent_change()
+
+
+# every morning at 9:15 AM, we zero-out the values
+@kronos.register('15 9 * * *')
+def zero_out_daily_percent_change():
+	try:
+		call_command('reset_daily_percent_change')
+	except Exception as e:
+		print str(e)
+
 
 ### end of updating ticker performance ----------------
