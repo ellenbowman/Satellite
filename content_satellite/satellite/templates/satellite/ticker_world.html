@@ -31,7 +31,7 @@ SOL: Ticker World
 				{% endfor %}
 			</td>
 			<td>
-	<div style='width:200px;padding:15px;background-color:lightgray;align:right;'>
+	<div style='width:200px;padding:15px;background-color:lightgray;'>
 			<form action="" method="post">
 				{% csrf_token %}
 				<strong>Filter by ticker:</strong>
@@ -57,10 +57,9 @@ SOL: Ticker World
 	</table>
 </div>
 	<hr />
-
-<p><em>These are sorted by daily percentage change, with the highest at the top. 
-Perhaps someday they could be secondarily sorted by tier status. </em></p>
-<p><a href="/sol/ticker_world/earnings_date_sort">Sort by upcoming earnings date</a></p>
+	<p><em>These are sorted by daily percentage change, with the highest at the top. 
+	Perhaps someday they could be secondarily sorted by tier status. </em></p>
+	<p><a href="/sol/ticker_world/earnings_date_sort">Sort by upcoming earnings date.</a></p>
 <hr/>
 {% for t in tickers %}
 <p id="{{t.ticker_symbol}}">
