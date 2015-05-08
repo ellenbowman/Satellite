@@ -243,8 +243,8 @@ def ticker_world(request, sort_by='daily_percent_change'):
 				tickers_without_announcement_date.append(t)
 
 		tickers = sorted(tickers_with_announcement_date_and_not_in_past, key=lambda x: x.earnings_announcement) + tickers_without_announcement_date + sorted(tickers_with_announcement_date_and_in_past, key=lambda x: x.earnings_announcement) 
-		top_gainers = tickers.order_by('-daily_percent_change')[:20]
-		top_losers = tickers.order_by('daily_percent_change')[:20]
+		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:20]
+		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change)[:20]
 
 	num_tickers = len(tickers)
 	#top_gainers = tickers[:20]

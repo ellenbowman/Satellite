@@ -57,13 +57,13 @@ SOL: Ticker World
 	</table>
 </div>
 	<hr />
-	<p><em>These are sorted by daily percentage change, with the highest at the top. 
-	Perhaps someday they could be secondarily sorted by tier status. </em></p>
-	<p><a href="/sol/ticker_world/earnings_date_sort">Sort by upcoming earnings date.</a></p>
+	<p><em>Updated every 20 minutes or so. All stocks below are initially sorted by current price movement in descending order.<br/>
+		Click below to sort by upcoming earnings.</em></p>
+	<p><button type="button"><a href="/sol/ticker_world/earnings_date_sort">Sort by earnings date</button></a></p>
 <hr/>
 {% for t in tickers %}
 <p id="{{t.ticker_symbol}}">
-	<img align="middle" width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
+	<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
 <br/>
 <strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} | 	<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
 </p>
