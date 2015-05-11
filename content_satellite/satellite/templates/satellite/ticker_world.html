@@ -57,9 +57,9 @@ SOL: Ticker World
 	</table>
 </div>
 	<hr />
-	<p><em>Updated every 20 minutes or so. All stocks below are initially sorted by current price movement in descending order.<br/>
-		Click below to sort by upcoming earnings.</em></p>
-	<p><button type="button"><a href="/sol/ticker_world/earnings_date_sort">Sort by earnings date</button></a></p>
+<p><em>These are sorted by daily percentage change, with the highest at the top. 
+Perhaps someday they could be secondarily sorted by tier status. </em></p>
+<p><a href="/sol/ticker_world/earnings_date_sort">Sort by upcoming earnings date</p>
 <hr/>
 {% for t in tickers %}
 <p id="{{t.ticker_symbol}}">
