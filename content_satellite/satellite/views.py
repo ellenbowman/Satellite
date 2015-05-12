@@ -92,7 +92,7 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	
 ###############################################################################
 
-def ticker_world(request, sort_by='daily_percent_change'):
+def ticker_world(request, sort_by='daily_percent_change', next_week='next_week'):
 
 
 	#shows all tickers and some meta data (daily percent change, company name, exchange, ticker symbol)
@@ -256,6 +256,13 @@ def ticker_world(request, sort_by='daily_percent_change'):
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:20]
 
+	next_week_date = (datetime.now() + timedelta(days=7)).date()
+
+	if next_week=='next_week':
+		tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date]
+		tickers_for_next_week = sorted(tickers_for_next_week, key=lambda x: x.earnings_announcement)
+	else:
+		tickers_for_next_week = [] #tickers_sorted_by_earnings_date[:20]
 
 	dictionary_of_values = {
 		'form': movers_filter_form,
@@ -269,6 +276,9 @@ def ticker_world(request, sort_by='daily_percent_change'):
 		'top_gainers': top_gainers,
 		'top_losers': top_losers,
 		'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
+		'next_week_date': next_week_date,
+		'next_week': next_week,
+		'tickers_for_next_week': tickers_for_next_week,
 		# 'ticker_filter_description': ticker_filter_description
 	}
 
@@ -276,6 +286,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 
 ###############################################################################
+
 
 def scorecard_index(request):
 	"""

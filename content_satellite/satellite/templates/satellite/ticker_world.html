@@ -14,6 +14,14 @@ SOL: Ticker World
 		You're seeing everything.
 		{% endif %}
 	</h2>
+
+{% if next_week %}
+<p>
+	{% for t in tickers_for_next_week %}
+		<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
+	{% endfor %}
+</p>
+{% endif %}
 	<table>
 		<tr>
 			<td style="padding:15px;" align="center"><strong>Currently Up</strong><br/>
@@ -53,10 +61,10 @@ SOL: Ticker World
 		</div>
 			</td>
 		</tr>
-
 	</table>
 </div>
-	<hr />
+<hr />
+
 <p><em>These are sorted by daily percentage change, with the highest at the top. 
 Perhaps someday they could be secondarily sorted by tier status. </em></p>
 <p><a href="/sol/ticker_world/earnings_date_sort">Sort by upcoming earnings date</a></p>
