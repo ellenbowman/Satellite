@@ -95,14 +95,9 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 def ticker_world(request, sort_by='daily_percent_change'):
 
 
-	"""
-	shows all tickers and some meta data
-	(daily percent change, company name, exchange, ticker symbol)
-
-	contains a form that lets you specify services and tickers
-
-	if a service or ticker's name is detected in the request's POST dictionary, then filters to tickers for that service or ticker
-	"""
+	#shows all tickers and some meta data (daily percent change, company name, exchange, ticker symbol)
+	#contains a form that lets you specify services and tickers
+	#if a service or ticker's name is detected in the request's POST dictionary, then filters to tickers for that service or ticker
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
@@ -110,8 +105,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 	ticker_filter_description = None
 	service_options = Service.objects.all()
 
-	# filter by ticker/service if we detect that preference in the query string (in the request.GET)
-	# or via a form post (in the request.POST)
+	# filter by ticker/service if we detect that preference in the query string (in the request.GET) or via a form post (in the request.POST)
 	# additionally, if this is a GET, let's attempt to set the page_num. otherwise, we'll default to page_num of 1.
 
 	if request.POST:
@@ -142,7 +136,6 @@ def ticker_world(request, sort_by='daily_percent_change'):
 		# it translates that these names should be visible as keys in the request.POST dictionary
 
 		ticker_note_name_prefix = 'ticker_notes_'
-		print ticker_note_name_prefix
 
 		# use 'python list comprehension' to create a list of all the keys in request.POST that 
 		# match this condition: the key must start with 'ticker_notes_' . equivalent to a multi-line
@@ -233,6 +226,8 @@ def ticker_world(request, sort_by='daily_percent_change'):
 	
 	if sort_by=='daily_percent_change':
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
+		top_gainers = tickers[:20]
+		top_losers = tickers[::-1][:20]	
 	else:
 		tickers_without_announcement_date = []
 		tickers_with_announcement_date_and_in_past = []
@@ -248,17 +243,18 @@ def ticker_world(request, sort_by='daily_percent_change'):
 				tickers_without_announcement_date.append(t)
 
 		tickers = sorted(tickers_with_announcement_date_and_not_in_past, key=lambda x: x.earnings_announcement) + tickers_without_announcement_date + sorted(tickers_with_announcement_date_and_in_past, key=lambda x: x.earnings_announcement) 
+		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change)[:20]
+		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:20]
 
 	num_tickers = len(tickers)
-	top_gainers = tickers[:20]
-	top_losers = tickers[::-1][:20]
+	#top_gainers = tickers[:20]
+	#top_losers = tickers[::-1][:20]
 
 	# tickers_sorted_by_earnings_date = tickers.order_by('earnings_announcement')[:10]
 	# let's consider only those that are happening today or in the future
 
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:20]
-
 
 
 	dictionary_of_values = {
