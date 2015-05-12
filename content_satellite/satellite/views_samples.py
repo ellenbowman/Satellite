@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from forms import FilterForm
 from models import Article, Service, Ticker, BylineMetaData
 
@@ -285,8 +285,35 @@ def grand_vision_articles(request):
 
 
 
+def ticker_lookup(request):
+	"""
+	returns json.  if the request contains a string of ticker symbols in its query string,
+	then let the json be a dictionary with keys for each ticker symbol, value (True/False), for whether SOL knows about it.
 
+	if no ticker symbols are detected, return a dictionary with a key of 'message'.
+	"""
 
+	# is there a 'tickers=x,y,z' in the query string? if so, let's process it
+	if request.GET and 'tickers' in request.GET:
 
+		ticker_symbols = request.GET['tickers']
+		
+		# proces the tickers; split into individual symbols, remove whitespace, and convert to uppercase
+		ticker_symbols = ticker_symbols.split(',')
+		ticker_symbols = [ts.strip().upper() for ts in ticker_symbols]
 
+		response = {}
+		# for each ticker symbol, we report whether SOL has a corresponding Ticker
+		for ts in ticker_symbols:
+			if Ticker.objects.filter(ticker_symbol=ts):
+				response[ts] = True
+			else:
+				response[ts] = False
 
+	else:
+		response = {'message':'error: no tickers found in the query string'}
+
+	# instead of rendering an html page, let's return this plain dictionary as a JsonResponse object.
+	# https://docs.djangoproject.com/en/1.7/ref/request-response/#jsonresponse-objects
+	# (the page won't have pretty markup)
+	return JsonResponse(response)
