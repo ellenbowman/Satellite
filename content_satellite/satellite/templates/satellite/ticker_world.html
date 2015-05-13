@@ -16,9 +16,12 @@ SOL: Ticker World
 	</h2>
 <hr/>
     <table>
+    	<tr>
+    		<td align="center"><h4>Filter</h4></td>
+    		<td align="center"><h4>At a Glance</h4></td>
+    	</tr>
 		<tr>
     	<td style="padding:15px;">
-    		<h4>Filter</h4>
 			<form action="" method="post">
 				{% csrf_token %}
 				<strong>Filter by ticker(s):</strong>
@@ -28,6 +31,7 @@ SOL: Ticker World
 				{{form.services}}  <input type="submit" value="Apply filter"><br/>
 				<em>Ctrl/Cmd+click to select more than one</em>.
 			</form>
+			<br/>
 			<p><strong>Active filters:  </strong>
 			{% if service_filter_description %}
 			<em>Service(s):  </em>{{service_filter_description}}
@@ -40,20 +44,17 @@ SOL: Ticker World
 			<p><a href="{% url 'ticker_world' %}"><button type='button'>Remove filters</button></a></p>
 		</td>
 		<td style="padding:15px;" align="center">
-			<h4>At a Glance</h4>
 			<strong>Currently Up</strong><br/>
 				{% for t in top_gainers %}
 				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
 				{% endfor %}
 		</td>
 		<td style="padding:15px;" align="center">
-			<p>&nbsp;</p>
 			<strong>Currently Down</strong><br/>
 				{% for t in top_losers %}
 				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 		<td style="padding:15px;" align="center">
-			<p>&nbsp;</p>
 			<strong>Upcoming Earnings</strong><br/>
 				{% for t in tickers_sorted_by_earnings_date %}
 				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
