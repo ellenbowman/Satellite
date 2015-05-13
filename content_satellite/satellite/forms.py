@@ -10,7 +10,7 @@ class FilterForm(forms.Form):
 		widget=forms.Textarea,
 		required=False)
 	services = forms.ModelMultipleChoiceField(
-		widget=forms.SelectMultiple(attrs={'class': 'service-select-tall'}),
+		widget=forms.SelectMultiple(),
 		queryset=Service.objects.all().order_by('pretty_name'), 
 		required=False)	
 	

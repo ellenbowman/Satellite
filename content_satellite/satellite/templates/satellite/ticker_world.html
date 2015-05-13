@@ -14,66 +14,70 @@ SOL: Ticker World
 		You're seeing everything.
 		{% endif %}
 	</h2>
+<hr/>
+    <table>
+    	<tr>
+    	<td>
+    	    {% if sort_by_daily_percent_change %}
+        	<p> These are sorted by <strong>current percent change</strong>. <button type="button"><a href="/sol/ticker_world/earnings_date_sort">
+        	Sort by upcoming earnings date</button></a></p>
+    		{% else %}
+        	<p>These are sorted by <strong>upcoming earnings date</strong>.&nbsp;&nbsp;&nbsp;<button type="button"><a href="/sol/ticker_world/">Sort by current percent change</button></a></p>
+    		{% endif %}
+			<form action="" method="post">
+				{% csrf_token %}
+				<strong>Filter by ticker(s):</strong>
+				{{form.tickers}} <input type="submit" value="Apply filter"><br/>
+				<br/>
+				<strong>Filter by service(s):</strong>
+				{{form.services}}  <input type="submit" value="Apply filter"><br/>
+				<em>Ctrl/Cmd+click to select more than one</em>.
+			</form>
+			<p><strong>Active filters:  </strong>
+			{% if service_filter_description %}
+			<em>Service(s):  </em>{{service_filter_description}}
+			{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;
+			{% if ticker_filter_description %}
+			<em>Ticker(s):  </em>{{ticker_filter_description}}
+			{% endif %}<br/>
+			<p><strong>Number of tickers:</strong> {{num_tickers}}
+			</p>
+			<p><a href="{% url 'ticker_world' %}"><button type='button'>Remove filters</button></a></p>
+			<p><a href="#details"><button type='button'>Ticker Biographies</a></p>
+		</td>
+		<td style="padding:15px;" align="center"><strong>Currently Up</strong><br/>
+				{% for t in top_gainers %}
+				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
+				{% endfor %}
+		</td>
+		<td style="padding:15px;" align="center"><strong>Currently Down</strong><br/>
+				{% for t in top_losers %}
+				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
+				{% endfor %}</td>
+		<td style="padding:15px;" align="center"><strong>Upcoming Earnings Announcements</strong><br/>
+				{% for t in tickers_sorted_by_earnings_date %}
+				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
+				{% endfor %}
+		</tr>
+	</table>
 
+<hr/>
 {% if next_week %}
+<h3>Earnings in the Next Seven Days</h3>
 <p>
 	{% for t in tickers_for_next_week %}
 		<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
 	{% endfor %}
 </p>
 {% endif %}
-	<table>
-		<tr>
-			<td style="padding:15px;" align="center"><strong>Currently Up</strong><br/>
-				{% for t in top_gainers %}
-				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="padding:15px;" align="center"><strong>Currently Down</strong><br/>
-				{% for t in top_losers %}
-				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-			<td style="padding:15px;" align="center"><strong>Upcoming Earnings Announcements</strong><br/>
-				{% for t in tickers_sorted_by_earnings_date %}
-				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
-				{% endfor %}
-			</td>
-			<td>
-	<div style='width:200px;padding:15px;background-color:lightgray;'>
-			<form action="" method="post">
-				{% csrf_token %}
-				<strong>Filter by ticker:</strong>
-				{{form.tickers}} <input type="submit" value="Apply filter"><br/>
-				<br/>
-				<strong>Filter by service:</strong>
-				{{form.services}}  <input type="submit" value="Apply filter">
-			</form>
-			<p><strong><u>Active filters</u>  </strong><br/>
-			{% if service_filter_description %}
-			<strong>Service:  </strong>{{service_filter_description}}
-			{% endif %}<br/>
-			{% if ticker_filter_description %}
-			<strong>Ticker:  </strong>{{ticker_filter_description}}
-			{% endif %}<br/>
-			<a href="{% url 'ticker_world' %}"><button type='button'>Remove filters</button></a></p>
-			<p><strong>Number of tickers:</strong> {{num_tickers}}
-			</p>
-		</div>
-			</td>
-		</tr>
-	</table>
-</div>
-<hr />
-
-<p><em>These are sorted by daily percentage change, with the highest at the top. 
-Perhaps someday they could be secondarily sorted by tier status. </em></p>
-<p><a href="/sol/ticker_world/earnings_date_sort">Sort by upcoming earnings date</a></p>
 <hr/>
+<h3 id="details"><a target="blank" href="https://www.youtube.com/watch?v=gy0Gd2-GdOI">Ticker Biographies</a></h3>
 {% for t in tickers %}
 <p id="{{t.ticker_symbol}}">
 	<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
 <br/>
-<strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}} | 	<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
+<strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}}<br/>
+<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
 </p>
 <p>
 	<form action="/sol/ticker_world/" method="post">
