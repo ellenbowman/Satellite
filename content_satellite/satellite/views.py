@@ -259,7 +259,7 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 	next_week_date = (datetime.now() + timedelta(days=7)).date()
 
 	if next_week=='next_week':
-		tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date]
+		tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date and t.earnings_announcement>yesterday]
 		tickers_for_next_week = sorted(tickers_for_next_week, key=lambda x: x.earnings_announcement)
 	else:
 		tickers_for_next_week = None
