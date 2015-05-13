@@ -262,7 +262,7 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 		tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date]
 		tickers_for_next_week = sorted(tickers_for_next_week, key=lambda x: x.earnings_announcement)
 	else:
-		tickers_for_next_week = [] #tickers_sorted_by_earnings_date[:20]
+		tickers_for_next_week = None
 
 	dictionary_of_values = {
 		'form': movers_filter_form,
