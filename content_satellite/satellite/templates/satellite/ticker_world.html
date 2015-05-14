@@ -63,15 +63,7 @@ SOL: Ticker World
 	</table>
 
 <hr/>
-{% if next_week %}
-<h3>Earnings in the Next Seven Days</h3>
-<p>
-	{% for t in tickers_for_next_week %}
-		<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
-	{% endfor %}
-</p>
-{% endif %}
-<hr/>
+
 <h3><a target="blank" href="https://www.youtube.com/watch?v=gy0Gd2-GdOI">Ticker Biographies</a></h3>
 <p>{% if sort_by_daily_percent_change %}
         	<p> These are sorted by <strong>current percent change</strong>. <button type="button"><a href="/sol/ticker_world/earnings_date_sort">

@@ -288,6 +288,18 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 
 	return render(request, 'satellite/ticker_world.html', dictionary_of_values)
 
+"""
+this was once in ticker_world.html for next_week view
+{% if next_week %}
+<h3>Earnings in the Next Seven Days</h3>
+<p>
+	{% for t in tickers_for_next_week %}
+		<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
+	{% endfor %}
+</p>
+{% endif %}
+<hr/>
+"""
 
 ###############################################################################
 
