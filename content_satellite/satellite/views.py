@@ -226,8 +226,9 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 	
 	if sort_by=='daily_percent_change':
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
-		top_gainers = tickers[:20]
-		top_losers = tickers[::-1][:20]	
+		top_gainers = tickers[:10]
+		top_losers = tickers[::-1][:10]
+
 	else:
 		tickers_without_announcement_date = []
 		tickers_with_announcement_date_and_in_past = []
@@ -243,8 +244,8 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 				tickers_without_announcement_date.append(t)
 
 		tickers = sorted(tickers_with_announcement_date_and_not_in_past, key=lambda x: x.earnings_announcement) + tickers_without_announcement_date + sorted(tickers_with_announcement_date_and_in_past, key=lambda x: x.earnings_announcement) 
-		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change)[:20]
-		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:20]
+		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change)[:10]
+		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:10]
 
 	num_tickers = len(tickers)
 	#top_gainers = tickers[:20]
@@ -254,15 +255,15 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 	# let's consider only those that are happening today or in the future
 
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
-	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:20]
+	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
 
 	next_week_date = (datetime.now() + timedelta(days=7)).date()
 
 	if next_week=='next_week':
-		tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date]
+		tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date and t.earnings_announcement>yesterday]
 		tickers_for_next_week = sorted(tickers_for_next_week, key=lambda x: x.earnings_announcement)
 	else:
-		tickers_for_next_week = [] #tickers_sorted_by_earnings_date[:20]
+		tickers_for_next_week = None
 
 	dictionary_of_values = {
 		'form': movers_filter_form,
@@ -282,8 +283,23 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 		# 'ticker_filter_description': ticker_filter_description
 	}
 
+	if sort_by=='daily_percent_change':
+		dictionary_of_values['sort_by_daily_percent_change'] = True
+
 	return render(request, 'satellite/ticker_world.html', dictionary_of_values)
 
+"""
+this was once in ticker_world.html for next_week view
+{% if next_week %}
+<h3>Earnings in the Next Seven Days</h3>
+<p>
+	{% for t in tickers_for_next_week %}
+		<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
+	{% endfor %}
+</p>
+{% endif %}
+<hr/>
+"""
 
 ###############################################################################
 
