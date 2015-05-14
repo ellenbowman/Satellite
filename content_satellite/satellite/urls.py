@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^articles_by_service/$', views.articles_by_service, name='articles by service'),
     url(r'^ticker_world/$', views.ticker_world, name='ticker_world'),
     url(r'^ticker_world/(?P<sort_by>\w+)$', views.ticker_world, name='ticker_world_by_earnings'),
-    url(r'^ticker_world/next_week/$', views.ticker_world, name='next_week'),
+    url(r'^next_week/$', views.next_week, name='next_week'),
 
     url(r'^scorecard_index/$', views.scorecard_index, name="scorecard index"),
     # url(r'^my_sample_view/$', views.my_sample_view, name="my sample view"),

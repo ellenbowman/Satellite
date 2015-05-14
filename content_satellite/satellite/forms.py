@@ -11,7 +11,6 @@ class FilterForm(forms.Form):
 		widget=forms.Textarea,
 		required=False)
 	services = forms.ModelMultipleChoiceField(
-		#widget=AutoComboboxWidget, #gotta find the right widget for a drop-down box with multiple selections possible, dammit
 		queryset=Service.objects.all().order_by('pretty_name'), 
 		required=False)	
 	
