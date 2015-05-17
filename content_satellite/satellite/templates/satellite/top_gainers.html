@@ -1,0 +1,57 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Top Gainers
+{% endblock %}
+
+{% block container_contents %}
+
+	<h2>
+	Current Top Gainers for
+		{% if service_filter_description %}
+		{{service_filter_description}}.
+		{% else %}
+		All Premium Services
+		{% endif %}
+	</h2>
+<hr/>
+
+<div style='width:200px;padding:15px;background-color:lightgray;align:right;'>
+<h4>Filter</h4>
+	<p>
+		<form action="" method="post">
+				{% csrf_token %}
+				<strong>Filter by service(s):</strong><br/>
+				{{form.services}}<br/><input type="submit" value="Apply filter"><br/>
+				<em>Ctrl/Cmd+click to select more than one</em>.
+		</form>
+	</p>
+	<p>
+		<strong>Active filters:  </strong>
+			{% if service_filter_description %}
+			<em>Service(s):  </em>{{service_filter_description}}
+			{% endif %}
+	</p>
+		<p><a href="/sol/ticker_world/top_gainers/"><button type='button'>Remove filters</button></a></p>
+</div>
+
+	<table>
+		<tr>
+		<td style="padding: 10px;">
+			<h4>Currently Up</h4>
+			<p>
+				{% for t in top_gainers %}
+				<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.ticker_symbol}}</strong> | {{t.company_name}} <a href="#{{t.ticker_symbol}}">(Notes)</a> | service logos
+				<br/>
+				BBN, new, and core status<br/></p>
+				{% endfor %}
+		</td>
+		<td style="padding:50px;" align="center">
+			<strong>Currently Down</strong><br/>
+				{% for t in top_losers %}
+				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
+				{% endfor %}</td>
+			</tr>
+	</table>
+
+	{% endblock container_contents %}
