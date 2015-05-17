@@ -1,0 +1,52 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Top Gainers
+{% endblock %}
+
+{% block container_contents %}
+
+	<h2><a href="/sol/ticker_world/"><img align="left" style="padding-right:20px;" width=100px src="http://g.foolcdn.com/editorial/images/150992/tickerworld3000_large.jpg"></a>
+	Current Top Gainers for
+		{% if service_filter_description %}
+		{{service_filter_description}}.
+		{% else %}
+		All Premium Services
+		{% endif %}
+	</h2>
+<hr/>
+<div class="sidebar" width="300px" align="right">
+<h4>Filter</h4>
+	<p>
+		<form action="" method="post">
+				{% csrf_token %}
+				<strong>Filter by service(s):</strong><br/>
+				{{form.services}}<br/><input type="submit" value="Apply filter"><br/>
+				<em>Ctrl/Cmd+click to select more than one</em>.
+		</form>
+	</p>
+	<p>
+		<strong>Active filters:  </strong>
+			{% if service_filter_description %}
+			<em>Service(s):  </em>{{service_filter_description}}
+			{% endif %}
+	</p>
+		<p><a href="/sol/ticker_world/top_gainers/"><button type='button'>Remove filters</button></a></p>
+</div>
+	<table>
+		<tr>
+		<td style="padding: 50px;">
+			<strong>Currently Up</strong><br/>
+				{% for t in top_gainers %}
+				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
+				{% endfor %}
+		</td>
+		<td style="padding:50px;" align="center">
+			<strong>Currently Down</strong><br/>
+				{% for t in top_losers %}
+				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
+				{% endfor %}</td>
+			</tr>
+	</table>
+
+	{% endblock container_contents %}

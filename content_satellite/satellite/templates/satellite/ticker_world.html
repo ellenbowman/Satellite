@@ -24,7 +24,7 @@ SOL: Ticker World
     	<td style="padding:15px;">
 			<form action="" method="post">
 				{% csrf_token %}
-				<strong>Filter by ticker(s):</strong>
+				<span align="middle"><strong>Filter by ticker(s):</strong></span>
 				{{form.tickers}} <input type="submit" value="Apply filter"><br/>
 				<br/>
 				<strong>Filter by service(s):</strong>
