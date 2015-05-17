@@ -106,12 +106,13 @@ def top_gainers(request):
 
 		movers_filter_form = FilterForm(request.POST)
 		
-		if 'services' in movers_filter_form.cleaned_data:
-			if len(movers_filter_form.cleaned_data['services']) > 0:
+		if movers_filter_form.is_valid():
+			if 'services' in movers_filter_form.cleaned_data:
+				if len(movers_filter_form.cleaned_data['services']) > 0:
 				# the form makes available "cleaned data" that's pretty convenient - 
 				# in this case, it returns a list of Service objects that correspond
 				# to what the user selected.
-				services_to_filter_by = movers_filter_form.cleaned_data['services']
+					services_to_filter_by = movers_filter_form.cleaned_data['services']
 
 	elif request.GET:
 		initial_form_values = {}
@@ -136,19 +137,16 @@ def top_gainers(request):
 	# get the set of tickers, filtered by ticker/service, if those filters are defined
 	if services_to_filter_by is not None:
 		tickers = []  # initialize to an empty list
-		for t in tickers_to_filter_by:
-			for service in services_to_filter_by:
+		for service in services_to_filter_by:
+			for t in Ticker.objects.all():
 				if service.pretty_name in t.services_for_ticker:
 					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
-					# overlap between the ticker's services_for_ticker field and the set of services we 
-					# want to filter by 
+				# overlap between the ticker's services_for_ticker field and the set of services we 
+				# want to filter by 
 	else:
 		# get all tickers, and sort by descending date
 		tickers = Ticker.objects.all()
-	
-
-	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
-	
+		
 
 	tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
 	top_gainers = tickers[:100]

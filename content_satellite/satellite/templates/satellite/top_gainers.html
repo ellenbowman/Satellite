@@ -41,10 +41,9 @@ SOL: Top Gainers
 			<h4>Currently Up</h4>
 			<p>
 				{% for t in top_gainers %}
-				{{t.daily_percent_change}}% | <strong>{{t.company_name}}</strong> | {{t.ticker_symbol}}</a> | service logos
+				<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.ticker_symbol}}</strong> | {{t.company_name}} <a href="#{{t.ticker_symbol}}">(Notes)</a> | service logos
 				<br/>
-				BBN, new, and core status<br/>
-				<a href="#{{t.ticker_symbol}}">Notes</a></p>
+				BBN, new, and core status<br/></p>
 				{% endfor %}
 		</td>
 		<td style="padding:50px;" align="center">
