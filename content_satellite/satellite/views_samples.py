@@ -6,7 +6,6 @@ from django.http import HttpResponse, JsonResponse
 from forms import FilterForm
 from models import Article, Service, Ticker, BylineMetaData
 
-
 def services_index(request):
 	"""
 	a listing of the services, ordered by pretty name
@@ -317,53 +316,3 @@ def ticker_lookup(request):
 	# https://docs.djangoproject.com/en/1.7/ref/request-response/#jsonresponse-objects
 	# (the page won't have pretty markup)
 	return JsonResponse(response)
-
-
-
-def post_article_summary_to_slack(request):
-	"""
-	posts to slack an overview of recent articles
-	"""
-	import urllib
-	import urllib2
-	import json
-
-	url = 'https://fool.slack.com/services/hooks/incoming-webhook?token=Eiy0PpKQacTBVfOVWQhaFJIz'
-
-	# TODO - crunch the numbers instead of using these made-up values...
-	article_count = 73
-	tickers_covered_in_articles = 46
-	ticker_with_most_coverage = 'TSLA'
-
-	article_count_by_service = ''
-	for s in Service.objects.all().order_by('pretty_name'):
-		article_count_by_service += "\n  - %s : %d" % (s.pretty_name, 12)
-    ## end of TODO
-
-
-	message_snippets = []
-	message_snippets.append("articles published since 8 AM yesterday: %d" % article_count)
-	message_snippets.append("tickers covered in those articles: %d" % tickers_covered_in_articles)
-	message_snippets.append("ticker with the most coverage: %s" % ticker_with_most_coverage)
-	message_snippets.append("article count by service: %s" % article_count_by_service)
-	message_snippets.append("check out <http://satellite.fool.com|Satellite of Love!> (must be on vpn)")
-
-	message_to_post = "\n".join(message_snippets)
-
-	print message_to_post
-
-
-	payload = {
-		'text': message_to_post,
-		'channel': '#sol-rules',
-		'username': 'dr.satellite',
-		'icon_emoji':':sol_2:',
-	}
-
-	params = urllib.urlencode({
-		'payload': json.dumps(payload),
-	})
-	urllib2.urlopen(url, params).read()
-
-	# by this point, the message has been sent to slack. the line below will display in the browser the "payload" that was sent to slack.
-	return JsonResponse(payload)

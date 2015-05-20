@@ -25,9 +25,4 @@ urlpatterns = patterns('',
     url(r'^articles_index/$', views_samples.grand_vision_articles, name='everything_about_articles'),
     url(r'^extras/$', views_samples.extra_views_homepage, name='extra_pages'),
     url(r'^json_blob_for_ticker/$', views_samples.ticker_lookup, name='json_blob'),
-
-
-    ## slack 
-    url(r'^slack/blast_article_summary/$', views_samples.post_article_summary_to_slack, name='slack_article_summary'),
-    
     )

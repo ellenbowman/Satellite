@@ -67,14 +67,14 @@ def update_daily_percent_change_market_open():
 	_update_daily_percent_change()
 
 
-# every weekday 10:00AM-4:45PM, at 15 minute intervals.
-@kronos.register('0,15,30,45 10-16 * * 1-5')
+# every weekday 10:00AM-4:45PM, at 10 minute intervals.
+@kronos.register('0,10,20,30,40,50 10-16 * * 1-5')
 def update_daily_percent_change_normal_hours():
 	_update_daily_percent_change()
 
 
-# every weekday morning at 9:15 AM, we zero-out the values
-@kronos.register('15 9 * * 1-5')
+# every weekday morning at 9:25 AM, we zero-out the values
+@kronos.register('25 9 * * 1-5')
 def zero_out_daily_percent_change():
 	try:
 		call_command('reset_daily_percent_change')
@@ -83,3 +83,16 @@ def zero_out_daily_percent_change():
 
 
 ### end of updating ticker performance ----------------
+
+
+### slack blasts - daily recaps ------------------
+
+# every morning at 9:00 AM send a recap of the previous day's articles
+@kronos.register('0 9 * * *')
+def send_article_recap():
+	try:
+		call_command('slack_article_recap')
+	except Exception as e:
+		print str(e)
+
+### end of slack blasts ------------------
