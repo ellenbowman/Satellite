@@ -92,30 +92,44 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	
 ###############################################################################
 
-def top_gainers(request):
-	# shows the top 50 stocks that are up across Fool services today. Also includes % change, ticker, name, scorecards, BBN/Core status,
+def top_movers(request, movers='gainers'):
+	# shows the top 50 stocks that are up or down across Fool services today.
+	# (different links) Also includes % change, ticker, name, scorecards, BBN/Core status,
 	# and a link to the ticker in ticker_biographies.
 	# Filters by service
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
+	tickers_to_filter_by = None
+	ticker_filter_description = None
 	service_options = Service.objects.all()
 
-
 	if request.POST:
-
 		movers_filter_form = FilterForm(request.POST)
 		
 		if movers_filter_form.is_valid():
-			if 'services' in movers_filter_form.cleaned_data:
-				if len(movers_filter_form.cleaned_data['services']) > 0:
+			if 'tickers' in movers_filter_form.cleaned_data:
+				tickers_user_input = movers_filter_form.cleaned_data['tickers'].strip()
+			if tickers_user_input != '':
+				# take the user input and try to find corresponding Ticker objects 
+				tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
+
+		# retrieve the services that were selected in the form. 
+		if 'services' in movers_filter_form.cleaned_data:
+			if len(movers_filter_form.cleaned_data['services']) > 0:
 				# the form makes available "cleaned data" that's pretty convenient - 
 				# in this case, it returns a list of Service objects that correspond
 				# to what the user selected.
-					services_to_filter_by = movers_filter_form.cleaned_data['services']
+				services_to_filter_by = movers_filter_form.cleaned_data['services']
 
 	elif request.GET:
 		initial_form_values = {}
+
+		if 'tickers' in request.GET:
+			tickers_user_input = request.GET.get('tickers')
+			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
+
+			initial_form_values['tickers'] = tickers_user_input
 		if 'service_ids' in request.GET:
 			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
 			initial_form_values['services'] = services_to_filter_by
@@ -124,7 +138,13 @@ def top_gainers(request):
 
 	else:
 		movers_filter_form = FilterForm()
-	
+
+	# end of inspecting request.GET and request.POST for ticker/service filter
+
+	if tickers_to_filter_by:
+		# make the pretty description of the tickers
+		ticker_filter_description = tickers_user_input.upper()
+
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
 		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
@@ -133,20 +153,36 @@ def top_gainers(request):
 
 	else:
 		pass
-
+		
 	# get the set of tickers, filtered by ticker/service, if those filters are defined
-	if services_to_filter_by is not None:
+	if tickers_to_filter_by is not None and services_to_filter_by is not None:
 		tickers = []  # initialize to an empty list
-		for service in services_to_filter_by:
-			for t in Ticker.objects.all():
+		for t in tickers_to_filter_by:
+			for service in services_to_filter_by:
 				if service.pretty_name in t.services_for_ticker:
 					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
-				# overlap between the ticker's services_for_ticker field and the set of services we 
-				# want to filter by 
+					# overlap between the ticker's services_for_ticker field and the set of services we 
+					# want to filter by 
+					break
+		
+	elif tickers_to_filter_by is not None:
+		tickers = tickers_to_filter_by
+	elif services_to_filter_by is not None:
+		tickers = []  # initialize to an empty list
+		for t in Ticker.objects.all():
+			if not t.services_for_ticker:
+				continue
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker:
+					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
+					# overlap between the ticker's services_for_ticker field and the set of services we 
+					# want to filter by 
+					break
+		
 	else:
 		# get all tickers, and sort by descending date
 		tickers = Ticker.objects.all()
-		
+
 
 	tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
 	top_gainers = tickers[:100]
@@ -161,10 +197,13 @@ def top_gainers(request):
 		'service_options': service_options,
 		'top_gainers': top_gainers,
 		'top_losers': top_losers,
+		#'gainers': gainers,
 	}
 
+	if movers=='gainers':
+		dictionary_of_values['gainers'] = True
 
-	return render(request, 'satellite/top_gainers.html', dictionary_of_values)
+	return render(request, 'satellite/top_movers.html', dictionary_of_values)
 
 ###############################################################################
 
