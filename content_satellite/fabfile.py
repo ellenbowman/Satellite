@@ -1,5 +1,6 @@
 from fool_deployer import *
 from fool_deployer.environments import set_hosts, list_hosts, get_hosts_from_zookeeper
+from fool_deployer.prefixes import virtualenv
 from fabric.api import env, task, run, local, sudo, lcd, put
 import posixpath
 import os
@@ -43,6 +44,7 @@ def test():
 
     env.deploy_tasks.insert(0, "build_and_upload_archive")
     env.deploy_tasks.append("static.collectstatic")
+    env.deploy_tasks.append("install_scheduled_tasks")
     env.deploy_tasks.append("notify_slack")
 
     env.deploy_tasks.exclude(
@@ -69,19 +71,13 @@ def build_and_upload_archive():
 
         archive = local('python setup.py --fullname', capture=True).strip()
         archive_name  = '%s.tar.gz' % archive
-        
-        print 'archive name!!!!!!!!!!!!!!!!!!!', archive_name
 
         put('dist/%s' % archive_name, '/tmp/%s' % archive_name)
         with cd('/var/src/sol'):
             run('mkdir %s' % explode_folder)
-            #run('tar xzf /tmp/%s --wildcards "sol/sol/" --strip-components=1 -C %s' % (archive_name, explode_folder))
-            #run('tar xzf /tmp/%s  --strip-components=1 -C %s' % (archive_name, explode_folder))
             run('tar xzf /tmp/%s  --wildcards "Satellite-*/content_satellite" --strip-components=1 -C %s' % (archive_name, explode_folder))
             
             run('mv content_satellite %s' % rename_folder)
-
-            print "renamed folder!!!!!!" , rename_folder
 
             #with cd('/var/src/sol/%s' % explode_folder):
             #    run('mv satellite/* .')
@@ -89,6 +85,22 @@ def build_and_upload_archive():
 
     print '-- build_and_upload_archive END --'
 
+
+@task
+def install_scheduled_tasks():
+    """
+    make the web server aware of the tasks we want it to run on a schedule for us
+    (the major scheduled tasks: pull articles and share prices multiple times a day; configured in cron.py)
+
+    before installing the tasks, we'll run a generic command to uninstall tasks of the same name,
+    (a previous deployment might have installed tasks of the same name)
+    """
+    with virtualenv():
+        cmd_uninstall_tasks = "python manage.py uninstalltasks"
+        env.run(cmd_uninstall_tasks)
+
+        cmd_install_tasks = "python manage.py installtasks"
+        env.run(cmd_install_tasks)
 
 
 @task
@@ -103,7 +115,7 @@ def notify_slack():
         'text': "%s deployed %s!" % (getpass.getuser(), env.project_name),
         'channel': '#satellite-of-love',
         'username': 'derploybot',
-        'icon_emoji':':too_cute:',
+        'icon_emoji':':sol_2:',
     }
 
     params = urllib.urlencode({
