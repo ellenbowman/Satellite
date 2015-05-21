@@ -6,30 +6,50 @@ SOL: Ticker World
 
 {% block container_contents %}
 
-	<h2><a href="/sol/ticker_world/"><img align="left" style="padding-right:20px;" width=100px src="http://g.foolcdn.com/editorial/images/150992/tickerworld3000_large.jpg"></a>
-	Welcome to Ticker World. 
-		{% if service_filter_description %}
-		These results are for {{service_filter_description}}.
+	<h2>Welcome to Ticker World.</h2>
+		<p>
+			{% if service_filter_description %}
+			These results are for {{service_filter_description}}.
+				{% if sort_by_daily_percent_change %}
+		 These are sorted by <strong>current percent change</strong>.
+		<button type="button">	<a href="/sol/ticker_world/earnings_date_sort">
+        Sort by upcoming earnings date</button> </a>
+    	</p>
+    			{% else %}
+        	These are sorted by <strong>upcoming earnings date</strong>.
+        	<button type="button"><a href="/sol/ticker_world/">
+        		Sort by current percent change.</button></a></p>
+			{% endif %}
 		{% else %}
-		You're seeing everything.
+		You're seeing all Fool recommendations. {% if sort_by_daily_percent_change %}
+		 These are sorted by <strong>current percent change</strong>.
+		<button type="button">	<a href="/sol/ticker_world/earnings_date_sort">
+        Sort by upcoming earnings date</button> </a>
+    	</p>
+    			{% else %}
+        	These are sorted by <strong>upcoming earnings date</strong>.
+        	<button type="button"><a href="/sol/ticker_world/">
+        		Sort by current percent change.</button></a></p>
+			{% endif %}</a></p>
 		{% endif %}
-	</h2>
-<hr/>
-    <table>
-    	<tr>
-    		<td align="center"><h4>Filter</h4></td>
-    		<td align="center"><h4>At a Glance</h4></td>
-    	</tr>
-		<tr>
-    	<td style="padding:15px;">
+	</p>
+	<table>
+		{% if service_filter_description %}
+	<table>
+		<td>
+			<div style="padding-right: 500px;">
+				<p>We Apologize for the Inconvenience</p>
+			</div>
+		<td>
+		<div style='padding:15px;max-width:220px;background-color:lightgray'>
 			<form action="" method="post">
 				{% csrf_token %}
-				<span align="middle"><strong>Filter by ticker(s):</strong></span>
-				{{form.tickers}} <input type="submit" value="Apply filter"><br/>
-				<br/>
-				<strong>Filter by service(s):</strong>
-				{{form.services}}  <input type="submit" value="Apply filter"><br/>
+				<strong>Ticker(s):</strong><br/>
+				{{form.tickers}}<br/>
+				<strong>Service(s):</strong><br/>
+				{{form.services}}<br/>
 				<em>Ctrl/Cmd+click to select more than one</em>.
+				<input type="submit" value="Apply filters"><br/>
 			</form>
 			<br/>
 			<p><strong>Active filters:  </strong>
@@ -42,29 +62,18 @@ SOL: Ticker World
 			<p><strong>Number of tickers:</strong> {{num_tickers}}
 			</p>
 			<p><a href="{% url 'ticker_world' %}"><button type='button'>Remove filters</button></a></p>
-		</td>
-		<td style="padding:15px;" align="center">
-			<strong>Currently Up</strong><br/>
-				{% for t in top_gainers %}
-				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-		</td>
-		<td style="padding:15px;" align="center">
-			<strong>Currently Down</strong><br/>
-				{% for t in top_losers %}
-				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-		<td style="padding:15px;" align="center">
-			<strong>Upcoming Earnings</strong><br/>
-				{% for t in tickers_sorted_by_earnings_date %}
-				<a href="#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a>: {{t.earnings_announcement}}<br/>
-				{% endfor %}
-		</tr>
-	</table>
+		</div>
+	</td>
+
+{% else %}
+	<table>
+	</td>
+	{% endif %}
+</table>
 
 <hr/>
 
-<h3><a target="blank" href="https://www.youtube.com/watch?v=gy0Gd2-GdOI">Ticker Biographies</a></h3>
+<h3>Ticker Details</h3>
 <p>{% if sort_by_daily_percent_change %}
         	<p> These are sorted by <strong>current percent change</strong>. <button type="button"><a href="/sol/ticker_world/earnings_date_sort">
         	Sort by upcoming earnings date</button></a></p>
@@ -91,3 +100,16 @@ SOL: Ticker World
 {% endfor %}
 <hr/>
 {% endblock container_contents %}
+
+-----------------------------------------------------------------------------------------
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63170666-1', 'auto');
+  ga('send', 'pageview');
+
+</script>

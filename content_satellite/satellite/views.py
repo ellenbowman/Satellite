@@ -362,6 +362,10 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:10]
 		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change)[:10]
 
+
+	##### next up: creating top 3? 5? ticker lists to display for each service; can we have a 
+
+
 	num_tickers = len(tickers)
 	#top_gainers = tickers[:20]
 	#top_losers = tickers[::-1][:20]
