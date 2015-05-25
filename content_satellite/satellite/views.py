@@ -89,125 +89,10 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	csv_elements = [int(el.strip()) for el in csv_elements]
 
 	return Service.objects.filter(id__in=csv_elements)
-	
-###############################################################################
-
-def top_movers(request, movers='gainers'):
-	# shows the top 50 stocks that are up or down across Fool services today.
-	# (different links) Also includes % change, ticker, name, scorecards, BBN/Core status,
-	# and a link to the ticker in ticker_biographies.
-	# Filters by service
-
-	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
-	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
-	tickers_to_filter_by = None
-	ticker_filter_description = None
-	service_options = Service.objects.all()
-
-	if request.POST:
-		movers_filter_form = FilterForm(request.POST)
-		
-		if movers_filter_form.is_valid():
-			if 'tickers' in movers_filter_form.cleaned_data:
-				tickers_user_input = movers_filter_form.cleaned_data['tickers'].strip()
-			if tickers_user_input != '':
-				# take the user input and try to find corresponding Ticker objects 
-				tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
-
-		# retrieve the services that were selected in the form. 
-		if 'services' in movers_filter_form.cleaned_data:
-			if len(movers_filter_form.cleaned_data['services']) > 0:
-				# the form makes available "cleaned data" that's pretty convenient - 
-				# in this case, it returns a list of Service objects that correspond
-				# to what the user selected.
-				services_to_filter_by = movers_filter_form.cleaned_data['services']
-
-	elif request.GET:
-		initial_form_values = {}
-
-		if 'tickers' in request.GET:
-			tickers_user_input = request.GET.get('tickers')
-			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
-
-			initial_form_values['tickers'] = tickers_user_input
-		if 'service_ids' in request.GET:
-			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
-			initial_form_values['services'] = services_to_filter_by
-
-		movers_filter_form = FilterForm(initial=initial_form_values)
-
-	else:
-		movers_filter_form = FilterForm()
-
-	# end of inspecting request.GET and request.POST for ticker/service filter
-
-	if tickers_to_filter_by:
-		# make the pretty description of the tickers
-		ticker_filter_description = tickers_user_input.upper()
-
-	if services_to_filter_by:
-		# make the pretty description of the services we found. 
-		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
-		pretty_names_of_services_we_matched.sort()
-		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
-
-	else:
-		pass
-		
-	# get the set of tickers, filtered by ticker/service, if those filters are defined
-	if tickers_to_filter_by is not None and services_to_filter_by is not None:
-		tickers = []  # initialize to an empty list
-		for t in tickers_to_filter_by:
-			for service in services_to_filter_by:
-				if service.pretty_name in t.services_for_ticker:
-					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
-					# overlap between the ticker's services_for_ticker field and the set of services we 
-					# want to filter by 
-					break
-		
-	elif tickers_to_filter_by is not None:
-		tickers = tickers_to_filter_by
-	elif services_to_filter_by is not None:
-		tickers = []  # initialize to an empty list
-		for t in Ticker.objects.all():
-			if not t.services_for_ticker:
-				continue
-			for service in services_to_filter_by:
-				if service.pretty_name in t.services_for_ticker:
-					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
-					# overlap between the ticker's services_for_ticker field and the set of services we 
-					# want to filter by 
-					break
-		
-	else:
-		# get all tickers, and sort by descending date
-		tickers = Ticker.objects.all()
-
-
-	tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
-	top_gainers = tickers[:100]
-	top_losers = tickers[::-1][:100]
-
-
-	dictionary_of_values = {
-		'form': movers_filter_form,
-		'tickers': tickers,
-		'service_filter_description': service_filter_description,
-		'services_to_filter_by': services_to_filter_by,
-		'service_options': service_options,
-		'top_gainers': top_gainers,
-		'top_losers': top_losers,
-		#'gainers': gainers,
-	}
-
-	if movers=='gainers':
-		dictionary_of_values['gainers'] = True
-
-	return render(request, 'satellite/top_movers.html', dictionary_of_values)
 
 ###############################################################################
 
-def ticker_world(request, sort_by='daily_percent_change', next_week='next_week'):
+def ticker_world(request, sort_by='daily_percent_change'):
 
 
 	#shows all tickers and some meta data (daily percent change, company name, exchange, ticker symbol)
@@ -338,7 +223,7 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 	
 
 	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
-	
+
 	if sort_by=='daily_percent_change':
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
 		top_gainers = tickers[:10]
@@ -362,13 +247,10 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:10]
 		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change)[:10]
 
-
-	##### next up: creating top 3? 5? ticker lists to display for each service; can we have a 
-
+	if sort_by=='biggest_losers':
+		tickers=sorted(tickers, key=lambda x: x.daily_percent_change)
 
 	num_tickers = len(tickers)
-	#top_gainers = tickers[:20]
-	#top_losers = tickers[::-1][:20]
 
 	# tickers_sorted_by_earnings_date = tickers.order_by('earnings_announcement')[:10]
 	# let's consider only those that are happening today or in the future
@@ -378,11 +260,11 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 
 	next_week_date = (datetime.now() + timedelta(days=7)).date()
 
-	if next_week=='next_week':
-		tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date and t.earnings_announcement>yesterday]
-		tickers_for_next_week = sorted(tickers_for_next_week, key=lambda x: x.earnings_announcement)
-	else:
-		tickers_for_next_week = None
+	#if next_week=='next_week':
+	#	tickers_for_next_week = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement<next_week_date and t.earnings_announcement>yesterday]
+	#	tickers_for_next_week = sorted(tickers_for_next_week, key=lambda x: x.earnings_announcement)
+	#else:
+	#	tickers_for_next_week = None
 
 	dictionary_of_values = {
 		'form': movers_filter_form,
@@ -396,14 +278,17 @@ def ticker_world(request, sort_by='daily_percent_change', next_week='next_week')
 		'top_gainers': top_gainers,
 		'top_losers': top_losers,
 		'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
-		'next_week_date': next_week_date,
-		'next_week': next_week,
-		'tickers_for_next_week': tickers_for_next_week,
+		#'next_week_date': next_week_date,
+		#'next_week': next_week,
+		#'tickers_for_next_week': tickers_for_next_week,
 		# 'ticker_filter_description': ticker_filter_description
 	}
 
 	if sort_by=='daily_percent_change':
 		dictionary_of_values['sort_by_daily_percent_change'] = True
+
+	if sort_by=='biggest_losers':
+		dictionary_of_values['sort_by_biggest_losers'] = True
 
 	return render(request, 'satellite/ticker_world.html', dictionary_of_values)
 

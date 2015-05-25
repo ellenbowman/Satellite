@@ -1,89 +1,52 @@
 {% extends 'satellite/_base_layout.html' %}
 
 {% block title_value %}
-SOL: Ticker World
+SOL: Biggest Movers
 {% endblock %}
 
 {% block container_contents %}
 
-	<h2>Welcome to Ticker World.</h2>
-		<p>
-			{% if service_filter_description %}
-			These results are for {{service_filter_description}}.
-				{% if sort_by_daily_percent_change %}
-		 These are sorted by <strong>current percent change</strong>.
-		<button type="button">	<a href="/sol/ticker_world/earnings_date_sort">
-        Sort by upcoming earnings date</button> </a>
-    	</p>
-    			{% else %}
-        	These are sorted by <strong>upcoming earnings date</strong>.
-        	<button type="button"><a href="/sol/ticker_world/">
-        		Sort by current percent change.</button></a></p>
-			{% endif %}
-		{% else %}
-		You're seeing all Fool recommendations. {% if sort_by_daily_percent_change %}
-		 These are sorted by <strong>current percent change</strong>.
-		<button type="button">	<a href="/sol/ticker_world/earnings_date_sort">
-        Sort by upcoming earnings date</button> </a>
-    	</p>
-    			{% else %}
-        	These are sorted by <strong>upcoming earnings date</strong>.
-        	<button type="button"><a href="/sol/ticker_world/">
-        		Sort by current percent change.</button></a></p>
-			{% endif %}</a></p>
-		{% endif %}
-	</p>
-	<table>
+	{% if sort_by_daily_percent_change %}
+
+	<h2>Today's Top {% if sort_by_biggest_losers %}
+			Losers {% else %} Gainers{% endif %}</h2>
+	<p>
+	You're seeing what's {% if sort_by_biggest_losers %} down {% else %} up {% endif %}
+	in 
 		{% if service_filter_description %}
-	<table>
-		<td>
-			<div style="padding-right: 500px;">
-				<p>We Apologize for the Inconvenience</p>
-			</div>
-		<td>
-		<div style='padding:15px;max-width:220px;background-color:lightgray'>
+			<em>{{service_filter_description}}</em>.
+		{% else %}
+			all Foolish premium services.
+		{% endif %}
+
+		{% if sort_by_biggest_losers %} <a href="/sol/ticker_world/">See what's up instead</a> {% else %} <a href="/sol/ticker_world/biggest_losers/">See what's down instead</a>{% endif %}
+
+	{% else %}
+		<h2>Upcoming Earnings Dates:
+			{% if service_filter_description %}
+			{{service_filter_description}}
+			{% endif %}</h2>
+	{% endif %}
+
+</p>
+		<div style='padding:15px;max-height:220px;background-color:lightgray'>
 			<form action="" method="post">
 				{% csrf_token %}
-				<strong>Ticker(s):</strong><br/>
-				{{form.tickers}}<br/>
-				<strong>Service(s):</strong><br/>
-				{{form.services}}<br/>
+				<strong>Filter by service(s):</strong>&nbsp;
+				{{form.services}}
 				<em>Ctrl/Cmd+click to select more than one</em>.
-				<input type="submit" value="Apply filters"><br/>
+				<input type="submit" value="Apply filters">
 			</form>
-			<br/>
-			<p><strong>Active filters:  </strong>
-			{% if service_filter_description %}
-			<em>Service(s):  </em>{{service_filter_description}}
-			{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;
-			{% if ticker_filter_description %}
-			<em>Ticker(s):  </em>{{ticker_filter_description}}
-			{% endif %}<br/>
-			<p><strong>Number of tickers:</strong> {{num_tickers}}
-			</p>
-			<p><a href="{% url 'ticker_world' %}"><button type='button'>Remove filters</button></a></p>
+			{% if sort_by_daily_percent_change %}
+			<a href="/sol/ticker_world/">Remove filters </a> {% else %} <a href="/sol/ticker_world/">Remove filters</a>{% endif %} | Number of tickers: {{num_tickers}}
 		</div>
-	</td>
-
-{% else %}
-	<table>
-	</td>
-	{% endif %}
-</table>
+</p>
 
 <hr/>
-
-<h3>Ticker Details</h3>
-<p>{% if sort_by_daily_percent_change %}
-        	<p> These are sorted by <strong>current percent change</strong>. <button type="button"><a href="/sol/ticker_world/earnings_date_sort">
-        	Sort by upcoming earnings date</button></a></p>
-    		{% else %}
-        	<p>These are sorted by <strong>upcoming earnings date</strong>.&nbsp;&nbsp;&nbsp;<button type="button"><a href="/sol/ticker_world/">Sort by current percent change</button></a></p>
-    		{% endif %}
-</p>
 {% for t in tickers %}
+<h4>{{t.company_name}}</h4>
 <p id="{{t.ticker_symbol}}">
-	<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | <strong>{{t.company_name}}</strong> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
+	<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
 <br/>
 <strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}}<br/>
 <a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
@@ -97,8 +60,8 @@ SOL: Ticker World
     <input type="submit" value="Edit notes"></span>
 </form>
 </p>
-{% endfor %}
 <hr/>
+{% endfor %}
 {% endblock container_contents %}
 
 -----------------------------------------------------------------------------------------
