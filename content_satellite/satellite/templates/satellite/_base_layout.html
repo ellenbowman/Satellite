@@ -111,10 +111,14 @@ and you'll find that much of your markup inherits pretty styles. bootstrap also 
 		    <div class="collapse navbar-collapse" id="navbar-collapse-1">
 		      <ul class="nav navbar-nav navbar-right">
                     <li><a class='topnav-breadcrumb' id='breadcrumb_home' href="{% url 'index' %}">Home</a></li>
+                    <li>
+                        <a class='topnav-breadcrumb' id='breadcrumb_tickers' href="{% url 'ticker_world' %}">Biggest Gainers</a></li>
+                    <li>
+                        <a class='topnav-breadcrumb' id='breadcrumb_losers' href="/sol/ticker_world/biggest_losers/">Biggest Losers</a></li>                                   
+                    <li>
+                        <a class='topnav-breadcrumb' id='breadcrumb_earnings' href="/sol/ticker_world/earnings_date_sort/">Upcoming Earnings</a></li>
                     <li><a class='topnav-breadcrumb' id='breadcrumb_articles' href="{% url 'everything_about_articles' %}">Articles</a>
                     </li>
-                    <li>
-                        <a class='topnav-breadcrumb' id='breadcrumb_authors' href="{% url 'author_bylines'%}">Authors</a>
                     <li>
                     	<a class='topnav-breadcrumb' id='breadcrumb_tickers' href="{% url 'ticker_world' %}">Ticker World</a>
                     </li>

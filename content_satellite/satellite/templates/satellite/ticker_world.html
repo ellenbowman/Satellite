@@ -34,9 +34,9 @@ SOL: Biggest Movers
 	</p>
 
 	{% else %}
-		<h2>Upcoming Earnings Dates:
-			{% if service_filter_description %}
-			{{service_filter_description}}
+		<h2>Upcoming Earnings Dates
+			{% if service_filter_description %}:
+			 {{service_filter_description}}
 			{% endif %}</h2>
 	{% endif %}
 
@@ -50,7 +50,11 @@ SOL: Biggest Movers
 				<input type="submit" value="Apply filters">
 			</form>
 			{% if sort_by_daily_percent_change %}
-			<a href="/sol/ticker_world/">Remove filters </a> {% else %} <a href="/sol/ticker_world/">Remove filters</a>{% endif %} | Number of tickers: {{num_tickers}}
+			<a href="/sol/ticker_world/">Remove filters </a>
+			{% elif sort_by_biggest_losers %}
+			<a href="/sol/ticker_world/">Remove filters</a>
+			{% else %}
+			<a href="/sol/ticker_world/earnings_date_sort">Remove filters</a> {% endif %} | Number of tickers: {{num_tickers}}
 		</div>
 </p>
 
