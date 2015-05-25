@@ -8,10 +8,9 @@ SOL: Biggest Movers
 
 	{% if sort_by_daily_percent_change %}
 
-	<h2>Today's Top {% if sort_by_biggest_losers %}
-			Losers {% else %} Gainers{% endif %}</h2>
+	<h2>Today's Top Gainers</h2>
 	<p>
-	You're seeing what's {% if sort_by_biggest_losers %} down {% else %} up {% endif %}
+	You're seeing what's up
 	in 
 		{% if service_filter_description %}
 			<em>{{service_filter_description}}</em>.
@@ -19,7 +18,20 @@ SOL: Biggest Movers
 			all Foolish premium services.
 		{% endif %}
 
-		{% if sort_by_biggest_losers %} <a href="/sol/ticker_world/">See what's up instead</a> {% else %} <a href="/sol/ticker_world/biggest_losers/">See what's down instead</a>{% endif %}
+		<a href="/sol/ticker_world/biggest_losers/">See what's down instead</a>
+
+	{% elif sort_by_biggest_losers %}
+		<h2>Today's Top Losers</h2>
+		<p>
+			You're seeing what's down in 
+		{% if service_filter_description %}
+			<em>{{service_filter_description}}</em>.
+		{% else %}
+			all Foolish premium services.
+		{% endif %}
+
+		<a href="/sol/ticker_world/">See what's up instead</a>
+	</p>
 
 	{% else %}
 		<h2>Upcoming Earnings Dates:
