@@ -6,50 +6,40 @@
 	<p><em>Captain's log: A bunch of our ship fell off, and nobody likes me.</em></p>
 <table>
 	<tr>
-		<td style="padding: 30px;">
-			<p><a href="/sol/ticker_world/">Current Top Gainers</a></p>
+		<td align="center" style="padding: 30px;">
+			<p><button type="button"><a href="/sol/ticker_world/"><h4>Current Top Gainers</h4></a></button></p>
 		</td>
-		<td style="padding: 30px;">
-		<p><a href="/sol/ticker_world/biggest_losers/">Current Top Losers</a></p>
+		<td align="center" style="padding: 30px;">
+		<p><button type="button"><a href="/sol/ticker_world/biggest_losers/"><h4>Current Top Losers</h4></a></button></p>
 		</td>
-		<td style="padding: 30px;">
-			<p>Service Overview</p>
+		<td align="center" style="padding: 30px;">
+			<p><button type="button"><h4>Service Overview</h4></button></p>
 		</td>
-		<td style="padding:30px;">
-			<p><a href="/sol/ticker_world/earnings_date_sort">Upcoming Earnings Dates</a></p>
-		</td>
-	</tr>
-	<tr>
-		<td style="padding: 30px;">
-			<p>Yesterday's Coverage</p>
-		</td>
-		<td style="padding: 30px;">
-			<p>Today's Coverage</p>
-		</td>
-		<td style="padding: 30px;">
-			<p>Coming Up</p>
+		<td align="center" style="padding:30px;">
+			<p><button type="button"><a href="/sol/ticker_world/earnings_date_sort">
+			<h4>Upcoming Earnings Dates</h4></a></button></p>
 		</td>
 	</tr>
 	<tr>
-		<td align="center" style="padding: 30px" cols="3">
-			<p><a href="ticker_world/">Find a Ticker</a></p>
+		<td align="center" style="padding: 30px;">
+			<p><button type="button"><h4>Yesterday's Coverage</h4></button></p>
+		</td>
+		<td align="center" style="padding: 30px;">
+			<p><button type="button"><h4>Today's Coverage</button></h4></p>
+		</td>
+		<td align="center" style="padding: 30px;">
+			<p><button type="button"><h4>Coming Up</h4></button></p>
+		</td>
+		<td align="center" style="padding: 30px">
+			<p><button type="button"><a href="/sol/ticker_world/all_tickers/"><h4>Find a Ticker</h4></a></button></p>
 		</td>
 	</tr>
 </table>
 
 
 
-
-	<table>
-		<tr>
-			<td>
-				<p style="padding-right: 50px"><a href="{% url 'everything_about_articles' %}"><img src="http://g.foolcdn.com/editorial/images/150992/article_world_large.jpg" width=350px><br/>Everything you ever wanted to know about our articles</a></p>
-			</td>
-			<td>
-				<p style="padding-left: 50px"><a href="{% url 'ticker_world' %}"><img width=350px src="http://g.foolcdn.com/editorial/images/150992/tickerworld3000_large.jpg"><br/>Everything you ever wanted to know about our tickers</a></p>
-			</td>
-		</tr>
-	</table>
+<p>The current top gainer across all premium services is X. The top loser is Y.</br>
+	The most recent published article is Z.</p>
 	<p><img src="http://g.foolcdn.com/editorial/images/150992/silhouettes_large.png"></p>
 </div>
 {% endblock container_contents %}

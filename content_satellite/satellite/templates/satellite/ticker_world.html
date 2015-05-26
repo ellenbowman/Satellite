@@ -32,12 +32,22 @@ SOL: Biggest Movers
 
 		<a href="/sol/ticker_world/">See what's up instead</a>
 	</p>
-
+	{% elif sort_by_all_tickers %}
+	<h2>All Tickers
+		{% if service_filter_description %}: {{service_filter_description}} {% endif %}</h2>
+		<p><form action="" method="post">
+			{% csrf_token %}
+			<strong>Find a ticker, or several:</strong>&nbsp;
+			{{form.tickers}}
+			<input type="submit" value = "Find">
+		</form>
 	{% else %}
-		<h2>Upcoming Earnings Dates
-			{% if service_filter_description %}:
-			 {{service_filter_description}}
-			{% endif %}</h2>
+		<h2>Upcoming Earnings Dates</h2>
+		<p>{% if service_filter_description %}
+			<em>{{service_filter_description}}</em>
+			{% else %}
+			All Premium Services
+			{% endif %}</p>
 	{% endif %}
 
 </p>

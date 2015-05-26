@@ -247,8 +247,11 @@ def ticker_world(request, sort_by='daily_percent_change'):
 		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:10]
 		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change)[:10]
 
-	if sort_by=='biggest_losers':
-		tickers=sorted(tickers, key=lambda x: x.daily_percent_change)
+	if sort_by == 'biggest_losers':
+		tickers = sorted(tickers, key=lambda x: x.daily_percent_change)
+
+	if sort_by == 'all_tickers':
+		tickers = tickers
 
 	num_tickers = len(tickers)
 
@@ -289,6 +292,9 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 	if sort_by=='biggest_losers':
 		dictionary_of_values['sort_by_biggest_losers'] = True
+
+	if sort_by=='all_tickers':
+		dictionary_of_values['sort_by_all_tickers'] = True
 
 	return render(request, 'satellite/ticker_world.html', dictionary_of_values)
 
