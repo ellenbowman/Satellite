@@ -251,7 +251,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change)
 
 	if sort_by == 'all_tickers':
-		tickers = tickers
+		tickers = sorted(tickers)
 
 	num_tickers = len(tickers)
 
