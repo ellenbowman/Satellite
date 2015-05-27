@@ -40,12 +40,12 @@
 
 <p>The current biggest gainer across all premium services is <b>
 	{{gainer.company_name}}</b> ({{gainer.ticker_symbol}}), up {{gainer.daily_percent_change}}%.
-	<a href="">Coverage</a><br/>
+	<a href="{% url 'everything_about_articles' %}?tickers={{gainer.ticker_symbol}}" target='_blank'>Coverage</a><br/>
 	The biggest loser is <b>{{loser.company_name}}</b> ({{loser.ticker_symbol}}), down {{loser.daily_percent_change}}%.
-	<a href="">Coverage</a></br>
-	The most recently published article is <a href="{{article.url}}">{{article}}</a> in <em>{{article.service}}.</em><br/>
+	<a href="{% url 'everything_about_articles' %}?tickers={{loser.ticker_symbol}}" target='_blank'>Coverage</a></br>
+	The most recently published article is <a href="http://{{article.url}}" target='_blank'>{{article}}</a> in <em>{{article.service}}.</em><br/>
 	<br/>
-	<em>Information is updated every 10 minutes or so</em>. <a href="/sol/data_freshness">See data freshness</a></p>
+	<em>Information is updated every 10 minutes or so</em>. <a href="/sol/data_freshness" target="_blank">See data freshness</a></p>
 	<p><img src="http://g.foolcdn.com/editorial/images/150992/silhouettes_large.png"></p>
 </div>
 {% endblock container_contents %}
