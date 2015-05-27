@@ -8,10 +8,10 @@
 <table>
 	<tr>
 		<td align="center" style="padding: 30px;">
-			<p><button type="button"><a href="/sol/ticker_world/"><h4>Current Top Gainers</h4></a></button></p>
+			<p><button type="button"><a href="/sol/ticker_world/"><h4>Biggest Gainers</h4></a></button></p>
 		</td>
 		<td align="center" style="padding: 30px;">
-		<p><button type="button"><a href="/sol/ticker_world/biggest_losers/"><h4>Current Top Losers</h4></a></button></p>
+		<p><button type="button"><a href="/sol/ticker_world/biggest_losers/"><h4>Biggest Losers</h4></a></button></p>
 		</td>
 		<td align="center" style="padding: 30px;">
 			<p><button type="button"><h4>Service Overview</h4></button></p>
@@ -39,9 +39,13 @@
 
 
 <p>The current biggest gainer across all premium services is <b>
-	{{gainer.company_name}}</b> ({{gainer.ticker_symbol}}), up {{gainer.daily_percent_change}}%.<br/>
-	The biggest loser is <b>{{loser.company_name}}</b> ({{loser.ticker_symbol}}), down {{loser.daily_percent_change}}%.</br>
-	The most recently published article is <a href="{{article.url}}">{{article}}</a> in <em>{{article.service}}.</em></p>
+	{{gainer.company_name}}</b> ({{gainer.ticker_symbol}}), up {{gainer.daily_percent_change}}%.
+	<a href="">Coverage</a><br/>
+	The biggest loser is <b>{{loser.company_name}}</b> ({{loser.ticker_symbol}}), down {{loser.daily_percent_change}}%.
+	<a href="">Coverage</a></br>
+	The most recently published article is <a href="{{article.url}}">{{article}}</a> in <em>{{article.service}}.</em><br/>
+	<br/>
+	<em>Information is updated every 10 minutes or so</em>. <a href="/sol/data_freshness">See data freshness</a></p>
 	<p><img src="http://g.foolcdn.com/editorial/images/150992/silhouettes_large.png"></p>
 </div>
 {% endblock container_contents %}
