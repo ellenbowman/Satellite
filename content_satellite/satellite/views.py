@@ -15,11 +15,11 @@ def index(request):
 		'page-title': 'Welcome to the Satellite',
 	}
 
-	tickers = Ticker.objects.all().order_by('daily_percent_change')[:20]
+	tickers = Ticker.objects.all().order_by('daily_percent_change')
+	gainer = tickers.reverse()[0]
+	print gainer
 	loser = tickers[0]
 	print loser
-	gainer = tickers[1]
-	print gainer
 	article = Article.objects.all()[0]
 	print article
 	sample = 2
