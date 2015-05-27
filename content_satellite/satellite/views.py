@@ -29,34 +29,120 @@ def index(request):
 	return render(request, 'satellite/index.html', dictionary_of_values)
 
 ###############################################################################
-"""
+
 
 def service_overview(request):
 
-		""
-	service_name = None
-	if 'service' in request.GET:
-		service_name = request.GET['service']
+	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
+	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
+	service_options = Service.objects.all()
 
-	max_count = 20
+	# filter by service if we detect that preference in the query string (in the request.GET) or via a form post (in the request.POST)
 
-	if service_name:
-		service_match = Service.objects.filter(name=service_name)
-		articles = Article.objects.filter(service__in=service_match)[:max_count]
+	if request.POST:
+
+		service_filter_form = FilterForm(request.POST)
+		
+		if service_filter_form.is_valid():
+			# retrieve the services that were selected in the form. 
+			if 'services' in service_filter_form.cleaned_data:
+				if len(service_filter_form.cleaned_data['services']) > 0:
+					# the form makes available "cleaned data" that's pretty convenient - 
+					# in this case, it returns a list of Service objects that correspond
+					# to what the user selected.
+					services_to_filter_by = service_filter_form.cleaned_data['services']
+
+	
+	elif request.GET:
+		initial_form_values = {}
+
+		if 'service_ids' in request.GET:
+			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
+			initial_form_values['services'] = services_to_filter_by
+
+		service_filter_form = FilterForm(initial=initial_form_values)
+
 	else:
-		articles = Article.objects.all()[:max_count]
+		service_filter_form = FilterForm()
 
-# ServiceTakes have both a ticker and a scorecard, and a scorecard has a service.
-# So show me ServiceTakes by scorecard?
+	# end of inspecting request.GET and request.POST for ticker/service filter
+
+	if services_to_filter_by:
+		# make the pretty description of the services we found. 
+		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
+		pretty_names_of_services_we_matched.sort()
+		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
+
+	else:
+		pass
+
+
+	# get the set of tickers, filtered by service, if that filter is defined
+	if services_to_filter_by is not None:
+		tickers = []  # initialize to an empty list
+		for t in Ticker.objects.all():
+			if not t.services_for_ticker:
+				continue
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker:
+					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
+					# overlap between the ticker's services_for_ticker field and the set of services we 
+					# want to filter by 
+					break
+		
+	else:
+		# get all tickers, and sort by descending date
+		tickers = Ticker.objects.all()
+
+	fool_one_tickers = []
+	for t in Ticker.objects.all():
+		if not t.services_for_ticker:
+			continue
+		if 'One' in t.services_for_ticker:
+			fool_one_tickers.append(t)
+
+	fool_one_gainers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
+	fool_one_losers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change)[:5]
+
+	supernova_tickers = []
+	for t in Ticker.objects.all():
+		if not t.services_for_ticker:
+			continue
+		if 'Supernova' in t.services_for_ticker:
+			supernova_tickers.append(t)
+
+	supernova_gainers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
+	supernova_losers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change)[:5]
+
+	pro_tickers = []
+	for t in Ticker.objects.all():
+		if not t.services_for_ticker:
+			continue
+		if 'Pro' in t.services_for_ticker:
+			pro_tickers.append(t)
+
+	pro_gainers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
+	pro_losers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change)[:5]
+
 
 	dictionary_of_values = {
-		'articles' : articles,
-		'service_name': service_name,
-		'articles_max_count': max_count
+		'services_to_filter_by': services_to_filter_by,
+		'tickers': tickers,
+		'form': service_filter_form,
+		'fool_one_tickers': fool_one_tickers,
+		'fool_one_gainers': fool_one_gainers,
+		'fool_one_losers': fool_one_losers,
+		'supernova_tickers': supernova_tickers,
+		'supernova_gainers': supernova_gainers,
+		'supernova_losers': supernova_losers,
+		'pro_tickers': pro_tickers,
+		'pro_gainers': pro_gainers,
+		'pro_losers': pro_losers,
 	}
 
 	return render(request, 'satellite/service_overview.html', dictionary_of_values)
-"""
+
+
 ###############################################################################
 
 
@@ -88,9 +174,6 @@ def articles_by_service(request):
 		articles = Article.objects.filter(service__in=service_match)[:max_count]
 	else:
 		articles = Article.objects.all()[:max_count]
-
-# ServiceTakes have both a ticker and a scorecard, and a scorecard has a service.
-# So show me ServiceTakes by scorecard?
 
 	dictionary_of_values = {
 		'articles' : articles,
