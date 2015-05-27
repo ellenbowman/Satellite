@@ -8,6 +8,8 @@ SOL: Biggest Movers
 
 	{% if sort_by_daily_percent_change %}
 
+	{{sample}}
+
 	<h2>Today's Top Gainers</h2>
 	<p>
 	You're seeing what's up
@@ -67,7 +69,7 @@ SOL: Biggest Movers
 			<a href="/sol/ticker_world/earnings_date_sort">Remove filters</a> {% endif %} | Number of tickers: {{num_tickers}}
 		</div>
 </p>
-
+{{loser}}
 <hr/>
 {% for t in tickers %}
 <h4>{{t.company_name}}</h4>

@@ -1,6 +1,7 @@
 {% extends 'satellite/_base_layout.html' %}
 
 {% block container_contents %}
+
 <div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
 	<h1>Welcome to the Satellite</h1>
 	<p><em>Captain's log: A bunch of our ship fell off, and nobody likes me.</em></p>
@@ -37,9 +38,9 @@
 </table>
 
 
-
-<p>The current top gainer across all premium services is X. The top loser is Y.</br>
-	The most recent published article is Z.</p>
+<p>The current top gainer across all premium services is <b>
+	{{gainer.ticker_symbol}}</b> ({{gainer.daily_percent_change}}%). The top loser is <b>{{loser.ticker_symbol}}</b> ({{loser.daily_percent_change}}%).</br>
+	The most recently published article is <a href="{{article.url}}">{{article}}</a> in <em>{{article.service}}.</em></p>
 	<p><img src="http://g.foolcdn.com/editorial/images/150992/silhouettes_large.png"></p>
 </div>
 {% endblock container_contents %}

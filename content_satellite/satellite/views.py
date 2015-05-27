@@ -10,14 +10,28 @@ from models import Article, Service, Ticker, Scorecard, ServiceTake
 
 ###############################################################################
 
-### will make way for info_by_scorecard or something quite like it
-
 def index(request):
 	context = {
-		'page-title': 'Welcome to the Satellite'
+		'page-title': 'Welcome to the Satellite',
 	}
 
-	return render(request, 'satellite/index.html', context)
+	tickers = Ticker.objects.all().order_by('daily_percent_change')[:20]
+	loser = tickers[0]
+	print loser
+	gainer = tickers[1]
+	print gainer
+	article = Article.objects.all()[0]
+	print article
+	sample = 2
+
+	dictionary_of_values = {
+		'gainer': gainer,
+		'loser': loser,
+		'article': article,
+		'sample': sample,
+	}
+
+	return render(request, 'satellite/index.html', dictionary_of_values)
 
 
 ###############################################################################
@@ -93,7 +107,6 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 ###############################################################################
 
 def ticker_world(request, sort_by='daily_percent_change'):
-
 
 	#shows all tickers and some meta data (daily percent change, company name, exchange, ticker symbol)
 	#contains a form that lets you specify services and tickers
@@ -246,6 +259,8 @@ def ticker_world(request, sort_by='daily_percent_change'):
 		tickers = sorted(tickers_with_announcement_date_and_not_in_past, key=lambda x: x.earnings_announcement) + tickers_without_announcement_date + sorted(tickers_with_announcement_date_and_in_past, key=lambda x: x.earnings_announcement) 
 		top_gainers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)[:10]
 		top_losers = sorted(tickers, key=lambda x: x.daily_percent_change)[:10]
+		loser = tickers[0]
+		print loser
 
 	if sort_by == 'biggest_losers':
 		tickers = sorted(tickers, key=lambda x: x.daily_percent_change)
