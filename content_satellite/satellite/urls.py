@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 
     url(r'^scorecard_index/$', views.scorecard_index, name="scorecard index"),
     # url(r'^my_sample_view/$', views.my_sample_view, name="my sample view"),
+    #url(r'^service_overview/$', views.service_overview, name="service_overview")
     url(r'^data_freshness/$', views_data_freshness.data_freshness_index, name="data_freshness"),
     url(r'^author_bylines/$', views_samples.get_author_bylines_index, name='author_bylines'),
     url(r'^flagged_recs/$', views_flagged_recs.get_flagged_recs_index, name='flagged_recs'),    

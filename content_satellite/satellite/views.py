@@ -17,23 +17,46 @@ def index(request):
 
 	tickers = Ticker.objects.all().order_by('daily_percent_change')
 	gainer = tickers.reverse()[0]
-	print gainer
 	loser = tickers[0]
-	print loser
 	article = Article.objects.all()[0]
-	print article
-	sample = 2
 
 	dictionary_of_values = {
 		'gainer': gainer,
 		'loser': loser,
 		'article': article,
-		'sample': sample,
 	}
 
 	return render(request, 'satellite/index.html', dictionary_of_values)
 
+###############################################################################
+"""
 
+def service_overview(request):
+
+		""
+	service_name = None
+	if 'service' in request.GET:
+		service_name = request.GET['service']
+
+	max_count = 20
+
+	if service_name:
+		service_match = Service.objects.filter(name=service_name)
+		articles = Article.objects.filter(service__in=service_match)[:max_count]
+	else:
+		articles = Article.objects.all()[:max_count]
+
+# ServiceTakes have both a ticker and a scorecard, and a scorecard has a service.
+# So show me ServiceTakes by scorecard?
+
+	dictionary_of_values = {
+		'articles' : articles,
+		'service_name': service_name,
+		'articles_max_count': max_count
+	}
+
+	return render(request, 'satellite/service_overview.html', dictionary_of_values)
+"""
 ###############################################################################
 
 
