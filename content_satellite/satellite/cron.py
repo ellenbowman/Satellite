@@ -95,4 +95,21 @@ def send_article_recap():
 	except Exception as e:
 		print str(e)
 
+# every afternoon at 4:50 PM send a recap of the ticker performance, per sevice
+@kronos.register('50 16 * * *')
+def send_ticker_performance_recap():
+	try:
+		call_command('slack_daily_performance_snapshots')
+	except Exception as e:
+		print str(e)
+
+
+# every morning at 8:00 AM send an alert of the tickers we think are reporting earnings today or tomorrow
+@kronos.register('0 8 * * *')
+def send_earnings_preview():
+	try:
+		call_command('slack_earnings_preview')
+	except Exception as e:
+		print str(e)
+
 ### end of slack blasts ------------------
