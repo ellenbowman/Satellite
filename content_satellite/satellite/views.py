@@ -18,12 +18,14 @@ def index(request):
 	tickers = Ticker.objects.all().order_by('daily_percent_change')
 	gainer = tickers.reverse()[0]
 	loser = tickers[0]
-	article = Article.objects.all()[0]
+	articles = Article.objects.all().order_by('date_pub')
+	latest = articles.reverse()[0]
+	print latest
 
 	dictionary_of_values = {
 		'gainer': gainer,
 		'loser': loser,
-		'article': article,
+		'latest': latest,
 	}
 
 	return render(request, 'satellite/index.html', dictionary_of_values)
@@ -95,34 +97,29 @@ def service_overview(request):
 		tickers = Ticker.objects.all()
 
 	fool_one_tickers = []
-	for t in Ticker.objects.all():
-		if not t.services_for_ticker:
-			continue
-		if 'One' in t.services_for_ticker:
-			fool_one_tickers.append(t)
-
-	fool_one_gainers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
-	fool_one_losers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change)[:5]
-
 	supernova_tickers = []
-	for t in Ticker.objects.all():
-		if not t.services_for_ticker:
-			continue
-		if 'Supernova' in t.services_for_ticker:
-			supernova_tickers.append(t)
-
-	supernova_gainers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
-	supernova_losers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change)[:5]
-
 	pro_tickers = []
 	for t in Ticker.objects.all():
 		if not t.services_for_ticker:
 			continue
-		if 'Pro' in t.services_for_ticker:
+            
+		if 'One' in t.services_for_ticker:
+			fool_one_tickers.append(t)
+		elif 'Supernova' in t.services_for_ticker:
+			supernova_tickers.append(t)
+		elif 'Pro' in t.services_for_ticker:
 			pro_tickers.append(t)
+		else:
+			print 'this ticker %s was in a service other than One, Supernova, or Pro' % t.ticker_symbol
+    
+	fool_one_gainers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
+	fool_one_losers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change)[:5]
 
-	pro_gainers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
-	pro_losers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change)[:5]
+	supernova_gainers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
+	supernova_losers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change)[:5]
+        
+	pro_gainers = sorted(pro_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
+	pro_losers = sorted(pro_tickers, key=lambda x: x.daily_percent_change)[:5]
 
 
 	dictionary_of_values = {
