@@ -27,7 +27,7 @@ class Command(BaseCommand):
 			message_snippets.append("_none_")
 		else:
 			for t in tickers_reporting_today:
-				message_snippets.append("   - %s (*%s*)" % (t.company_name, t.ticker_symbol))
+				message_snippets.append("   - %s (*%s*) : _%s_" % (t.company_name, t.ticker_symbol, t.services_for_ticker))
 
 
 		message_snippets.append("*Companies reporting earnings tomorrow* (%s):" % tomorrow_date.strftime("%a, %b %d, %Y"))
