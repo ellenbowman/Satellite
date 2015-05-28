@@ -14,16 +14,20 @@ sample of what the output to slack:
 
 Ticker performance snapshot for Thu, May 28, 2015  04:32 
 (per service: top 3 gainers; top 3 losers; % of recs with positive movement)
+```  <!--  slack's way of opening/closing a block of preformatted text
 [...]
- - Hidden Gems
+----------------------
+Hidden Gems   recs with gains: 41.30% (38 of 92)
       ENOC (3.55%),  ALV (2.92%),  SLCA (2.85%)
       SAVE (-6.68%),  RAVN (-4.43%),  LL (-4.24%)
-      recs with gains: 41.30% (38 of 92)
- - Income Investor
+----------------------      
+Income Investor  recs with gains: 47.89% (34 of 71)
       SSL (2.02%),  OKS (1.8%),  OAK (1.54%)
       SBS (-3.79%),  NSH (-2.57%),  MHLD (-2.17%)
-      recs with gains: 47.89% (34 of 71)
+      
 [...] 
+```  <!--  slack's way of opening/closing a block of preformatted text
+
 
 """
 class Command(BaseCommand):
@@ -72,7 +76,6 @@ class Command(BaseCommand):
 			print 'how many tickers?', ticker_count_for_this_service
 
 			if ticker_count_for_this_service == 0:
-				text_summaries.append("  - %s: no tickers" % service_pretty_name)
 				continue
 
 			tickers_for_this_service = sorted(tickers_for_this_service, key=lambda x: x.daily_percent_change, reverse=True)
@@ -90,28 +93,28 @@ class Command(BaseCommand):
 			# now let's create the text description. 
 			# https://docs.python.org/2/library/string.html#format-specification-mini-language
 			# https://docs.python.org/2/library/string.html
-			desc_of_top_gainers = [' %s (%g%%)' % (t.ticker_symbol, t.daily_percent_change) for t in top_gainers]
+			desc_of_top_gainers = ['%s (%g%%)' % (t.ticker_symbol, t.daily_percent_change) for t in top_gainers]
 			desc_of_top_gainers = ', '.join(desc_of_top_gainers)
 
-			desc_of_top_losers = [' %s (%g%%)' % (t.ticker_symbol, t.daily_percent_change) for t in top_losers]
+			desc_of_top_losers = ['%s (%g%%)' % (t.ticker_symbol, t.daily_percent_change) for t in top_losers]
 			desc_of_top_losers = ', '.join(desc_of_top_losers)
 
 			percentage_positive_movement = '{:.2%}'.format(1.0*count_tickers_with_positive_movement/ticker_count_for_this_service)
 			desc_of_positive_movement = "recs with gains: %s (%d of %d)" % (percentage_positive_movement, count_tickers_with_positive_movement, ticker_count_for_this_service)
 
-			summary_for_this_service  = "  - %s" % (service_pretty_name)
-			summary_for_this_service += "\n      %s" % desc_of_top_gainers
-			summary_for_this_service += "\n      %s" % desc_of_top_losers
-			summary_for_this_service += "\n       %s" % desc_of_positive_movement
+			summary_for_this_service  = "%s      %s" % (service_pretty_name, desc_of_positive_movement)
+			summary_for_this_service += "\n    %s" % desc_of_top_gainers
+			summary_for_this_service += "\n    %s" % desc_of_top_losers
 
 			text_summaries.append(summary_for_this_service)
 			print summary_for_this_service
 
 
-		text_summaries.insert(0, "*Ticker performance snapshot for %s *" % datetime.now().strftime('%a, %b %d, %Y  %H:%M'))  # eg: Tue, May 12, 2015 11:15
-		text_summaries.insert(1, "(per service: top 3 gainers; top 3 losers; % of recs with positive movement)")
+		service_blurbs = '```' + "\n------------------------\n".join(text_summaries) + '```'
+		headline =  "*Ticker performance snapshot for %s *" % datetime.now().strftime('%a, %b %d, %Y  %H:%M')  # eg: Tue, May 12, 2015 11:15
+		subtitle = "(per service: top 3 gainers, top 3 losers, and % of recs with positive movement)"
 		
-		message_to_post = "\n".join(text_summaries)
+		message_to_post = '\n'.join([headline, subtitle, service_blurbs])
 
 		post_message_to_slack(message_to_post)
 
