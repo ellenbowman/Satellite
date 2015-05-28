@@ -1,5 +1,6 @@
 from fool_deployer import *
 from fool_deployer.environments import set_hosts, list_hosts, get_hosts_from_zookeeper
+from fool_deployer.prefixes import virtualenv
 from fabric.api import env, task, run, local, sudo, lcd, put
 import posixpath
 import os
@@ -89,6 +90,22 @@ def build_and_upload_archive():
 
     print '-- build_and_upload_archive END --'
 
+
+@task
+def install_scheduled_tasks():
+    """
+    make the web server aware of the tasks we want it to run on a schedule for us
+    (the major scheduled tasks: pull articles and share prices multiple times a day; configured in cron.py)
+
+    before installing the tasks, we'll run a generic command to uninstall tasks of the same name,
+    (a previous deployment might have installed tasks of the same name)
+    """
+    with virtualenv():
+        cmd_uninstall_tasks = "python manage.py uninstalltasks"
+        env.run(cmd_uninstall_tasks)
+
+        cmd_install_tasks = "python manage.py installtasks"
+        env.run(cmd_install_tasks)
 
 
 @task
