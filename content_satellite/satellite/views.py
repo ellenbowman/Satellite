@@ -22,6 +22,9 @@ def index(request):
 	latest = articles.reverse()[0]
 	print latest
 
+	upcoming_earnings = Ticker.objects.all().order_by('earnings_announcement')[:5]
+	print upcoming_earnings
+
 	dictionary_of_values = {
 		'gainer': gainer,
 		'loser': loser,
