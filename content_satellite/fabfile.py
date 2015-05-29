@@ -1,5 +1,6 @@
 from fool_deployer import *
 from fool_deployer.environments import set_hosts, list_hosts, get_hosts_from_zookeeper
+from fool_deployer.prefixes import virtualenv
 from fabric.api import env, task, run, local, sudo, lcd, put
 import posixpath
 import os
