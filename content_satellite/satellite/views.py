@@ -18,7 +18,7 @@ def index(request):
 	tickers = Ticker.objects.all().order_by('daily_percent_change')
 	gainer = tickers.reverse()[0]
 	loser = tickers[0]
-	latest = Article.objects.latest('date_pub')
+	latest = Article.objects.order_by('-pk')[0]
 	print latest
 
 	upcoming_earnings = Ticker.objects.all().order_by('earnings_announcement')[:5]
