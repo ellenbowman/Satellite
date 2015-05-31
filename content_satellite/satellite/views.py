@@ -21,13 +21,12 @@ def index(request):
 	latest = Article.objects.order_by('-pk')[0]
 	print latest
 
-	upcoming_earnings = Ticker.objects.all().order_by('earnings_announcement')[:5]
 
 	dictionary_of_values = {
 		'gainer': gainer,
 		'loser': loser,
 		'latest': latest,
-		'upcoming_earnings': upcoming_earnings,
+
 	}
 
 	return render(request, 'satellite/index.html', dictionary_of_values)
@@ -92,15 +91,23 @@ def service_overview(request):
 					tickers.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
 					# overlap between the ticker's services_for_ticker field and the set of services we 
 					# want to filter by 
-					break
-		
+					break		
+
 	else:
 		# get all tickers, and sort by descending date
 		tickers = Ticker.objects.all()
 
+
 	fool_one_tickers = []
 	supernova_tickers = []
 	pro_tickers = []
+	stock_advisor_tickers = []
+	hidden_gems_tickers = []
+	income_investor_tickers = []
+	rule_breakers_tickers = []
+	inside_value_tickers = []
+	special_ops_tickers = []
+
 	for t in Ticker.objects.all():
 		if not t.services_for_ticker:
 			continue
@@ -111,17 +118,39 @@ def service_overview(request):
 			supernova_tickers.append(t)
 		elif 'Pro' in t.services_for_ticker:
 			pro_tickers.append(t)
+		elif 'Stock Advisor' in t.services_for_ticker:
+			stock_advisor_tickers.append(t)
+		elif 'Hidden Gems' in t.services_for_ticker:
+			hidden_gems_tickers.append(t)
+		elif 'Income Investor' in t.services_for_ticker:
+			income_investor_tickers.append(t)
+		elif 'Rule Breakers' in t.services_for_ticker:
+			rule_breakers_tickers.append(t)
+		elif 'Inside Value' in t.services_for_ticker:
+			inside_value_tickers.append(t)
+		elif 'Special Ops' in t.services_for_ticker:
+			special_ops_tickers.append(t)
 		else:
-			print 'this ticker %s was in a service other than One, Supernova, or Pro' % t.ticker_symbol
-    
+			print 'this ticker %s was in some other service' % t.ticker_symbol
+
+
+
 	fool_one_gainers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
 	fool_one_losers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change)[:5]
+	# need to throw out None 
+	# fool_one_earnings = sorted(fool_one_tickers, key=lambda x: x.earnings_announcement)[:5]
 
 	supernova_gainers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
 	supernova_losers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change)[:5]
+	# supernova_earnings = sorted(supernova_tickers, key=lambda x: x.earnings_announcement)[:5]
         
 	pro_gainers = sorted(pro_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
 	pro_losers = sorted(pro_tickers, key=lambda x: x.daily_percent_change)[:5]
+	# pro_earnings = sorted(pro_tickers, key=lambda x: x.earnings_announcement)[:5]
+
+	stock_advisor_gainers = sorted(stock_advisor_tickers, key=lambda x: x.daily_percent_change, reverse = True)[:5]
+	stock_advisor_losers = sorted(stock_advisor_tickers, key=lambda x: x.daily_percent_change, reverse = True)[:5]
+	# stock_advisor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse = True)[:5]
 
 
 	dictionary_of_values = {
@@ -131,12 +160,16 @@ def service_overview(request):
 		'fool_one_tickers': fool_one_tickers,
 		'fool_one_gainers': fool_one_gainers,
 		'fool_one_losers': fool_one_losers,
+		# 'fool_one_earnings': fool_one_earnings,
 		'supernova_tickers': supernova_tickers,
 		'supernova_gainers': supernova_gainers,
 		'supernova_losers': supernova_losers,
+		# 'supernova_earnings': supernova_earnings,
 		'pro_tickers': pro_tickers,
 		'pro_gainers': pro_gainers,
 		'pro_losers': pro_losers,
+		#'upcoming_earnings': upcoming_earnings,
+
 	}
 
 	return render(request, 'satellite/service_overview.html', dictionary_of_values)

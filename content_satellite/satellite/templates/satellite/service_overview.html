@@ -1,0 +1,106 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Service Overview
+{% endblock %}
+
+{% block container_contents %}
+
+<h2>Foolish Services at a Glance</h2>
+<hr/>
+
+<table>
+	<tr>
+		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Fool One</font>
+		<table>
+			<tr>
+			<td style="width: 150px;">
+				<b><u>Gainers</u></b></br>
+				{% for t in fool_one_gainers %}
+				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%<br/>
+				<a href="">Coverage</a></br>
+				{% endfor %}
+			</td>
+			<td style="width: 150px;">
+			<b><u>Losers</u></b><br/>
+			{% for t in fool_one_losers %}
+			<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%<br/>
+			<a href="">Coverage</a></br>
+			{% endfor %}</td>
+			<td style="width: 150px;">
+				<b><u>Upcoming<br/>Earnings</b></u><br/>
+			{% for u in fool_one_earnings %}
+			<b>{{u.ticker_symbol}}</b><br />
+			{{u.earnings_announcement}}<br/>
+			{% endfor %}
+			</td>
+			</tr>
+		</table>
+		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Supernova</font>
+		<table>
+			<tr>
+				<td style="width: 150px;">
+				<p><b><u>Gainers</u></b><br/>
+				{% for t in supernova_gainers %}
+				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
+				&nbsp;<a href="">Coverage</a></br>
+				{% endfor %}
+				<b><u>Losers</u></b><br/>
+				{% for t in supernova_losers %}
+				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
+				&nbsp;<a href="">Coverage</a></br>
+				{% endfor %}</td>
+				<td style="width: 150px;">
+					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					{% for u in supernova_earnings %}
+					<b>{{u.ticker_symbol}}</b><br />
+					{{u.earnings_announcement}}<br/>
+					{% endfor %}
+				</td>
+			</tr>
+		</table>
+	</tr>
+	<tr>
+		<td style="width: 300px; padding: 30px;"><font size=4>Pro</font>
+		<p><b>Gainers</b><br/>
+		{% for t in pro_gainers %}
+		<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
+		&nbsp;<a href="">Coverage</a></br>
+		{% endfor %}
+		</p>
+		<p><b>Losers</b><br/>
+		{% for t in pro_losers %}
+		<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
+		&nbsp;<a href="">Coverage</a></br>
+		{% endfor %}</td>
+	</tr>
+		<td style="padding: 30px;">MDP</td>
+	</tr>
+	<tr>
+		<td style="padding: 30px;">Stock Advisor</td>
+		<td style="padding: 30px;">Rule Breakers</td>
+		<td style="padding: 30px;">Hidden Gems</td>
+		<td style="padding: 30px;">Inside Value</td>
+	</tr>
+	<tr>
+		<td style="padding: 30px;">Income Investor</td>
+		<td style="padding: 30px;">Special Ops</td>
+		<td style="padding: 30px;">Options</td>
+		<td style="padding: 30px;">Deep Value</td>
+	</tr>
+</table>
+
+
+<hr/>
+<p>
+	{% for t in tickers %}
+	{{t.ticker_symbol}}</br>
+	{% endfor %}
+</p>
+
+
+
+
+
+
+{% endblock container_contents %}

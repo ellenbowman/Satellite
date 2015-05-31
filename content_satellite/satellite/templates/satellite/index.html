@@ -14,7 +14,7 @@
 		<p><button type="button"><a href="/sol/ticker_world/biggest_losers/"><h4>Biggest Losers</h4></a></button></p>
 		</td>
 		<td align="center" style="padding: 30px;">
-			<p><button type="button"><a href=""><h4>Service Overview</h4></a></button></p>
+			<p><button type="button"><a href="/sol/service_overview/"><h4>Service Overview</h4></a></button></p>
 		</td>
 		<td align="center" style="padding:30px;">
 			<p><button type="button"><a href="/sol/ticker_world/earnings_date_sort">
@@ -23,13 +23,14 @@
 	</tr>
 	<tr>
 		<td align="center" style="padding: 30px;">
-			<p><button type="button"><h4>Yesterday's Coverage</h4></button></p>
+			<p><button type="button"><h4>Yesterday's Most Viewed</h4></button></p>
 		</td>
 		<td align="center" style="padding: 30px;">
 			<p><button type="button"><h4>Today's Coverage</button></h4></p>
 		</td>
 		<td align="center" style="padding: 30px;">
-			<p><button type="button"><h4>Coming Up</h4></button></p>
+			<p><button type="button"><h4><a href="
+				/sol/articles_index">All Articles</a></h4></button></p>
 		</td>
 		<td align="center" style="padding: 30px">
 			<p><button type="button"><a href="/sol/ticker_world/all_tickers/"><h4>Find a Ticker</h4></a></button></p>
@@ -43,7 +44,7 @@
 	<a href="{% url 'everything_about_articles' %}?tickers={{gainer.ticker_symbol}}" target='_blank'>Coverage</a><br/>
 	The biggest loser is <b>{{loser.company_name}}</b> ({{loser.ticker_symbol}}), down {{loser.daily_percent_change}}%.
 	<a href="{% url 'everything_about_articles' %}?tickers={{loser.ticker_symbol}}" target='_blank'>Coverage</a></br>
-	The most recently published article is <a href="http://{{latest.url}}" target='_blank'>{{latest}}</a> in <em>{{latest.service}}.</em><br/>
+	The most recently published article will be displayed here very shortly.<br/>
 	<br/>
 	<em>Information is updated every 10 minutes or so</em>. <a href="/sol/data_freshness" target="_blank">See data freshness</a></p>
 	<p><img src="http://g.foolcdn.com/editorial/images/150992/silhouettes_large.png"></p>
