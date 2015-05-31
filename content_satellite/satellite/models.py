@@ -107,7 +107,7 @@ class ServiceTake(models.Model):
 class Article(models.Model):
 	title = models.CharField(max_length=100)
 	author = models.CharField(max_length=50)
-	date_pub = models.DateField(null=True, blank=True)
+	date_pub = models.DateTimeField(null=True, blank=True)
 	url = models.URLField(max_length=400)
 	service = models.ForeignKey(Service)
 	ticker = models.ForeignKey(Ticker)

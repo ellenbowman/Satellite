@@ -18,17 +18,16 @@ def index(request):
 	tickers = Ticker.objects.all().order_by('daily_percent_change')
 	gainer = tickers.reverse()[0]
 	loser = tickers[0]
-	articles = Article.objects.all().order_by('date_pub')
-	latest = articles.reverse()[0]
+	latest = Article.objects.latest('date_pub')
 	print latest
 
 	upcoming_earnings = Ticker.objects.all().order_by('earnings_announcement')[:5]
-	print upcoming_earnings
 
 	dictionary_of_values = {
 		'gainer': gainer,
 		'loser': loser,
 		'latest': latest,
+		'upcoming_earnings': upcoming_earnings,
 	}
 
 	return render(request, 'satellite/index.html', dictionary_of_values)
