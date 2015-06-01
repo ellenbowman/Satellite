@@ -42,13 +42,15 @@ SOL: Service Overview
 				<td style="width: 150px;">
 				<p><b><u>Gainers</u></b><br/>
 				{% for t in supernova_gainers %}
-				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
-				&nbsp;<a href="">Coverage</a></br>
+				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%<br/>
+				<a href="">Coverage</a></br>
 				{% endfor %}
+			</td>
+			<td style="width:150px;">
 				<b><u>Losers</u></b><br/>
 				{% for t in supernova_losers %}
-				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
-				&nbsp;<a href="">Coverage</a></br>
+				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%<br/>
+				<a href="">Coverage</a></br>
 				{% endfor %}</td>
 				<td style="width: 150px;">
 					<b><u>Upcoming<br/>Earnings</b></u><br/>
@@ -61,18 +63,31 @@ SOL: Service Overview
 		</table>
 	</tr>
 	<tr>
-		<td style="width: 300px; padding: 30px;"><font size=4>Pro</font>
-		<p><b>Gainers</b><br/>
-		{% for t in pro_gainers %}
-		<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
-		&nbsp;<a href="">Coverage</a></br>
-		{% endfor %}
-		</p>
-		<p><b>Losers</b><br/>
-		{% for t in pro_losers %}
-		<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%
-		&nbsp;<a href="">Coverage</a></br>
-		{% endfor %}</td>
+				<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Pro</font>
+		<table>
+			<tr>
+				<td style="width: 150px;">
+				<p><b><u>Gainers</u></b><br/>
+				{% for t in pro_gainers %}
+				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%<br/>
+				<a href="">Coverage</a></br>
+				{% endfor %}
+			</td>
+			<td>
+				<b><u>Losers</u></b><br/>
+				{% for t in pro_losers %}
+				<b>{{t.ticker_symbol}}</b>, {{t.daily_percent_change}}%<br/>
+				<a href="">Coverage</a></br>
+				{% endfor %}</td>
+				<td style="width: 150px;">
+					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					{% for u in pro_earnings %}
+					<b>{{u.ticker_symbol}}</b><br />
+					{{u.earnings_announcement}}<br/>
+					{% endfor %}
+				</td>
+			</tr>
+		</table>
 	</tr>
 		<td style="padding: 30px;">MDP</td>
 	</tr>
@@ -92,14 +107,6 @@ SOL: Service Overview
 
 
 <hr/>
-<p>
-	{% for t in tickers %}
-	{{t.ticker_symbol}}</br>
-	{% endfor %}
-</p>
-
-
-
 
 
 
