@@ -41,6 +41,19 @@ def gainers_losers(list_of_tickers):
 
 ###############################################################################
 
+def upcoming_earnings(list_of_tickers):
+
+	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
+
+	earnings = [t for t in list_of_tickers if t.earnings_announcement is not None and t.earnings_announcement > yesterday]
+
+	earnings = sorted(earnings, key=lambda x: x.earnings_announcement)[:10]
+
+	return earnings
+
+###############################################################################
+
+
 def service_overview(request):
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
@@ -164,42 +177,44 @@ def service_overview(request):
 			print 'this ticker %s was in some other service' % t.ticker_symbol
 
 
+	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
+
 
 	fool_one_gainers, fool_one_losers = gainers_losers(fool_one_tickers)
-	# need to throw out None 
-	# fool_one_earnings = sorted(fool_one_tickers, key=lambda x: x.earnings_announcement)[:5]
+	fool_one_earnings = upcoming_earnings(fool_one_tickers)
 
 	supernova_gainers, supernova_losers = gainers_losers(supernova_tickers)
-	# supernova_earnings = sorted(supernova_tickers, key=lambda x: x.earnings_announcement)[:5]
+	supernova_earnings = upcoming_earnings(supernova_tickers)
         
 	pro_gainers, pro_losers = gainers_losers(pro_tickers)
-	# pro_earnings = sorted(pro_tickers, key=lambda x: x.earnings_announcement)[:5]
+	pro_earnings = upcoming_earnings(pro_tickers)
 
 	mdp_gainers, mdp_losers = gainers_losers(mdp_tickers)
-	# mdp_earnings = sorted(mdp_tickers, key=lambda x: x.earnings_announcement)[:5]
+	mdp_earnings = upcoming_earnings(mdp_tickers)
 
 	stock_advisor_gainers, stock_advisor_losers = gainers_losers(stock_advisor_tickers)
-	# stock_advisor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+	stock_advisor_earnings = upcoming_earnings(stock_advisor_tickers)
 
 	rule_breakers_gainers, rule_breakers_losers = gainers_losers(rule_breakers_tickers)
-	# rule_breakers_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+	rule_breakers_earnings = upcoming_earnings(rule_breakers_tickers)
 
 	income_investor_gainers, income_investor_losers = gainers_losers(income_investor_tickers)
-	# income_investor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+	income_investor_earnings = upcoming_earnings(income_investor_tickers)
 
 	inside_value_gainers, inside_value_losers = gainers_losers(inside_value_tickers)
-	# inside_value_earnings = sorted(inside_value_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+	inside_value_earnings = upcoming_earnings(inside_value_tickers)
 
 	hidden_gems_gainers, hidden_gems_losers = gainers_losers(hidden_gems_tickers)
-	# hidden_gems_earnings = sorted(hidden_gems_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+	hidden_gems_earnings = upcoming_earnings(hidden_gems_tickers)
 
 	special_ops_gainers, special_ops_losers = gainers_losers(special_ops_tickers)
-	# special_ops_earnings = sorted(special_ops_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+	special_ops_earnings = upcoming_earnings(special_ops_tickers)
 
 	# options_gainers, options_losers = gainers_losers(options_tickers)
-	# options_earnings = sorted(options_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+	# options_earnings = sorted(options_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:10]
 
 	deep_value_gainers, deep_value_losers = gainers_losers(deep_value_tickers)
+	deep_value_earnings = upcoming_earnings(deep_value_tickers)
 
 
 	dictionary_of_values = {
@@ -209,47 +224,47 @@ def service_overview(request):
 		'fool_one_tickers': fool_one_tickers,
 		'fool_one_gainers': fool_one_gainers,
 		'fool_one_losers': fool_one_losers,
-		# 'fool_one_earnings': fool_one_earnings,
+		'fool_one_earnings': fool_one_earnings,
 		'supernova_tickers': supernova_tickers,
 		'supernova_gainers': supernova_gainers,
 		'supernova_losers': supernova_losers,
-		# 'supernova_earnings': supernova_earnings,
+		'supernova_earnings': supernova_earnings,
 		'pro_tickers': pro_tickers,
 		'pro_gainers': pro_gainers,
 		'pro_losers': pro_losers,
-		#'pro_earnings': pro_earnings,
+		'pro_earnings': pro_earnings,
 		'mdp_tickers': mdp_tickers,
 		'mdp_gainers': mdp_gainers,
 		'mdp_losers': mdp_losers,
-		#'mdp_earnings': mdp_earnings,
+		'mdp_earnings': mdp_earnings,
 		'stock_advisor_tickers': stock_advisor_tickers,
 		'stock_advisor_gainers': stock_advisor_gainers,
 		'stock_advisor_losers': stock_advisor_losers,
-		#'stock_advisor_earnings': stock_advisor_earnings,
+		'stock_advisor_earnings': stock_advisor_earnings,
 		'rule_breakers_tickers': rule_breakers_tickers,
 		'rule_breakers_gainers': rule_breakers_gainers,
 		'rule_breakers_losers': rule_breakers_losers,
-		#'rule_breakers_earnings': rule_breakers_earnings,
+		'rule_breakers_earnings': rule_breakers_earnings,
 		'income_investor_tickers': income_investor_tickers,
 		'income_investor_gainers': income_investor_gainers,
 		'income_investor_losers': income_investor_losers,
-		#'income_investor_earnings': income_investor_earnings,
+		'income_investor_earnings': income_investor_earnings,
 		'inside_value_tickers': inside_value_tickers,
 		'inside_value_gainers': inside_value_gainers,
 		'inside_value_losers': inside_value_losers,
-		#'inside_value_earnings': inside_value_earnings,
+		'inside_value_earnings': inside_value_earnings,
 		'hidden_gems_tickers': hidden_gems_tickers,
 		'hidden_gems_gainers': hidden_gems_gainers,
 		'hidden_gems_losers': hidden_gems_losers,
-		#'hidden_gems_earnings': hidden_gems_earnings,
+		'hidden_gems_earnings': hidden_gems_earnings,
 		'special_ops_tickers': special_ops_tickers,
 		'special_ops_gainers': special_ops_gainers,
 		'special_ops_losers': special_ops_losers,
-		#'special_ops_earnings': special_ops_earnings,
+		'special_ops_earnings': special_ops_earnings,
 		'deep_value_tickers': deep_value_tickers,
 		'deep_value_gainers': deep_value_gainers,
 		'deep_value_losers': deep_value_losers,
-		#'deep_value_earnings': deep_value_earnings,
+		'deep_value_earnings': deep_value_earnings,
 		#'options_tickers': options_tickers,
 		#'options_gainers': options_gainers,
 		#'options_losers': options_losers,

@@ -26,10 +26,9 @@ SOL: Service Overview
 			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 			{% endfor %}</td>
 			<td style="width: 150px;">
-			<b><u>Upcoming<br/>Earnings</b></u><br/>
-			{% for u in fool_one_earnings %}
-			<b>{{u.ticker_symbol}}</b><br />
-			{{u.earnings_announcement}}<br/>
+			<b><u>Upcoming Earnings</b></u><br/>
+			{% for t in fool_one_earnings %}
+			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"M d"}}<br/>
 			{% endfor %}
 			</td>
 			</tr>
@@ -49,10 +48,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
-					{% for u in supernova_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
-					{{u.earnings_announcement}}<br/>
+					<b><u>Upcoming Earnings</b></u><br/>
+					{% for t in supernova_earnings %}
+					<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
 			</tr>
@@ -74,10 +72,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
-					{% for u in pro_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
-					{{u.earnings_announcement}}<br/>
+					<b><u>Upcoming Earnings</b></u><br/>
+					{% for t in pro_earnings %}
+					<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
 			</tr>
@@ -97,10 +94,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
-					{% for u in mdp_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
-					{{u.earnings_announcement}}<br/>
+					<b><u>Upcoming Earnings</b></u><br/>
+					{% for t in mdp_earnings %}
+					<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
 			</tr>
@@ -123,9 +119,9 @@ SOL: Service Overview
 			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 			{% endfor %}</td>
 			<td style="width: 150px;">
-				<b><u>Upcoming<br/>Earnings</b></u><br/>
+				<b><u>Upcoming Earnings</b></u><br/>
 			{% for u in stock_advisor_earnings %}
-			<b>{{u.ticker_symbol}}</b><br />
+			<b>{{u.ticker_symbol}}</b>,
 			{{u.earnings_announcement}}<br/>
 			{% endfor %}
 			</td>
@@ -146,9 +142,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					<b><u>Upcoming Earnings</b></u><br/>
 					{% for u in rule_breakers_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
+					<b>{{u.ticker_symbol}}</b>,
 					{{u.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
@@ -171,9 +167,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					<b><u>Upcoming Earnings</b></u><br/>
 					{% for u in income_investor_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
+					<b>{{u.ticker_symbol}}</b>,
 					{{u.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
@@ -194,9 +190,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					<b><u>Upcoming Earnings</b></u><br/>
 					{% for u in inside_value_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
+					<b>{{u.ticker_symbol}}</b>,
 					{{u.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
@@ -220,9 +216,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					<b><u>Upcoming Earnings</b></u><br/>
 					{% for u in hidden_gems_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
+					<b>{{u.ticker_symbol}}</b>,
 					{{u.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
@@ -243,9 +239,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					<b><u>Upcoming Earnings</b></u><br/>
 					{% for u in special_ops_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
+					<b>{{u.ticker_symbol}}</b>,
 					{{u.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
@@ -269,9 +265,9 @@ SOL: Service Overview
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}</td>
 				<td style="width: 150px;">
-					<b><u>Upcoming<br/>Earnings</b></u><br/>
+					<b><u>Upcoming Earnings</b></u><br/>
 					{% for u in deep_value_earnings %}
-					<b>{{u.ticker_symbol}}</b><br />
+					<b>{{u.ticker_symbol}}</b>,
 					{{u.earnings_announcement}}<br/>
 					{% endfor %}
 				</td>
