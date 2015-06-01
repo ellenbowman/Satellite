@@ -99,6 +99,7 @@ def service_overview(request):
 	fool_one_tickers = []
 	supernova_tickers = []
 	pro_tickers = []
+	mdp_tickers = []
 	stock_advisor_tickers = []
 	hidden_gems_tickers = []
 	income_investor_tickers = []
@@ -116,6 +117,8 @@ def service_overview(request):
 			supernova_tickers.append(t)
 		elif 'Pro' in t.services_for_ticker:
 			pro_tickers.append(t)
+		elif 'MDP' in t.services_for_ticker:
+			mdp_tickers.append(t)
 		elif 'Stock Advisor' in t.services_for_ticker:
 			stock_advisor_tickers.append(t)
 		elif 'Hidden Gems' in t.services_for_ticker:
@@ -146,8 +149,16 @@ def service_overview(request):
 	pro_losers = sorted(pro_tickers, key=lambda x: x.daily_percent_change)[:5]
 	# pro_earnings = sorted(pro_tickers, key=lambda x: x.earnings_announcement)[:5]
 
+	mdp_gainers = sorted(mdp_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
+	mdp_losers = sorted(mdp_tickers, key=lambda x: x.daily_percent_change)[:5]
+	# mdp_earnings = sorted(mdp_tickers, key=lambda x: x.earnings_announcement)[:5]
+
 	stock_advisor_gainers = sorted(stock_advisor_tickers, key=lambda x: x.daily_percent_change, reverse = True)[:5]
-	stock_advisor_losers = sorted(stock_advisor_tickers, key=lambda x: x.daily_percent_change, reverse = True)[:5]
+	stock_advisor_losers = sorted(stock_advisor_tickers, key=lambda x: x.daily_percent_change)[:5]
+	# stock_advisor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse = True)[:5]
+
+	rule_breakers_gainers = sorted(rule_breakers_tickers, key=lambda x: x.daily_percent_change, reverse = True)[:5]
+	rule_breakers_losers = sorted(rule_breakers_tickers, key=lambda x: x.daily_percent_change)[:5]
 	# stock_advisor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse = True)[:5]
 
 
@@ -166,7 +177,19 @@ def service_overview(request):
 		'pro_tickers': pro_tickers,
 		'pro_gainers': pro_gainers,
 		'pro_losers': pro_losers,
-		#'upcoming_earnings': upcoming_earnings,
+		#'pro_earnings': pro_earnings,
+		'mdp_tickers': mdp_tickers,
+		'mdp_gainers': mdp_gainers,
+		'mdp_losers': mdp_losers,
+		#'mdp_earnings': mdp_earnings,
+		'stock_advisor_tickers': stock_advisor_tickers,
+		'stock_advisor_gainers': stock_advisor_gainers,
+		'stock_advisor_losers': stock_advisor_losers,
+		#'mdp_earnings': mdp_earnings,
+		'rule_breakers_tickers': rule_breakers_tickers,
+		'rule_breakers_gainers': rule_breakers_gainers,
+		'rule_breakers_losers': rule_breakers_losers,
+		#'mdp_earnings': mdp_earnings,
 
 	}
 
