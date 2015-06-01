@@ -12,49 +12,9 @@ SOL: Service Overview
 <table>
 	<tr>
 		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Fool One</font>
-		<table>
-			<tr>
-			<td style="width: 150px;">
-				<b><u>Gainers</u></b></br>
-				{% for t in fool_one_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-			<b><u>Losers</u></b><br/>
-			{% for t in fool_one_losers %}
-			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-			{% endfor %}</td>
-			<td style="width: 150px;">
-			<b><u>Upcoming Earnings</b></u><br/>
-			{% for t in fool_one_earnings %}
-			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"M d"}}<br/>
-			{% endfor %}
-			</td>
-			</tr>
-		</table>
+			{% include "satellite/single_service_overview.html" with gainers=fool_one_gainers losers=fool_one_losers earnings=fool_one_earnings %}
 		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Supernova</font>
-		<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in supernova_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width:150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in supernova_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for t in supernova_earnings %}
-					<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-		</table>
+			{% include "satellite/single_service_overview.html" with gainers=supernova_gainers losers=supernova_losers earnings=supernova_earnings %}
 	</tr>
 	<tr>
 			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Pro</font>

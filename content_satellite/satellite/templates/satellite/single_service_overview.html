@@ -1,0 +1,21 @@
+	<table>
+			<tr>
+			<td style="width: 150px;">
+				<b><u>Gainers</u></b></br>
+				{% for t in gainers %}
+				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
+				{% endfor %}
+			</td>
+			<td style="width: 150px;">
+			<b><u>Losers</u></b><br/>
+			{% for t in losers %}
+			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
+			{% endfor %}</td>
+			<td style="width: 150px;">
+			<b><u>Upcoming Earnings</b></u><br/>
+			{% for t in earnings %}
+			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"M d"}}<br/>
+			{% endfor %}
+			</td>
+			</tr>
+		</table>

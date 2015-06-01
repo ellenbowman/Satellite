@@ -41,13 +41,15 @@ def test():
     env.environment = 'test'
 
     set_hosts(HOSTS)
-
+    print env.deploy_tasks
     env.deploy_tasks.insert(0, "build_and_upload_archive")
     env.deploy_tasks.append("static.collectstatic")
     env.deploy_tasks.append("notify_slack")
 
     env.deploy_tasks.exclude(
         "snapshots.get_snapshot",
+        "virtualenv.link_newest",
+        "virtualenv.update_requirements",
         "static.compress",
         "notifications.notify_new_relic",
     )
