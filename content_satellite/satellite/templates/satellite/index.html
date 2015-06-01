@@ -44,7 +44,7 @@
 	<a href="{% url 'everything_about_articles' %}?tickers={{gainer.ticker_symbol}}" target='_blank'>Coverage</a><br/>
 	The biggest loser is <b>{{loser.company_name}}</b> ({{loser.ticker_symbol}}), down {{loser.daily_percent_change}}%.
 	<a href="{% url 'everything_about_articles' %}?tickers={{loser.ticker_symbol}}" target='_blank'>Coverage</a></br>
-	The most recently published article is {{latest.title}} in <em>{{latest.service}}</em>.<br/>
+	The most recently published article is <a href="http://{{latest.url}}" target="blank">{{latest.title}}</a> in <em>{{latest.service}}</em>.<br/>
 	<br/>
 	<em>Information is updated every 10 minutes or so</em>. <a href="/sol/data_freshness" target="_blank">See data freshness</a></p>
 	<p><img src="http://g.foolcdn.com/editorial/images/150992/silhouettes_large.png"></p>
