@@ -31,6 +31,15 @@ def index(request):
 
 ###############################################################################
 
+def gainers_losers(list_of_tickers):
+	tickers_sorted = sorted(list_of_tickers, key=lambda x: x.daily_percent_change, reverse = True)
+	gainers = tickers_sorted[:10]
+	losers = tickers_sorted[-10:]
+	losers.reverse()
+
+	return gainers, losers
+
+###############################################################################
 
 def service_overview(request):
 
@@ -106,60 +115,91 @@ def service_overview(request):
 	rule_breakers_tickers = []
 	inside_value_tickers = []
 	special_ops_tickers = []
+	deep_value_tickers = []
+	options_tickers = []
+
+
 
 	for t in Ticker.objects.all():
 		if not t.services_for_ticker:
 			continue
-            
+		was_processed = False    
 		if 'One' in t.services_for_ticker:
 			fool_one_tickers.append(t)
-		elif 'Supernova' in t.services_for_ticker:
+			was_processed = True
+		if 'Supernova' in t.services_for_ticker:
 			supernova_tickers.append(t)
-		elif 'Pro' in t.services_for_ticker:
+			was_processed = True
+		if 'Pro' in t.services_for_ticker:
 			pro_tickers.append(t)
-		elif 'MDP' in t.services_for_ticker:
+			was_processed = True
+		if 'MDP' in t.services_for_ticker:
 			mdp_tickers.append(t)
-		elif 'Stock Advisor' in t.services_for_ticker:
+			was_processed = True
+		if 'Stock Advisor' in t.services_for_ticker:
 			stock_advisor_tickers.append(t)
-		elif 'Hidden Gems' in t.services_for_ticker:
+			was_processed = True
+		if 'Hidden Gems' in t.services_for_ticker:
 			hidden_gems_tickers.append(t)
-		elif 'Income Investor' in t.services_for_ticker:
+			was_processed = True
+		if 'Income Investor' in t.services_for_ticker:
 			income_investor_tickers.append(t)
-		elif 'Rule Breakers' in t.services_for_ticker:
+			was_processed = True
+		if 'Rule Breakers' in t.services_for_ticker:
 			rule_breakers_tickers.append(t)
-		elif 'Inside Value' in t.services_for_ticker:
+			was_processed = True
+		if 'Inside Value' in t.services_for_ticker:
 			inside_value_tickers.append(t)
-		elif 'Special Ops' in t.services_for_ticker:
+			was_processed = True
+		if 'Special Ops' in t.services_for_ticker:
 			special_ops_tickers.append(t)
-		else:
+			was_processed = True
+		if 'Options' in t.services_for_ticker:
+			options_tickers.append(t)
+			was_processed = True
+		if 'Deep Value' in t.services_for_ticker:
+			deep_value_tickers.append(t)
+			was_processed = True
+		if was_processed == False:
 			print 'this ticker %s was in some other service' % t.ticker_symbol
 
 
 
-	fool_one_gainers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
-	fool_one_losers = sorted(fool_one_tickers, key=lambda x: x.daily_percent_change)[:5]
+	fool_one_gainers, fool_one_losers = gainers_losers(fool_one_tickers)
 	# need to throw out None 
 	# fool_one_earnings = sorted(fool_one_tickers, key=lambda x: x.earnings_announcement)[:5]
 
-	supernova_gainers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
-	supernova_losers = sorted(supernova_tickers, key=lambda x: x.daily_percent_change)[:5]
+	supernova_gainers, supernova_losers = gainers_losers(supernova_tickers)
 	# supernova_earnings = sorted(supernova_tickers, key=lambda x: x.earnings_announcement)[:5]
         
-	pro_gainers = sorted(pro_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
-	pro_losers = sorted(pro_tickers, key=lambda x: x.daily_percent_change)[:5]
+	pro_gainers, pro_losers = gainers_losers(pro_tickers)
 	# pro_earnings = sorted(pro_tickers, key=lambda x: x.earnings_announcement)[:5]
 
-	mdp_gainers = sorted(mdp_tickers, key=lambda x: x.daily_percent_change, reverse=True)[:5]
-	mdp_losers = sorted(mdp_tickers, key=lambda x: x.daily_percent_change)[:5]
+	mdp_gainers, mdp_losers = gainers_losers(mdp_tickers)
 	# mdp_earnings = sorted(mdp_tickers, key=lambda x: x.earnings_announcement)[:5]
 
-	stock_advisor_gainers = sorted(stock_advisor_tickers, key=lambda x: x.daily_percent_change, reverse = True)[:5]
-	stock_advisor_losers = sorted(stock_advisor_tickers, key=lambda x: x.daily_percent_change)[:5]
-	# stock_advisor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse = True)[:5]
+	stock_advisor_gainers, stock_advisor_losers = gainers_losers(stock_advisor_tickers)
+	# stock_advisor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
 
-	rule_breakers_gainers = sorted(rule_breakers_tickers, key=lambda x: x.daily_percent_change, reverse = True)[:5]
-	rule_breakers_losers = sorted(rule_breakers_tickers, key=lambda x: x.daily_percent_change)[:5]
-	# stock_advisor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse = True)[:5]
+	rule_breakers_gainers, rule_breakers_losers = gainers_losers(rule_breakers_tickers)
+	# rule_breakers_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+
+	income_investor_gainers, income_investor_losers = gainers_losers(income_investor_tickers)
+	# income_investor_earnings = sorted(stock_advisor_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+
+	inside_value_gainers, inside_value_losers = gainers_losers(inside_value_tickers)
+	# inside_value_earnings = sorted(inside_value_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+
+	hidden_gems_gainers, hidden_gems_losers = gainers_losers(hidden_gems_tickers)
+	# hidden_gems_earnings = sorted(hidden_gems_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+
+	special_ops_gainers, special_ops_losers = gainers_losers(special_ops_tickers)
+	# special_ops_earnings = sorted(special_ops_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+
+	# options_gainers, options_losers = gainers_losers(options_tickers)
+	# options_earnings = sorted(options_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:5]
+
+	deep_value_gainers, deep_value_losers = gainers_losers(deep_value_tickers)
 
 
 	dictionary_of_values = {
@@ -185,11 +225,35 @@ def service_overview(request):
 		'stock_advisor_tickers': stock_advisor_tickers,
 		'stock_advisor_gainers': stock_advisor_gainers,
 		'stock_advisor_losers': stock_advisor_losers,
-		#'mdp_earnings': mdp_earnings,
+		#'stock_advisor_earnings': stock_advisor_earnings,
 		'rule_breakers_tickers': rule_breakers_tickers,
 		'rule_breakers_gainers': rule_breakers_gainers,
 		'rule_breakers_losers': rule_breakers_losers,
-		#'mdp_earnings': mdp_earnings,
+		#'rule_breakers_earnings': rule_breakers_earnings,
+		'income_investor_tickers': income_investor_tickers,
+		'income_investor_gainers': income_investor_gainers,
+		'income_investor_losers': income_investor_losers,
+		#'income_investor_earnings': income_investor_earnings,
+		'inside_value_tickers': inside_value_tickers,
+		'inside_value_gainers': inside_value_gainers,
+		'inside_value_losers': inside_value_losers,
+		#'inside_value_earnings': inside_value_earnings,
+		'hidden_gems_tickers': hidden_gems_tickers,
+		'hidden_gems_gainers': hidden_gems_gainers,
+		'hidden_gems_losers': hidden_gems_losers,
+		#'hidden_gems_earnings': hidden_gems_earnings,
+		'special_ops_tickers': special_ops_tickers,
+		'special_ops_gainers': special_ops_gainers,
+		'special_ops_losers': special_ops_losers,
+		#'special_ops_earnings': special_ops_earnings,
+		'deep_value_tickers': deep_value_tickers,
+		'deep_value_gainers': deep_value_gainers,
+		'deep_value_losers': deep_value_losers,
+		#'deep_value_earnings': deep_value_earnings,
+		#'options_tickers': options_tickers,
+		#'options_gainers': options_gainers,
+		#'options_losers': options_losers,
+		#'options_earnings': options_earnings,
 
 	}
 
