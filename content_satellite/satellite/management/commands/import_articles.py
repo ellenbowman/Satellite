@@ -78,13 +78,14 @@ def get_articles():
 			service = service_matches[0]
 			
 			publish_date = article_json['publish_at']
-			#publish_date = publish_date.split('T')[0]
+			publish_date = publish_date.split('T')[0]
 
 			article = Article()
 			article.title = article_json['headline'][:100]
 			article.service = service
 			article.author = article_json['byline'][:50]
-			article.date_pub = datetime.datetime.strptime(publish_date, '%Y-%m-%d %H:%M:%S')
+			article.date_pub = datetime.datetime.strptime(publish_date, '%Y-%m-%d')
+			article.date_time_pub = publish_at
 			article.ticker  = ticker_match
 			article.url = article_url
 			article.save()
