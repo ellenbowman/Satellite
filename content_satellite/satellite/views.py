@@ -18,7 +18,7 @@ def index(request):
 	tickers = Ticker.objects.all().order_by('daily_percent_change')
 	gainer = tickers.reverse()[0]
 	loser = tickers[0]
-	latest = articles = Article.objects.all().order_by('-date_pub')[0]
+	latest = Article.objects.all().order_by('-date_pub')[0]
 
 	dictionary_of_values = {
 		'gainer': gainer,
