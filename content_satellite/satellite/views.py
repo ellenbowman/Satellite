@@ -135,7 +135,7 @@ def service_overview(request):
 	deep_value_articles = []
 	options_articles = []
 
-	for a in Article.objects.all():    
+	for a in Article.objects.filter(date_pub__gt = (datetime.now() - timedelta(days=21)).date()):    
 		if 'One' in a.service.pretty_name:
 			fool_one_articles.append(a)
 		elif 'Supernova' in a.service.pretty_name:
@@ -258,7 +258,7 @@ def service_overview(request):
 		'inside_value_gainers': inside_value_gainers,
 		'inside_value_losers': inside_value_losers,
 		'inside_value_earnings': inside_value_earnings,
-		'income_investor_articles': income_investor_articles,
+		'inside_value_articles': inside_value_articles,
 		'hidden_gems_tickers': hidden_gems_tickers,
 		'hidden_gems_gainers': hidden_gems_gainers,
 		'hidden_gems_losers': hidden_gems_losers,
