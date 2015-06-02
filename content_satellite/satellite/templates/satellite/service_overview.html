@@ -11,49 +11,45 @@ SOL: Service Overview
 	<p><em>Information is updated every 10 minutes or so</em>. <a href="/sol/data_freshness" target="_blank">See data freshness</a></p>
 <table>
 	<tr>
-		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Fool One</font>
-			{% include "satellite/single_service_overview.html" with gainers=fool_one_gainers losers=fool_one_losers earnings=fool_one_earnings articles=fool_one_articles %}</td>
-		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Supernova</font>
-			{% include "satellite/single_service_overview.html" with gainers=supernova_gainers losers=supernova_losers earnings=supernova_earnings articles=supernova_articles %}</td>
+		<td>
+			{% include "satellite/single_service_overview.html" with gainers=fool_one_gainers losers=fool_one_losers earnings=fool_one_earnings articles=fool_one_articles service_name="Fool One" %}</td>
+		<td>
+			{% include "satellite/single_service_overview.html" with gainers=supernova_gainers losers=supernova_losers earnings=supernova_earnings articles=supernova_articles service_name="Supernova" %}</td>
 	</tr>
 	<tr>
-		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Pro</font>
-			{% include "satellite/single_service_overview.html" with gainers=pro_gainers losers=pro_losers earnings=pro_earnings articles=pro_articles %}</td>
-		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>MDP</font>
-			{% include "satellite/single_service_overview.html" with gainers=mdp_gainers losers=mdp_losers earnings=mdp_earnings %}</td>
+		<td>
+			{% include "satellite/single_service_overview.html" with gainers=pro_gainers losers=pro_losers earnings=pro_earnings articles=pro_articles service_name="Pro" %}</td>
+		<td>
+			{% include "satellite/single_service_overview.html" with gainers=mdp_gainers losers=mdp_losers earnings=mdp_earnings service_name="MDP" %}</td>
 		</tr>
 	</tr>
 	<tr>
-		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Stock Advisor</font>
-			{% include "satellite/single_service_overview.html" with gainers=stock_advisor_gainers losers=stock_advisor_losers earnings=stock_advisor_earnings articles=stock_advisor_articles %}</td>
+		<td>
+			{% include "satellite/single_service_overview.html" with gainers=stock_advisor_gainers losers=stock_advisor_losers earnings=stock_advisor_earnings articles=stock_advisor_articles service_name="Stock Advisor" %}</td>
 		</td>
-		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Rule Breakers</font>
-			{% include "satellite/single_service_overview.html" with gainers=rule_breakers_gainers losers=rule_breakers_losers earnings=rule_breakers_earnings articles=rule_breakers_articles %}
+		<td>
+			{% include "satellite/single_service_overview.html" with gainers=rule_breakers_gainers losers=rule_breakers_losers earnings=rule_breakers_earnings articles=rule_breakers_articles service_name="Rule Breakers" %}
 	</tr>
 	<tr>
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Income Investor</font>
-				{% include "satellite/single_service_overview.html" with gainers=income_investor_gainers losers=income_investor_losers earnings=income_investor_earnings articles=income_investor_articles %}
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Inside Value</font>
-				{% include "satellite/single_service_overview.html" with gainers=inside_value_gainers losers=inside_value_losers earnings=inside_value_earnings articles=inside_value_articles %}
+			<td>
+				{% include "satellite/single_service_overview.html" with gainers=income_investor_gainers losers=income_investor_losers earnings=income_investor_earnings articles=income_investor_articles service_name="Income Investor"%}
+			<td>
+				{% include "satellite/single_service_overview.html" with gainers=inside_value_gainers losers=inside_value_losers earnings=inside_value_earnings articles=inside_value_articles service_name="Inside Value" %}
 		</tr>
 	</tr>
 <tr>
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Hidden Gems</font>
-				{% include "satellite/single_service_overview.html" with gainers=hidden_gems_gainers losers=hidden_gems_losers earnings=hidden_gems_earnings articles=hidden_gems_articles %}
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Special Ops</font>
-				{% include "satellite/single_service_overview.html" with gainers=special_ops_gainers losers=special_ops_losers earnings=special_ops_earnings articles=special_ops_articles %}
+			<td>
+				{% include "satellite/single_service_overview.html" with gainers=hidden_gems_gainers losers=hidden_gems_losers earnings=hidden_gems_earnings articles=hidden_gems_articles service_name="Hidden Gems" %}
+			<td>
+				{% include "satellite/single_service_overview.html" with gainers=special_ops_gainers losers=special_ops_losers earnings=special_ops_earnings articles=special_ops_articles service_name="Special Ops" %}
 		</tr>
 	</tr>
 	<tr>
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Deep Value</font>
-				{% include "satellite/single_service_overview.html" with gainers=deep_value_gainers losers=deep_value_losers earnings=deep_value_earnings %}
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Options</font>
-			<table>
-			<tr>
-			<td>Options info may or may not be coming soon</td>
-			</tr>
-			</table>
-		</tr>
+			<td>
+				{% include "satellite/single_service_overview.html" with gainers=deep_value_gainers losers=deep_value_losers earnings=deep_value_earnings service_name="Deep Value" %}
+			<td><font size=4>Options</font><br/>
+			Options info may or may not be coming soon</td>
+	</tr>
 	</tr>
 </table>
 
