@@ -91,7 +91,7 @@ def service_overview(request):
 		if 'Pro' in t.services_for_ticker:
 			pro_tickers.append(t)
 			was_processed = True
-		if 'MDP' in t.services_for_ticker:
+		if 'Million Dollar Portfolio' in t.services_for_ticker:
 			mdp_tickers.append(t)
 			was_processed = True
 		if 'Stock Advisor' in t.services_for_ticker:
