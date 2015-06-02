@@ -1,14 +1,14 @@
-		<div class="single-service">
-				<table>
+	<div class="single-service">
+			<table>
 			<tr>
 			<td style="width: 150px;">
-				<b><u>Gainers</u></b></br>
+				<b><u>Up Today</u></b></br>
 				{% for t in gainers %}
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}
 			</td>
 			<td style="width: 150px;">
-			<b><u>Losers</u></b><br/>
+			<b><u>Down Today</u></b><br/>
 			{% for t in losers %}
 			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 			{% endfor %}</td>
