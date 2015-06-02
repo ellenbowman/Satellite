@@ -1,23 +1,31 @@
 	<div class="single-service">
 			<table>
 			<tr>
-			<td style="width: 150px;">
+			<td class="service-data-column">
 				<b><u>Up Today</u></b></br>
 				{% for t in gainers %}
 				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}
 			</td>
-			<td style="width: 150px;">
+			<td class="service-data-column">
 			<b><u>Down Today</u></b><br/>
 			{% for t in losers %}
 			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 			{% endfor %}</td>
-			<td style="width: 150px;">
+			<td class="service-data-column">
 			<b><u>Upcoming Earnings</b></u><br/>
 			{% for t in earnings %}
 			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"N j"}}<br/>
 			{% endfor %}
 			</td>
 			</tr>
-		</table>
+			</table>
+			<table>
+			<p>
+				<b><u>Recent Articles</u></b><br/>
+				{% for a in articles %}
+				<a href="http://{{a.url}}" target="blank">{{a.title}}</a><br/>
+				{% endfor %}
+			</p>
+			</table>
 	</div>

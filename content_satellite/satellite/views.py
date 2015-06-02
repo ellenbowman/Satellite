@@ -42,17 +42,20 @@ def gainers_losers(list_of_tickers):
 ###############################################################################
 
 def upcoming_earnings(list_of_tickers):
-
 	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
-
 	earnings = [t for t in list_of_tickers if t.earnings_announcement is not None and t.earnings_announcement > yesterday]
-
 	earnings = sorted(earnings, key=lambda x: x.earnings_announcement)[:10]
 
 	return earnings
 
 ###############################################################################
 
+def recent_articles(list_of_articles):
+	articles = sorted(list_of_articles, key=lambda x: x.date_pub, reverse=True)[:5]
+
+	return articles
+
+###############################################################################
 
 def service_overview(request):
 
@@ -131,8 +134,6 @@ def service_overview(request):
 	deep_value_tickers = []
 	options_tickers = []
 
-
-
 	for t in Ticker.objects.all():
 		if not t.services_for_ticker:
 			continue
@@ -177,44 +178,98 @@ def service_overview(request):
 			print 'this ticker %s was in some other service' % t.ticker_symbol
 
 
+	fool_one_articles = []
+	supernova_articles = []
+	pro_articles = []
+	mdp_articles = []
+	stock_advisor_articles = []
+	hidden_gems_articles = []
+	income_investor_articles = []
+	rule_breakers_articles = []
+	inside_value_articles = []
+	special_ops_articles = []
+	deep_value_articles = []
+	options_articles = []
+
+	for a in Article.objects.all():    
+		if 'One' in a.service.pretty_name:
+			fool_one_articles.append(a)
+		elif 'Supernova' in a.service.pretty_name:
+			supernova_articles.append(a)
+		elif 'Pro' in a.service.pretty_name:
+			pro_articles.append(a)
+		elif 'MDP' in a.service.pretty_name:
+			mdp_articles.append(a)
+		elif 'Stock Advisor' in a.service.pretty_name:
+			stock_advisor_articles.append(a)
+		elif 'Hidden Gems' in a.service.pretty_name:
+			hidden_gems_articles.append(a)
+		elif 'Income Investor' in a.service.pretty_name:
+			income_investor_articles.append(a)
+		elif 'Rule Breakers' in a.service.pretty_name:
+			rule_breakers_articles.append(a)
+		elif 'Inside Value' in a.service.pretty_name:
+			inside_value_articles.append(a)
+		elif 'Special Ops' in a.service.pretty_name:
+			special_ops_articles.append(a)
+		elif 'Options' in a.service.pretty_name:
+			options_articles.append(a)
+		elif 'Deep Value' in a.service.pretty_name:
+			deep_value_articles.append(a)
+		else:
+			print 'this article %s was in some other service' % a.title
+
+
 	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
 
 
 	fool_one_gainers, fool_one_losers = gainers_losers(fool_one_tickers)
 	fool_one_earnings = upcoming_earnings(fool_one_tickers)
+	fool_one_articles = recent_articles(fool_one_articles)
 
 	supernova_gainers, supernova_losers = gainers_losers(supernova_tickers)
 	supernova_earnings = upcoming_earnings(supernova_tickers)
+	supernova_articles = recent_articles(supernova_articles)
         
 	pro_gainers, pro_losers = gainers_losers(pro_tickers)
 	pro_earnings = upcoming_earnings(pro_tickers)
+	pro_articles = recent_articles(pro_articles)
 
 	mdp_gainers, mdp_losers = gainers_losers(mdp_tickers)
 	mdp_earnings = upcoming_earnings(mdp_tickers)
+	mdp_articles = recent_articles(mdp_articles)
 
 	stock_advisor_gainers, stock_advisor_losers = gainers_losers(stock_advisor_tickers)
 	stock_advisor_earnings = upcoming_earnings(stock_advisor_tickers)
+	stock_advisor_articles = recent_articles(stock_advisor_articles)
 
 	rule_breakers_gainers, rule_breakers_losers = gainers_losers(rule_breakers_tickers)
 	rule_breakers_earnings = upcoming_earnings(rule_breakers_tickers)
+	rule_breakers_articles = recent_articles(rule_breakers_articles)
 
 	income_investor_gainers, income_investor_losers = gainers_losers(income_investor_tickers)
 	income_investor_earnings = upcoming_earnings(income_investor_tickers)
+	income_investor_articles = recent_articles(income_investor_articles)
 
 	inside_value_gainers, inside_value_losers = gainers_losers(inside_value_tickers)
 	inside_value_earnings = upcoming_earnings(inside_value_tickers)
+	inside_value_articles = recent_articles(inside_value_articles)
 
 	hidden_gems_gainers, hidden_gems_losers = gainers_losers(hidden_gems_tickers)
 	hidden_gems_earnings = upcoming_earnings(hidden_gems_tickers)
+	hidden_gems_articles = recent_articles(hidden_gems_articles)
 
 	special_ops_gainers, special_ops_losers = gainers_losers(special_ops_tickers)
 	special_ops_earnings = upcoming_earnings(special_ops_tickers)
+	special_ops_articles = recent_articles(special_ops_articles)
 
 	# options_gainers, options_losers = gainers_losers(options_tickers)
 	# options_earnings = sorted(options_tickers, key=lambda x: x.earnings_announcement, reverse=True)[:10]
+	options_articles = recent_articles(options_articles)
 
 	deep_value_gainers, deep_value_losers = gainers_losers(deep_value_tickers)
 	deep_value_earnings = upcoming_earnings(deep_value_tickers)
+	deep_value_articles = recent_articles(deep_value_articles)
 
 
 	dictionary_of_values = {
@@ -225,50 +280,62 @@ def service_overview(request):
 		'fool_one_gainers': fool_one_gainers,
 		'fool_one_losers': fool_one_losers,
 		'fool_one_earnings': fool_one_earnings,
+		'fool_one_articles': fool_one_articles,
 		'supernova_tickers': supernova_tickers,
 		'supernova_gainers': supernova_gainers,
 		'supernova_losers': supernova_losers,
 		'supernova_earnings': supernova_earnings,
+		'supernova_articles': supernova_articles,
 		'pro_tickers': pro_tickers,
 		'pro_gainers': pro_gainers,
 		'pro_losers': pro_losers,
 		'pro_earnings': pro_earnings,
+		'pro_articles': pro_articles,
 		'mdp_tickers': mdp_tickers,
 		'mdp_gainers': mdp_gainers,
 		'mdp_losers': mdp_losers,
 		'mdp_earnings': mdp_earnings,
+		'mdp_articles': mdp_articles,
 		'stock_advisor_tickers': stock_advisor_tickers,
 		'stock_advisor_gainers': stock_advisor_gainers,
 		'stock_advisor_losers': stock_advisor_losers,
 		'stock_advisor_earnings': stock_advisor_earnings,
+		'stock_advisor_articles': stock_advisor_articles,
 		'rule_breakers_tickers': rule_breakers_tickers,
 		'rule_breakers_gainers': rule_breakers_gainers,
 		'rule_breakers_losers': rule_breakers_losers,
 		'rule_breakers_earnings': rule_breakers_earnings,
+		'rule_breakers_articles': rule_breakers_articles,
 		'income_investor_tickers': income_investor_tickers,
 		'income_investor_gainers': income_investor_gainers,
 		'income_investor_losers': income_investor_losers,
 		'income_investor_earnings': income_investor_earnings,
+		'income_investor_articles': income_investor_articles,
 		'inside_value_tickers': inside_value_tickers,
 		'inside_value_gainers': inside_value_gainers,
 		'inside_value_losers': inside_value_losers,
 		'inside_value_earnings': inside_value_earnings,
+		'income_investor_articles': income_investor_articles,
 		'hidden_gems_tickers': hidden_gems_tickers,
 		'hidden_gems_gainers': hidden_gems_gainers,
 		'hidden_gems_losers': hidden_gems_losers,
 		'hidden_gems_earnings': hidden_gems_earnings,
+		'hidden_gems_articles': hidden_gems_articles,
 		'special_ops_tickers': special_ops_tickers,
 		'special_ops_gainers': special_ops_gainers,
 		'special_ops_losers': special_ops_losers,
 		'special_ops_earnings': special_ops_earnings,
+		'special_ops_articles': special_ops_articles,
 		'deep_value_tickers': deep_value_tickers,
 		'deep_value_gainers': deep_value_gainers,
 		'deep_value_losers': deep_value_losers,
 		'deep_value_earnings': deep_value_earnings,
+		'deep_value_articles': deep_value_articles,
 		#'options_tickers': options_tickers,
 		#'options_gainers': options_gainers,
 		#'options_losers': options_losers,
 		#'options_earnings': options_earnings,
+		'options_articles': options_articles,
 
 	}
 
