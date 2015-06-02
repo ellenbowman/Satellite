@@ -199,6 +199,7 @@ def service_overview(request):
 	inside_value_gainers, inside_value_losers = gainers_losers(inside_value_tickers)
 	inside_value_earnings = upcoming_earnings(inside_value_tickers)
 	inside_value_articles = recent_articles(inside_value_articles)
+	print inside_value_articles
 
 	hidden_gems_gainers, hidden_gems_losers = gainers_losers(hidden_gems_tickers)
 	hidden_gems_earnings = upcoming_earnings(hidden_gems_tickers)

@@ -1,5 +1,6 @@
 			<div class="single-service">
 			<table>
+				<tr>
 				<td class="single-service-header" colspan=3>
 					{{service_name}}
 				</td>
@@ -22,13 +23,13 @@
 			{% endfor %}
 			</td>
 			</tr>
-			</table>
-			<table>
-			<p>
+			<tr>
+				<td colspan=3>
 				<b><u>Recent Articles</u></b><br/>
 				{% for a in articles %}
 				<a href="http://{{a.url}}" target="blank">{{a.title}}</a><br/>
 				{% endfor %}
-			</p>
+			</td>
+		</tr>
 			</table>
 		</div>
