@@ -51,7 +51,13 @@ def upcoming_earnings(list_of_tickers):
 ###############################################################################
 
 def recent_articles(list_of_articles):
-	articles = sorted(list_of_articles, key=lambda x: x.date_pub, reverse=True)[:5]
+	duplicate_titles = set()
+	individual_articles = []
+	for a in list_of_articles:
+		if a.title not in duplicate_titles:
+			individual_articles.append(a)
+			duplicate_titles.add(a.title)
+	articles = sorted(individual_articles, key=lambda x: x.date_pub, reverse=True)[:5]
 
 	return articles
 
@@ -164,7 +170,6 @@ def service_overview(request):
 	fool_one_gainers, fool_one_losers = gainers_losers(fool_one_tickers)
 	fool_one_earnings = upcoming_earnings(fool_one_tickers)
 	fool_one_articles = recent_articles(fool_one_articles)
-	fool_one_articles = set(fool_one_articles)
 
 	supernova_gainers, supernova_losers = gainers_losers(supernova_tickers)
 	supernova_earnings = upcoming_earnings(supernova_tickers)
