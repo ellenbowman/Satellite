@@ -161,7 +161,7 @@ def service_overview(request):
 		elif 'Deep Value' in a.service.pretty_name:
 			deep_value_articles.append(a)
 		else:
-			print 'this article %s was in some other service' % a.title
+			print 'this article was in some other service'
 
 
 	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
