@@ -12,227 +12,41 @@ SOL: Service Overview
 <table>
 	<tr>
 		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Fool One</font>
-			{% include "satellite/single_service_overview.html" with gainers=fool_one_gainers losers=fool_one_losers earnings=fool_one_earnings %}
+			{% include "satellite/single_service_overview.html" with gainers=fool_one_gainers losers=fool_one_losers earnings=fool_one_earnings %}</td>
 		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Supernova</font>
-			{% include "satellite/single_service_overview.html" with gainers=supernova_gainers losers=supernova_losers earnings=supernova_earnings %}
+			{% include "satellite/single_service_overview.html" with gainers=supernova_gainers losers=supernova_losers earnings=supernova_earnings %}</td>
 	</tr>
 	<tr>
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Pro</font>
-			<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in pro_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in pro_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for t in pro_earnings %}
-					<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-			</table>
-			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>MDP</font>
-			<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in mdp_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in mdp_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for t in mdp_earnings %}
-					<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-			</table>
+		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Pro</font>
+			{% include "satellite/single_service_overview.html" with gainers=pro_gainers losers=pro_losers earnings=pro_earnings %}</td>
+		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>MDP</font>
+			{% include "satellite/single_service_overview.html" with gainers=mdp_gainers losers=mdp_losers earnings=mdp_earnings %}</td>
 		</tr>
 	</tr>
 	<tr>
 		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Stock Advisor</font>
-		<table>
-			<tr>
-			<td style="width: 150px;">
-				<b><u>Gainers</u></b></br>
-				{% for t in stock_advisor_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-			<b><u>Losers</u></b><br/>
-			{% for t in stock_advisor_losers %}
-			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-			{% endfor %}</td>
-			<td style="width: 150px;">
-				<b><u>Upcoming Earnings</b></u><br/>
-			{% for u in stock_advisor_earnings %}
-			<b>{{u.ticker_symbol}}</b>,
-			{{u.earnings_announcement}}<br/>
-			{% endfor %}
-			</td>
-			</tr>
-		</table>
+			{% include "satellite/single_service_overview.html" with gainers=stock_advisor_gainers losers=stock_advisor_losers earnings=stock_advisor_earnings %}</td>
+		</td>
 		<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Rule Breakers</font>
-		<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in rule_breakers_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width:150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in rule_breakers_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for u in rule_breakers_earnings %}
-					<b>{{u.ticker_symbol}}</b>,
-					{{u.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-		</table>
+			{% include "satellite/single_service_overview.html" with gainers=rule_breakers_gainers losers=rule_breakers_losers earnings=rule_breakers_earnings %}
 	</tr>
 	<tr>
 			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Income Investor</font>
-			<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in income_investor_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in income_investor_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for u in income_investor_earnings %}
-					<b>{{u.ticker_symbol}}</b>,
-					{{u.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-			</table>
+				{% include "satellite/single_service_overview.html" with gainers=income_investor_gainers losers=income_investor_losers earnings=income_investor_earnings %}
 			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Inside Value</font>
-			<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in inside_value_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in inside_value_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for u in inside_value_earnings %}
-					<b>{{u.ticker_symbol}}</b>,
-					{{u.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-			</table>
+				{% include "satellite/single_service_overview.html" with gainers=inside_value_gainers losers=inside_value_losers earnings=inside_value_earnings %}
 		</tr>
 	</tr>
 <tr>
 			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Hidden Gems</font>
-			<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in hidden_gems_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in hidden_gems_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for u in hidden_gems_earnings %}
-					<b>{{u.ticker_symbol}}</b>,
-					{{u.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-			</table>
+				{% include "satellite/single_service_overview.html" with gainers=hidden_gems_gainers losers=hidden_gems_losers earnings=hidden_gems_earnings %}
 			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Special Ops</font>
-			<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in special_ops_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in special_ops_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for u in special_ops_earnings %}
-					<b>{{u.ticker_symbol}}</b>,
-					{{u.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-			</table>
+				{% include "satellite/single_service_overview.html" with gainers=special_ops_gainers losers=hidden_gems_losers earnings=hidden_gems_earnings %}
 		</tr>
 	</tr>
 	<tr>
 			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Deep Value</font>
-			<table>
-			<tr>
-				<td style="width: 150px;">
-				<p><b><u>Gainers</u></b><br/>
-				{% for t in deep_value_gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}
-			</td>
-			<td style="width: 150px;">
-				<b><u>Losers</u></b><br/>
-				{% for t in deep_value_losers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
-				{% endfor %}</td>
-				<td style="width: 150px;">
-					<b><u>Upcoming Earnings</b></u><br/>
-					{% for u in deep_value_earnings %}
-					<b>{{u.ticker_symbol}}</b>,
-					{{u.earnings_announcement}}<br/>
-					{% endfor %}
-				</td>
-			</tr>
-			</table>
+				{% include "satellite/single_service_overview.html" with gainers=deep_value_gainers losers=deep_value_losers earnings=deep_value_earnings %}
 			<td align="center" style="padding: 20px; min-width: 400px;"><font size=4>Options</font>
 			<table>
 			<tr>

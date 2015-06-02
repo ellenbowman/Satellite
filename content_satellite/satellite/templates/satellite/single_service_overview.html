@@ -1,4 +1,5 @@
-	<table>
+		<div class="single-service">
+				<table>
 			<tr>
 			<td style="width: 150px;">
 				<b><u>Gainers</u></b></br>
@@ -14,8 +15,9 @@
 			<td style="width: 150px;">
 			<b><u>Upcoming Earnings</b></u><br/>
 			{% for t in earnings %}
-			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"M d"}}<br/>
+			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"N j"}}<br/>
 			{% endfor %}
 			</td>
 			</tr>
 		</table>
+	</div>
