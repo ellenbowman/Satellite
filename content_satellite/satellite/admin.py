@@ -9,7 +9,7 @@ from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard, D
 #admin.site.register(Mover, MoverAdmin)
 
 class TickerAdmin(admin.ModelAdmin):
-	list_display = ['ticker_symbol','company_name','daily_percent_change','exchange_symbol','services','scorecards','num_followers',
+	list_display = ['ticker_symbol','company_name','daily_percent_change','exchange_symbol','services','scorecards','tier', 'tier_status',
 	'earnings_announcement','notes']
 	#list_filter = ['num_services']
 	search_fields = ['ticker_symbol', 'instrument_id','company_name']
