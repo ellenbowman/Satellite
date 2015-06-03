@@ -74,9 +74,10 @@ SOL: Biggest Movers
 {% for t in tickers %}
 <h4>{{t.company_name}}</h4>
 <p id="{{t.ticker_symbol}}">
-	<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:yellow'>{{t.daily_percent_change}}%</span> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
+	<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;&nbsp;<span style='background-color:#f4f4ae'>{{t.daily_percent_change}}%</span> | {{t.exchange_symbol}}: <a href='http://www.fool.com/quote/1255/{{t.ticker_symbol}}' target='_blank'><strong>{{t.ticker_symbol}}</strong></a>
 <br/>
-<strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} | <strong>Tier</strong>: Tier goes here | <strong>Next earnings date</strong>: {{t.earnings_announcement}}<br/>
+<strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} |
+{% if t.tier %} <span style="background-color:yellow"><strong>Tier</strong>: {{t.tier}} ({{t.tier_status}})</span> |{% endif %} <strong>Next earnings date</strong>: {{t.earnings_announcement}}<br/>
 <a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
 </p>
 <p>

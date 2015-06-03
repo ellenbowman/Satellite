@@ -41,6 +41,26 @@ def gainers_losers(list_of_tickers):
 
 ###############################################################################
 
+def tiered_stocks(request):
+
+	tiered_stocks = []
+
+	for t in Ticker.objects.all():
+		if t.tier:
+			tiered_stocks.append(t)
+		else:
+			print 'nope'
+
+	dictionary_of_values = {
+		'tiered_stocks': tiered_stocks,
+	}
+
+	return render(request, 'satellite/tiered_stocks.html', dictionary_of_values)
+
+
+
+###############################################################################
+
 def upcoming_earnings(list_of_tickers):
 	yesterday = (datetime.now() - timedelta(days=1)).date()  # a date object that represents yesterday's date. we'll then consider only the tickers whose earnings announcement are greater than this value.
 	earnings = [t for t in list_of_tickers if t.earnings_announcement is not None and t.earnings_announcement > yesterday]
@@ -182,7 +202,6 @@ def service_overview(request):
 	mdp_gainers, mdp_losers = gainers_losers(mdp_tickers)
 	mdp_earnings = upcoming_earnings(mdp_tickers)
 	mdp_articles = recent_articles(mdp_articles)
-	print mdp_articles
 
 	stock_advisor_gainers, stock_advisor_losers = gainers_losers(stock_advisor_tickers)
 	stock_advisor_earnings = upcoming_earnings(stock_advisor_tickers)
@@ -199,7 +218,6 @@ def service_overview(request):
 	inside_value_gainers, inside_value_losers = gainers_losers(inside_value_tickers)
 	inside_value_earnings = upcoming_earnings(inside_value_tickers)
 	inside_value_articles = recent_articles(inside_value_articles)
-	print inside_value_articles
 
 	hidden_gems_gainers, hidden_gems_losers = gainers_losers(hidden_gems_tickers)
 	hidden_gems_earnings = upcoming_earnings(hidden_gems_tickers)

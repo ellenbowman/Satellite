@@ -1,0 +1,34 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Tiered Stocks
+{% endblock %}
+
+{% block container_contents %}
+
+<h3>Tiered Stocks</h3>
+
+{% for t in tiered_stocks %}
+<table>
+	<tr><b>Company</b></tr>
+	<td class="service-data-column">
+		<b>Company</b></td>
+	<td class="service-data-column">
+		{{t.company_name}}</td>
+	<td class="service-data-column">
+		<b>Ticker</b><br/>
+		{{t.ticker_symbol}}</td>
+	<td class="service-data-column">
+		<b>Tier</b><br/>
+		{{t.tier}}</td>
+	<td class="service-data-column">
+		<b>Tier Status<br/>
+		{{t.tier_status}}
+	<td class="service-data-column">
+		<b>Services</b><br/>
+		{{t.services_for_ticker}}</td>
+	</tr>
+</table>
+{% endfor %}
+
+{% endblock %}	
