@@ -51,8 +51,131 @@ def tiered_stocks(request):
 		else:
 			print 'nope'
 
+	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
+	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
+	tickers_to_filter_by = None
+	ticker_filter_description = None
+	service_options = Service.objects.all()
+
+	# filter by ticker/service if we detect that preference in the query string (in the request.GET) or via a form post (in the request.POST)
+	# additionally, if this is a GET, let's attempt to set the page_num. otherwise, we'll default to page_num of 1.
+
+	if request.POST:
+		if 'page_number' in request.POST:
+			page_num = int(request.POST['page_number'])
+
+		tiered_filter_form = FilterForm(request.POST)
+		
+		if tiered_filter_form.is_valid():
+			if 'tickers' in tiered_filter_form.cleaned_data:
+				tickers_user_input = tiered_filter_form.cleaned_data['tickers'].strip()
+				if tickers_user_input != '':
+					# take the user input and try to find corresponding Ticker objects 
+					tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
+
+			# retrieve the services that were selected in the form. 
+			if 'services' in tiered_filter_form.cleaned_data:
+				if len(tiered_filter_form.cleaned_data['services']) > 0:
+					# the form makes available "cleaned data" that's pretty convenient - 
+					# in this case, it returns a list of Service objects that correspond
+					# to what the user selected.
+					services_to_filter_by = tiered_filter_form.cleaned_data['services']
+
+		
+		# find the keys that correspond to the 'notes' input. 
+		# since we also have control over the forms markup (embedded in 'info_by_scorecard.html'), 
+		# we know that the form data we're interested in has names that start with 'ticker_notes_'.
+		# it translates that these names should be visible as keys in the request.POST dictionary
+
+		ticker_note_name_prefix = 'ticker_notes_'
+
+		# use 'python list comprehension' to create a list of all the keys in request.POST that 
+		# match this condition: the key must start with 'ticker_notes_' . equivalent to a multi-line
+		# 'for' loop.
+		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
+
+		for key_of_ticker_note_data in keys_of_ticker_note_data:
+			# from each key, we can extract the Ticker id that we've embedded in the key
+			# (eg, if we see 'ticker_notes_3', we know it corresponds to the Ticker with id 3)
+			# and we can use that id to retrieve the Ticker object from the db,
+			# update its notes field, and save the Ticker. voila!
+
+			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]  # pick out everything in the string that follows the 'ticker_notes_' prefix
+			print ticker_id
+			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id) # ticker_id is a string, and ticker_symbol is an item from a list
+
+			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
+			ticker_to_update.save() # write this update to the db!
+			
+			# print to console a sanity check
+			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
+
+	
+	elif request.GET:
+		initial_form_values = {}
+
+		if 'tickers' in request.GET:
+			tickers_user_input = request.GET.get('tickers')
+			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
+
+			initial_form_values['tickers'] = tickers_user_input
+		if 'service_ids' in request.GET:
+			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
+			initial_form_values['services'] = services_to_filter_by
+
+		tiered_filter_form = FilterForm(initial=initial_form_values)
+
+	else:
+		tiered_filter_form = FilterForm()
+
+	# end of inspecting request.GET and request.POST for ticker/service filter
+
+	if tickers_to_filter_by:
+		# make the pretty description of the tickers
+		ticker_filter_description = tickers_user_input.upper()
+
+	if services_to_filter_by:
+		# make the pretty description of the services we found. 
+		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
+		pretty_names_of_services_we_matched.sort()
+		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
+
+	else:
+		pass
+
+
+	# get the set of tickers, filtered by ticker/service, if those filters are defined
+	if tickers_to_filter_by is not None and services_to_filter_by is not None:
+		tiered_stocks = []  # initialize to an empty list
+		for t in tickers_to_filter_by:
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker and t.tier is not 0:
+					tiered_stocks.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
+					# overlap between the ticker's services_for_ticker field and the set of services we 
+					# want to filter by 
+					break
+		
+	elif tickers_to_filter_by is not None:
+		tiered_stocks = tickers_to_filter_by
+	elif services_to_filter_by is not None:
+		tiered_stocks = []  # initialize to an empty list
+		for t in Ticker.objects.all():
+			if not t.services_for_ticker:
+				continue
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker and t.tier is not 0:
+					tiered_stocks.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
+					# overlap between the ticker's services_for_ticker field and the set of services we 
+					# want to filter by 
+					break
+		
+	else:
+		# get all tickers, and sort by descending date
+		tiered_stocks = None
+
 	dictionary_of_values = {
 		'tiered_stocks': tiered_stocks,
+		'tiered_filter_form': FilterForm,
 	}
 
 	return render(request, 'satellite/tiered_stocks.html', dictionary_of_values)

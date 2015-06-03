@@ -7,7 +7,19 @@ SOL: Tiered Stocks
 {% block container_contents %}
 
 <h3>Tiered Stocks</h3>
-
+		<p>
+			<form action="" method="post">
+				{% csrf_token %}
+				<strong>Filter by service(s):</strong>&nbsp;
+				{{tiered_filter_form.services}}
+				<em>Ctrl/Cmd+click to select more than one</em>.
+				<input type="submit" value="Filter"><br/>
+				<strong>Filter by ticker(s):</strong>&nbsp;
+				{{tiered_filter_form.tickers}}
+				<em>Enter one or several.</em>
+				<input type="submit" value="Filter"
+			</form>
+		</p>
 <div>
 		<table class='listTable'>
 			<thead>
@@ -15,8 +27,7 @@ SOL: Tiered Stocks
 					<th width='20%'>Company Name</th>
 					<th width='10%'>Ticker</th>
 					<th width='10%'>Tier Status</th>
-					<th width='10%'>Services</th>
-					<th width='20'>Recent Coverage</th>
+					<th width='10%'>Scorecards</th>
 					<th width='30%'>Notes</th>
 				</tr>
 			</thead>
@@ -30,12 +41,19 @@ SOL: Tiered Stocks
 				<td>
 					{{t.tier_status}}
 				</td>
-				<td>{{t.services_for_ticker}}</td>
-				<td>Recent Coverage</td>
-				<td>{{t.notes}}</td>
-			</tr>
+				<td><em>{{t.scorecards_for_ticker}}</em></td>
+				<td>
+					<form action="/sol/ticker_world/" method="post">
+					{% csrf_token %}
+					<strong>Notes:</strong><br/>
+					<textarea cols=100 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_symbol}}"/>{{ t.notes|default_if_none:''}}
+					</textarea></br>
+					<input type="submit" value="Edit notes" href="/sol/tiered_stocks/"></span>
+					</form>
+				</td>
+				</tr>
 			{% endfor %}
-			</tbody>
+		</tbody>
 	</div>
 
 
