@@ -8,27 +8,35 @@ SOL: Tiered Stocks
 
 <h3>Tiered Stocks</h3>
 
-{% for t in tiered_stocks %}
-<table>
-	<tr><b>Company</b></tr>
-	<td class="service-data-column">
-		<b>Company</b></td>
-	<td class="service-data-column">
-		{{t.company_name}}</td>
-	<td class="service-data-column">
-		<b>Ticker</b><br/>
-		{{t.ticker_symbol}}</td>
-	<td class="service-data-column">
-		<b>Tier</b><br/>
-		{{t.tier}}</td>
-	<td class="service-data-column">
-		<b>Tier Status<br/>
-		{{t.tier_status}}
-	<td class="service-data-column">
-		<b>Services</b><br/>
-		{{t.services_for_ticker}}</td>
-	</tr>
-</table>
-{% endfor %}
+<div>
+		<table class='listTable'>
+			<thead>
+				<tr style='text-align:left'>
+					<th width='20%'>Company Name</th>
+					<th width='10%'>Ticker</th>
+					<th width='10%'>Tier Status</th>
+					<th width='10%'>Services</th>
+					<th width='20'>Recent Coverage</th>
+					<th width='30%'>Notes</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for t in tiered_stocks %}
+			<tr>
+				<td><a href="http://{{article_defn.article.url}}' target='_blank'">{{t.company_name}}</a></td>
+				<td>
+					<img width='24px' src='http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;{{t.ticker}}
+				</td>
+				<td>
+					{{t.tier_status}}
+				</td>
+				<td>{{t.services_for_ticker}}</td>
+				<td>Recent Coverage</td>
+				<td>{{t.notes}}</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+	</div>
+
 
 {% endblock %}	
