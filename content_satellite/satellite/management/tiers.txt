@@ -1,0 +1,133 @@
+service	ticker	 followers 	status
+"SA, II"	AAPL	" 80,534 "	starter
+IV	ACN.	119	core
+II	AINV	" 1,338 "	popular
+RB	AMBA	" 10,563 "	popular
+RB	AMT	" 3,906 "	popular
+"SA, IV"	AMZN	" 46,682 "	starter
+RB	ANET	" 4,456 "	popular
+HG	ASR	 599 	core
+RB	ATHN	" 3,629 "	popular
+SA	ATVI	" 52,684 "	starter
+HG	AWAY	 365 	popular
+IV	BAC	314	popular
+II	BBEP	" 1,425 "	popular
+RB	BIDU	" 8,440 "	popular
+HG	BIP	 518 	popular
+RB	BOFI	" 6,796 "	popular
+HG	BOOM	 463 	popular
+"SA, IV"	BRK-B	" 33,189 "	popular
+HG	BWLD	 833 	core
+RB	CAMP	" 4,670 "	popular
+RB	CELG	" 5,140 "	starter
+SA	CGNX	" 21,178 "	popular
+HG	CHUY	 588 	popular
+SA	CLB	" 23,535 "	popular
+RB	CLDX	" 3,869 "	popular
+"SA, RB, HG"	CMG	" 20,685 "	starter
+SA	CNI	" 24,481 "	popular
+SA	COST	" 43,656 "	starter
+II	CPA	 685 	popular
+HG	CRUS	 366 	popular
+II	CSCO	" 1,039 "	popular
+HG	CTRP	 631 	popular
+II	CVX	" 1,176 "	first
+SA	DASTY	" 13,317 "	popular
+SA	DDD	" 68,064 "	popular
+SA	DIS	" 54,818 "	starter
+SA	DISCK	" 25,377 "	popular
+II	DPM	 991 	popular
+HG	DWSN	 421 	popular
+"SA, IV"	EBAY	" 27,130 "	starter
+HG	ECOL	 480 	popular
+HG	ELLI	 375 	popular
+II	EPD	 726 	popular
+SA	F	" 24,089 "	popular
+"SA, RB"	FB	" 18,198 "	starter
+SA	FEYE	" 16,280 "	popular
+II	FISI	 767 	first
+HG	FORM	 531 	popular
+HG	FOSL	 382 	core
+SA	GILD		starter
+SA	GLW	" 12,927 "	popular
+II	GNTX	 785 	popular
+"SA, RB, IV"	GOOG	" 3,626 "	popular
+"SA, RB, IV"	GOOGL	" 33,632 "	popular
+RB	GPRO	" 10,122 "	popular
+IV	HAL	364	popular
+II	HAS	" 1,878 "	first
+HG	HHC	 669 	core
+"SA, IV"	IBKR	" 16,375 "	popular
+RB	ICE	 ? 	starter
+IV	ICON	291	popular
+RB	INFN	" 3,272 "	popular
+II	INTC	" 1,458 "	popular
+RB	INVN	" 21,913 "	popular
+RB	ISRG	" 8,260 "	popular
+HG	JLL	 353 	popular
+"II, IV"	JNJ	" 1,615 "	popular
+SA	KMI	" 27,402 "	popular
+SA	KMX		starter
+RB	KNDI	" 3,352 "	popular
+"II, IV"	KO	 987 	popular
+IV	LBTYK	352	popular
+HG	LF	 747 	popular
+HG	LL	 645 	popular
+"SA, RB"	LNKD	" 16,054 "	popular
+"SA, IV"	LUK	" 17,242 "	popular
+"SA, IV"	MA	" 23,912 "	starter
+RB	MELI	" 6,669 "	starter
+RB	MIDD	" 8,404 "	popular
+IV	MKL	615	core
+SA	NFLX	" 45,420 "	popular
+II	NGG	" 2,001 "	first
+SA	NKE	" 27,388 "	starter
+SA	NOV	" 28,928 "	popular
+HG	NUAN	 595 	popular
+SA	NVDA	" 15,803 "	popular
+RB	NXPI	" 5,597 "	popular
+II	OKE	" 1,560 "	first
+II	OKS	" 1,049 "	popular
+SA	PCLN	" 30,572 "	popular
+II	PEP	 811 	popular
+"II, IV"	PG	" 1,123 "	popular
+IV	PGR	448	popular
+HG	PRAA	 699 	core
+RB	PRLB	" 5,285 "	popular
+RB	RAX	" 4,112 "	popular
+IV	ROIC	372	popular
+IV	RPXC	359	popular
+HG	SAM	 ? 	core
+SA	SBUX	" 38,102 "	starter
+RB	SCTY	" 12,167 "	starter
+II	SE	" 2,048 "	first
+HG	SLCA	 458 	popular
+SA	SNI	" 14,587 "	popular
+II	SO	 870 	popular
+"RB, HG"	SSYS	" 9,783 "	popular
+HG	STAG	 385 	popular
+II	STON	 710 	popular
+SA	SWIR	" 42,882 "	popular
+SA	TCS	" 16,266 "	popular
+HG	TDG	 282 	core
+II	TGH	" 1,919 "	first
+"RB, HG"	TRIP	" 8,585 "	popular
+"SA, RB"	TSLA	" 19,087 "	popular
+HG	TTS	 555 	popular
+HG	TWI	 405 	popular
+RB	TWTR	" 4,770 "	popular
+"RB, HG"	UA	" 11,499 "	starter
+SA	UA	" 29,614 "	starter
+II	UGI	 737 	first
+"SA, IV"	UNH	" 17,105 "	popular
+IV	UPL	349	popular
+IV	V	201	core
+SA	VRX	" 13,886 "	popular
+II	VZ	" 1,977 "	first
+IV	WFC	393	popular
+SA	WFM	" 48,006 "	popular
+HG	WGO	 493 	popular
+SA	WPRT	" 21,468 "	popular
+RB	XONE	" 3,280 "	popular
+RB	Z	" 10,557 "	starter
+RB	ZEN	" 4,156 "	popular
