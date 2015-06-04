@@ -13,12 +13,17 @@ SOL: Tiered Stocks
 				<strong>Filter by service(s):</strong><br/>
 				{{tiered_filter_form.services}}<br/>
 				<em>Ctrl/Cmd+click to select more than one</em>.<br/>
-				<strong>Filter by tier status:</strong>&nbsp;
+				<strong>Filter by tier status:</strong>&nbsp;<br/>
 				{{tiered_filter_form.tier_status}}<br/>
-				{% if service_filter_description or tier_filter_description %}
-					 Active filters: {{tier_filter_description}}, {{service_filter_description}}<br/>
-					{% endif %}
-				<input type="submit" value="Filter">
+				Active filters: 
+				{% if service_filter_description %}
+				{{service_filter_description}},&nbsp;
+				{% endif %}
+				{% if tier_filter_description %}
+				{{tier_filter_description}}<br/>
+					{% endif %}<br/>
+				<input type="submit" value="Filter"><br/>
+					<a href="{% url 'tiered_stocks' %}"><button type='button'>Remove filters</button></a>
 			</form>
 		</p>
 <div>
