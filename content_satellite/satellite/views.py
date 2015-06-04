@@ -56,13 +56,13 @@ def tiered_stocks(request):
 	tickers_to_filter_by = None
 	ticker_filter_description = None
 	service_options = Service.objects.all()
+	tiers_to_filter_by = None
+	tier_filter_description = None
 
-	# filter by ticker/service if we detect that preference in the query string (in the request.GET) or via a form post (in the request.POST)
+	# filter by ticker/service/tier if we detect that preference in the query string (in the request.GET) or via a form post (in the request.POST)
 	# additionally, if this is a GET, let's attempt to set the page_num. otherwise, we'll default to page_num of 1.
 
 	if request.POST:
-		if 'page_number' in request.POST:
-			page_num = int(request.POST['page_number'])
 
 		tiered_filter_form = FilterForm(request.POST)
 		
@@ -80,6 +80,11 @@ def tiered_stocks(request):
 					# in this case, it returns a list of Service objects that correspond
 					# to what the user selected.
 					services_to_filter_by = tiered_filter_form.cleaned_data['services']
+
+			if 'tiers' in tiered_filter_form.cleaned_data:
+				tiers_user_input = tiered_filter_form.cleaned_data['tiers'].strip()
+				if tiers_user_input != '':
+					tiers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tiers_user_input)
 
 		
 		# find the keys that correspond to the 'notes' input. 
@@ -117,11 +122,13 @@ def tiered_stocks(request):
 		if 'tickers' in request.GET:
 			tickers_user_input = request.GET.get('tickers')
 			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
-
 			initial_form_values['tickers'] = tickers_user_input
 		if 'service_ids' in request.GET:
 			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
 			initial_form_values['services'] = services_to_filter_by
+		if 'tiers' in request.GET:
+			tiers_to_filter_by = _get_ticker_objects_for_tier_status(request.GET.get('tiers'))
+			initial_form_values['tiers'] = tiers_to_filter_by
 
 		tiered_filter_form = FilterForm(initial=initial_form_values)
 
@@ -140,23 +147,36 @@ def tiered_stocks(request):
 		pretty_names_of_services_we_matched.sort()
 		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
 
+	if tiers_to_filter_by:
+		tier_filter_description = tiers_to_filter_by.upper()
+
 	else:
 		pass
 
 
-	# get the set of tickers, filtered by ticker/service, if those filters are defined
-	if tickers_to_filter_by is not None and services_to_filter_by is not None:
+	# If there's a ticker filter, a service filter, and a tier filter: Get the objects that match all three.
+	if tickers_to_filter_by is not None and services_to_filter_by is not None and tiers_to_filter_by is not None:
 		tiered_stocks = []  # initialize to an empty list
 		for t in tickers_to_filter_by:
 			for service in services_to_filter_by:
 				if service.pretty_name in t.services_for_ticker and t.tier is not 0:
-					tiered_stocks.append(t)  # one-by-one we'll add tickers, pending checks on whether there's 
-					# overlap between the ticker's services_for_ticker field and the set of services we 
-					# want to filter by 
+					tiered_stocks.append(t)  # add tickers one by one, if the ticker and the service match the filter
+					# and a tier exists
 					break
-		
+
+	# how about if there's a ticker filter and a service filter?
+	elif tiers_to_filter_by is not None and services_to_filter_by is not None:
+		tiered_stocks = []  # initialize to an empty list
+		for t in tickers_to_filter_by:
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker and t.tier is not 0:
+					tiered_stocks.append(t)  # add tickers one by one, if the ticker and the service match the filter
+					# and a tier exists
+					break
+
 	elif tickers_to_filter_by is not None:
 		tiered_stocks = tickers_to_filter_by
+
 	elif services_to_filter_by is not None:
 		tiered_stocks = []  # initialize to an empty list
 		for t in Ticker.objects.all():
@@ -170,8 +190,12 @@ def tiered_stocks(request):
 					break
 		
 	else:
-		# get all tickers, and sort by descending date
-		tiered_stocks = None
+		# get all tiered stocks, sorted alphabetically
+		tiered_stocks = []
+		for t in Ticker.objects.all():
+			if t.tier_status:
+				tiered_stocks.append(t)
+
 
 	dictionary_of_values = {
 		'tiered_stocks': tiered_stocks,

@@ -13,6 +13,8 @@ class FilterForm(forms.Form):
 	services = forms.ModelMultipleChoiceField(
 		queryset=Service.objects.all().order_by('pretty_name'), 
 		required=False)
-	tier_status = forms.CharField(
-		widget=forms.Textarea,
+	tier_status = forms.ModelMultipleChoiceField(
+		queryset=Ticker.objects.filter(tier=1),
 		required=False)
+		#model = Ticker,
+		#fields = 'tier_status')
