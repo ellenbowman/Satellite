@@ -10,16 +10,14 @@ SOL: Tiered Stocks
 		<p>
 			<form action="" method="post">
 				{% csrf_token %}
-				<strong>Filter by service(s):</strong>&nbsp;
-				{{tiered_filter_form.services}}
-				<em>Ctrl/Cmd+click to select more than one</em>.
-				<input type="submit" value="Filter"><br/>
-				<strong>Filter by ticker(s):</strong>&nbsp;
-				{{tiered_filter_form.tickers}}
-				<em>Enter one or several.</em>
-				<input type="submit" value="Filter"><br/>
+				<strong>Filter by service(s):</strong><br/>
+				{{tiered_filter_form.services}}<br/>
+				<em>Ctrl/Cmd+click to select more than one</em>.<br/>
 				<strong>Filter by tier status:</strong>&nbsp;
-					{{tiered_filter_form.tier_status}}
+				{{tiered_filter_form.tier_status}}<br/>
+				{% if service_filter_description or tier_filter_description %}
+					 Active filters: {{tier_filter_description}}, {{service_filter_description}}<br/>
+					{% endif %}
 				<input type="submit" value="Filter">
 			</form>
 		</p>
@@ -37,9 +35,9 @@ SOL: Tiered Stocks
 			<tbody>
 			{% for t in tiered_stocks %}
 			<tr>
-				<td><a href="http://{{article_defn.article.url}}' target='_blank'">{{t.company_name}}</a></td>
+				<td><a href="http://{{article_defn.article.url}}' target='_blank'">{{t.company_name}}&nbsp;<img width='24px' src='http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png' alt='{{t.ticker_symbol}}'/></a></td>
 				<td>
-					<img width='24px' src='http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png' alt='{{t.ticker_symbol}}'/>&nbsp;{{t.ticker}}
+					{{t.ticker_symbol}}
 				</td>
 				<td>
 					{{t.tier_status}}
@@ -48,7 +46,6 @@ SOL: Tiered Stocks
 				<td>
 					<form action="/sol/ticker_world/" method="post">
 					{% csrf_token %}
-					<strong>Notes:</strong><br/>
 					<textarea cols=100 rows=5 id = "edit_notes" name="ticker_notes_{{t.ticker_symbol}}"/>{{ t.notes|default_if_none:''}}
 					</textarea></br>
 					<input type="submit" value="Edit notes" href="/sol/tiered_stocks/"></span>
