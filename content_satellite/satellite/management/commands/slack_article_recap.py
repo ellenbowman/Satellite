@@ -19,7 +19,7 @@ class Command(BaseCommand):
 		print 'starting script'
 
 		yesterday = (datetime.today() - timedelta(days=1)).date()
-		articles_published_yesterday = Article.objects.filter(date_pub=yesterday)
+		articles_published_yesterday = Article.objects.filter(date_pub__year=yesterday.year,date_pub__month=yesterday.month, date_pub__day=yesterday.day)
 
 		article_count = len(articles_published_yesterday)
 
