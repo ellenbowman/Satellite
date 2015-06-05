@@ -694,6 +694,84 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 ###############################################################################
 
+def content_audit(request):
+
+	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
+	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
+	service_options = Service.objects.all()
+
+	if request.POST:
+
+		audit_filter_form = FilterForm(request.POST)
+		
+		if audit_filter_form.is_valid(): 
+			if 'services' in audit_filter_form.cleaned_data:
+				if len(audit_filter_form.cleaned_data['services']) > 0:
+					services_to_filter_by = audit_filter_form.cleaned_data['services']
+
+		ticker_note_name_prefix = 'ticker_notes_'
+		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
+
+		for key_of_ticker_note_data in keys_of_ticker_note_data:
+			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]  # pick out everything in the string that follows the 'ticker_notes_' prefix
+			print ticker_id
+			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id) # ticker_id is a string, and ticker_symbol is an item from a list
+
+			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
+			ticker_to_update.save() # write this update to the db!
+			
+			# print to console a sanity check
+			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
+
+	
+	elif request.GET:
+		initial_form_values = {}
+
+		if 'service_ids' in request.GET:
+			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
+			initial_form_values['services'] = services_to_filter_by
+
+		audit_filter_form = FilterForm(initial=initial_form_values)
+
+	else:
+		audit_filter_form = FilterForm()
+
+	if services_to_filter_by:
+		# make the pretty description of the services we found. 
+		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
+		pretty_names_of_services_we_matched.sort()
+		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
+	else:
+		pass
+
+
+	# get the set of tickers, filtered by service
+	if services_to_filter_by is not None:
+		tickers = []
+		for t in Ticker.objects.all():
+			for service in services_to_filter_by:
+				if t.services_for_ticker is None:
+					pass
+				elif service.pretty_name in t.services_for_ticker:
+					tickers.append(t)
+				break
+		
+	else:
+		# get all tickers, and sort by descending date
+		tickers = Ticker.objects.all()
+
+	dictionary_of_values = {
+		'tickers': tickers,
+		'form': audit_filter_form,
+	}
+
+	return render(request, 'satellite/content_audit.html', dictionary_of_values)
+
+
+
+
+###############################################################################
+
 
 def scorecard_index(request):
 	"""

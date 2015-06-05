@@ -1,0 +1,40 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Content Audit
+{% endblock %}
+
+{% block container_contents %}
+
+<h3>Content Audit</h3>
+	<table>
+	<tr>
+		<td>
+		<p>
+			<form action="" method="post">
+				{% csrf_token %}
+				<strong>Choose your service:</strong>
+				{{form.services}}
+				<input type="submit" value="Filter">&nbsp;&nbsp;
+					<a href="{% url 'content_audit' %}"><button type='button'>Remove filters</button></a>
+			</form>
+		</p>
+	</td>
+	<td>
+		<p><strong>Choose your date range:</strong></p>
+	</td>
+</tr>
+</table>
+<hr/>
+<table>
+ 	{% for t in tickers %}
+ 	<tr>
+ 	<td>
+ 	{{t.company_name}}</td>
+ 	<td>
+ 	{{t.ticker_symbol}}</td>
+ </tr>
+ 	{% endfor %}
+ </table>
+
+{% endblock %}
