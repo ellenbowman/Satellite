@@ -100,7 +100,7 @@ class Command(BaseCommand):
 			desc_of_top_losers = ', '.join(desc_of_top_losers)
 
 			percentage_positive_movement = '{:.2%}'.format(1.0*count_tickers_with_positive_movement/ticker_count_for_this_service)
-			desc_of_positive_movement = "recs with gains: %s (%d of %d)" % (percentage_positive_movement, count_tickers_with_positive_movement, ticker_count_for_this_service)
+			desc_of_positive_movement = "recs with gains today: %s (%d of %d)" % (percentage_positive_movement, count_tickers_with_positive_movement, ticker_count_for_this_service)
 
 			summary_for_this_service  = "%s      %s" % (service_pretty_name, desc_of_positive_movement)
 			summary_for_this_service += "\n    %s" % desc_of_top_gainers
