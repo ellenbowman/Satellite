@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import FilterForm
+from forms import FilterForm, SelectAnalystForm
 from models import Article, Service, Ticker, Scorecard, ServiceTake
 
 # Create your views here.
@@ -702,6 +702,8 @@ def content_audit(request):
 
 	if request.POST:
 
+		analyst_form = SelectAnalystForm(request.POST)
+
 		audit_filter_form = FilterForm(request.POST)
 		
 		if audit_filter_form.is_valid(): 
@@ -755,14 +757,43 @@ def content_audit(request):
 				elif service.pretty_name in t.services_for_ticker:
 					tickers.append(t)
 				break
-		
+
+		print tickers
+
+		articles = 'pants'
+
+		filtered_articles = []
+		for a in Article.objects.all():
+			for t in tickers:
+				if a.service.pretty_name in t.services_for_ticker:
+					filtered_articles.append(a)
+				else:
+					pass
+		#print individual_articles
+
+		duplicate_titles = set()
+		individual_articles = []
+		for a in filtered_articles:
+			if a.title not in duplicate_titles:
+				duplicate_titles.add(a.title)
+				individual_articles.append(a)
+
+		#print individual_articles
+
+
 	else:
 		# get all tickers, and sort by descending date
 		tickers = Ticker.objects.all()
+		articles = 'pants'
+
 
 	dictionary_of_values = {
 		'tickers': tickers,
+		'articles': articles,
+		'individual_articles': individual_articles,
 		'form': audit_filter_form,
+		'analyst_form': analyst_form,
+		'service_filter_description': service_filter_description,
 	}
 
 	return render(request, 'satellite/content_audit.html', dictionary_of_values)

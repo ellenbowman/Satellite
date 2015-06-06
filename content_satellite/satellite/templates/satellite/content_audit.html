@@ -7,33 +7,56 @@ SOL: Content Audit
 {% block container_contents %}
 
 <h3>Content Audit</h3>
-	<table>
-	<tr>
-		<td>
+
 		<p>
 			<form action="" method="post">
 				{% csrf_token %}
 				<strong>Choose your service:</strong>
 				{{form.services}}
 				<input type="submit" value="Filter">&nbsp;&nbsp;
-					<a href="{% url 'content_audit' %}"><button type='button'>Remove filters</button></a>
+					<a href="{% url 'content_audit' %}"><button type='button'>Remove filters</button></a><br/>
+					Active filters: {{service_filter_description}}
 			</form>
 		</p>
-	</td>
-	<td>
-		<p><strong>Choose your date range:</strong></p>
-	</td>
-</tr>
-</table>
 <hr/>
+<p>
+	{ % for a in individual_articles % }
+	{ { a.title } }<br/>
+	{ % endfor % }
+</p>
 <table>
- 	{% for t in tickers %}
+	<tr>
+		<th>% Change</th>
+		<th>Image</th>
+		<th>Company</th>
+		<th>Ticker</th>
+		<th>Tier</th>
+		<th>Analyst 1</th>
+		<th>Analyst 2</th>
+		<th>Analyst 3</th>
+		<th>Past [Service] Coverage</th>
+	  	{% for t in tickers %}
  	<tr>
+ 	<td>
+ 	% Change</td>
+ 	<td>
+ 	Image</td>
  	<td>
  	{{t.company_name}}</td>
  	<td>
  	{{t.ticker_symbol}}</td>
- </tr>
+ 	<td>
+ 	{{t.tier_status}}</td>
+ 	<td>
+		<form action="" method="post">
+			{% csrf_token %}
+			{{analyst_form.analysts}}
+			<input type="submit" value="Filter">
+		</form>
+ 	</td>
+ 	<td>
+ 	{{t.ticker_symbol}}</td>
+	</tr>
  	{% endfor %}
  </table>
 
