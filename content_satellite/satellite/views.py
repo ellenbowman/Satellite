@@ -700,9 +700,19 @@ def content_audit(request):
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
 	service_options = Service.objects.all()
 
+	duplicate_authors = set()
+	individual_authors = []
+	for a in Article.objects.all():
+		if a.author not in duplicate_authors:
+			duplicate_authors.add(a.author)
+			individual_authors.append(a.author)
+	print individual_authors
+
 	if request.POST:
 
 		analyst_form = SelectAnalystForm(request.POST)
+
+
 
 		audit_filter_form = FilterForm(request.POST)
 		
@@ -727,8 +737,19 @@ def content_audit(request):
 
 	
 	elif request.GET:
-		initial_form_values = {}
 
+		duplicate_authors = ()
+		individual_authors = []
+		all_articles = Article.objects.all()
+		for a in all_articles:
+			if a.author not in duplicate_authors:
+				duplicate_authors.append(a.author)
+				individual_authors.add(a.author)
+
+		analyst_form = SelectAnalystForm(initial=individual_authors)
+		print individual_authors
+
+		initial_form_values = {}
 		if 'service_ids' in request.GET:
 			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
 			initial_form_values['services'] = services_to_filter_by
@@ -737,6 +758,7 @@ def content_audit(request):
 
 	else:
 		audit_filter_form = FilterForm()
+		analyst_form = SelectAnalystForm
 
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
@@ -758,9 +780,9 @@ def content_audit(request):
 					tickers.append(t)
 				break
 
-		print tickers
+		#print tickers
 
-		articles = 'pants'
+		#articles = 'pants'
 
 		filtered_articles = []
 		for a in Article.objects.all():
@@ -769,7 +791,7 @@ def content_audit(request):
 					filtered_articles.append(a)
 				else:
 					pass
-		#print individual_articles
+		#print filtered_articles
 
 		duplicate_titles = set()
 		individual_articles = []
@@ -778,18 +800,19 @@ def content_audit(request):
 				duplicate_titles.add(a.title)
 				individual_articles.append(a)
 
-		#print individual_articles
+		print individual_articles[:5]
 
 
 	else:
 		# get all tickers, and sort by descending date
 		tickers = Ticker.objects.all()
-		articles = 'pants'
+		individual_articles = 'pants'
+
+	analyst_form = SelectAnalystForm
 
 
 	dictionary_of_values = {
 		'tickers': tickers,
-		'articles': articles,
 		'individual_articles': individual_articles,
 		'form': audit_filter_form,
 		'analyst_form': analyst_form,

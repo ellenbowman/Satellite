@@ -24,18 +24,20 @@ class FilterForm(forms.Form):
 		required=False)
 
 class SelectAnalystForm(forms.Form):
-	"""
 	duplicate_authors = set()
-	author_list = []
+	individual_authors = []
 	for a in Article.objects.all():
 		if a.author not in duplicate_authors:
 			duplicate_authors.add(a.author)
-			author_list.append(a.author)
-	print author_list
-	"""
-	analyst = forms.CharField(required=False)
+			individual_authors.append(a.author)
+	print individual_authors
 
+	AUTHOR_CHOICES = [['z', 'z'] for a in individual_authors]
+	print AUTHOR_CHOICES
 
+	analyst = forms.MultipleChoiceField(
+		choices=AUTHOR_CHOICES,
+		required=False)
 
 
 
