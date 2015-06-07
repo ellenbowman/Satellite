@@ -1,6 +1,7 @@
 from django import forms
 from models import Service, Ticker, Article
 from django.forms.models import modelformset_factory
+from django.db.models.fields import BLANK_CHOICE_DASH
 
 # https://docs.djangoproject.com/en/1.7/ref/forms/api/
 # https://docs.djangoproject.com/en/1.7/ref/forms/fields/#django.forms.ModelMultipleChoiceField
@@ -38,8 +39,16 @@ class SelectAnalystForm(forms.Form):
 	AUTHOR_CHOICES = [[a, a] for a in very_individual_authors]
 	print AUTHOR_CHOICES
 
-	analyst = forms.MultipleChoiceField(
-		choices=AUTHOR_CHOICES,
+	analyst1 = forms.ChoiceField(
+		choices=BLANK_CHOICE_DASH + list(AUTHOR_CHOICES),
+		required=False,
+		)
+	analyst2 = forms.ChoiceField(
+		choices=BLANK_CHOICE_DASH + list(AUTHOR_CHOICES),
+		required=False,
+		)
+	analyst3 = forms.ChoiceField(
+		choices=BLANK_CHOICE_DASH + list(AUTHOR_CHOICES),
 		required=False,
 		)
 

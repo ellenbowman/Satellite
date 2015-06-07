@@ -704,8 +704,9 @@ def content_audit(request):
 	if request.POST:
 
 		analyst_form = SelectAnalystForm(request.POST)
-
-
+		#if analyst_form.is_valid():
+			#analyst_form.save(commit=True)
+			#return "http://satellite.fool.com/sol/content_audit/"
 
 		audit_filter_form = FilterForm(request.POST)
 		
@@ -731,15 +732,7 @@ def content_audit(request):
 	
 	elif request.GET:
 
-		duplicate_authors = ()
-		individual_authors = []
-		all_articles = Article.objects.all()
-		for a in all_articles:
-			if a.author not in duplicate_authors:
-				duplicate_authors.append(a.author)
-				individual_authors.add(a.author)
-
-		analyst_form = SelectAnalystForm(initial=individual_authors)
+		analyst_form = SelectAnalystForm()
 
 		initial_form_values = {}
 		if 'service_ids' in request.GET:
@@ -750,7 +743,7 @@ def content_audit(request):
 
 	else:
 		audit_filter_form = FilterForm()
-		analyst_form = SelectAnalystForm
+		analyst_form = SelectAnalystForm()
 
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
@@ -799,8 +792,6 @@ def content_audit(request):
 		# get all tickers, and sort by descending date
 		tickers = Ticker.objects.all()
 		individual_articles = 'pants'
-
-	analyst_form = SelectAnalystForm
 
 
 	dictionary_of_values = {
