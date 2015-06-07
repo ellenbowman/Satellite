@@ -700,13 +700,6 @@ def content_audit(request):
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
 	service_options = Service.objects.all()
 
-	duplicate_authors = set()
-	individual_authors = []
-	for a in Article.objects.all():
-		if a.author not in duplicate_authors:
-			duplicate_authors.add(a.author)
-			individual_authors.append(a.author)
-	print individual_authors
 
 	if request.POST:
 
@@ -747,7 +740,6 @@ def content_audit(request):
 				individual_authors.add(a.author)
 
 		analyst_form = SelectAnalystForm(initial=individual_authors)
-		print individual_authors
 
 		initial_form_values = {}
 		if 'service_ids' in request.GET:

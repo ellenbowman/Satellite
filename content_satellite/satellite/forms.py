@@ -24,20 +24,24 @@ class FilterForm(forms.Form):
 		required=False)
 
 class SelectAnalystForm(forms.Form):
-	duplicate_authors = set()
-	individual_authors = []
-	for a in Article.objects.all():
-		if a.author not in duplicate_authors:
-			duplicate_authors.add(a.author)
-			individual_authors.append(a.author)
-	print individual_authors
 
-	AUTHOR_CHOICES = [['z', 'z'] for a in individual_authors]
+	all_authors = [a.author for a in Article.objects.all()[:20]]
+	individual_authors = [a.split(" and")[0] for a in all_authors]
+	duplicate_authors = set()
+	very_individual_authors = []
+	for a in individual_authors:
+		if a not in duplicate_authors:
+			duplicate_authors.add(a)
+			very_individual_authors.append(a)
+	very_individual_authors = sorted(very_individual_authors)
+
+	AUTHOR_CHOICES = [[a, a] for a in very_individual_authors]
 	print AUTHOR_CHOICES
 
 	analyst = forms.MultipleChoiceField(
 		choices=AUTHOR_CHOICES,
-		required=False)
+		required=False,
+		)
 
 
 

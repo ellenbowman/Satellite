@@ -34,7 +34,7 @@ SOL: Content Audit
 		<th>Analyst 1</th>
 		<th>Analyst 2</th>
 		<th>Analyst 3</th>
-		<th>Past [Service] Coverage</th>
+		<th>Earnings Date</th>
 	  	{% for t in tickers %}
  	<tr>
  	<td>
@@ -54,7 +54,17 @@ SOL: Content Audit
 		</form>
  	</td>
  	<td>
- 	{{t.ticker_symbol}}</td>
+		<form action="" method="post">
+			{% csrf_token %}
+			{{analyst_form.analyst}}
+		</form>
+	</td>
+	<td>
+				<form action="" method="post">
+			{% csrf_token %}
+			{{analyst_form.analyst}}
+		</form>
+	</td>
 	</tr>
  	{% endfor %}
  </table>
