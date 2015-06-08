@@ -16,7 +16,7 @@ class Ticker(models.Model):
 	services_for_ticker = models.CharField(max_length=200, null=True, blank=True, verbose_name='services for ticker')	
 	tier = models.IntegerField(default=0)
 	tier_status = models.CharField(max_length=50, null=True, blank=True, verbose_name='tier status')
-
+	analysts_for_ticker = models.CharField(max_length=500, null=True, blank=True, verbose_name='analysts for ticker')
 
 	def __unicode__(self):
 		return self.ticker_symbol

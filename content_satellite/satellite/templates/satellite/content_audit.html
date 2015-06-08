@@ -9,7 +9,7 @@ SOL: Content Audit
 <h3>Content Audit</h3>
 
 		<p>
-			<form action="" method="post">
+			<form action="/sol/content_audit/" method="post">
 				{% csrf_token %}
 				<strong>Choose your service:</strong>
 				{{form.services}}
@@ -20,10 +20,11 @@ SOL: Content Audit
 		</p>
 <hr/>
 <p>
-	{ % for a in individual_articles % }
-	{ { a.title } }<br/>
-	{ % endfor % }
-</p>
+    <strong>Notes:</strong><br/>
+    <textarea cols=40 rows=10 id = "edit_notes" name="analyst_notes_{{t.id}}"/>{{ t.analysts_for_ticker|default_if_none:''}}</textarea></br>
+    <input type="submit" value="Edit notes">
+	</p>
+
 <table class="listTable">
 	<tr>
 		<th>% Change</th>
