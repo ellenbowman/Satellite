@@ -700,13 +700,24 @@ def content_audit(request):
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
 	service_options = Service.objects.all()
 
-
 	if request.POST:
 
-		analyst_form = SelectAnalystForm(request.POST)
-		#if analyst_form.is_valid():
-			#analyst_form.save(commit=True)
-			#return "http://satellite.fool.com/sol/content_audit/"
+		analysts_form = SelectAnalystForm(request.POST)
+
+		ticker_analysts_prefix = 'ticker_analysts_'
+		keys_of_ticker_analysts_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_analysts_prefix)]
+		print keys_of_ticker_analysts_data
+
+		for key_of_ticker_analysts_data in keys_of_ticker_analysts_data:
+			ticker_id = key_of_ticker_analysts_data[len(ticker_analysts_prefix):]
+
+			print ticker_id
+			
+			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id)
+			ticker_to_update.analysts_for_ticker = request.POST[keys_of_ticker_analysts_data]
+			ticker_to_update.save()
+
+			print 'updated Ticker %s (id: %s). analyst value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.analysts_for_ticker)
 
 		audit_filter_form = FilterForm(request.POST)
 		
@@ -717,6 +728,7 @@ def content_audit(request):
 
 		ticker_note_name_prefix = 'ticker_notes_'
 		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
+		print keys_of_ticker_note_data
 
 		for key_of_ticker_note_data in keys_of_ticker_note_data:
 			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]  # pick out everything in the string that follows the 'ticker_notes_' prefix
@@ -732,7 +744,7 @@ def content_audit(request):
 	
 	elif request.GET:
 
-		analyst_form = SelectAnalystForm()
+		analysts_form = SelectAnalystForm()
 
 		initial_form_values = {}
 		if 'service_ids' in request.GET:
@@ -743,7 +755,7 @@ def content_audit(request):
 
 	else:
 		audit_filter_form = FilterForm()
-		analyst_form = SelectAnalystForm()
+		analysts_form = SelectAnalystForm()
 
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
@@ -798,7 +810,7 @@ def content_audit(request):
 		'tickers': tickers,
 		'individual_articles': individual_articles,
 		'form': audit_filter_form,
-		'analyst_form': analyst_form,
+		'analysts_form': analysts_form,
 		'service_filter_description': service_filter_description,
 	}
 

@@ -19,11 +19,6 @@ SOL: Content Audit
 			</form>
 		</p>
 <hr/>
-<p>
-    <strong>Notes:</strong><br/>
-    <textarea cols=40 rows=10 id = "edit_notes" name="analyst_notes_{{t.id}}"/>{{ t.analysts_for_ticker|default_if_none:''}}</textarea></br>
-    <input type="submit" value="Edit notes">
-	</p>
 
 <table class="listTable">
 	<tr>
@@ -48,17 +43,17 @@ SOL: Content Audit
  	<td>
  	{{t.tier_status}}</td>
  	<td>
-	<form action="">
+	<form action="" method="post" id="analysts" name="ticker_analysts_{{t.ticker_symbol}}">
 		{% csrf_token %}
 
 
-		{{analyst_form.analyst1}}
+		{{analysts_form.analyst1}}
  	</td>
  	<td>
-		{{analyst_form.analyst2}}
+		{{analysts_form.analyst2}}
 	</td>
 	<td>
-		{{analyst_form.analyst3}}
+		{{analysts_form.analyst3}}
 	</td>
 	<td>
 	<input type="submit">
