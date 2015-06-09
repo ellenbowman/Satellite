@@ -73,8 +73,6 @@ class Service(models.Model):
 	class Meta:
 		ordering = ['pretty_name']
 
-# one Service can have many Scorecards, but one Scorecard can have only one Service
-
 class Scorecard(models.Model):
 	name = models.CharField(max_length=30)
 	service = models.ForeignKey(Service)
@@ -85,8 +83,6 @@ class Scorecard(models.Model):
 
 	class Meta:
 		ordering = ['pretty_name'] 
-
-# one Ticker can have many ServiceTakes, but each ServiceTake can have only one Ticker
 
 class ServiceTake(models.Model):
 	is_first = models.BooleanField(default=False)
@@ -127,6 +123,15 @@ class BylineMetaData(models.Model):
 
 	def __unicode__(self):
 		return self.byline
+
+class AnalystForTicker(models.Model):
+	analyst = models.CharField(max_length=50)
+	service = models.ForeignKey(Service)
+	ticker = models.ForeignKey(Ticker)
+	guide = models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return self.analyst
 
 
 DATA_HARVEST_TYPE_ARTICLES = 1
