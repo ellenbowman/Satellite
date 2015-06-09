@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import FilterForm, SelectAnalystForm
+from forms import FilterForm, AnalystsForm
 from models import Article, Service, Ticker, Scorecard, ServiceTake
 
 # Create your views here.
@@ -702,7 +702,11 @@ def content_audit(request):
 
 	if request.POST:
 
-		analysts_form = SelectAnalystForm(request.POST)
+		analysts_form = AnalystsForm(request.POST)
+
+		# i want to retrieve a Ticker object from the database, alter its analysts_for_ticker field,
+		# then save it. in models.py, analysts_for_ticker is a string. in forms.py, AnalystsForm has
+		# two 
 
 		ticker_analysts_prefix = 'ticker_analysts_'
 		keys_of_ticker_analysts_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_analysts_prefix)]
@@ -712,9 +716,17 @@ def content_audit(request):
 			ticker_id = key_of_ticker_analysts_data[len(ticker_analysts_prefix):]
 
 			print ticker_id
+			print key_of_ticker_analysts_data
 			
 			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id)
-			ticker_to_update.analysts_for_ticker = request.POST[keys_of_ticker_analysts_data]
+			print ticker_to_update
+			print ticker_to_update.analysts_for_ticker
+			# this is returning "submit" in the terminal when the page is loaded, but t.analysts_for_ticker
+			# for a random ticker returns nothing in the shell
+			# Submit is nowhere on this page, so the 
+			print ticker_to_update.ticker_symbol
+			ticker_to_update.analysts_for_ticker = request.POST[key_of_ticker_analysts_data]
+			print ticker_to_update.analysts_for_ticker
 			ticker_to_update.save()
 
 			print 'updated Ticker %s (id: %s). analyst value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.analysts_for_ticker)
@@ -755,7 +767,7 @@ def content_audit(request):
 
 	else:
 		audit_filter_form = FilterForm()
-		analysts_form = SelectAnalystForm()
+		analysts_form = AnalystsForm()
 
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 

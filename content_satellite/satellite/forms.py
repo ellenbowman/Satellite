@@ -24,7 +24,7 @@ class FilterForm(forms.Form):
 		choices=TIER_OPTIONS,
 		required=False)
 
-class SelectAnalystForm(forms.Form):
+class AnalystsForm(forms.Form):
 
 	all_authors = [a.author for a in Article.objects.all()[:20]]
 	individual_authors = [a.split(" and")[0] for a in all_authors]

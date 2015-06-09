@@ -43,10 +43,8 @@ SOL: Content Audit
  	<td>
  	{{t.tier_status}}</td>
  	<td>
-	<form action="" method="post" id="analysts" name="ticker_analysts_{{t.ticker_symbol}}">
+	<form action="" method="post">
 		{% csrf_token %}
-
-
 		{{analysts_form.analyst1}}
  	</td>
  	<td>
@@ -56,7 +54,7 @@ SOL: Content Audit
 		{{analysts_form.analyst3}}
 	</td>
 	<td>
-	<input type="submit">
+	<input type="submit" id="analysts" name="ticker_analysts_{{t.ticker_symbol}}">
 	</form>
 	</td>
 	</tr>
