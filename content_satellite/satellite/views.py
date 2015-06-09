@@ -792,7 +792,6 @@ def content_audit(request):
 
 		#print tickers
 
-		#articles = 'pants'
 
 		filtered_articles = []
 		for a in Article.objects.all():
@@ -815,7 +814,14 @@ def content_audit(request):
 
 	else:
 		# get all tickers, and sort by descending date
-		tickers = Ticker.objects.all()
+		tickers = []
+		for t in Ticker.objects.all():
+			if t.services_for_ticker is None:
+				pass
+			elif "Pro" in t.services_for_ticker:
+				tickers.append(t)
+
+		#tickers = Ticker.objects.filter()
 		individual_articles = 'pants'
 
 
