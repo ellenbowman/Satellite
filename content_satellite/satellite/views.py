@@ -725,7 +725,8 @@ def content_audit(request):
 			# for a random ticker returns nothing in the shell
 			# Submit is nowhere on this page, so the 
 			print ticker_to_update.ticker_symbol
-			ticker_to_update.analysts_for_ticker = request.POST[key_of_ticker_analysts_data]
+			print request.POST
+			ticker_to_update.analysts_for_ticker = request.POST["analyst1"]
 			print ticker_to_update.analysts_for_ticker
 			ticker_to_update.save()
 
