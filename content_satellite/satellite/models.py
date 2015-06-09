@@ -125,7 +125,7 @@ class BylineMetaData(models.Model):
 		return self.byline
 
 class AnalystForTicker(models.Model):
-	analyst = models.CharField(max_length=50)
+	priority = models.CharField(max_length=50)
 	service = models.ForeignKey(Service)
 	ticker = models.ForeignKey(Ticker)
 	guide = models.BooleanField(default=False)
