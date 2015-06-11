@@ -1,0 +1,36 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% load coverage_pledge_tags %}
+
+{% block title_value %}
+SOL: Coverage Pledges
+{% endblock %}
+
+{% block container_contents %}
+
+	<div class="col-md-5">
+        {% for t in tickers %}
+        <strong>{{t.company_name}} ({{t.ticker_symbol}})</strong>
+
+        <table class="listTable" style="border: 1px solid gray">
+
+            {% for ct in coverage_types %}
+            <tr>
+                <td>
+                    {{ct.1}}
+                    <!-- each element in coverage_types is actually a tuple, with the first element an integer,
+                    the second element a descriptive name. here we ask for the second value -->
+                </td>
+                <td>
+                    {% get_service_pledges t ct.0 %}
+                    <!-- into get_service_pledges() we pass 2 values: the ticker and the integer representation of the coverage type -->
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+        {% endfor %}
+	</div>
+
+</div>
+{% endblock %}

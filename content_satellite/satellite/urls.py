@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from satellite import views, views_samples, views_data_freshness, views_flagged_recs
+from satellite import views, views_samples, views_data_freshness, views_flagged_recs, views_coverage_pledges
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^tiered_stocks/$', views.tiered_stocks, name='tiered_stocks'),
     #url(r'^content_audit/$', views.content_audit, name='content_audit'),
     url(r'^content_type/$', views.content_type, name='content_type'),
+    url(r'^coverage_pledges/$', views_coverage_pledges.index, name='coverage_pledges_overview'),
 
     url(r'^scorecard_index/$', views.scorecard_index, name='scorecard index'),
     # url(r'^my_sample_view/$', views.my_sample_view, name="my sample view"),
