@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
 from forms import FilterForm, AnalystsForm
-from models import Article, Service, Ticker, Scorecard, ServiceTake
+from models import Article, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker
 
 # Create your views here.
 
@@ -709,28 +709,28 @@ def content_audit(request):
 		# two 
 
 		ticker_analysts_prefix = 'ticker_analysts_'
-		keys_of_ticker_analysts_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_analysts_prefix)]
-		print keys_of_ticker_analysts_data
+		key_of_ticker_analysts_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_analysts_prefix)][0]
 
-		for key_of_ticker_analysts_data in keys_of_ticker_analysts_data:
-			ticker_id = key_of_ticker_analysts_data[len(ticker_analysts_prefix):]
-
-			print ticker_id
-			print key_of_ticker_analysts_data
+		ticker_id = key_of_ticker_analysts_data[len(ticker_analysts_prefix):]
 			
-			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id)
-			print ticker_to_update
-			print ticker_to_update.analysts_for_ticker
-			# this is returning "submit" in the terminal when the page is loaded, but t.analysts_for_ticker
-			# for a random ticker returns nothing in the shell
-			# Submit is nowhere on this page, so the 
-			print ticker_to_update.ticker_symbol
-			print request.POST
-			ticker_to_update.analysts_for_ticker = request.POST["analyst1"]
-			print ticker_to_update.analysts_for_ticker
-			ticker_to_update.save()
+		ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id)
+		print request.POST
+		ticker_to_update.analysts_for_ticker = "%s %s %s" % (request.POST["analyst1"], request.POST["analyst2"], request.POST["analyst3"])
+		
+		matching_analysts = AnalystForTicker.objects.filter(ticker=ticker_to_update, service=Service.objects.get(pretty_name = "Pro"))
+		print matching_analysts
+		for m in matching_analysts:
+			if m.priority in request.POST:
+				m.analyst = request.POST(m.priority)
+				m.save()
+			else:
+				m.delete()
 
-			print 'updated Ticker %s (id: %s). analyst value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.analysts_for_ticker)
+
+		print ticker_to_update.analysts_for_ticker
+		ticker_to_update.save()
+
+		print 'updated Ticker %s (id: %s). analyst value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.analysts_for_ticker)
 
 		audit_filter_form = FilterForm(request.POST)
 		
