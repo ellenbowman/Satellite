@@ -24,36 +24,20 @@ class FilterForm(forms.Form):
 		choices=TIER_OPTIONS,
 		required=False)
 
-class AnalystsForm(forms.Form):
-
-	all_authors = [a.author for a in Article.objects.all()[:20]]
-	individual_authors = [a.split(" and")[0] for a in all_authors]
-	duplicate_authors = set()
-	very_individual_authors = []
-	for a in individual_authors:
-		if a not in duplicate_authors:
-			duplicate_authors.add(a)
-			very_individual_authors.append(a)
-	very_individual_authors = sorted(very_individual_authors)
-
-	AUTHOR_CHOICES = [[a, a] for a in very_individual_authors]
-	print AUTHOR_CHOICES
-
-	analyst1 = forms.ChoiceField(
-		choices=BLANK_CHOICE_DASH + list(AUTHOR_CHOICES),
-		required=False,
+class ContentTypeForm(forms.Form):
+	TEN_PERCENT_PROMISE = 1
+	FIVE_AND_THREE = 2
+	EARNINGS_PREVIEW = 3
+	EARNINGS_REVIEW = 4
+	RISK_RATING = 5
+	COVERAGE_CHOICES = (
+		(TEN_PERCENT_PROMISE, '10% Promise'),
+		(FIVE_AND_THREE, '5 and 3'),
+		(EARNINGS_PREVIEW, 'Earnings Preview'),
+		(EARNINGS_REVIEW, 'Earnings Review'),
+		(RISK_RATING, 'Risk Rating'),
 		)
-	analyst2 = forms.ChoiceField(
-		choices=BLANK_CHOICE_DASH + list(AUTHOR_CHOICES),
-		required=False,
-		)
-	analyst3 = forms.ChoiceField(
-		choices=BLANK_CHOICE_DASH + list(AUTHOR_CHOICES),
-		required=False,
-		)
-
-
-
+	content_type = forms.MultipleChoiceField(choices=COVERAGE_CHOICES)
 
 
 
