@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
 from forms import FilterForm, ContentTypeForm
-from models import Article, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker
+from models import Article, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType
 
 # Create your views here.
 
@@ -702,8 +702,6 @@ def content_type(request):
 
 	if request.POST:
 
-		content_type_form = ContentTypeForm(request.POST)
-
 		audit_filter_form = FilterForm(request.POST)
 		
 		if audit_filter_form.is_valid(): 
@@ -720,11 +718,8 @@ def content_type(request):
 
 		audit_filter_form = FilterForm(initial=initial_form_values)
 
-		content_type_form = ContentTypeForm(request.POST)
-
 	else:
 		audit_filter_form = FilterForm()
-		content_type_form = ContentTypeForm(request.POST)
 
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
@@ -749,12 +744,15 @@ def content_type(request):
 	else:
 		tickers = Ticker.objects.all()[:25]
 
+	coverage_choices = ["10% Promise", "5 and 3", "Earnings Preview", "Earnings Review", "Risk Rating"]
+	coverage_type = CoverageType.objects.all()
+
 	dictionary_of_values = {
 		'tickers': tickers,
 		'form': audit_filter_form,
-		'content_type_form': content_type_form,
-		#'analysts_form': analysts_form,
 		'service_filter_description': service_filter_description,
+		'coverage_choices': coverage_choices,
+		'coverage_type': coverage_type,
 	}
 
 	return render(request, 'satellite/content_type.html', dictionary_of_values)
