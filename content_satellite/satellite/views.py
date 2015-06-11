@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import FilterForm, AnalystsForm
+from forms import FilterForm, ContentTypeForm
 from models import Article, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker
 
 # Create your views here.
@@ -694,7 +694,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 ###############################################################################
 
-def content_audit(request):
+def content_type(request):
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
@@ -702,35 +702,7 @@ def content_audit(request):
 
 	if request.POST:
 
-		analysts_form = AnalystsForm(request.POST)
-
-		# i want to retrieve a Ticker object from the database, alter its analysts_for_ticker field,
-		# then save it. in models.py, analysts_for_ticker is a string. in forms.py, AnalystsForm has
-		# two 
-
-		ticker_analysts_prefix = 'ticker_analysts_'
-		key_of_ticker_analysts_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_analysts_prefix)][0]
-
-		ticker_id = key_of_ticker_analysts_data[len(ticker_analysts_prefix):]
-			
-		ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id)
-		print request.POST
-		ticker_to_update.analysts_for_ticker = "%s %s %s" % (request.POST["analyst1"], request.POST["analyst2"], request.POST["analyst3"])
-		
-		matching_analysts = AnalystForTicker.objects.filter(ticker=ticker_to_update, service=Service.objects.get(pretty_name = "Pro"))
-		print matching_analysts
-		for m in matching_analysts:
-			if m.priority in request.POST:
-				m.analyst = request.POST(m.priority)
-				m.save()
-			else:
-				m.delete()
-
-
-		print ticker_to_update.analysts_for_ticker
-		ticker_to_update.save()
-
-		print 'updated Ticker %s (id: %s). analyst value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.analysts_for_ticker)
+		content_type_form = ContentTypeForm(request.POST)
 
 		audit_filter_form = FilterForm(request.POST)
 		
@@ -739,25 +711,7 @@ def content_audit(request):
 				if len(audit_filter_form.cleaned_data['services']) > 0:
 					services_to_filter_by = audit_filter_form.cleaned_data['services']
 
-		ticker_note_name_prefix = 'ticker_notes_'
-		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
-		print keys_of_ticker_note_data
-
-		for key_of_ticker_note_data in keys_of_ticker_note_data:
-			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]  # pick out everything in the string that follows the 'ticker_notes_' prefix
-			print ticker_id
-			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id) # ticker_id is a string, and ticker_symbol is an item from a list
-
-			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
-			ticker_to_update.save() # write this update to the db!
-			
-			# print to console a sanity check
-			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
-
-	
 	elif request.GET:
-
-		analysts_form = SelectAnalystForm()
 
 		initial_form_values = {}
 		if 'service_ids' in request.GET:
@@ -766,9 +720,11 @@ def content_audit(request):
 
 		audit_filter_form = FilterForm(initial=initial_form_values)
 
+		content_type_form = ContentTypeForm(request.POST)
+
 	else:
 		audit_filter_form = FilterForm()
-		analysts_form = AnalystsForm()
+		content_type_form = ContentTypeForm(request.POST)
 
 	if services_to_filter_by:
 		# make the pretty description of the services we found. 
@@ -790,50 +746,18 @@ def content_audit(request):
 					tickers.append(t)
 				break
 
-		#print tickers
-
-
-		filtered_articles = []
-		for a in Article.objects.all():
-			for t in tickers:
-				if a.service.pretty_name in t.services_for_ticker:
-					filtered_articles.append(a)
-				else:
-					pass
-		#print filtered_articles
-
-		duplicate_titles = set()
-		individual_articles = []
-		for a in filtered_articles:
-			if a.title not in duplicate_titles:
-				duplicate_titles.add(a.title)
-				individual_articles.append(a)
-
-		print individual_articles[:5]
-
-
 	else:
-		# get all tickers, and sort by descending date
-		tickers = []
-		for t in Ticker.objects.all():
-			if t.services_for_ticker is None:
-				pass
-			elif "Pro" in t.services_for_ticker:
-				tickers.append(t)
-
-		#tickers = Ticker.objects.filter()
-		individual_articles = 'pants'
-
+		tickers = Ticker.objects.all()[:25]
 
 	dictionary_of_values = {
 		'tickers': tickers,
-		'individual_articles': individual_articles,
 		'form': audit_filter_form,
-		'analysts_form': analysts_form,
+		'content_type_form': content_type_form,
+		#'analysts_form': analysts_form,
 		'service_filter_description': service_filter_description,
 	}
 
-	return render(request, 'satellite/content_audit.html', dictionary_of_values)
+	return render(request, 'satellite/content_type.html', dictionary_of_values)
 
 
 
