@@ -6,6 +6,19 @@ SOL: Content Types
 
 {% block container_contents %}
 
+
+"list of article types should be specific to each service -- the record that gets written for AAPL -- SA -- 10% PROMISE should be different from the one for AAPL -- PRO -- 5AND3 or whatever; they don't have to hook into the same ticker, I don't think, just exist in the db as different rows. ?? Also display so that any content type that is_true for that record displays at the top with no checkbox, then the stuff that isn't true shows up as a checkbox for saving.
+
+"WAIT okay so she wants to show a ticker, the kinds of coverage, and if applicable, the services the coverage applies to. So like Apple: Earnings Preview - SA/MDP/Pro, 5 and 3: SA, etc. I think service view then drill-down ticker view? How do I hook those two conditions together: I think the record thing is right -- one record for each, Risk Rating -- SA -- AAPL and Earnings Preview -- MDP -- AAPL and so forth. NotSureWeNeedContentTypeAttachedToTicker.""
+<hr/>
+{% for c in coverage_type %}
+{{c.ticker}} ....... {{c.coverage_type}} .....{{c.service}}
+{% endfor %}
+
+
+
+<hr/>
+
 <h3>Content Types</h3>
 
 		<p>
@@ -21,15 +34,17 @@ SOL: Content Types
 <hr/>
 <p>
 	{% for t in tickers %}
-	{{t.ticker_symbol}}......{{t.company_name}}....{{t.services_for_ticker}}....{{t.content_type}}<br/>
+	<br/>
+	<h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">...........{{t.company_name}}</h4>
+	{{t.ticker_symbol}}......{{t.company_name}}....{{t.services_for_ticker}}....Tier: {{t.tier}}<br/>
+	{% for c in coverage_choices %}
+	<input type="checkbox" method="post" name="somename" value="somevalue">
+	<b>{{ c }}</b> SA, SpOps, MDP, etc. <b>Add another</b>: <input type="textfield" method="post"><br/>
+	{% endfor %}
+	<input type="submit" value="Save"><br/>
 	{% endfor %}
 
 </p>
 
-<form action="" method="post">
-	{% csrf_token %}
-	{{content_type_form.content_type}}<br/>
-	<input type="submit" value="Apply">
-</form>
 
 {% endblock %}
