@@ -21,7 +21,8 @@ class Command(BaseCommand):
 		yesterday = (datetime.today() - timedelta(days=1)).date()
 		articles_published_yesterday = Article.objects.filter(date_pub__year=yesterday.year,date_pub__month=yesterday.month, date_pub__day=yesterday.day)
 
-		article_count = len(articles_published_yesterday)
+		unique_urls = set([a.url for a in articles_published_yesterday])
+		article_count = len(unique_urls)
 
 		message_snippets = []
 		message_snippets.append("*Articles recap for %s *" % yesterday.strftime('%a, %b %d, %Y'))  # eg: Tue, May 12, 2015
@@ -36,7 +37,7 @@ class Command(BaseCommand):
 			# use python's Counter to do the counting for us. https://docs.python.org/dev/library/collections.html#counter-objects
 			most_common_tickers = []
 			tickers_frequency_counter = Counter(ticker_symbols_list)
-			most_common = tickers_frequency_counter.most_common(5) # we'll pick at most the top 5
+			most_common = tickers_frequency_counter.most_common(10) # we'll pick at most the top 10
 			for ticker_popularity in most_common:
 
 				ticker_symbol = ticker_popularity[0]
@@ -52,7 +53,7 @@ class Command(BaseCommand):
 			article_count_by_service = ''
 			for s in Service.objects.all().order_by('pretty_name'):
 				articles_for_service = [a for a in articles_published_yesterday if a.service==s]
-				num_articles_for_service = len(articles_for_service)
+				num_articles_for_service = len(set([a.url for a in articles_for_service]))
 
 				if num_articles_for_service > 0:
 					article_count_by_service += "\n   - %s : %d" % (s.pretty_name, num_articles_for_service)
