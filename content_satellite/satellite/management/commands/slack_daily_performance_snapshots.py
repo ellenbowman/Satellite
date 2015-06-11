@@ -112,7 +112,7 @@ class Command(BaseCommand):
 
 		service_blurbs = '```' + "\n------------------------\n".join(text_summaries) + '```'
 		headline =  "*Ticker performance snapshot for %s *" % datetime.now().strftime('%a, %b %d, %Y  %H:%M')  # eg: Tue, May 12, 2015 11:15
-		subtitle = "(per service: top 3 gainers, top 3 losers, and % of recs with positive movement)"
+		subtitle = "(per service: top 3, worst 3, and % of recs with positive movement)"
 		
 		message_to_post = '\n'.join([headline, subtitle, service_blurbs])
 
