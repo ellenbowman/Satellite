@@ -1,0 +1,35 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Content Types
+{% endblock %}
+
+{% block container_contents %}
+
+<h3>Content Types</h3>
+
+		<p>
+			<form action="/sol/content_type/" method="post">
+				{% csrf_token %}
+				<strong>Choose your service:</strong>
+				{{form.services}}
+				<input type="submit" value="Filter">&nbsp;&nbsp;
+					<a href="{% url 'content_type' %}"><button type='button'>Remove filters</button></a><br/>
+					Active filters: {{service_filter_description}}
+			</form>
+		</p>
+<hr/>
+<p>
+	{% for t in tickers %}
+	{{t.ticker_symbol}}......{{t.company_name}}....{{t.services_for_ticker}}....{{t.content_type}}<br/>
+	{% endfor %}
+
+</p>
+
+<form action="" method="post">
+	{% csrf_token %}
+	{{content_type_form.content_type}}<br/>
+	<input type="submit" value="Apply">
+</form>
+
+{% endblock %}
