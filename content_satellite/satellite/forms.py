@@ -37,7 +37,7 @@ class ContentTypeForm(forms.Form):
 		(EARNINGS_REVIEW, 'Earnings Review'),
 		(RISK_RATING, 'Risk Rating'),
 		)
-	content_type = forms.MultipleChoiceField(choices=COVERAGE_CHOICES)
+	content_type = forms.RadioSelect(choices=COVERAGE_CHOICES)
 
 
 

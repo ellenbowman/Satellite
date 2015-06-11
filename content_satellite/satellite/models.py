@@ -128,7 +128,26 @@ class Article(models.Model):
 		return self.title
 
 	class Meta:
-		ordering = ['-date_pub'] 
+		ordering = ['-date_pub']
+
+
+TEN_PERCENT_PROMISE = 1
+FIVE_AND_THREE = 2
+EARNINGS_PREVIEW = 3
+EARNINGS_REVIEW = 4
+RISK_RATING = 5
+COVERAGE_CHOICES = (
+	(TEN_PERCENT_PROMISE, '10% Promise'),
+	(FIVE_AND_THREE, '5 and 3'),
+	(EARNINGS_PREVIEW, 'Earnings Preview'),
+	(EARNINGS_REVIEW, 'Earnings Review'),
+	(RISK_RATING, 'Risk Rating'),
+	)
+
+class CoverageType(models.Model):
+	coverage_type = models.IntegerField(choices=COVERAGE_CHOICES)
+	ticker = models.ForeignKey(Ticker)
+	service = models.ForeignKey(Service)
 
 
 class BylineMetaData(models.Model):
