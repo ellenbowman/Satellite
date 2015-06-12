@@ -17,21 +17,6 @@ class Ticker(models.Model):
 	tier = models.IntegerField(default=0)
 	tier_status = models.CharField(max_length=50, null=True, blank=True, verbose_name='tier status')
 	analysts_for_ticker = models.CharField(max_length=500, null=True, blank=True, verbose_name='analysts for ticker')
-	
-	TEN_PERCENT_PROMISE = 1
-	FIVE_AND_THREE = 2
-	EARNINGS_PREVIEW = 3
-	EARNINGS_REVIEW = 4
-	RISK_RATING = 5
-	COVERAGE_CHOICES = (
-		(TEN_PERCENT_PROMISE, '10% Promise'),
-		(FIVE_AND_THREE, '5 and 3'),
-		(EARNINGS_PREVIEW, 'Earnings Preview'),
-		(EARNINGS_REVIEW, 'Earnings Review'),
-		(RISK_RATING, 'Risk Rating'),
-		)
-
-	coverage_type = models.IntegerField(default=0, choices=COVERAGE_CHOICES)
 
 	def __unicode__(self):
 		return self.ticker_symbol
