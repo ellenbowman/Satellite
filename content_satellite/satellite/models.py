@@ -130,9 +130,12 @@ COVERAGE_CHOICES = (
 	)
 
 class CoverageType(models.Model):
-	coverage_type = models.IntegerField(choices=COVERAGE_CHOICES, null=True)
+	coverage_type = models.IntegerField(choices=COVERAGE_CHOICES, default=0)
 	ticker = models.ForeignKey(Ticker)
 	service = models.ForeignKey(Service)
+
+	def __unicode__(self):
+		return self.coverage_type
 
 
 class BylineMetaData(models.Model):
