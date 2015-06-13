@@ -130,7 +130,7 @@ COVERAGE_CHOICES = (
 	)
 
 class CoverageType(models.Model):
-	coverage_type = models.IntegerField(choices=COVERAGE_CHOICES)
+	coverage_type = models.IntegerField(choices=COVERAGE_CHOICES, null=True)
 	ticker = models.ForeignKey(Ticker)
 	service = models.ForeignKey(Service)
 
