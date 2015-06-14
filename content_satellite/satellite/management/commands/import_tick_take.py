@@ -1,20 +1,25 @@
+import urllib
+import json
+import datetime
 from django.core.management.base import BaseCommand, CommandError
-
-from satellite.models import Ticker, Scorecard
+from satellite.models import Ticker, Scorecard, ServiceTake
 
 base_url = 'http://apiary.fool.com/PremiumScorecards/v1/scorecards/'
+
 
 class Command(BaseCommand):
     help = "Imports core, first, BBN, new rec information for tickers."
 
     def handle(self, *args, **options):
 
+        print "Let's do this"
+
         for scorecard in Scorecard.objects.all():
-        scorecard_name = scorecard.name
-        url = base_url + scorecard_name
-        response = urllib.urlopen(url).read()
-        json_resp = json.loads(response)
-        op = json_resp['OpenPositions']
+            scorecard_name = scorecard.name
+            url = base_url + scorecard_name
+            response = urllib.urlopen(url).read()
+            json_resp = json.loads(response)
+            op = json_resp['OpenPositions']
 
             for o in op:
                 ticker_symbol = o['UnderlyingTickerSymbol']
@@ -70,7 +75,7 @@ class Command(BaseCommand):
 
             t.save()
 
-    self.stdout.write("finished")
+#self.stdout.write("finished")
 
 
 
