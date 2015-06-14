@@ -3,8 +3,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import FilterForm, ContentTypeForm
-from models import Article, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType
+from forms import FilterForm
+from models import Article, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType, COVERAGE_CHOICES
 
 # Create your views here.
 
@@ -744,15 +744,25 @@ def content_type(request):
 	else:
 		tickers = Ticker.objects.all()[:25]
 
-	coverage_choices = ["10% Promise", "5 and 3", "Earnings Preview", "Earnings Review", "Risk Rating"]
-	coverage_type = CoverageType.objects.all()
+	coverage_type_choices = [c[1] for c in COVERAGE_CHOICES]
+	print coverage_type_choices
+
+	print CoverageType.objects.all()
+
+	coverage_type_objects_for_this_service_ticker_pair = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol="AAPL")
+	print coverage_type_objects_for_this_service_ticker_pair
+
+	print request.POST
 
 	dictionary_of_values = {
 		'tickers': tickers,
 		'form': audit_filter_form,
 		'service_filter_description': service_filter_description,
-		'coverage_choices': coverage_choices,
-		'coverage_type': coverage_type,
+		'coverage_type_choices': coverage_type_choices,
+		'ticker': "AAPL",
+		'service': "Pro",
+		'coverage_type_objects_for_this_service_ticker_pair': coverage_type_objects_for_this_service_ticker_pair,
+		'selected_coverage_for_this_pair': ["Risk Rating", "5 and 3",],
 	}
 
 	return render(request, 'satellite/content_type.html', dictionary_of_values)
