@@ -1,22 +1,19 @@
 from django.contrib import admin
 from django.db import models
 
-from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard, DataHarvestEventLog, BylineMetaData
+from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard, DataHarvestEventLog, BylineMetaData, CoverageType
 
-#class MoverAdmin(admin.ModelAdmin):
-#	list_display = ['daily_percent_change']
-
-#admin.site.register(Mover, MoverAdmin)
 
 class TickerAdmin(admin.ModelAdmin):
 	list_display = ['ticker_symbol','company_name','daily_percent_change','exchange_symbol','services','scorecards','tier', 'tier_status',
 	'earnings_announcement','notes']
-	#list_filter = ['num_services']
 	search_fields = ['ticker_symbol', 'instrument_id','company_name']
 
 admin.site.register(Ticker, TickerAdmin)
 
 admin.site.register(Service)
+
+admin.site.register(CoverageType)
 
 class ScorecardAdmin(admin.ModelAdmin):
 	list_display = ['name', 'service', 'pretty_name']
