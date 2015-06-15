@@ -13,7 +13,12 @@ admin.site.register(Ticker, TickerAdmin)
 
 admin.site.register(Service)
 
-admin.site.register(CoverageType)
+class CoverageTypeAdmin(admin.ModelAdmin):
+	list_display = ['coverage_type','service','ticker']
+	list_filter = ['service','coverage_type']
+	search_fields = ['ticker__ticker_symbol',]
+
+admin.site.register(CoverageType, CoverageTypeAdmin)
 
 class ScorecardAdmin(admin.ModelAdmin):
 	list_display = ['name', 'service', 'pretty_name']
