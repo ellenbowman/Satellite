@@ -1,5 +1,7 @@
 {% extends 'satellite/_base_layout.html' %}
 
+{% load coverage_pledge_tags %}
+
 {% block title_value %}
 SOL: Content Types
 {% endblock %}
@@ -51,6 +53,7 @@ SOL: Content Types
 
         <tbody>
 		{% for c in coverage_type_choices %}
+        {% get_services_ids c.0 t as service_ids_with_coverage_pledge %}
         <tr>
             <td>{{ c.1 }}</td>
 
@@ -58,8 +61,11 @@ SOL: Content Types
                 <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
                 {% if s.pretty_name in t.services_for_ticker %}
                 <td>
+
                     <!-- embed the content choice id and service id in the input name -->
-                    <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}">
+                    <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}"
+                            {% if s.id in service_ids_with_coverage_pledge %} checked {% endif %}
+                            >
                 </td>
                 {% endif %}
             {% endfor %}
