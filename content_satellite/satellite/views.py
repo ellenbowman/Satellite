@@ -702,6 +702,16 @@ def content_type(request):
 
 	if request.POST:
 
+		if 'coverage' in request.POST:
+			ticker = request.POST['coverage'].split()[-1]
+			print ticker
+			# delete records that are already there
+			coverage_type_objects = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol="AAPL")
+			coverage_type_objects.delete()
+			# replace them with the records passed along in POST
+
+			# save
+
 		audit_filter_form = FilterForm(request.POST)
 		
 		if audit_filter_form.is_valid(): 
@@ -770,7 +780,7 @@ def content_type(request):
 		'tickers': tickers,
 		'form': audit_filter_form,
 		'service_filter_description': service_filter_description,
-		'coverage_type_choices': coverage_type_choices,
+		'coverage_type_choices': COVERAGE_CHOICES,
 		'ticker': "AAPL",
 		'service': "Pro",
 		'coverage_type_objects_for_this_service_ticker_pair': coverage_type_objects_for_this_service_ticker_pair,

@@ -27,13 +27,15 @@ SOL: Content Types
 		<form method="post" action="/sol/content_type/">
 		{% csrf_token %}
 		{% for c in coverage_type_choices %}
-		This determines whether to check a box upon loading. Consider each item in coverage_type_choices, which is a list of descriptions (the second value of each tuple in COVERAGE_CHOICES, in order). If that string exists in selected_coverage_for_this_pair (which is currently manually entered, but will be populated differently later), check the box.
-		<input type="checkbox" name="coverage_types" value="{{t.ticker_symbol}}_{{c.coverage_type}}" {% if c in selected_coverage_for_this_pair %} checked {% endif %}> {{ c }}: {{c.service.pretty_name}}<br/>
+		<input type="checkbox" name="coverage_types" value="{{t.ticker_symbol}}_{{c.0}}" {% if c.1 in selected_coverage_for_this_pair %} checked {% endif %}> {{ c.1 }}: {{c.service.pretty_name}}<br/>
 		{% endfor %}
-		<input type="submit" value="Save">
+		<input type="submit" name="coverage" value="Save {{t.ticker_symbol}}">
+		</form>
 		{% endfor %}
 		<br/>
-		</form>
+		
+
+		Up above, for c in coverage_type_choices: here is the explanation: This determines whether to check a box upon loading. Consider each item in coverage_type_choices, which is a list of descriptions (the second value of each tuple in COVERAGE_CHOICES, in order). If that string exists in selected_coverage_for_this_pair (which is currently manually entered, but will be populated differently later), check the box.
 
 		What's POST passing along right now? the csrf_token, and one value for every ticker that looks like u'AAPL_' -- the second half of the name should be the coverage_type, and that's not getting filled in.
 
