@@ -34,6 +34,18 @@ SOL: Content Types
 		{% endfor %}
 		<br/>
 		
+		<table>
+		{% for c in coverage_type_choices %}
+			<tr>
+			<td>
+				{{ c.1 }}
+			</td>
+		{% for s in services %}
+			<td>{{ s.pretty_name }}</td>
+		{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
 
 		Up above, for c in coverage_type_choices: here is the explanation: This determines whether to check a box upon loading. Consider each item in coverage_type_choices, which is a list of descriptions (the second value of each tuple in COVERAGE_CHOICES, in order). If that string exists in selected_coverage_for_this_pair (which is currently manually entered, but will be populated differently later), check the box.
 

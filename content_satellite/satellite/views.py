@@ -706,7 +706,7 @@ def content_type(request):
 			ticker = request.POST['coverage'].split()[-1]
 			print ticker
 			# delete records that are already there
-			coverage_type_objects = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol="AAPL")
+			coverage_type_objects = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol=ticker)
 			coverage_type_objects.delete()
 			# replace them with the records passed along in POST
 
@@ -774,6 +774,8 @@ def content_type(request):
 	coverage_type_objects_for_this_service_ticker_pair = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol="AAPL")
 	print coverage_type_objects_for_this_service_ticker_pair
 
+	services = Service.objects.all()
+
 	print request.POST
 
 	dictionary_of_values = {
@@ -781,8 +783,7 @@ def content_type(request):
 		'form': audit_filter_form,
 		'service_filter_description': service_filter_description,
 		'coverage_type_choices': COVERAGE_CHOICES,
-		'ticker': "AAPL",
-		'service': "Pro",
+		'services': services,
 		'coverage_type_objects_for_this_service_ticker_pair': coverage_type_objects_for_this_service_ticker_pair,
 		'selected_coverage_for_this_pair': ["Risk Rating", "5 and 3",],
 	}
