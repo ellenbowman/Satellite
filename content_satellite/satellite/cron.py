@@ -36,7 +36,16 @@ def update_articles_nightly():
 ### end of updating articles ------------------
 
 
+### import ticker status ------------------
+# at 4:15 every day but Sunday, check to see what's been made a BBN, new rec, etc.
+@kronos.register('16 15 * * 1-6')
+def _import_tick_take():
+	try:
+		call_command('import_tick_take')
+	except Exception as e:
+		print str(e)	
 
+### end of updating ticker status ----------------------------
 
 ### author meta data ------------------
 # every morning at 12:15 AM (not too long after the nightly 11:59 sweep for articles), let's re-compile the author meta data
@@ -48,9 +57,6 @@ def update_author_meta_data_nightly():
 		print str(e)
 
 ### end of updating author meta data ------------------
-
-
-
 
 ### ticker performance ----------------
 def _update_daily_percent_change():
@@ -83,6 +89,8 @@ def zero_out_daily_percent_change():
 
 
 ### end of updating ticker performance ----------------
+
+
 
 
 ### slack blasts - daily recaps ------------------
