@@ -698,8 +698,9 @@ def content_type(request):
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
-	service_options = Service.objects.all()
 
+	audit_filter_form = None
+	
 	if request.POST:
 
 		if 'coverage' in request.POST:
@@ -712,23 +713,15 @@ def content_type(request):
 
 			# save
 
-		audit_filter_form = FilterForm(request.POST)
-		
-		if audit_filter_form.is_valid(): 
-			if 'services' in audit_filter_form.cleaned_data:
-				if len(audit_filter_form.cleaned_data['services']) > 0:
-					services_to_filter_by = audit_filter_form.cleaned_data['services']
+		else:
+			audit_filter_form = FilterForm(request.POST)
+			
+			if audit_filter_form.is_valid(): 
+				if 'services' in audit_filter_form.cleaned_data:
+					if len(audit_filter_form.cleaned_data['services']) > 0:
+						services_to_filter_by = audit_filter_form.cleaned_data['services']
 
-	elif request.GET:
-
-		initial_form_values = {}
-		if 'service_ids' in request.GET:
-			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
-			initial_form_values['services'] = services_to_filter_by
-
-		audit_filter_form = FilterForm(initial=initial_form_values)
-
-	else:
+	if audit_filter_form is None:
 		audit_filter_form = FilterForm()
 
 	if services_to_filter_by:
@@ -736,9 +729,6 @@ def content_type(request):
 		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
 		pretty_names_of_services_we_matched.sort()
 		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
-	else:
-		pass
-
 
 	# get the set of tickers, filtered by service
 	if services_to_filter_by is not None:
@@ -754,29 +744,7 @@ def content_type(request):
 	else:
 		tickers = Ticker.objects.all()[:25]
 
-	coverage_type_choices = [c[1] for c in COVERAGE_CHOICES]
-
-	# what is a CoverageType object? it's a record with three entries: coverage_type, ticker, service.
-	# below, we filter all those objects for a specified service and ticker.
-	# how do we feed the service and ticker pairs? I guess we want all of them, no? So try every possible
-	# service.pretty_name against every ticker. First find the tickers:
-
-
-	all_services = [s.pretty_name for s in Service.objects.all()[:25]]
-	all_tickers = [t.ticker_symbol for t in Ticker.objects.all()[:25]]
-
-	#for c in CoverageType.objects.all():
-		#for t in all_tickers:
-			#print t.ticker_symbol
-			#if c.ticker.ticker_symbol == t.ticker_symbol:
-			#	print c.ticker_symbol
-
-	coverage_type_objects_for_this_service_ticker_pair = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol="AAPL")
-	print coverage_type_objects_for_this_service_ticker_pair
-
 	services = Service.objects.all()
-
-	print request.POST
 
 	dictionary_of_values = {
 		'tickers': tickers,
@@ -784,8 +752,6 @@ def content_type(request):
 		'service_filter_description': service_filter_description,
 		'coverage_type_choices': COVERAGE_CHOICES,
 		'services': services,
-		'coverage_type_objects_for_this_service_ticker_pair': coverage_type_objects_for_this_service_ticker_pair,
-		'selected_coverage_for_this_pair': ["Risk Rating", "5 and 3",],
 	}
 
 	return render(request, 'satellite/content_type.html', dictionary_of_values)
