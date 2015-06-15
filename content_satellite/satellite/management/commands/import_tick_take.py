@@ -1,3 +1,7 @@
+'''
+updates the ServiceTake objects, adding BBN, new, core status
+'''
+
 import urllib
 import json
 import datetime
@@ -28,19 +32,21 @@ class Command(BaseCommand):
 
                 print ticker_symbol
                 # create a Ticker for this symbol if it doesn't exist
-                matches = Ticker.objects.filter(ticker_symbol=ticker_symbol)
+                matches = Ticker.objects.filter(ticker_symbol=ticker_symbol)        
+                if len(matches)==0:
+                    t = Ticker()
+                    t.ticker_symbol = ticker_symbol
+                    t.instrument_id = o['InstrumentId']
+                    t.exchange_symbol = o['ExchangeSymbol']
+                    t.percent_change_historical = 0.0
+                    t.company_name = o['CompanyName']
+                    t.save()
+                else:
+                    t = matches[0]
 
-        
-            if len(matches)==0:
-                t = Ticker()
-                t.ticker_symbol = ticker_symbol
-                t.instrument_id = o['InstrumentId']
-                t.exchange_symbol = o['ExchangeSymbol']
-                t.percent_change_historical = 0.0
-                t.company_name = o['CompanyName']
-                t.save()
-            else:
-                t = matches[0]
+            # delete all previous ServiceTakes
+
+            ServiceTake.objects.all().delete()
         
             # create a ServiceTake
             st = ServiceTake()
