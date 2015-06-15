@@ -745,9 +745,21 @@ def content_type(request):
 		tickers = Ticker.objects.all()[:25]
 
 	coverage_type_choices = [c[1] for c in COVERAGE_CHOICES]
-	print coverage_type_choices
 
-	print CoverageType.objects.all()
+	# what is a CoverageType object? it's a record with three entries: coverage_type, ticker, service.
+	# below, we filter all those objects for a specified service and ticker.
+	# how do we feed the service and ticker pairs? I guess we want all of them, no? So try every possible
+	# service.pretty_name against every ticker. First find the tickers:
+
+
+	all_services = [s.pretty_name for s in Service.objects.all()[:25]]
+	all_tickers = [t.ticker_symbol for t in Ticker.objects.all()[:25]]
+
+	#for c in CoverageType.objects.all():
+		#for t in all_tickers:
+			#print t.ticker_symbol
+			#if c.ticker.ticker_symbol == t.ticker_symbol:
+			#	print c.ticker_symbol
 
 	coverage_type_objects_for_this_service_ticker_pair = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol="AAPL")
 	print coverage_type_objects_for_this_service_ticker_pair
