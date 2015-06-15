@@ -26,26 +26,54 @@ SOL: Content Types
 	{{t.ticker_symbol}}......{{t.company_name}}....{{t.services_for_ticker}} {% if t.tier %}.... Tier: {{t.tier}}{% endif %}<br/>
 		<form method="post" action="/sol/content_type/">
 		{% csrf_token %}
+
+        <!--
+        table structure:
+
+         one row per coverage type (5 & 3, Earnings Preview, etc)
+         number of cells per row = one for displaying the coverage type, and one for each service in which the ticker is a rec
+         thead for displaying the service names
+         note: scope is a single ticker
+        -->
+        <table class="contentTypeTable">
+
+        <thead>
+            <tr>
+                <td width="150px">Type</td>
+                {% for s in services %}
+                    <!-- display a cell only if the ticker is rec'd by this service -->
+                    {% if s.pretty_name in t.services_for_ticker %}
+                    <td width="100px"><small>{{ s.pretty_name }}</small></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
 		{% for c in coverage_type_choices %}
-		<input type="checkbox" name="coverage_types" value="{{t.ticker_symbol}}_{{c.0}}" {% if c.1 in selected_coverage_for_this_pair %} checked {% endif %}> {{ c.1 }}: {{c.service.pretty_name}}<br/>
-		{% endfor %}
+        <tr>
+            <td>{{ c.1 }}</td>
+
+            {% for s in services %}
+                <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
+                {% if s.pretty_name in t.services_for_ticker %}
+                <td>
+                    <!-- embed the content choice id and service id in the input name -->
+                    <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}">
+                </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+		{% endfor%}
+        </tbody>
+
+        </table>
 		<input type="submit" name="coverage" value="Save {{t.ticker_symbol}}">
 		</form>
 		{% endfor %}
+
 		<br/>
-		
-		<table>
-		{% for c in coverage_type_choices %}
-			<tr>
-			<td>
-				{{ c.1 }}
-			</td>
-		{% for s in services %}
-			<td>{{ s.pretty_name }}</td>
-		{% endfor %}
-		</tr>
-		{% endfor %}
-	</table>
+
 
 		Up above, for c in coverage_type_choices: here is the explanation: This determines whether to check a box upon loading. Consider each item in coverage_type_choices, which is a list of descriptions (the second value of each tuple in COVERAGE_CHOICES, in order). If that string exists in selected_coverage_for_this_pair (which is currently manually entered, but will be populated differently later), check the box.
 
