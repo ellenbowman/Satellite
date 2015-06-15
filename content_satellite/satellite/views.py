@@ -702,17 +702,28 @@ def content_type(request):
 	audit_filter_form = None
 	
 	if request.POST:
-
+		
 		if 'coverage' in request.POST:
 			ticker = request.POST['coverage'].split()[-1]
-			print ticker
+			ticker = Ticker.objects.get(ticker_symbol = ticker)
+			
 			# delete records that are already there
-			coverage_type_objects = CoverageType.objects.filter(service__pretty_name="Pro", ticker__ticker_symbol=ticker)
+			coverage_type_objects = CoverageType.objects.filter(ticker=ticker)
+			print 'deleting existing CoverageType records for %s (%d)' % (ticker.ticker_symbol, len(coverage_type_objects))
 			coverage_type_objects.delete()
+			
 			# replace them with the records passed along in POST
-
-			# save
-
+			# we expect the keys per checkbox to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
+			selected_keys = [k for k in request.POST if k.startswith('cid_')]
+			for k in selected_keys:
+				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
+				ct = CoverageType()
+				ct.coverage_type = int(choice_id)
+				ct.ticker = ticker
+				ct.service = Service.objects.get(id=service_id)
+				ct.save()
+				print 'added CoverageType record: %s %s %d' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type)
+				
 		else:
 			audit_filter_form = FilterForm(request.POST)
 			
