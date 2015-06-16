@@ -56,7 +56,11 @@ class Command(BaseCommand):
 				num_articles_for_service = len(set([a.url for a in articles_for_service]))
 
 				if num_articles_for_service > 0:
-					article_count_by_service += "\n   - %s : %d" % (s.pretty_name, num_articles_for_service)
+					tickers_in_service_articles = set([a.ticker.ticker_symbol for a in articles_for_service])
+					tickers_in_service_articles = list(tickers_in_service_articles)
+					tickers_in_service_articles.sort()
+					
+					article_count_by_service += "\n   - %s : %d (%s)" % (s.pretty_name, num_articles_for_service, ', '.join(tickers_in_service_articles))
 
 
 			message_snippets.append("tickers covered in those articles: %d" % tickers_count)
