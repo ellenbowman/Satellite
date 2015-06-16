@@ -11,12 +11,12 @@ SOL: Content Types
 <h3>Content Types</h3>
 
 		<p>
-			<form action="/sol/content_type/" method="post">
+			<form action="/sol/coverage_type/" method="post">
 				{% csrf_token %}
 				<strong>Choose your service:</strong>
 				{{form.services}}
 				<input type="submit" value="Filter">&nbsp;&nbsp;
-					<a href="{% url 'content_type' %}"><button type='button'>Remove filters</button></a><br/>
+					<a href="{% url 'coverage_type' %}"><button type='button'>Remove filters</button></a><br/>
 					Active filters: {{service_filter_description}}
 			</form>
 		</p>
