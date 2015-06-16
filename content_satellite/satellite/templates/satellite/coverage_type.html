@@ -24,8 +24,8 @@ SOL: Coverage Type
 <p>
 	{% for t in tickers %}
 	<br/>
-	<h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">...........{{t.company_name}}</h4>
-	{{t.ticker_symbol}}......{{t.company_name}}....{{t.services_for_ticker}} {% if t.tier %}.... Tier: {{t.tier}}{% endif %}<br/>
+	<h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;{{t.company_name}}&nbsp;({{t.ticker_symbol}})</h4>
+	<p><em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}<span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}<br/>
 		<form method="post" action="/sol/coverage_type/">
 		{% csrf_token %}
 
