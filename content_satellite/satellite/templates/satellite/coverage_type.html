@@ -3,7 +3,7 @@
 {% load coverage_pledge_tags %}
 
 {% block title_value %}
-SOL: Content Types
+SOL: Coverage Type
 {% endblock %}
 
 {% block container_contents %}
@@ -26,7 +26,7 @@ SOL: Content Types
 	<br/>
 	<h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">...........{{t.company_name}}</h4>
 	{{t.ticker_symbol}}......{{t.company_name}}....{{t.services_for_ticker}} {% if t.tier %}.... Tier: {{t.tier}}{% endif %}<br/>
-		<form method="post" action="/sol/content_type/">
+		<form method="post" action="/sol/coverage_type/">
 		{% csrf_token %}
 
         <!--
