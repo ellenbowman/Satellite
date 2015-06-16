@@ -81,18 +81,4 @@ SOL: Content Types
 		<br/>
 
 
-		Up above, for c in coverage_type_choices: here is the explanation: This determines whether to check a box upon loading. Consider each item in coverage_type_choices, which is a list of descriptions (the second value of each tuple in COVERAGE_CHOICES, in order). If that string exists in selected_coverage_for_this_pair (which is currently manually entered, but will be populated differently later), check the box.
-
-		What's POST passing along right now? the csrf_token, and one value for every ticker that looks like u'AAPL_' -- the second half of the name should be the coverage_type, and that's not getting filled in.
-
-</p>
-
-<hr/>
-
-
-"list of article types should be specific to each service -- the record that gets written for AAPL -- SA -- 10% PROMISE should be different from the one for AAPL -- PRO -- 5AND3 or whatever; they don't have to hook into the same ticker, I don't think, just exist in the db as different rows. ?? Also display so that any content type that is_true for that record displays at the top with no checkbox, then the stuff that isn't true shows up as a checkbox for saving.
-
-"WAIT okay so she wants to show a ticker, the kinds of coverage, and if applicable, the services the coverage applies to. So like Apple: Earnings Preview - SA/MDP/Pro, 5 and 3: SA, etc. I think service view then drill-down ticker view? How do I hook those two conditions together: I think the record thing is right -- one record for each, Risk Rating -- SA -- AAPL and Earnings Preview -- MDP -- AAPL and so forth. NotSureWeNeedContentTypeAttachedToTicker.""
-
-
 {% endblock %}
