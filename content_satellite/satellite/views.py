@@ -694,7 +694,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 ###############################################################################
 
-def content_type(request):
+def coverage_type(request):
 
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
@@ -765,7 +765,7 @@ def content_type(request):
 		'services': services,
 	}
 
-	return render(request, 'satellite/content_type.html', dictionary_of_values)
+	return render(request, 'satellite/coverage_type.html', dictionary_of_values)
 
 
 

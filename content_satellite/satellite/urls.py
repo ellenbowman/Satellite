@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     #url(r'^ticker_world/next_week/$', views.next_week, name='next_week'),
     url(r'^tiered_stocks/$', views.tiered_stocks, name='tiered_stocks'),
     #url(r'^content_audit/$', views.content_audit, name='content_audit'),
-    url(r'^content_type/$', views.content_type, name='content_type'),
+    url(r'^coverage_type/$', views.coverage_type, name='coverage_type'),
     url(r'^coverage_pledges/$', views_coverage_pledges.index, name='coverage_pledges_overview'),
 
     url(r'^scorecard_index/$', views.scorecard_index, name='scorecard index'),
