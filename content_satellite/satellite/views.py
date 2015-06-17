@@ -699,6 +699,22 @@ def coverage_type(request):
 	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
 	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
 
+	all_authors_ever = [a.author for a in Article.objects.all()]
+	sep = ' and'
+	authors_no_and = [a.split(sep, 1)[0] for a in all_authors_ever]
+	sep = ','
+	single_authors = [a.split(sep, 1)[0] for a in authors_no_and]
+	single_authors_no_duplicates = set()
+	for a in single_authors:
+		if a not in single_authors_no_duplicates:
+			single_authors_no_duplicates.add(a)
+		else:	
+			pass
+	single_authors = list(single_authors_no_duplicates)
+	single_authors = sorted(single_authors)
+
+
+
 	audit_filter_form = None
 	
 	if request.POST:
@@ -717,12 +733,14 @@ def coverage_type(request):
 			selected_keys = [k for k in request.POST if k.startswith('cid_')]
 			for k in selected_keys:
 				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
+				author_id = k.replace("cid_","").replace("sid_","")
 				ct = CoverageType()
 				ct.coverage_type = int(choice_id)
 				ct.ticker = ticker
 				ct.service = Service.objects.get(id=service_id)
+				ct.author = author_id
 				ct.save()
-				print 'added CoverageType record: %s %s %d' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type)
+				print 'added CoverageType record: %s %s %d %s' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type, ct.author)
 				
 		else:
 			audit_filter_form = FilterForm(request.POST)
@@ -757,23 +775,7 @@ def coverage_type(request):
 
 	services = Service.objects.all()
 
-	all_authors_ever = [a.author for a in Article.objects.all()]
-	sep = ' and'
-	authors_no_and = [a.split(sep, 1)[0] for a in all_authors_ever]
-	print authors_no_and
-	sep = ','
-	single_authors = [a.split(sep, 1)[0] for a in authors_no_and]
-	print single_authors
-	single_authors_no_duplicates = set()
-	for a in single_authors:
-		if a not in single_authors_no_duplicates:
-			single_authors_no_duplicates.add(a)
-		else:
-			pass
-	print single_authors_no_duplicates
-	single_authors = list(single_authors_no_duplicates)
-	single_authors = sorted(single_authors)
-	#sorted(single_authors_sorted)
+	print request.POST
 
 	dictionary_of_values = {
 		'tickers': tickers,
