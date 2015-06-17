@@ -129,24 +129,11 @@ COVERAGE_CHOICES = (
 	(RISK_RATING, 'Risk Rating'),
 	)
 
-all_authors_ever = [a.author for a in Article.objects.all()]
-print all_authors_ever
-authors_without_duplicates = []
-for a in all_authors_ever:
-	if a not in authors_without_duplicates:
-		authors_without_duplicates.append(a)
-	else:
-		pass
-print authors_without_duplicates
-sep = 'and'
-single_authors = [a.split(sep, 1)[0] for a in authors_without_duplicates]
-print single_authors
-
 class CoverageType(models.Model):
 	coverage_type = models.IntegerField(choices=COVERAGE_CHOICES, null=True)
 	ticker = models.ForeignKey(Ticker)
 	service = models.ForeignKey(Service)
-	author = models.CharField(choices=single_authors, null=False)
+	author = models.CharField(max_length=100, null=True, blank=True, verbose_name='Analyst')
 
 	def __unicode__(self):
 		return str(self.coverage_type)
