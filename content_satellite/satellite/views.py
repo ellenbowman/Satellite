@@ -757,6 +757,19 @@ def coverage_type(request):
 
 	services = Service.objects.all()
 
+	all_authors_ever = [a.author for a in Article.objects.all()]
+	print all_authors_ever
+	authors_without_duplicates = []
+	for a in all_authors_ever:
+		if a not in authors_without_duplicates:
+			authors_without_duplicates.append(a)
+		else:
+			pass
+	print authors_without_duplicates
+	sep = 'and'
+	single_authors = [a.split(sep, 1)[0] for a in authors_without_duplicates]
+	print single_authors
+
 	dictionary_of_values = {
 		'tickers': tickers,
 		'form': audit_filter_form,
