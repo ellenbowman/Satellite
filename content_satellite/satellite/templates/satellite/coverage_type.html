@@ -66,7 +66,7 @@ SOL: Coverage Type
                     <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}"
                             {% if s.id in service_ids_with_coverage_pledge %} checked {% endif %}
                             >
-        <select id="author" name="a_cid_{{ c.0 }}__sid_{{ s.id }}">
+        <select id="author" {% for a in single_authors %}name="cid_{{ c.0 }}__sid_{{ s.id }}__aid_{{a}}" {% endfor %}>
         {% for a in single_authors %} 
         <option value="{{a}}">{{a}}</option>
         {% endfor %}

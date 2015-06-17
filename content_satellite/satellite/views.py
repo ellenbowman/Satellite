@@ -732,8 +732,8 @@ def coverage_type(request):
 			# we expect the keys per checkbox to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
 			selected_keys = [k for k in request.POST if k.startswith('cid_')]
 			for k in selected_keys:
-				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
-				author_id = k.replace("cid_","").replace("sid_","")
+				choice_id, service_id, author_id = k.replace("cid_","").replace("sid_","").replace("aid_","").split('__')
+				#author_id = k.replace("cid_","")
 				ct = CoverageType()
 				ct.coverage_type = int(choice_id)
 				ct.ticker = ticker
