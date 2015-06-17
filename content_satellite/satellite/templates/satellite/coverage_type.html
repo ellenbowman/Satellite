@@ -56,7 +56,6 @@ SOL: Coverage Type
         {% get_services_ids c.0 t as service_ids_with_coverage_pledge %}
         <tr>
             <td>{{ c.1 }}</td>
-
             {% for s in services %}
                 <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
                 {% if s.pretty_name in t.services_for_ticker %}
@@ -66,6 +65,12 @@ SOL: Coverage Type
                     <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}"
                             {% if s.id in service_ids_with_coverage_pledge %} checked {% endif %}
                             >
+        <select>
+            {% for a in single_authors %}
+            <option value="{{a}}">{{a}}</option>
+            {% endfor %}
+        </select>
+
                 </td>
                 {% endif %}
             {% endfor %}

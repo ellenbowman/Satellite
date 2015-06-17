@@ -758,17 +758,22 @@ def coverage_type(request):
 	services = Service.objects.all()
 
 	all_authors_ever = [a.author for a in Article.objects.all()]
-	print all_authors_ever
-	authors_without_duplicates = []
-	for a in all_authors_ever:
-		if a not in authors_without_duplicates:
-			authors_without_duplicates.append(a)
+	sep = ' and'
+	authors_no_and = [a.split(sep, 1)[0] for a in all_authors_ever]
+	print authors_no_and
+	sep = ','
+	single_authors = [a.split(sep, 1)[0] for a in authors_no_and]
+	print single_authors
+	single_authors_no_duplicates = set()
+	for a in single_authors:
+		if a not in single_authors_no_duplicates:
+			single_authors_no_duplicates.add(a)
 		else:
 			pass
-	print authors_without_duplicates
-	sep = 'and'
-	single_authors = [a.split(sep, 1)[0] for a in authors_without_duplicates]
-	print single_authors
+	print single_authors_no_duplicates
+	single_authors = list(single_authors_no_duplicates)
+	single_authors = sorted(single_authors)
+	#sorted(single_authors_sorted)
 
 	dictionary_of_values = {
 		'tickers': tickers,
@@ -776,6 +781,7 @@ def coverage_type(request):
 		'service_filter_description': service_filter_description,
 		'coverage_type_choices': COVERAGE_CHOICES,
 		'services': services,
+		'single_authors': single_authors,
 	}
 
 	return render(request, 'satellite/coverage_type.html', dictionary_of_values)
