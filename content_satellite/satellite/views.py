@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse
 from forms import FilterForm
-from models import Article, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType, COVERAGE_CHOICES
+from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType, COVERAGE_CHOICES
 
 # Create your views here.
 
@@ -694,18 +694,13 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 ###############################################################################
 def get_authors_from_article_set():
-	all_authors_ever = [a.author for a in Article.objects.all()]
+	all_authors_ever = [a.byline for a in BylineMetaData.objects.all()]
 	sep = ' and'
 	authors_no_and = [a.split(sep, 1)[0] for a in all_authors_ever]
 	sep = ','
 	single_authors = [a.split(sep, 1)[0] for a in authors_no_and]
-	single_authors_no_duplicates = set()
-	for a in single_authors:
-		if a not in single_authors_no_duplicates:
-			single_authors_no_duplicates.add(a)
-		else:
-			pass
-	single_authors = list(single_authors_no_duplicates)
+	single_authors = set(single_authors) # remove duplicates
+	single_authors = list(single_authors) # convert back to a list
 	single_authors.sort()
 	return single_authors
 
