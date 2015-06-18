@@ -732,13 +732,15 @@ def coverage_type(request):
 			# we expect the keys per checkbox to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
 			selected_keys = [k for k in request.POST if k.startswith('cid_')]
 			for k in selected_keys:
-				choice_id, service_id, author_id = k.replace("cid_","").replace("sid_","").replace("aid_","").split('__')
+				author_id = k.split('___',1)
+				print author_id
+				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
 				#author_id = k.replace("cid_","")
 				ct = CoverageType()
 				ct.coverage_type = int(choice_id)
 				ct.ticker = ticker
 				ct.service = Service.objects.get(id=service_id)
-				ct.author = author_id
+				#ct.author = author_id
 				ct.save()
 				print 'added CoverageType record: %s %s %d %s' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type, ct.author)
 				

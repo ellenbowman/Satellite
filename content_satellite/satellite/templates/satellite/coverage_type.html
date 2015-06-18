@@ -63,15 +63,14 @@ SOL: Coverage Type
                 {% if s.pretty_name in t.services_for_ticker %}
                 <td>
                     <!-- embed the content choice id and service id in the input name -->
-                    <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}"
+                    <input type="checkbox" {% for a in single_authors %} name="cid_{{ c.0 }}__sid_{{ s.id }}___aid_{{ a }}"{% endfor %}
                             {% if s.id in service_ids_with_coverage_pledge %} checked {% endif %}
                             >
-        <select id="author" {% for a in single_authors %}name="cid_{{ c.0 }}__sid_{{ s.id }}__aid_{{a}}" {% endfor %}>
-        {% for a in single_authors %} 
-        <option value="{{a}}">{{a}}</option>
-        {% endfor %}
-        </select>
-
+                    <select name="Author">
+                    {% for a in single_authors %}
+                    <option value="{{a}}">{{ a }}</option>
+                    {% endfor %}
+                </select>
                 </td>
                 {% endif %}
             {% endfor %}
