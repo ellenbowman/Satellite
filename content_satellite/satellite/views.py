@@ -693,12 +693,7 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 
 ###############################################################################
-
-def coverage_type(request):
-
-	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
-	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
-
+def get_authors_from_article_set():
 	all_authors_ever = [a.author for a in Article.objects.all()]
 	sep = ' and'
 	authors_no_and = [a.split(sep, 1)[0] for a in all_authors_ever]
@@ -708,12 +703,19 @@ def coverage_type(request):
 	for a in single_authors:
 		if a not in single_authors_no_duplicates:
 			single_authors_no_duplicates.add(a)
-		else:	
+		else:
 			pass
 	single_authors = list(single_authors_no_duplicates)
-	single_authors = sorted(single_authors)
+	single_authors.sort()
+	return single_authors
 
 
+def coverage_type(request):
+
+	services_to_filter_by = None 	# will hold the Service objects that satisfy our filter
+	service_filter_description = None   # this will be a string description of the service filter. we'll display this value on the page.
+
+	single_authors = get_authors_from_article_set()
 
 	audit_filter_form = None
 	
