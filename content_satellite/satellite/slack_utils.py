@@ -2,7 +2,7 @@ import urllib
 import urllib2
 import json
 
-def post_message_to_slack(message_text='a message from Satellite', channel='#sol-rules', username='Dr. Satellite', icon_emoji=':sol_2:'):
+def post_message_to_slack(message_text='a message from Satellite', channel='#satellite-of-love', username='Dr. Satellite', icon_emoji=':sol_2:'):
 	"""
 	message_text: the markup for the message body
 	channel: which channel should receive the message
