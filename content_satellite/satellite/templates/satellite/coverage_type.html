@@ -56,7 +56,7 @@ SOL: Coverage Type
         <tbody>
 		{% for c in coverage_type_choices %}
         {% get_services_ids c.0 t as service_ids_with_coverage_pledge %}
-        {% get_author_name c.0 t as preselected_authors %}
+        {% get_author_name c.0 t as preselected_author %}
 
         {{service_ids_with_coverage_pledge}}
         {{preselected_authors}}
@@ -71,9 +71,10 @@ SOL: Coverage Type
                     <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}"
                             {% if s.id in service_ids_with_coverage_pledge %} checked {% endif %}
                             >
-                    <select name="Author">
+                    <select name="author_cid_{{ c.0 }}___sid_{{ s.id }}"
                     {% for a in single_authors %}
-                    <option value="{{a}}" {% if a in preselected_authors %} selected {% endif %} >{{a}}</option>
+                    <option value="{{a}}" {% if c.author == a %} selected {% endif %}>
+                        {{a}}</option>
                     {% endfor %}
                 </select>
                 </td>
