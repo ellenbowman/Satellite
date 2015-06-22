@@ -729,22 +729,29 @@ def coverage_type(request):
 			# we expect the keys per checkbox to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
 			selected_keys = [k for k in request.POST if k.startswith('cid_')]
 			for k in selected_keys:
+<<<<<<< HEAD
 				print k, '--------'
 				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
 				
+=======
+				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
+
+>>>>>>> 9a53b3dd385245c2abd46fea6d422e4a987d6b70
 				ct = CoverageType()
 				ct.coverage_type = int(choice_id)
 				ct.ticker = ticker
 				ct.service = Service.objects.get(id=service_id)
 
 				author_key = 'author_'+k
+<<<<<<< HEAD
 				print author_key
+=======
+>>>>>>> 9a53b3dd385245c2abd46fea6d422e4a987d6b70
 				if author_key in request.POST:
 					ct.author = request.POST[author_key]
 
 				ct.save()
-				print 'added CoverageType record: %s %s %d %s' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type, ct.author)
-				
+				print 'added CoverageType record: %s %s %d %s' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type, ct.author)		
 		else:
 			audit_filter_form = FilterForm(request.POST)
 			
