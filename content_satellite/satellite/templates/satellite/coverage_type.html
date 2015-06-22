@@ -1,6 +1,7 @@
 {% extends 'satellite/_base_layout.html' %}
 
 {% load coverage_pledge_tags %}
+{% load preselected_author_tags %}
 
 {% block title_value %}
 SOL: Coverage Type
@@ -55,6 +56,11 @@ SOL: Coverage Type
         <tbody>
 		{% for c in coverage_type_choices %}
         {% get_services_ids c.0 t as service_ids_with_coverage_pledge %}
+        {% get_author_name c.0 t as preselected_authors %}
+
+        {{service_ids_with_coverage_pledge}}
+        {{preselected_authors}}
+
         <tr>
             <td>{{ c.1 }}</td>
             {% for s in services %}
@@ -62,12 +68,12 @@ SOL: Coverage Type
                 {% if s.pretty_name in t.services_for_ticker %}
                 <td>
                     <!-- embed the content choice id and service id in the input name -->
-                    <input type="checkbox" {% for a in single_authors %} name="cid_{{ c.0 }}__sid_{{ s.id }}___aid_{{ a }}"{% endfor %}
+                    <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}"
                             {% if s.id in service_ids_with_coverage_pledge %} checked {% endif %}
                             >
                     <select name="Author">
                     {% for a in single_authors %}
-                    <option value="{{a}}">{{ a }}</option>
+                    <option value="{{a}}" {% if a in preselected_authors %} selected {% endif %} >{{a}}</option>
                     {% endfor %}
                 </select>
                 </td>
