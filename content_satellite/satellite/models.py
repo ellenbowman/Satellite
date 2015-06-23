@@ -121,12 +121,15 @@ FIVE_AND_THREE = 2
 EARNINGS_PREVIEW = 3
 EARNINGS_REVIEW = 4
 RISK_RATING = 5
+GUIDANCE_CHANGE = 6
+
 COVERAGE_CHOICES = (
 	(TEN_PERCENT_PROMISE, '10% Promise'),
 	(FIVE_AND_THREE, '5 and 3'),
 	(EARNINGS_PREVIEW, 'Earnings Preview'),
 	(EARNINGS_REVIEW, 'Earnings Review'),
 	(RISK_RATING, 'Risk Rating'),
+	(GUIDANCE_CHANGE, 'Guidance Change')
 	)
 
 class CoverageType(models.Model):

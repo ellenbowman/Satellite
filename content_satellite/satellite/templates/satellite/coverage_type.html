@@ -71,6 +71,7 @@ SOL: Coverage Type
                     {% get_author_name c.0 t s as preselected_author %}
 
                     <select name="author_cid_{{ c.0 }}__sid_{{ s.id }}">
+                        <option selected="selected" style="display:none;">-------------------</option>
                     {% for a in single_authors %}
                     <option value="{{a}}" {% ifequal a preselected_author %} selected {% endifequal %} >{{a}}</option>
                     {% endfor %}
