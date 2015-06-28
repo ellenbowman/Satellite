@@ -4,19 +4,12 @@ from satellite import views, views_samples, views_data_freshness, views_flagged_
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    # url(r'^movers/$', views.movers, name='movers'),
-    url(r'^articles_by_service/$', views.articles_by_service, name='articles by service'),
     url(r'^ticker_world/$', views.ticker_world, name='ticker_world'),
     url(r'^ticker_world/(?P<sort_by>\w+)/$', views.ticker_world, name='ticker_world_by_earnings'),
-    #url(r'^ticker_world/(?P<sort_by>\w+)/$', views.ticker_world, name='biggest_losers')
     #url(r'^ticker_world/next_week/$', views.next_week, name='next_week'),
     url(r'^tiered_stocks/$', views.tiered_stocks, name='tiered_stocks'),
-    #url(r'^content_audit/$', views.content_audit, name='content_audit'),
-    url(r'^coverage_type/$', views.coverage_type, name='coverage_type'),
+    url(r'^coverage_overview/$', views.coverage_overview, name='coverage_overview'),
     url(r'^coverage_pledges/$', views_coverage_pledges.index, name='coverage_pledges_overview'),
-
-    url(r'^scorecard_index/$', views.scorecard_index, name='scorecard index'),
-    # url(r'^my_sample_view/$', views.my_sample_view, name="my sample view"),
     url(r'^service_overview/$', views.service_overview, name="service_overview"),
     url(r'^data_freshness/$', views_data_freshness.data_freshness_index, name="data_freshness"),
     url(r'^author_bylines/$', views_samples.get_author_bylines_index, name='author_bylines'),
