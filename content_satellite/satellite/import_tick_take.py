@@ -8,25 +8,18 @@ import datetime
 base_url = 'http://apiary.fool.com/PremiumScorecards/v1/scorecards/'
 
 for scorecard in Scorecard.objects.all():
-    print scorecard
+
     scorecard_name = scorecard.name
-
     url = base_url + scorecard_name
-
     response = urllib.urlopen(url).read()
-
     json_resp = json.loads(response)
-
     op = json_resp['OpenPositions']
 
     for o in op:
-
         ticker_symbol = o['UnderlyingTickerSymbol']
         if ticker_symbol=='':
             ticker_symbol=o['TickerSymbol']
 
-        print ticker_symbol
-        # create a Ticker for this symbol if it doesn't exist
         matches = Ticker.objects.filter(ticker_symbol=ticker_symbol)
 
         
@@ -41,7 +34,6 @@ for scorecard in Scorecard.objects.all():
         else:
             t = matches[0]
         
-        # create a ServiceTake
         st = ServiceTake()
         st.is_core = o['IsCore']
         st.is_first = o['IsFirst']
@@ -56,7 +48,7 @@ for scorecard in Scorecard.objects.all():
 
         st.save()
 
-        #create scorecards_for_ticker and services_for_ticker
+
         service_takes_on_this_ticker = ServiceTake.objects.filter(ticker=t)
         scorecards_for_ticker = list()
         for st in service_takes_on_this_ticker:
@@ -74,15 +66,3 @@ for scorecard in Scorecard.objects.all():
 
         t.save()
         
-
-
-
-
-
-
-
-
-
-
-
-
