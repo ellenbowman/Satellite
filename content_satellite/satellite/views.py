@@ -6,8 +6,6 @@ from django.http import HttpResponse
 from forms import FilterForm
 from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType, COVERAGE_CHOICES
 
-# Create your views here.
-
 ###############################################################################
 
 def index(request):
@@ -59,14 +57,10 @@ def tiered_stocks(request):
 	tiers_to_filter_by = None
 	tier_filter_description = None
 
-	# filter by ticker/service/tier if we detect that preference in the query string (in the request.GET) or via a form post (in the request.POST)
-
 	if request.POST:
-
 		tiered_filter_form = FilterForm(request.POST)
-		
+	
 		if tiered_filter_form.is_valid():
-
 			if 'services' in tiered_filter_form.cleaned_data:
 				if len(tiered_filter_form.cleaned_data['services']) > 0:
 					services_to_filter_by = tiered_filter_form.cleaned_data['services']
@@ -75,7 +69,6 @@ def tiered_stocks(request):
 				tiers_user_input = tiered_filter_form.cleaned_data['tier_status']
 				if len(tiers_user_input) > 0:
 					tickers_to_filter_by = _get_ticker_objects_for_tier_status(tiers_user_input)
-					print tickers_to_filter_by
 
 		ticker_note_name_prefix = 'ticker_notes_'
 
@@ -85,10 +78,10 @@ def tiered_stocks(request):
 
 			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]
 			print ticker_id
-			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id) # ticker_id is a string, and ticker_symbol is an item from a list
+			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id)
 
-			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
-			ticker_to_update.save() # write this update to the db!
+			ticker_to_update.notes = request.POST[key_of_ticker_note_data]
+			ticker_to_update.save()
 			
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
 
@@ -729,7 +722,7 @@ def coverage_type(request):
 			# we expect the keys per checkbox to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
 			selected_keys = [k for k in request.POST if k.startswith('cid_')]
 			for k in selected_keys:
-				
+
 				print k, '--------'
 				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
 
