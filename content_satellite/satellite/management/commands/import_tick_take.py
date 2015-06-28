@@ -25,6 +25,7 @@ class Command(BaseCommand):
             print scorecard
             scorecard_name = scorecard.name
             url = base_url + scorecard_name
+            print url
             response = urllib.urlopen(url).read()
             json_resp = json.loads(response)
             op = json_resp['OpenPositions']
