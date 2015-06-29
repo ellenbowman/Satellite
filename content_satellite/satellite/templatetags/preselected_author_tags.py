@@ -14,7 +14,7 @@ def get_preselected_author(ticker, coverage_choice_id):
 
     if preselected_author:
         author = [a.author for a in preselected_author]
-    return author
+        return author
 
 @register.assignment_tag
 def get_author_name(coverage_choice_id, ticker, service):

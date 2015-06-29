@@ -623,10 +623,11 @@ def coverage_overview(request):
 			
 			# replace them with the records passed along in POST
 			# we expect the keys per checkbox to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
-			selected_keys = [k for k in request.POST if k.startswith('cid_')]
+			selected_keys = [k for k in request.POST if k.startswith('author_')]
 			for k in selected_keys:
 
-				print k, '--------'
+				k = k.replace('author_','')
+				print k, '----pants----'
 				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
 
 				ct = CoverageType()

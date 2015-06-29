@@ -4,50 +4,45 @@
 {% load preselected_author_tags %}
 
 {% block title_value %}
-SOL: Coverage Type
+SOL: Coverage Overview
 {% endblock %}
 
 {% block container_contents %}
 
-<h3>Content Types</h3>
+<h3>Coverage Overview</h3>
 
-		<p>
-			<form action="/sol/coverage_overview/" method="post">
-				{% csrf_token %}
-				<strong>Choose your service:</strong>
-				{{form.services}}
-				<input type="submit" value="Filter">&nbsp;&nbsp;
-					<a href="{% url 'coverage_overview' %}"><button type='button'>Remove filters</button></a><br/>
-					Active filters: {{service_filter_description}}
-			</form>
-		</p>
+	<p>
+		<form action="/sol/coverage_overview/" method="post">
+			{% csrf_token %}
+			<strong>Choose your service:</strong>
+			{{form.services}}
+			<input type="submit" value="Filter">&nbsp;&nbsp;
+			<a href="{% url 'coverage_overview' %}"><button type='button'>Remove filters</button></a><br/>
+			Active filters: {{service_filter_description}}
+		</form>
+	</p>
 <hr/>
-<p>
-	{% for t in tickers %}
-	<br/>
-	<h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;{{t.company_name}}&nbsp;({{t.ticker_symbol}})</h4>
-	<p><em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}<span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}<br/>
-		
+    <p>
+	   {% for t in tickers %}
+	   <br/>
+	   <h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;{{t.company_name}}&nbsp;({{t.ticker_symbol}})</h4>
+    </p>
+    <p>
+        Held in: <em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}|&nbsp;<span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}
+    </p>	
 
         <form method="post" action="/sol/coverage_overview/">
 		{% csrf_token %}
-        <!--
-        table structure:
 
-         one row per coverage type (5 & 3, Earnings Preview, etc)
-         number of cells per row = one for displaying the coverage type, and one for each service in which the ticker is a rec
-         thead for displaying the service names
-         note: scope is a single ticker
-        -->
         <table class="contentTypeTable">
 
         <thead>
             <tr>
-                <td width="150px">Type</td>
+                <td width="150px"><b>Type</b></td>
                 {% for s in services %}
                     <!-- display a cell only if the ticker is rec'd by this service -->
                     {% if s.pretty_name in t.services_for_ticker %}
-                    <td width="100px"><small>{{ s.pretty_name }}</small></td>
+                    <td width="100px"><b><em>{{ s.pretty_name }}</em></b></td>
                     {% endif %}
                 {% endfor %}
             </tr>
@@ -57,21 +52,17 @@ SOL: Coverage Type
 		{% for c in coverage_type_choices %}
         {% get_services_ids c.0 t as service_ids_with_coverage_pledge %}
 
-        <tr>
+         <tr>
             <td>{{ c.1 }}</td>
             {% for s in services %}
                 <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
                 {% if s.pretty_name in t.services_for_ticker %}
                 <td>
-                    <!-- embed the content choice id and service id in the input name -->
-                    <input type="checkbox" name="cid_{{ c.0 }}__sid_{{ s.id }}"
-                            {% if s.id in service_ids_with_coverage_pledge %} checked {% endif %}
-                            >
+                    <input name="cid_{{ c.0 }}__sid_{{ s.id }}">
 
                     {% get_author_name c.0 t s as preselected_author %}
-
                     <select name="author_cid_{{ c.0 }}__sid_{{ s.id }}">
-                        <option selected="selected" style="display:none;">-------------------</option>
+                    <option style="display:none;">-------------------</option>
                     {% for a in single_authors %}
                     <option value="{{a}}" {% ifequal a preselected_author %} selected {% endifequal %} >{{a}}</option>
                     {% endfor %}
@@ -89,6 +80,5 @@ SOL: Coverage Type
 		{% endfor %}
 
 		<br/>
-
 
 {% endblock %}
