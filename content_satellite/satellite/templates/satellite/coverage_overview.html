@@ -58,7 +58,6 @@ SOL: Coverage Overview
                 <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
                 {% if s.pretty_name in t.services_for_ticker %}
                 <td>
-                    <input name="cid_{{ c.0 }}__sid_{{ s.id }}">
 
                     {% get_author_name c.0 t s as preselected_author %}
                     <select name="author_cid_{{ c.0 }}__sid_{{ s.id }}">
