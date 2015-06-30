@@ -105,24 +105,29 @@ class Article(models.Model):
 
 
 TEN_PERCENT_PROMISE = 1
-FIVE_AND_THREE = 2
-EARNINGS_PREVIEW = 3
-EARNINGS_REVIEW = 4
-RISK_RATING = 5
-GUIDANCE_CHANGE = 6
+RISK_RATING = 2
+GUIDANCE_CHANGE = 3
+FIVE_AND_THREE = 4
+TEN_PERCENT_POTENTIAL = 5
+TWO_MINUTE_DRILL = 6
+BEST_BUYS_NOW = 7
+EARNINGS_PREVIEW = 8
+EARNINGS_REVIEW = 9
+FOOL_DOT_COM_PREVIEW = 10
+FOOL_DOT_COM_REVIEW = 11
 
 COVERAGE_CHOICES = (
 	(TEN_PERCENT_PROMISE, '10% Promise'),
-	(FIVE_AND_THREE, '5 and 3'),
-	(EARNINGS_PREVIEW, 'Team Earnings Preview'),
-	(EARNINGS_REVIEW, 'Team Earnings Review'),
 	(RISK_RATING, 'Risk Rating'),
 	(GUIDANCE_CHANGE, 'Guidance Change'),
-	(FOOL_DOT_COM_PREVIEW, 'Fool.com Earnings Preview'),
-	(FOOL_DOT_COM_REVIEW, 'Fool.com Earnings Review'),
+	(FIVE_AND_THREE, '5 and 3'),
 	(TEN_PERCENT_POTENTIAL, '10% Potential'),
 	(TWO_MINUTE_DRILL, '2-Minute Drill'),
 	(BEST_BUYS_NOW, 'Best Buys Now'),
+	(EARNINGS_PREVIEW, 'Team Earnings Preview'),
+	(EARNINGS_REVIEW, 'Team Earnings Review'),
+	(FOOL_DOT_COM_PREVIEW, 'Fool.com Earnings Preview'),
+	(FOOL_DOT_COM_REVIEW, 'Fool.com Earnings Review'),
 	)
 
 class CoverageType(models.Model):
