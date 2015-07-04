@@ -124,10 +124,10 @@ COVERAGE_CHOICES = (
 	(TEN_PERCENT_POTENTIAL, '10% Potential'),
 	(TWO_MINUTE_DRILL, '2-Minute Drill'),
 	(BEST_BUYS_NOW, 'Best Buys Now'),
-	(EARNINGS_PREVIEW, 'Team Earnings Preview'),
-	(EARNINGS_REVIEW, 'Team Earnings Review'),
-	(FOOL_DOT_COM_PREVIEW, 'Fool.com Earnings Preview'),
-	(FOOL_DOT_COM_REVIEW, 'Fool.com Earnings Review'),
+	(EARNINGS_PREVIEW, 'Team Preview'),
+	(EARNINGS_REVIEW, 'Team Review'),
+	(FOOL_DOT_COM_PREVIEW, 'Fool.com Preview'),
+	(FOOL_DOT_COM_REVIEW, 'Fool.com Review'),
 	)
 
 class CoverageType(models.Model):
