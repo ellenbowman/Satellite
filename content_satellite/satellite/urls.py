@@ -1,12 +1,13 @@
 from django.conf.urls import patterns, url
 
-from satellite import views, views_samples, views_data_freshness, views_flagged_recs, views_coverage_pledges
+from satellite import views, views_2, views_samples, views_data_freshness, views_flagged_recs, views_coverage_pledges
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^ticker_world/$', views.ticker_world, name='ticker_world'),
     url(r'^ticker_world/all_tickers/$', views.ticker_world, name='all_tickers'),
     url(r'^ticker_world/(?P<sort_by>\w+)/$', views.ticker_world, name='ticker_world_by_earnings'),
+    url(r'^upcoming_earnings/$', views_2.upcoming_earnings, name='upcoming earnings'),
     #url(r'^ticker_world/next_week/$', views.next_week, name='next_week'),
     url(r'^tiered_stocks/$', views.tiered_stocks, name='tiered_stocks'),
     url(r'^coverage_overview/$', views.coverage_overview, name='coverage_overview'),
