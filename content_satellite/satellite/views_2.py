@@ -228,3 +228,34 @@ def ticker_lookup(request):
 	# https://docs.djangoproject.com/en/1.7/ref/request-response/#jsonresponse-objects
 	# (the page won't have pretty markup)
 	return JsonResponse(response)
+
+######################################################################################################
+
+def data_freshness_index(request):
+	
+	recent_events_overall = DataHarvestEventLog.objects.all().order_by('-date_started')[:100]
+
+	most_recent_event_per_type = []
+	
+	for ht in DATA_HARVEST_TYPE_CHOICES:
+		ht_id = ht[0]
+		ht_pretty_name = ht[1]
+
+		events_for_this_type = DataHarvestEventLog.objects.filter(data_type=ht_id).order_by('-date_started')
+		date_of_most_recent_event_of_this_type = None
+		if events_for_this_type:
+			date_of_most_recent_event_of_this_type = events_for_this_type[0].date_started
+
+		most_recent_event_per_type.append({
+			'pretty_name':ht_pretty_name, 
+			'type':ht_id, 
+			'date':date_of_most_recent_event_of_this_type
+			})
+
+	dictionary_of_values = {
+		'recent_events':recent_events_overall,
+		'most_recent_event_per_type':most_recent_event_per_type
+	}
+
+	return render(request, 'satellite/data_freshness_index.html', dictionary_of_values)
+
