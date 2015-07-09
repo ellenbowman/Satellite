@@ -36,8 +36,6 @@ class Ticker(models.Model):
 			scorecards_represented.add(service_take.scorecard.pretty_name)
 		return ", ".join(scorecards_represented)
 
-
-
 	def services(self):
 		"""how many services have this ticker?"""
 
