@@ -10,26 +10,24 @@ Upcoming Earnings
 
 <p><strong>Find any ticker:</strong>__searchbox goes here __</p>
 
-{{number_of_services}}
-
-{{list_of_services}}
-
-{{tickers_sorted_by_earnings_date}}
-
 <h3>Upcoming Earnings Dates</h3>
 <table>
+	<tr>
+		<td><strong>Ticker</strong></td>
+		<td><strong>Services</strong></td>
+		<td><strong>Earnings Date</strong></td>
+	</tr>
 {% for t in tickers_sorted_by_earnings_date %}
 	<tr>
-		<td><strong>Ticker</strong><br/>
-			{{t.ticker_symbol}} ({{t.company_name}})<br/>
+		<td>
+			<strong>{{t.ticker_symbol}}</strong> ({{t.company_name}})<br/>
 		</td>
-		<td><strong>Services</strong><br/>
+		<td>
 			{% get_number_of_services t as number_of_services %}
 			<strong>{{number_of_services}}</strong>:
-			{{t.services_for_ticker}}<br/>
-<br/>
+			<em>{{t.services_for_ticker}}</em>
 		</td>
-		<td><strong>Earnings Date</strong><br/>
+		<td>
 			{{t.earnings_announcement}}<br/>
 		</td>
 	</tr>
