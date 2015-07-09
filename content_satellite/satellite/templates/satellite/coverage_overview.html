@@ -9,16 +9,18 @@ SOL: Coverage Overview
 
 {% block container_contents %}
 
-<h3>Coverage Overview</h3>
+<h3>Coverage Overview [Loading: ------|--- ~66%]</h3>
 
 	<p>
 		<form action="/sol/coverage_overview/" method="post">
 			{% csrf_token %}
 			<strong>Choose your service:</strong>
 			{{form.services}}
-			<input type="submit" value="Filter">&nbsp;&nbsp;
-			<a href="{% url 'coverage_overview' %}"><button type='button'>Remove filters</button></a><br/>
-			Active filters: {{service_filter_description}}
+			<input type="submit" value="Filter"><br/>
+            <strong>Find a ticker[soon]:</strong>
+            {{form.tickers}}<br/>
+            <a href="{% url 'coverage_overview' %}"><button type='button'>Remove filters</button></a><br/>
+			Active filters: <em>{{service_filter_description}}</em>
 		</form>
 	</p>
 <hr/>
