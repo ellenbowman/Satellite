@@ -28,7 +28,6 @@ def upcoming_earnings(request):
 			list_of_services = t.services_for_ticker.split(",")
 			number_of_services = len(list_of_services)
 
-
 	dictionary_of_values = {
 	'tickers': tickers,
 	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
@@ -61,7 +60,6 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	"""	
 	csv_elements = service_ids_csv.split(',')
 
-	# clean up - for each element, strip whitespace and convert to an integer
 	csv_elements = [int(el.strip()) for el in csv_elements]
 
 	return Service.objects.filter(id__in=csv_elements)
@@ -165,17 +163,12 @@ def articles_index(request):
 
 	num_articles = len(articles)
 
-
 	article_defns = []
-
 	for article in articles_subset:
-
 		byline_meta_data = ''
-
 		byline_match = BylineMetaData.objects.filter(byline=article.author)
 		if byline_match:
 			byline_meta_data = byline_match[0].services
-
 		article_defns.append({
 			'article':article,
 			'author_service_associations': byline_meta_data,

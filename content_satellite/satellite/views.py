@@ -397,7 +397,6 @@ def service_overview(request):
 		#'options_losers': options_losers,
 		#'options_earnings': options_earnings,
 		'options_articles': options_articles,
-
 	}
 
 	return render(request, 'satellite/service_overview.html', dictionary_of_values)
@@ -544,8 +543,6 @@ def ticker_world(request, sort_by='daily_percent_change'):
 
 	num_tickers = len(tickers)
 
-	# let's consider only those that are happening today or in the future
-
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
 
@@ -606,12 +603,14 @@ def coverage_overview(request):
 
 	services_to_filter_by = None
 	service_filter_description = None
+	tickers_to_filter_by = None
 	single_authors = get_authors_from_article_set()
 	audit_filter_form = None
 	
 	if request.POST:
 		
 		if 'coverage' in request.POST:
+			audit_filter_form = FilterForm(request.POST)
 			ticker = request.POST['coverage'].split()[-1]
 			ticker = Ticker.objects.get(ticker_symbol = ticker)
 			
@@ -646,31 +645,66 @@ def coverage_overview(request):
 		else:
 			audit_filter_form = FilterForm(request.POST)
 			
-			if audit_filter_form.is_valid(): 
-				if 'services' in audit_filter_form.cleaned_data:
-					if len(audit_filter_form.cleaned_data['services']) > 0:
-						services_to_filter_by = audit_filter_form.cleaned_data['services']
+		
+		if audit_filter_form.is_valid():
+			if 'tickers' in audit_filter_form.cleaned_data:
+				tickers_user_input = audit_filter_form.cleaned_data['tickers'].strip()
+				if tickers_user_input != '':
+					tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
 
-	if audit_filter_form is None:
-		audit_filter_form = FilterForm()
+			if 'services' in audit_filter_form.cleaned_data:
+				if len(audit_filter_form.cleaned_data['services']) > 0:
+					services_to_filter_by = audit_filter_form.cleaned_data['services']
+	
+	elif request.GET:
+		initial_form_values = {}
 
-	if services_to_filter_by:
-		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
-		pretty_names_of_services_we_matched.sort()
-		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
+		if 'tickers' in request.GET:
+			tickers_user_input = request.GET.get('tickers')
+			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
 
-	if services_to_filter_by is not None:
-		tickers = []
-		for t in Ticker.objects.all():
-			for service in services_to_filter_by:
-				if t.services_for_ticker is None:
-					pass
-				elif service.pretty_name in t.services_for_ticker:
-					tickers.append(t)
-				break
+			initial_form_values['tickers'] = tickers_user_input
+		if 'service_ids' in request.GET:
+			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
+			initial_form_values['services'] = services_to_filter_by
+
+		audit_filter_form = FilterForm(initial=initial_form_values)
 
 	else:
-		tickers = Ticker.objects.all()[:25]
+		audit_filter_form = FilterForm()
+
+	if tickers_to_filter_by:
+		ticker_filter_description = tickers_user_input.upper()
+
+	if services_to_filter_by:
+			pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
+			pretty_names_of_services_we_matched.sort()
+			service_filter_description = ', '.join(pretty_names_of_services_we_matched)
+	else:
+		pass
+
+	if tickers_to_filter_by is not None and services_to_filter_by is not None:
+		tickers = [] 
+		for t in tickers_to_filter_by:
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker:
+					tickers.append(t)
+					break
+		
+	elif tickers_to_filter_by is not None:
+		tickers = tickers_to_filter_by
+	elif services_to_filter_by is not None:
+		tickers = [] 
+		for t in Ticker.objects.all():
+			if not t.services_for_ticker:
+				continue
+			for service in services_to_filter_by:
+				if service.pretty_name in t.services_for_ticker:
+					tickers.append(t)
+					break
+		
+	else:
+		tickers = Ticker.objects.all()
 
 	services = Service.objects.all()
 
