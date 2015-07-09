@@ -1,24 +1,20 @@
 from django.conf.urls import patterns, url
 
-from satellite import views, views_2, views_samples, views_data_freshness, views_flagged_recs, views_coverage_pledges
+from satellite import views, views_2, views_data_freshness, views_flagged_recs
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^ticker_world/$', views.ticker_world, name='ticker_world'),
     url(r'^ticker_world/all_tickers/$', views.ticker_world, name='all_tickers'),
-    url(r'^ticker_world/(?P<sort_by>\w+)/$', views.ticker_world, name='ticker_world_by_earnings'),
     url(r'^upcoming_earnings/$', views_2.upcoming_earnings, name='upcoming earnings'),
     #url(r'^ticker_world/next_week/$', views.next_week, name='next_week'),
     url(r'^tiered_stocks/$', views.tiered_stocks, name='tiered_stocks'),
     url(r'^coverage_overview/$', views.coverage_overview, name='coverage_overview'),
-    url(r'^coverage_pledges/$', views_coverage_pledges.index, name='coverage_pledges_overview'),
     url(r'^service_overview/$', views.service_overview, name="service_overview"),
     url(r'^data_freshness/$', views_data_freshness.data_freshness_index, name="data_freshness"),
-    url(r'^author_bylines/$', views_samples.get_author_bylines_index, name='author_bylines'),
+    url(r'^author_bylines/$', views_2.get_author_bylines_index, name='author_bylines'),
     url(r'^flagged_recs/$', views_flagged_recs.get_flagged_recs_index, name='flagged_recs'),    
     url(r'^flagged_recs_csv/$', views_flagged_recs.get_flagged_recs_as_csv, name='flagged_recs_as_csv'),
-    # some practice urls
-
-    url(r'^articles_index/$', views_samples.grand_vision_articles, name='everything_about_articles'),
-    url(r'^json_blob_for_ticker/$', views_samples.ticker_lookup, name='json_blob'),
+    url(r'^articles_index/$', views_2.grand_vision_articles, name='everything_about_articles'),
+    url(r'^json_blob_for_ticker/$', views_2.ticker_lookup, name='json_blob'),
     )
