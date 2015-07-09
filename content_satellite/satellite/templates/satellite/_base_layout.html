@@ -13,9 +13,7 @@
 <!-- import jquery. immediate why: bootstrap depends on it being available -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
-
-<!-- bootstrap ( http://getbootstrap.com/ ) is a popular framework. wire it in,
-and you'll find that much of your markup inherits pretty styles. bootstrap also has a handy way of making sections of your page adjust to mobile devices. they've done the hard work and made their code public. let's use what they've built. -->
+<!--- import bootstrap helpers -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -135,14 +133,10 @@ and you'll find that much of your markup inherits pretty styles. bootstrap also 
 		    <div class="collapse navbar-collapse" id="navbar-collapse-1">
 		      <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class='topnav-breadcrumb' id='breadcrumb_tickers' href="{% url 'ticker_world' %}">Biggest Gainers</a></li>
-                    <li>
-                        <a class='topnav-breadcrumb' id='breadcrumb_losers' href="/sol/ticker_world/biggest_losers/">Biggest Losers</a></li>
-                    <li>
                         <a class='topnav-breadcrumb' id='breadcrumb_services' href="
                         /sol/service_overview/">Service Overview</a></li>
                     <li>
-                        <a class='topnav-breadcrumb' id='breadcrumb_earnings' href="/sol/ticker_world/earnings_date_sort/">Upcoming Earnings</a></li>
+                        <a class='topnav-breadcrumb' id='breadcrumb_earnings' href="/sol/upcoming_earnings/">Upcoming Earnings</a></li>
                     <li><a class='topnav-breadcrumb' id='breadcrumb_articles' href="{% url 'everything_about_articles' %}">All Articles</a>
                     </li>
                     <li>
