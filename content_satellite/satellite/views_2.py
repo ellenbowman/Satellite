@@ -19,11 +19,12 @@ def upcoming_earnings(request):
 	yesterday = (datetime.now() - timedelta(days=1)).date()
 
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
-	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
+	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:100]
 
 	for t in tickers_sorted_by_earnings_date:
-		list_of_services = t.services_for_ticker.split(",")
-		number_of_services = len(list_of_services)
+		if t.services_for_ticker is not None:
+			list_of_services = t.services_for_ticker.split(",")
+			number_of_services = len(list_of_services)
 
 
 	dictionary_of_values = {
@@ -31,6 +32,7 @@ def upcoming_earnings(request):
 	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
 	'list_of_services': list_of_services,
 	'number_of_services': number_of_services,
+	'form': FilterForm,
 	}
 
 	return render(request, 'satellite/upcoming_earnings.html', dictionary_of_values)
