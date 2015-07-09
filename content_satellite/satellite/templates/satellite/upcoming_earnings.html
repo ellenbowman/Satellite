@@ -1,25 +1,39 @@
 {% extends 'satellite/_base_layout.html' %}
 
+{% load number_of_services_tags %}
+
 {% block title_value %}
 Upcoming Earnings
 {% endblock %}
 
 {% block container_contents %}
 
-<p>text</p>
+<p><strong>Find any ticker:</strong>__searchbox goes here __</p>
 
+{{number_of_services}}
 
+{{list_of_services}}
 
+{{tickers_sorted_by_earnings_date}}
 
-
-
-
-
-
-
-
-
-
-
+<h3>Upcoming Earnings Dates</h3>
+<table>
+{% for t in tickers_sorted_by_earnings_date %}
+	<tr>
+		<td><strong>Ticker</strong><br/>
+			{{t.ticker_symbol}} ({{t.company_name}})<br/>
+		</td>
+		<td><strong>Services</strong><br/>
+			{% get_number_of_services t as number_of_services %}
+			<strong>{{number_of_services}}</strong>:
+			{{t.services_for_ticker}}<br/>
+<br/>
+		</td>
+		<td><strong>Earnings Date</strong><br/>
+			{{t.earnings_announcement}}<br/>
+		</td>
+	</tr>
+{% endfor %}
+</table>
 
 {% endblock container_contents %}

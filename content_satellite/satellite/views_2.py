@@ -14,9 +14,25 @@ def upcoming_earnings(request):
 	}
 
 	tickers = Ticker.objects.all()
+	tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
+	
+	yesterday = (datetime.now() - timedelta(days=1)).date()
+
+	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
+	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:10]
+
+	for t in tickers_sorted_by_earnings_date:
+		list_of_services = t.services_for_ticker.split(",")
+		number_of_services = len(list_of_services)
+
 
 	dictionary_of_values = {
 	'tickers': tickers,
+	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
+	'list_of_services': list_of_services,
+	'number_of_services': number_of_services,
 	}
 
 	return render(request, 'satellite/upcoming_earnings.html', dictionary_of_values)
+
+###############################################################################
