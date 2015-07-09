@@ -16,8 +16,10 @@ All Tickers
 				<strong>Filter by service(s):</strong><br/>
 				{{form.services}}<br/>
 				<em>Ctrl/Cmd+click to select more than one</em>.<br/>
-				<input type="submit" value="Apply filter">
+				<input type="submit" value="Apply filters"><br/>
 			</form>
+			Active filters: {% if service_filter_description %} <em>{{service_filter_description}}</em> {% endif %} {% if ticker_filter_description %} | {{ticker_filter_description}} {% endif %} <br/>
+			<a href="">Remove filters</a><br/>
 			Number of tickers: {{num_tickers}}
 		</div>
 <hr/>
