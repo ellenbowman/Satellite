@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^author_bylines/$', views_2.get_author_bylines_index, name='author_bylines'),
     url(r'^flagged_recs/$', views_2.get_flagged_recs_index, name='flagged_recs'),    
     url(r'^flagged_recs_csv/$', views_2.get_flagged_recs_as_csv, name='flagged_recs_as_csv'),
-    url(r'^articles_index/$', views_2.grand_vision_articles, name='everything_about_articles'),
+    url(r'^articles_index/$', views_2.articles_index, name='articles_index'),
     url(r'^json_blob_for_ticker/$', views_2.ticker_lookup, name='json_blob'),
     )

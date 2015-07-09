@@ -28,7 +28,7 @@ All Tickers
 <br/>
 <strong>Scorecards with this ticker</strong>: {{t.scorecards_for_ticker}} |
 {% if t.tier %} <span style="background-color:yellow"><strong>Tier</strong>: {{t.tier}} ({{t.tier_status}})</span> |{% endif %} <strong>Next earnings date</strong>: {{t.earnings_announcement}}<br/>
-<a href="{% url 'everything_about_articles'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
+<a href="{% url 'articles_index'%}?tickers={{t.ticker_symbol}}" target='_blank'>Premium coverage</a><br />
 </p>
 <p>
 	<form action="/sol/ticker_world/" method="post">

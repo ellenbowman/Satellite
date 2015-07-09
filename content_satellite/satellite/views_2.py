@@ -77,7 +77,7 @@ def get_author_bylines_index(request):
 
 ###########################################################################################################
 
-def grand_vision_articles(request):
+def articles_index(request):
 
 	tickers_to_filter_by = None
 	services_to_filter_by = None
@@ -193,7 +193,7 @@ def grand_vision_articles(request):
 		'ticker_filter_description': ticker_filter_description
 	}
 
-	return render(request, 'satellite/index_of_articles.html', dictionary_of_values)
+	return render(request, 'satellite/articles_index.html', dictionary_of_values)
 
 ###################################################################################
 
