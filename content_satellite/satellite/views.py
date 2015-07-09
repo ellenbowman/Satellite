@@ -600,6 +600,7 @@ def get_authors_from_article_set():
 	single_authors.sort()
 	return single_authors
 
+###############################################################################
 
 def coverage_overview(request):
 
