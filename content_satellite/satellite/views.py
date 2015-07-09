@@ -658,16 +658,14 @@ def coverage_overview(request):
 	
 	elif request.GET:
 		initial_form_values = {}
-
 		if 'tickers' in request.GET:
 			tickers_user_input = request.GET.get('tickers')
 			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
-
 			initial_form_values['tickers'] = tickers_user_input
 		if 'service_ids' in request.GET:
 			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
 			initial_form_values['services'] = services_to_filter_by
-
+			
 		audit_filter_form = FilterForm(initial=initial_form_values)
 
 	else:
