@@ -74,10 +74,10 @@
 <script>
     
     $(function() {
-		// order by the ticker symbol (column index 1)
+		// order by the ticker symbol (column index 1) and default to showing all tickers
 		$('#ticker_table').dataTable( {
 	        "order": [[ 1, "asc" ]],  
-	        "lengthMenu": [[20,50,100,-1], [20,50,100, "All"]]
+	        "lengthMenu": [[-1,50,100], ["All",50,100]]
 	    } );
 
     });
