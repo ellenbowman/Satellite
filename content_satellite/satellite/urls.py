@@ -4,6 +4,7 @@ from satellite import views, views_2
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^tickers/$', views.ticker_overview, name='ticker_overview'),
     url(r'^ticker_world/$', views.ticker_world, name='ticker_world'),
     url(r'^ticker_world/all_tickers/$', views.ticker_world, name='all_tickers'),
     url(r'^upcoming_earnings/$', views_2.upcoming_earnings, name='upcoming_earnings'),

@@ -584,6 +584,16 @@ def ticker_world(request, sort_by='daily_percent_change'):
 	return render(request, 'satellite/ticker_world.html', dictionary_of_values)
 
 
+def ticker_overview(request):
+	tickers = Ticker.objects.all()
+
+	dictionary_of_values = {
+		'title_value': 'Tickers',
+		'services': Service.objects.all(),
+		'tickers': tickers,
+	}
+	return render(request, 'satellite/tickers_index.html', dictionary_of_values)
+
 ###############################################################################
 
 def get_authors_from_article_set():
