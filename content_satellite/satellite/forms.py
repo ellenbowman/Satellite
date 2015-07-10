@@ -24,3 +24,8 @@ class FilterForm(forms.Form):
 		choices=TIER_OPTIONS,
 		required=False)
 
+class TickerForm(forms.ModelForm):
+	class Meta:
+		model = Ticker
+		fields = ('notes','tier','tier_status','daily_percent_change','instrument_id')
+	

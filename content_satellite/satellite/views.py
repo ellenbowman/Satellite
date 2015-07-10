@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from forms import FilterForm
+from forms import FilterForm, TickerForm
 from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType, COVERAGE_CHOICES
 
 ###############################################################################
@@ -584,15 +584,42 @@ def ticker_world(request, sort_by='daily_percent_change'):
 	return render(request, 'satellite/ticker_world.html', dictionary_of_values)
 
 
+###############################################################################
+
 def ticker_overview(request):
-	tickers = Ticker.objects.all()
 
 	dictionary_of_values = {
 		'title_value': 'Tickers',
 		'services': Service.objects.all(),
-		'tickers': tickers,
+		'tickers': Ticker.objects.all()
 	}
 	return render(request, 'satellite/tickers_index.html', dictionary_of_values)
+
+###############################################################################
+
+def ticker_detail(request, ticker_symbol):
+
+	try:
+		ticker = Ticker.objects.get(ticker_symbol=ticker_symbol)
+	except:
+		# if the ticker isn't found, redirect to the listing of all tickers
+		return redirect('ticker_overview')
+
+	if request.POST:
+		form = TickerForm(request.POST, instance=ticker)
+		
+		if form.is_valid():
+			model_instance = form.save(commit=True)
+	
+	form = TickerForm(instance=ticker)
+
+	context = {
+		'title_value': '%s (%s)' % (ticker.company_name, ticker.ticker_symbol),
+		'form': form,
+		'ticker':ticker
+	}
+
+	return render(request, 'satellite/ticker_detail.html', context)
 
 ###############################################################################
 

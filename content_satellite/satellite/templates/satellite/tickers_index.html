@@ -28,7 +28,9 @@
 				{{t.company_name}}
 			</td>
 			<td>
-				{{t.ticker_symbol}}
+				<a href="{% url 'ticker_detail' t.ticker_symbol %}">
+					{{t.ticker_symbol}}
+				</a>
 				<br/>
 				<small>{{t.exchange_symbol}}</small>
 			</td>
