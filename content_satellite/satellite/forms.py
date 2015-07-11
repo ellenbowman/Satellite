@@ -27,5 +27,5 @@ class FilterForm(forms.Form):
 class TickerForm(forms.ModelForm):
 	class Meta:
 		model = Ticker
-		fields = ('notes','tier','tier_status')
+		fields = ('notes','tier','tier_status', 'scorecards_for_ticker')
 	
