@@ -1,3 +1,4 @@
+import csv
 from datetime import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
@@ -5,8 +6,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from forms import FilterForm
 from django.db.models import Q
-from models import ServiceTake, Ticker
-from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType, COVERAGE_CHOICES
+from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, \
+	AnalystForTicker, CoverageType, COVERAGE_CHOICES, DataHarvestEventLog, DATA_HARVEST_TYPE_CHOICES
 
 ###############################################################################
 

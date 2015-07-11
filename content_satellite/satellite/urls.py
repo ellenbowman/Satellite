@@ -4,9 +4,11 @@ from satellite import views, views_2
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^tickers/$', views.ticker_overview, name='ticker_overview'),
+    url(r'^tickers/(?P<ticker_symbol>\S+)/$', views.ticker_detail, name='ticker_detail'),
     url(r'^ticker_world/$', views.ticker_world, name='ticker_world'),
     url(r'^ticker_world/all_tickers/$', views.ticker_world, name='all_tickers'),
-    url(r'^upcoming_earnings/$', views_2.upcoming_earnings, name='upcoming earnings'),
+    url(r'^upcoming_earnings/$', views_2.upcoming_earnings, name='upcoming_earnings'),
     #url(r'^ticker_world/next_week/$', views.next_week, name='next_week'),
     url(r'^tiered_stocks/$', views.tiered_stocks, name='tiered_stocks'),
     url(r'^coverage_overview/$', views.coverage_overview, name='coverage_overview'),

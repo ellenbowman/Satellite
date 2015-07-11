@@ -1,0 +1,85 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block container_contents %}
+
+<h3>All Tickers</h3>
+
+<hr/>
+<div>
+<table id='ticker_table' class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th width='15%'>Company</th>
+			<th width='5%'>Ticker</th>
+			<th width='5%'>% change today</th>
+			<th width='20%'>Scorecards</th>
+			<th width='20%'>Services</th>
+			<th width='5%'>Tier</th>
+			<th width='10%'>Earnings</th>
+			<th width='15%'>Notes</th>
+		</tr>
+	</thead>
+	
+	<tbody class=''>
+		{% for t in tickers %}
+		<tr>
+			<td>
+				<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>
+				{{t.company_name}}
+			</td>
+			<td>
+				<a href="{% url 'ticker_detail' t.ticker_symbol %}">
+					{{t.ticker_symbol}}
+				</a>
+				<br/>
+				<small>{{t.exchange_symbol}}</small>
+			</td>
+			<td>{{t.daily_percent_change}}%</td>
+			<td>
+				<small>
+					{{t.scorecards_for_ticker}}
+				</small>
+			</td>
+			<td>
+				<small>
+					{{t.services_for_ticker}}
+				</small>
+			</td>
+			{% if t.tier %} 
+			<td style='background-color:yellow'>
+				{{t.tier}} ({{t.tier_status}})
+			</td>
+			{% else %}
+			<td/>
+			{% endif %}
+			<td>{{t.earnings_announcement|date:"Y-m-d"|lower }}</td>
+			<td>{{t.notes|default_if_none:''}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+
+</table>
+</div>
+
+{% endblock container_contents %}
+
+
+{% block script_block %}
+{{ block.super }}
+
+<!-- http://www.datatables.net/ -->
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+<script>
+    
+    $(function() {
+		// order by the ticker symbol (column index 1) and default to showing all tickers
+		$('#ticker_table').dataTable( {
+	        "order": [[ 1, "asc" ]],  
+	        "lengthMenu": [[-1,50,100], ["All",50,100]]
+	    } );
+
+    });
+</script>
+{% endblock script_block %}

@@ -1,0 +1,22 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block container_contents %}
+
+<h3>{{title_value}}</h3>
+<a href="{% url 'ticker_overview' %}"><small>back to all tickers</small></a>
+<hr/>
+<div>
+	<form method='POST'>
+		{% csrf_token %}
+		<table>
+			{{form.as_table}}
+		</table>
+
+		<input type="submit" value="Save" />
+	</form>
+</div>
+<hr/>
+<div style='float:right'>
+<small><em>{% now "F d, Y H:i" %}</em></small>
+</div>
+{% endblock container_contents %}
