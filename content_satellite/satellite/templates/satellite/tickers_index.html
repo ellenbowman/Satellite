@@ -14,11 +14,11 @@
 			<th width='15%'>Company</th>
 			<th width='5%'>Ticker</th>
 			<th width='5%'>% change today</th>
-			<th width='20%'>Scorecards</th>
-			<th width='20%'>Services</th>
+			<th width='15%'>Services</th>
 			<th width='5%'>Tier</th>
-			<th width='10%'>Earnings</th>
-			<th width='15%'>Notes</th>
+			<th width='10%'>Next Earnings Date</th>
+			<th width='30%'>Notes</th>
+			<th width='10%'>Coverage</th>
 		</tr>
 	</thead>
 	
@@ -26,22 +26,15 @@
 		{% for t in tickers %}
 		<tr>
 			<td>
-				<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>
-				{{t.company_name}}
+				<strong>{{t.company_name}}</strong><br/>
+					<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>
 			</td>
 			<td>
-				<a href="{% url 'ticker_detail' t.ticker_symbol %}">
-					{{t.ticker_symbol}}
-				</a>
+				<strong>{{t.ticker_symbol}}</strong>
 				<br/>
 				<small>{{t.exchange_symbol}}</small>
 			</td>
 			<td>{{t.daily_percent_change}}%</td>
-			<td>
-				<small>
-					{{t.scorecards_for_ticker}}
-				</small>
-			</td>
 			<td>
 				<small>
 				{% get_number_of_services t as number_of_services %}
@@ -57,7 +50,8 @@
 			<td/>
 			{% endif %}
 			<td>{{t.earnings_announcement|date:"Y-m-d"|lower }}</td>
-			<td>{{t.notes|default_if_none:''}}</td>
+			<td>{{t.notes|default_if_none:''}}<br/><a href="{{t.ticker_symbol}}">Edit</a></td>
+			<td><a href="">View/Edit</a></td>
 		</tr>
 		{% endfor %}
 	</tbody>
