@@ -2,6 +2,8 @@
 
 {% block container_contents %}
 
+{% load number_of_services_tags %}
+
 <h3>All Tickers</h3>
 
 <hr/>
@@ -42,6 +44,8 @@
 			</td>
 			<td>
 				<small>
+				{% get_number_of_services t as number_of_services %}
+				<strong>{{number_of_services}}</strong>:
 					{{t.services_for_ticker}}
 				</small>
 			</td>
@@ -68,6 +72,7 @@
 {{ block.super }}
 
 <!-- http://www.datatables.net/ -->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 

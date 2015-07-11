@@ -591,7 +591,7 @@ def ticker_overview(request):
 	dictionary_of_values = {
 		'title_value': 'Tickers',
 		'services': Service.objects.all(),
-		'tickers': Ticker.objects.all()
+		'tickers': Ticker.objects.all(),
 	}
 	return render(request, 'satellite/tickers_index.html', dictionary_of_values)
 
