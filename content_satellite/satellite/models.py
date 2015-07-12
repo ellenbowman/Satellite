@@ -11,7 +11,7 @@ class Ticker(models.Model):
 	daily_percent_change = models.DecimalField(max_digits=11, default=0, decimal_places=2, verbose_name='Daily % change')
 	percent_change_historical = models.DecimalField(max_digits=11, decimal_places=3, verbose_name='50D%Change')
 	company_name = models.CharField(max_length=120, null=True, blank=True, verbose_name='name')
-	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Upcoming coverage')
+	notes = models.TextField(max_length=5000, null=True, blank=True, verbose_name='Notes')
 	scorecards_for_ticker = models.CharField(max_length=200, null=True, blank=True, verbose_name='scorecards for ticker')
 	services_for_ticker = models.CharField(max_length=200, null=True, blank=True, verbose_name='services for ticker')	
 	tier = models.IntegerField(default=0)
