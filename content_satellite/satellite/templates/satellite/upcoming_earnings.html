@@ -23,6 +23,7 @@ Upcoming Earnings
 	<tr>
 		<td>
 			<strong>{{t.ticker_symbol}}</strong> ({{t.company_name}})<br/>
+				<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>
 		</td>
 		<td>
 			{% get_number_of_services t as number_of_services %}
@@ -46,6 +47,7 @@ Upcoming Earnings
 <!-- http://www.datatables.net/ -->
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 
 <script>
     
