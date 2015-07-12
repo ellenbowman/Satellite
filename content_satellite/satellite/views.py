@@ -421,13 +421,13 @@ def _get_ticker_objects_for_tier_status(tier_status_csv=['core','first']):
 	print csv_elements
 
 	return Ticker.objects.filter(tier_status__in=csv_elements)
-	
+
 ######################################################################################
 
 def ticker_overview(request):
 
 	dictionary_of_values = {
-		'title_value': 'Tickers',
+		'title_value': 'All Tickers',
 		'services': Service.objects.all(),
 		'tickers': Ticker.objects.all(),
 	}
