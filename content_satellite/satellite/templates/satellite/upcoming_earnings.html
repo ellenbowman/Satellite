@@ -11,12 +11,16 @@ Upcoming Earnings
 <p><strong>Filter by ticker(s):</strong> ___Coming soon____</p>
 
 <h3>Upcoming Earnings Dates</h3>
-<table>
-	<tr>
-		<td><strong>Ticker</strong></td>
-		<td><strong>Services</strong></td>
-		<td><strong>Earnings Date</strong></td>
-	</tr>
+<div>
+<table id="earnings_dates_table" class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th width='25%'>Company</th>
+			<th width='50%'>Services</th>
+			<th width='25%'>Earnings Date</th>
+		</tr>
+	</thead>
+		<tbody class=''>
 {% for t in tickers_sorted_by_earnings_date %}
 	<tr>
 		<td>
@@ -32,6 +36,27 @@ Upcoming Earnings
 		</td>
 	</tr>
 {% endfor %}
+</tbody>
 </table>
+</div>
 
 {% endblock container_contents %}
+
+{% block script_block %}
+{{ block.super }}
+
+<!-- http://www.datatables.net/ -->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+<script>
+    
+    $(function() {
+		$('#earnings_dates_table').dataTable( {
+	        "order": [[ 3, "asc" ]],  
+	    } );
+
+    });
+</script>
+{% endblock script_block %}
