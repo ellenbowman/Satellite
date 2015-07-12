@@ -8,11 +8,9 @@ Upcoming Earnings
 
 {% block container_contents %}
 
-<p><strong>Filter by ticker(s):</strong> ___Coming soon____</p>
-
 <h3>Upcoming Earnings Dates</h3>
 <div>
-<table id="earnings_dates_table" class="table table-striped table-bordered">
+<table id='earnings_date_table' class="table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th width='25%'>Company</th>
@@ -48,13 +46,13 @@ Upcoming Earnings
 <!-- http://www.datatables.net/ -->
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 
 <script>
     
     $(function() {
-		$('#earnings_dates_table').dataTable( {
-	        "order": [[ 3, "asc" ]],  
+		$('#earnings_date_table').dataTable( {
+	        "order": [[ 1, "asc" ]],
+	        "lengthMenu": [[-1,50,100], ["All",50,100]]
 	    } );
 
     });
