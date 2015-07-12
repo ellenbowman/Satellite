@@ -1,5 +1,9 @@
 {% extends 'satellite/_base_layout.html' %}
 
+{% block title_value %}
+All Tickers
+{% endblock %}
+
 {% block container_contents %}
 
 {% load number_of_services_tags %}
@@ -55,7 +59,6 @@
 		</tr>
 		{% endfor %}
 	</tbody>
-
 </table>
 </div>
 
