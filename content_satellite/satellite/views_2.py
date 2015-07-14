@@ -25,10 +25,9 @@ def upcoming_earnings(request):
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:100]
 
 	for t in tickers_sorted_by_earnings_date:
-			list_of_services = t.services_for_ticker.split(",")
-			print list_of_services
-			number_of_services = len(list_of_services)
-
+		list_of_services = t.services_for_ticker.split(",")
+		number_of_services = len(list_of_services)
+		print number_of_services
 
 	dictionary_of_values = {
 	'tickers': tickers,

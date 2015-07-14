@@ -461,6 +461,32 @@ def ticker_detail(request, ticker_symbol):
 
 ###############################################################################
 
+def coverage_single_ticker(request, ticker_symbol):
+
+	try:
+		ticker = Ticker.objects.get(ticker_symbol=ticker_symbol)
+	except:
+		# if the ticker isn't found, redirect to the listing of all tickers
+		return redirect('ticker_overview')
+
+	if request.POST:
+		form = TickerForm(request.POST, instance=ticker)
+		
+		if form.is_valid():
+			model_instance = form.save(commit=True)
+	
+	form = TickerForm(instance=ticker)
+
+	context = {
+		'title_value': '%s (%s)' % (ticker.company_name, ticker.ticker_symbol),
+		'form': form,
+		'ticker':ticker
+	}
+
+	return render(request, 'satellite/coverage_single_ticker.html', context)
+
+###############################################################################
+
 def get_authors_from_article_set():
 	all_authors_ever = [a.byline for a in BylineMetaData.objects.all()]
 	sep = ' and'
@@ -481,6 +507,7 @@ def coverage_overview(request):
 	tickers_to_filter_by = None
 	single_authors = get_authors_from_article_set()
 	audit_filter_form = None
+	ticker_form = TickerForm()
 	
 	if request.POST:
 		
@@ -581,10 +608,13 @@ def coverage_overview(request):
 
 	services = Service.objects.all()
 
+
+
 	print request.POST
 
 	dictionary_of_values = {
 		'tickers': tickers,
+		'ticker_form': ticker_form,
 		'form': audit_filter_form,
 		'service_filter_description': service_filter_description,
 		'coverage_type_choices': COVERAGE_CHOICES,

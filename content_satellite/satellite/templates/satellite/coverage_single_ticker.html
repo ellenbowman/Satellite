@@ -1,0 +1,69 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block container_contents %}
+
+<h3>{{title_value}}</h3>
+<a href="{% url 'coverage_overview' %}"><small>back to coverage overview</small></a>
+<hr/>
+<div>
+<p>
+	   {% for t in tickers %}
+	   <br/>
+	   <h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;{{t.company_name}}&nbsp;({{t.ticker_symbol}})</h4>
+    </p>
+    <p>
+        Held in: <em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}|&nbsp;<span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}
+    </p>	
+
+        <form method="post" action="/sol/coverage_overview/">
+		{% csrf_token %}
+
+        <table class="contentTypeTable">
+
+        <thead>
+            <tr>
+                <td width="150px"><b>Type</b></td>
+                {% for s in services %}
+                    <!-- display a cell only if the ticker is rec'd by this service -->
+                    {% if s.pretty_name in t.services_for_ticker %}
+                    <td width="100px"><b><em>{{ s.pretty_name }}</em></b></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+		{% for c in coverage_type_choices %}
+        {% get_services_ids c.0 t as service_ids_with_coverage_pledge %}
+
+         <tr>
+            <td>{{ c.1 }}</td>
+            {% for s in services %}
+                <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
+                {% if s.pretty_name in t.services_for_ticker %}
+                <td>
+
+                    {% get_author_name c.0 t s as preselected_author %}
+                    <select name="author_cid_{{ c.0 }}__sid_{{ s.id }}">
+                    <option>-------------------</option>
+                    {% for a in single_authors %}
+                    <option value="{{a}}" {% ifequal a preselected_author %} selected {% endifequal %} >{{a}}</option>
+                    {% endfor %}
+                </select>
+                </td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+            {% endfor %}
+        </tbody>
+
+        </table>
+		<input type="submit" name="coverage" value="Save {{t.ticker_symbol}}">
+		</form>
+		{% endfor %}
+</div>
+<hr/>
+<div style='float:right'>
+<small>Thank you for calling the Pants Academy</small>
+</div>
+{% endblock container_contents %}
