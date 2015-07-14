@@ -21,13 +21,14 @@ def upcoming_earnings(request):
 	
 	yesterday = (datetime.now() - timedelta(days=1)).date()
 
-	tickers_sorted_by_earnings_date = [t for t in tickers if t.earnings_announcement != None and t.earnings_announcement>yesterday]
+	tickers_sorted_by_earnings_date = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:100]
 
 	for t in tickers_sorted_by_earnings_date:
-		if t.services_for_ticker is not None:
 			list_of_services = t.services_for_ticker.split(",")
+			print list_of_services
 			number_of_services = len(list_of_services)
+
 
 	dictionary_of_values = {
 	'tickers': tickers,
