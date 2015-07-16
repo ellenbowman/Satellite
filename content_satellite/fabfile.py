@@ -100,11 +100,11 @@ def notify_slack():
     import urllib2
     import json
 
-    url = 'https://fool.slack.com/services/hooks/incoming-webhook?token=Eiy0PpKQacTBVfOVWQhaFJIz'
+    url = 'https://hooks.slack.com/services/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'
 
     payload = {
         'text': "%s deployed %s!" % (getpass.getuser(), env.project_name),
-        'channel': '#satellite-of-love',
+        'channel': '#content_satellite',
         'username': 'derploybot',
         'icon_emoji':':sol_2:',
     }
