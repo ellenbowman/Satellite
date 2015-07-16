@@ -30,8 +30,12 @@ Upcoming Earnings
 		</td>
 		<td>
 			{% get_number_of_services t as number_of_services %}
+			{% ifnotequal number_of_services 0 %}
 			<strong>{{number_of_services}}</strong>:
 			<em>{{t.services_for_ticker}}</em>
+			{% else %}
+			<strong>0</strong>
+			{% endifnotequal %}
 		</td>
 		<td>
 			{{t.earnings_announcement}}<br/>
@@ -53,7 +57,7 @@ Upcoming Earnings
 <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 
 <script>
-    
+
     $(function() {
 		$('#earnings_date_table').dataTable( {
 	        "order": [[ 2, "asc" ]],

@@ -25,7 +25,7 @@ All Tickers
 			<th width='10%'>Coverage</th>
 		</tr>
 	</thead>
-	
+
 	<tbody class=''>
 		{% for t in tickers %}
 		<tr>
@@ -42,11 +42,15 @@ All Tickers
 			<td>
 				<small>
 				{% get_number_of_services t as number_of_services %}
+				{% ifnotequal number_of_services 0 %}
 				<strong>{{number_of_services}}</strong>:
 					{{t.services_for_ticker}}
 				</small>
+				{% else %}
+				<strong>0</strong>
+				{% endifnotequal %}
 			</td>
-			{% if t.tier %} 
+			{% if t.tier %}
 			<td style='background-color:yellow'>
 				{{t.tier}} ({{t.tier_status}})
 			</td>
@@ -74,11 +78,11 @@ All Tickers
 <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 
 <script>
-    
+
     $(function() {
 		// order by the ticker symbol (column index 1) and default to showing all tickers
 		$('#ticker_table').dataTable( {
-	        "order": [[ 1, "asc" ]],  
+	        "order": [[ 1, "asc" ]],
 	        "lengthMenu": [[-1,50,100], ["All",50,100]]
 	    } );
 
