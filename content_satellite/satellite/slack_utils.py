@@ -2,7 +2,7 @@ import urllib
 import urllib2
 import json
 
-def post_message_to_slack(message_text='a message from Satellite', channel='#satellite-of-love', username='Dr. Satellite', icon_emoji=':sol_2:'):
+def post_message_to_slack(message_text='a message from Satellite', channel='#content_satellite', username='Dr. Satellite', icon_emoji=':sol_2:'):
 	"""
 	message_text: the markup for the message body
 	channel: which channel should receive the message
@@ -13,10 +13,10 @@ def post_message_to_slack(message_text='a message from Satellite', channel='#sat
 	https://api.slack.com/docs/formatting
 	"""
 
-	url = 'https://fool.slack.com/services/hooks/incoming-webhook?token=Eiy0PpKQacTBVfOVWQhaFJIz'
+	url = 'https://hooks.slack.com/services/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'
 
 	payload = {
-		'text': message_text,
+		'text': 'hi',
 		'channel': channel,
 		'username': username,
 		'icon_emoji': icon_emoji,
