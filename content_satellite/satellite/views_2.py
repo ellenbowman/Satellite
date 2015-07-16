@@ -18,25 +18,15 @@ def upcoming_earnings(request):
 
 	tickers = Ticker.objects.all()
 	tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
-	
+
 	yesterday = (datetime.now() - timedelta(days=1)).date()
 
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)[:100]
 
-	for t in tickers_sorted_by_earnings_date:
-		if t.earnings_announcement == None:
-			pass
-		else:
-			list_of_services = t.services_for_ticker.split(",")
-			number_of_services = len(list_of_services)
-
-
 	dictionary_of_values = {
 	'tickers': tickers,
 	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
-	'list_of_services': list_of_services,
-	'number_of_services': number_of_services,
 	'form': FilterForm,
 	}
 
@@ -61,7 +51,7 @@ def _get_service_objects_for_service_ids(service_ids_csv='1,4,7'):
 	given a set of db ids of services, find corresponding Service objects
 	# note: these ids were assigned by our db. they are *not* the service's product ids (eg Rule Breakers might have
 		a product id of 1069, but in our db, its db id might be 3)
-	"""	
+	"""
 	csv_elements = service_ids_csv.split(',')
 
 	csv_elements = [int(el.strip()) for el in csv_elements]
@@ -93,7 +83,7 @@ def articles_index(request):
 			page_num = int(request.POST['page_number'])
 
 		article_filter_form = FilterForm(request.POST)
-		
+
 		if article_filter_form.is_valid():
 			if 'tickers' in article_filter_form.cleaned_data:
 				tickers_user_input = article_filter_form.cleaned_data['tickers'].strip()
@@ -135,12 +125,12 @@ def articles_index(request):
 	elif tickers_to_filter_by is not None:
 		articles = Article.objects.filter(ticker__in=tickers_to_filter_by).order_by('-date_pub')
 	elif services_to_filter_by is not None:
-		articles = Article.objects.filter(service__in=services_to_filter_by).order_by('-date_pub')		
+		articles = Article.objects.filter(service__in=services_to_filter_by).order_by('-date_pub')
 	else:
 		articles = Article.objects.all().order_by('-date_pub')
 
 
-	paginator = Paginator(articles, 100) 
+	paginator = Paginator(articles, 100)
 
 	try:
 		articles_subset = paginator.page(page_num)
@@ -155,7 +145,7 @@ def articles_index(request):
 
 
 	if len(articles):
-		article_most_recent_date = articles[0].date_pub  
+		article_most_recent_date = articles[0].date_pub
 		article_oldest_date = articles[len(articles)-1].date_pub
 	else:
 		article_most_recent_date = "n/a"
@@ -206,7 +196,7 @@ def ticker_lookup(request):
 	if request.GET and 'tickers' in request.GET:
 
 		ticker_symbols = request.GET['tickers']
-		
+
 		# proces the tickers; split into individual symbols, remove whitespace, and convert to uppercase
 		ticker_symbols = ticker_symbols.split(',')
 		ticker_symbols = [ts.strip().upper() for ts in ticker_symbols]
@@ -230,11 +220,11 @@ def ticker_lookup(request):
 ######################################################################################################
 
 def data_freshness_index(request):
-	
+
 	recent_events_overall = DataHarvestEventLog.objects.all().order_by('-date_started')[:100]
 
 	most_recent_event_per_type = []
-	
+
 	for ht in DATA_HARVEST_TYPE_CHOICES:
 		ht_id = ht[0]
 		ht_pretty_name = ht[1]
@@ -245,8 +235,8 @@ def data_freshness_index(request):
 			date_of_most_recent_event_of_this_type = events_for_this_type[0].date_started
 
 		most_recent_event_per_type.append({
-			'pretty_name':ht_pretty_name, 
-			'type':ht_id, 
+			'pretty_name':ht_pretty_name,
+			'type':ht_id,
 			'date':date_of_most_recent_event_of_this_type
 			})
 
@@ -260,7 +250,7 @@ def data_freshness_index(request):
 ################################################################################################
 
 def _get_profiles_of_flagged_recs():
-	
+
 	"""
 	returns a list of dictionary elements, one element per ticker/scorecard combo, where the
 	tickers are limited to the set flagged as at least one of these: a core buy, a buy first, or a new rec
@@ -268,11 +258,11 @@ def _get_profiles_of_flagged_recs():
 	"""
 	flagged_rec_defns = []
 
-	# let's find all the ServiceTake objects that satisfies at least one of these: is a "core buy", "buy first", or new rec. 
+	# let's find all the ServiceTake objects that satisfies at least one of these: is a "core buy", "buy first", or new rec.
 	flagged_service_takes = ServiceTake.objects.filter(Q(is_core=True) | Q(is_first=True) | Q(is_newest=True))
 
 
-	# we want one profile per ticker/scorecard combo. we'll organize our results by ticker, and from there (per ticker) inspect 
+	# we want one profile per ticker/scorecard combo. we'll organize our results by ticker, and from there (per ticker) inspect
 	# the cases where a scorecard appears multiple times. along the way, we compile flagged_rec_defns
 
 	# compile a set of the ticker symbols that are flagged
@@ -281,8 +271,8 @@ def _get_profiles_of_flagged_recs():
 	ticker_symbols_in_flagged_service_takes = list(ticker_symbols_in_flagged_service_takes)
 	ticker_symbols_in_flagged_service_takes.sort()
 
-	# now let's go through the flagged service takes, inspecting cases per ticker. 
-	
+	# now let's go through the flagged service takes, inspecting cases per ticker.
+
 	for ticker_symbol in ticker_symbols_in_flagged_service_takes:
 		flagged_service_takes_on_this_ticker_symbol = [st for st in flagged_service_takes if st.ticker.ticker_symbol==ticker_symbol]
 
@@ -352,4 +342,3 @@ def get_flagged_recs_as_csv(request):
 		writer.writerow(row_to_write)
 
 	return response
-
