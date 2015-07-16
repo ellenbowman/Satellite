@@ -3,24 +3,16 @@ from satellite.models import Ticker
 
 register = template.Library()
 
-@register.simple_tag
-def get_number_of_services(ticker_symbol):
-    """
-    Given a ticker, find the number of services that cover it. 
-    """
-    try:
-        number_of_services = Ticker.services(ticker_symbol)
-        return number_of_services
-    except:
-        return None
-
 @register.assignment_tag
 def get_number_of_services(ticker_symbol):
     """
-    Given a ticker, find the number of services that cover it. 
+    Given a ticker, find the number of services that cover it.
     """
     try:
-        number_of_services = Ticker.services(ticker_symbol)
-        return number_of_services
+        ticker = Ticker.objects.get(ticker_symbol = ticker_symbol)
+        if ticker.services_for_ticker:
+            return len(ticker.services_for_ticker.split(','))
+        else:
+            return 0
     except:
         return None
