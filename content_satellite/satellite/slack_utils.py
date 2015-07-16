@@ -16,7 +16,7 @@ def post_message_to_slack(message_text='a message from Satellite', channel='#con
 	url = 'https://hooks.slack.com/services/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'
 
 	payload = {
-		'text': 'hi',
+		'text': message_text,
 		'channel': channel,
 		'username': username,
 		'icon_emoji': icon_emoji,
