@@ -40,12 +40,10 @@ All Tickers
 			</td>
 			<td>{{t.daily_percent_change}}%</td>
 			<td>
-				<small>
 				{% get_number_of_services t as number_of_services %}
 				{% ifnotequal number_of_services 0 %}
 				<strong>{{number_of_services}}</strong>:
-					{{t.services_for_ticker}}
-				</small>
+					<em>{{t.services_for_ticker}}</em>
 				{% else %}
 				<strong>0</strong>
 				{% endifnotequal %}
