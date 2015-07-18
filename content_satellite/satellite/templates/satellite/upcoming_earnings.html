@@ -17,15 +17,17 @@ Upcoming Earnings
 	<thead>
 		<tr>
 			<th width='25%'>Company</th>
-			<th width='50%'>Services</th>
-			<th width='25%'>Earnings Date</th>
+			<th width='25%'>Services</th>
+			<th width='10%'>Earnings Date</th>
+			<th width='40%'>Notes</th>
 		</tr>
 	</thead>
 		<tbody class=''>
 {% for t in tickers_sorted_by_earnings_date %}
 	<tr>
 		<td>
-			<strong>{{t.ticker_symbol}}</strong> ({{t.company_name}})<br/>
+			<strong>{{t.ticker_symbol}}</strong><br/>
+			{{t.company_name}}<br/>
 				<img width='40px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>
 		</td>
 		<td>
@@ -40,6 +42,13 @@ Upcoming Earnings
 		<td>
 			{{t.earnings_announcement}}<br/>
 		</td>
+		<td>
+			{% if t.tier %}
+			<span style='background-color:yellow'>
+				Tier {{t.tier}} ({{t.tier_status}})</span>
+			{% else %}
+			</span>
+			{% endif %}{{t.notes}}
 	</tr>
 {% endfor %}
 </tbody>
