@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from forms import FilterForm
+from forms import FilterForm, TickerForm
 from django.db.models import Q
 from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, \
 	AnalystForTicker, CoverageType, COVERAGE_CHOICES, DataHarvestEventLog, DATA_HARVEST_TYPE_CHOICES
@@ -27,7 +27,7 @@ def upcoming_earnings(request):
 	dictionary_of_values = {
 	'tickers': tickers,
 	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
-	'form': FilterForm,
+	'form': TickerForm,
 	}
 
 	return render(request, 'satellite/upcoming_earnings.html', dictionary_of_values)
