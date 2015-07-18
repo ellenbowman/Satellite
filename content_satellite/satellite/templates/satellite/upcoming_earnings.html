@@ -48,7 +48,8 @@ Upcoming Earnings
 				Tier {{t.tier}} ({{t.tier_status}})</span>
 			{% else %}
 			</span>
-			{% endif %}{{t.notes}}
+			{% endif %}
+			{{t.notes|default_if_none:''}}<br/><a href="/sol/tickers/{{t.ticker_symbol}}">Edit</a>
 	</tr>
 {% endfor %}
 </tbody>
