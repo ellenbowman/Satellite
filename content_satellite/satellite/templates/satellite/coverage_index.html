@@ -32,10 +32,11 @@ SOL: Coverage Overview
     <p>
         Held in: <em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}|&nbsp;<span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}
     </p>
-    <p>{{t.notes|default_if_none:''}}<br/><a href="{{t.ticker_symbol}}">Edit</a>
+    <p>{{t.notes|default_if_none:'[No notes]'}}<br/><a href="{{t.ticker_symbol}}">Edit</a>
                 </p>
+                <hr/>
 		{% endfor %}
 
-		<br/>
+<hr/>
 
 {% endblock %}

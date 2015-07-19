@@ -461,7 +461,7 @@ def ticker_detail(request, ticker_symbol):
 
 ###############################################################################
 
-def coverage_single_ticker(request, ticker_symbol):
+def coverage_detail(request, ticker_symbol):
 
 	try:
 		ticker = Ticker.objects.get(ticker_symbol=ticker_symbol)
@@ -483,7 +483,7 @@ def coverage_single_ticker(request, ticker_symbol):
 		'ticker':ticker
 	}
 
-	return render(request, 'satellite/coverage_single_ticker.html', context)
+	return render(request, 'satellite/coverage_detail.html', context)
 
 ###############################################################################
 
@@ -500,7 +500,7 @@ def get_authors_from_article_set():
 
 ###############################################################################
 
-def coverage_overview(request):
+def coverage_index(request):
 
 	services_to_filter_by = None
 	service_filter_description = None
@@ -622,7 +622,7 @@ def coverage_overview(request):
 		'single_authors': single_authors,
 	}
 
-	return render(request, 'satellite/coverage_overview.html', dictionary_of_values)
+	return render(request, 'satellite/coverage_index.html', dictionary_of_values)
 
 
 ###############################################################################
