@@ -2,7 +2,7 @@
 
 {% block container_contents %}
 
-<h3>{{title_value}}</h3>
+<h3><img width='80px' src='http://g.foolcdn.com/art/companylogos/mark/{{t}}.png' alt='{{t.ticker_symbol}}'/>{{title_value}}</h3>
 <a href="{% url 'ticker_overview' %}"><small>back to all tickers</a> | <a href="{% url 'upcoming_earnings' %}">back to upcoming earnings</a>
 <hr/>
 <div>
