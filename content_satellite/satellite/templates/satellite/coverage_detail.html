@@ -1,0 +1,11 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block container_contents %}
+
+<h3>{{title_value}}</h3>
+<p><a href="{% url 'coverage_index' %}"><small>back to coverage index</a></p>
+<p>Details here</p>
+<div style='float:right'>
+<small>Thank you for calling the Pants Academy</small>
+</div>
+{% endblock container_contents %}

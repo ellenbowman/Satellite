@@ -1,0 +1,41 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% load coverage_pledge_tags %}
+{% load preselected_author_tags %}
+
+{% block title_value %}
+SOL: Coverage Overview
+{% endblock %}
+
+{% block container_contents %}
+
+<h3>Coverage Overview [Loading: ------|--- ~66%]</h3>
+
+	<p>
+        <form action="" method="post">
+                {% csrf_token %}
+                <strong>Filter by ticker(s):</strong><br/>
+                {{form.tickers}}<br/>
+                <strong>Filter by service(s):</strong><br/>
+                {{form.services}}<br/>
+                <em>Ctrl/Cmd+click to select more than one</em>.<br/>
+                <input type="submit" value="Apply filter"><br/>
+                <a href="">Remove filter</a><br/>
+            </form>
+	</p>
+<hr/>
+    <p>
+	   {% for t in tickers %}
+	   <br/>
+	   <h4><img src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;{{t.company_name}}&nbsp;({{t.ticker_symbol}})</h4>
+    </p>
+    <p>
+        Held in: <em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}|&nbsp;<span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}
+    </p>
+    <p>{{t.notes|default_if_none:''}}<br/><a href="{{t.ticker_symbol}}">Edit</a>
+                </p>
+		{% endfor %}
+
+		<br/>
+
+{% endblock %}
