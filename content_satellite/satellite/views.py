@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from forms import FilterForm, TickerForm
+from forms import FilterForm, TickerForm, CoverageTypeForm
 from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, AnalystForTicker, CoverageType, COVERAGE_CHOICES
 
 ###############################################################################
@@ -467,41 +467,7 @@ def coverage_detail(request, ticker_symbol):
 		ticker = Ticker.objects.get(ticker_symbol=ticker_symbol)
 	except:
 		# if the ticker isn't found, redirect to the listing of all tickers
-		return redirect('ticker_overview')
-
-	if request.POST:
-		form = TickerForm(request.POST, instance=ticker)
-		
-		if form.is_valid():
-			model_instance = form.save(commit=True)
-	
-	form = TickerForm(instance=ticker)
-
-	context = {
-		'title_value': '%s (%s)' % (ticker.company_name, ticker.ticker_symbol),
-		'form': form,
-		'ticker':ticker
-	}
-
-	return render(request, 'satellite/coverage_detail.html', context)
-
-###############################################################################
-
-def get_authors_from_article_set():
-	all_authors_ever = [a.byline for a in BylineMetaData.objects.all()]
-	sep = ' and'
-	authors_no_and = [a.split(sep, 1)[0] for a in all_authors_ever]
-	sep = ','
-	single_authors = [a.split(sep, 1)[0] for a in authors_no_and]
-	single_authors = set(single_authors)
-	single_authors = list(single_authors)
-	single_authors.sort()
-	return single_authors
-
-###############################################################################
-
-def coverage_index(request):
-
+		return redirect('coverage_overview')
 	services_to_filter_by = None
 	service_filter_description = None
 	tickers_to_filter_by = None
@@ -608,8 +574,6 @@ def coverage_index(request):
 
 	services = Service.objects.all()
 
-
-
 	print request.POST
 
 	dictionary_of_values = {
@@ -620,7 +584,34 @@ def coverage_index(request):
 		'coverage_type_choices': COVERAGE_CHOICES,
 		'services': services,
 		'single_authors': single_authors,
+		'title_value': 'Coverage: %s (%s)' % (ticker.company_name, ticker.ticker_symbol),
+		'ticker': ticker,
 	}
+
+	return render(request, 'satellite/coverage_detail.html', dictionary_of_values)
+
+###############################################################################
+
+def get_authors_from_article_set():
+	all_authors_ever = [a.byline for a in BylineMetaData.objects.all()]
+	sep = ' and'
+	authors_no_and = [a.split(sep, 1)[0] for a in all_authors_ever]
+	sep = ','
+	single_authors = [a.split(sep, 1)[0] for a in authors_no_and]
+	single_authors = set(single_authors)
+	single_authors = list(single_authors)
+	single_authors.sort()
+	return single_authors
+
+###############################################################################
+
+def coverage_index(request):
+
+	dictionary_of_values = {
+	'title_value': 'All Tickers',
+	'services': Service.objects.all(),
+	'tickers': Ticker.objects.all(),
+		}
 
 	return render(request, 'satellite/coverage_index.html', dictionary_of_values)
 
