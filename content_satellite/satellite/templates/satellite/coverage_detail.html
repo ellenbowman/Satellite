@@ -1,5 +1,8 @@
 {% extends 'satellite/_base_layout.html' %}
 
+{% load coverage_pledge_tags %}
+{% load preselected_author_tags %}
+
 {% block container_contents %}
 
 <h3>{{title_value}}</h3>
@@ -8,9 +11,11 @@
 
 <hr/>
 
-<form method="post">
-	{% csrf_token %}
-	<table class="contentTypeTable">
+        <form method="post">
+		{% csrf_token %}
+
+        <table class="contentTypeTable">
+
         <thead>
             <tr>
                 <td width="150px"><b>Type</b></td>
@@ -22,12 +27,35 @@
                 {% endfor %}
             </tr>
         </thead>
-       </table>
 
+        <tbody>
+		{% for c in coverage_type_choices %}
+        {% get_services_ids c.0 ticker as service_ids_with_coverage_pledge %}
 
+         <tr>
+            <td>{{ c.1 }}</td>
+            {% for s in services %}
+                <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
+                {% if s.pretty_name in t.services_for_ticker %}
+                <td>
 
+                    {% get_author_name c.0 ticker s as preselected_author %}
+                    <select name="author_cid_{{ c.0 }}__sid_{{ s.id }}">
+                    <option>-------------------</option>
+                    {% for a in single_authors %}
+                    <option value="{{a}}" {% ifequal a preselected_author %} selected {% endifequal %} >{{a}}</option>
+                    {% endfor %}
+                </select>
+                </td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+            {% endfor %}
+        </tbody>
 
-</p>
+        </table>
+		<input type="submit" name="coverage" value="Save {{t.ticker_symbol}}">
+		</form>
 <hr/>
 </div>
 {% endblock container_contents %}

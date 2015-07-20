@@ -32,5 +32,5 @@ class TickerForm(forms.ModelForm):
 class CoverageTypeForm(forms.ModelForm):
 	class Meta:
 		model = CoverageType
-		fields = ('service', 'author', 'coverage_type')
+		fields = ('author', 'coverage_type')
 	
