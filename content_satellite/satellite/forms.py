@@ -1,5 +1,5 @@
 from django import forms
-from models import Service, Ticker, Article
+from models import Service, Ticker, Article, CoverageType
 from django.forms.models import modelformset_factory
 from django.db.models.fields import BLANK_CHOICE_DASH
 
@@ -28,4 +28,9 @@ class TickerForm(forms.ModelForm):
 	class Meta:
 		model = Ticker
 		fields = ('notes','tier','tier_status')
+
+class CoverageTypeForm(forms.ModelForm):
+	class Meta:
+		model = CoverageType
+		fields = ('service', 'author', 'coverage_type')
 	
