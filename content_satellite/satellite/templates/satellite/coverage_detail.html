@@ -3,9 +3,31 @@
 {% block container_contents %}
 
 <h3>{{title_value}}</h3>
-<p><a href="{% url 'coverage_index' %}"><small>back to coverage index</a></p>
-<p>Details here</p>
-<div style='float:right'>
-<small>Thank you for calling the Pants Academy</small>
+
+<a href="{% url 'coverage_index' %}"><small>back to coverage overview</a>
+
+<hr/>
+
+<form method="post">
+	{% csrf_token %}
+	<table class="contentTypeTable">
+        <thead>
+            <tr>
+                <td width="150px"><b>Type</b></td>
+                {% for s in services %}
+                    <!-- display a cell only if the ticker is rec'd by this service -->
+                    {% if s.pretty_name in ticker.services_for_ticker %}
+                    <td width="100px"><b><em>{{ s.pretty_name }}</em></b></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+       </table>
+
+
+
+
+</p>
+<hr/>
 </div>
 {% endblock container_contents %}
