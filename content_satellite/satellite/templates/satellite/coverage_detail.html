@@ -36,7 +36,7 @@
             <td>{{ c.1 }}</td>
             {% for s in services %}
                 <!-- like in the thead, display a cell only if the ticker is rec'd by this service -->
-                {% if s.pretty_name in t.services_for_ticker %}
+                {% if s.pretty_name in ticker.services_for_ticker %}
                 <td>
 
                     {% get_author_name c.0 ticker s as preselected_author %}
@@ -47,10 +47,10 @@
                     {% endfor %}
                 </select>
                 </td>
-            {% endif %}
+            	{% endif %}
             {% endfor %}
         </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
 
         </table>

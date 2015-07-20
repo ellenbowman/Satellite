@@ -469,6 +469,8 @@ def coverage_detail(request, ticker_symbol):
 		# if the ticker isn't found, redirect to the listing of all tickers
 		return redirect('coverage_index')
 
+	print ticker
+
 	services_to_filter_by = None
 	service_filter_description = None
 	tickers_to_filter_by = None
@@ -479,9 +481,14 @@ def coverage_detail(request, ticker_symbol):
 		
 		if 'coverage' in request.POST:
 			audit_filter_form = FilterForm(request.POST)
+		
+			"""
+			no need to find a ticker, as the detail view does that on its own, no?
+
 			ticker = request.POST['coverage'].split()[-1]
 			ticker = Ticker.objects.get(ticker_symbol = ticker)
-			
+			"""
+
 			# delete records that are already there
 			coverage_type_objects = CoverageType.objects.filter(ticker=ticker)
 			print 'deleting existing CoverageType records for %s (%d)' % (ticker.ticker_symbol, len(coverage_type_objects))
@@ -515,11 +522,6 @@ def coverage_detail(request, ticker_symbol):
 			
 		
 		if audit_filter_form.is_valid():
-			if 'tickers' in audit_filter_form.cleaned_data:
-				tickers_user_input = audit_filter_form.cleaned_data['tickers'].strip()
-				if tickers_user_input != '':
-					tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
-
 			if 'services' in audit_filter_form.cleaned_data:
 				if len(audit_filter_form.cleaned_data['services']) > 0:
 					services_to_filter_by = audit_filter_form.cleaned_data['services']
@@ -527,9 +529,7 @@ def coverage_detail(request, ticker_symbol):
 	elif request.GET:
 		initial_form_values = {}
 		if 'tickers' in request.GET:
-			tickers_user_input = request.GET.get('tickers')
-			tickers_to_filter_by = _get_ticker_objects_for_ticker_symbols(tickers_user_input)
-			initial_form_values['tickers'] = tickers_user_input
+			initial_form_values['tickers'] = ticker
 		if 'service_ids' in request.GET:
 			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
 			initial_form_values['services'] = services_to_filter_by
@@ -539,9 +539,6 @@ def coverage_detail(request, ticker_symbol):
 	else:
 		audit_filter_form = FilterForm()
 
-	if tickers_to_filter_by:
-		ticker_filter_description = tickers_user_input.upper()
-
 	if services_to_filter_by:
 			pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
 			pretty_names_of_services_we_matched.sort()
@@ -549,28 +546,6 @@ def coverage_detail(request, ticker_symbol):
 	else:
 		pass
 
-	if tickers_to_filter_by is not None and services_to_filter_by is not None:
-		tickers = [] 
-		for t in tickers_to_filter_by:
-			for service in services_to_filter_by:
-				if service.pretty_name in t.services_for_ticker:
-					tickers.append(t)
-					break
-		
-	elif tickers_to_filter_by is not None:
-		tickers = tickers_to_filter_by
-	elif services_to_filter_by is not None:
-		tickers = [] 
-		for t in Ticker.objects.all():
-			if not t.services_for_ticker:
-				continue
-			for service in services_to_filter_by:
-				if service.pretty_name in t.services_for_ticker:
-					tickers.append(t)
-					break
-		
-	else:
-		tickers = Ticker.objects.all()
 
 	services = Service.objects.all()
 
