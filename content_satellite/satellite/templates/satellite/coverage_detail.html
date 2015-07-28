@@ -7,7 +7,7 @@
 
 <h3>{{title_value}}</h3>
 
-<a href="{% url 'coverage_index' %}"><small>back to coverage overview</a>
+<a href="{% url 'coverage_index' %}"><small>back to coverage index</a>
 
 <hr/>
 
@@ -56,6 +56,10 @@
         </table>
 		<input type="submit" name="coverage" value="Save {{t.ticker_symbol}}">
 		</form>
+        <p>
+            <hr/>
+        <b>Notes</b>: {{ticker.notes|default_if_none:'[No notes]'}}
+    </p>
 <hr/>
 </div>
 {% endblock container_contents %}
