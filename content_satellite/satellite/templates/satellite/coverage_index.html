@@ -16,8 +16,8 @@ SOL: Coverage Index
     <tr>
         <td width="25%"><b>Company</b></td>
         <td width="25%"><b>Services</b></td>
-        <td width="25%"><b>Authors</b></td>
-        <td width="25%"><b>Notes</b></td>
+        <td width="25%"><b>Most Recent Coverage</b></td>
+        <td width="25%"><b>Details</b></td>
     </tr>
 </thead>
 <tbody class=''>
@@ -25,8 +25,15 @@ SOL: Coverage Index
     <tr>
         <td><img width=30px src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;<b>{{t.company_name}}</b><br/>{{t.ticker_symbol}}</td>
         <td><em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}<br/><span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}</td>
-        <td>soup</td>
-        <td>{{t.notes|default_if_none:'[No notes]'}}<br/><a href="{{t.ticker_symbol}}">Edit</a></td>
+
+
+
+        <td>                    
+        hey
+        </td>
+
+        <td>Edit notes, see authors, assign content<br/>
+            <a href="{{t.ticker_symbol}}"><button type="button">Click here</button></a></td>
     </tr>
     {% endfor %}
 </tbody>
