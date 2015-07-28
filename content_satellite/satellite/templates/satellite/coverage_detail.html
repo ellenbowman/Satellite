@@ -5,7 +5,7 @@
 
 {% block container_contents %}
 
-<h3>{{title_value}}</h3>
+<h3>Coverage: {{title_value}}</h3>
 
 <a href="{% url 'coverage_index' %}"><small>back to coverage index</a>
 
@@ -58,7 +58,8 @@
 		</form>
         <p>
             <hr/>
-        <b>Notes</b>: {{ticker.notes|default_if_none:'[No notes]'}}
+        <b>Notes:</b> {{ticker.notes|default_if_none:'[No notes]'}}<br/>
+        <a href="/sol/tickers/{{ticker}}">Edit</a>
     </p>
 <hr/>
 </div>

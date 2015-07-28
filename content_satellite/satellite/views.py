@@ -469,8 +469,6 @@ def coverage_detail(request, ticker_symbol):
 		# if the ticker isn't found, redirect to the listing of all tickers
 		return redirect('coverage_index')
 
-	print ticker
-
 	services_to_filter_by = None
 	service_filter_description = None
 	tickers_to_filter_by = None
@@ -481,13 +479,6 @@ def coverage_detail(request, ticker_symbol):
 		
 		if 'coverage' in request.POST:
 			audit_filter_form = FilterForm(request.POST)
-		
-			"""
-			no need to find a ticker, as the detail view does that on its own, no?
-
-			ticker = request.POST['coverage'].split()[-1]
-			ticker = Ticker.objects.get(ticker_symbol = ticker)
-			"""
 
 			# delete records that are already there
 			coverage_type_objects = CoverageType.objects.filter(ticker=ticker)
@@ -495,7 +486,7 @@ def coverage_detail(request, ticker_symbol):
 			coverage_type_objects.delete()
 			
 			# replace them with the records passed along in POST
-			# we expect the keys per checkbox to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
+			# we expect the keys per selection to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
 			selected_keys = [k for k in request.POST if k.startswith('author_')]
 			for k in selected_keys:
 
@@ -558,6 +549,7 @@ def coverage_detail(request, ticker_symbol):
 		'coverage_type_choices': COVERAGE_CHOICES,
 		'services': services,
 		'single_authors': single_authors,
+		'title_value': '%s (%s)' % (ticker.company_name, ticker.ticker_symbol),
 	}
 
 	return render(request, 'satellite/coverage_detail.html', dictionary_of_values)
