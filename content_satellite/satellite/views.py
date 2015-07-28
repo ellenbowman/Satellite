@@ -591,10 +591,15 @@ def get_authors_from_article_set():
 
 def coverage_index(request):
 
+	coverage_types = CoverageType.objects.all()[:10]
+	for c in coverage_types:
+		print c.ticker
+
 	dictionary_of_values = {
 	'title_value': 'All Tickers',
 	'services': Service.objects.all(),
 	'tickers': Ticker.objects.all(),
+	'coverage_types': CoverageType.objects.all(),
 		}
 
 	return render(request, 'satellite/coverage_index.html', dictionary_of_values)
