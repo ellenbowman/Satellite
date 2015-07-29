@@ -92,6 +92,7 @@ class Article(models.Model):
 	author = models.CharField(max_length=50)
 	date_pub = models.DateTimeField(null=True, blank=True)
 	url = models.URLField(max_length=400)
+	tags = models.CharField(max_length=100, null=True)
 	service = models.ForeignKey(Service)
 	ticker = models.ForeignKey(Ticker)
 
