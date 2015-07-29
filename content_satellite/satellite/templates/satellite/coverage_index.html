@@ -16,7 +16,7 @@ SOL: Coverage Index
     <tr>
         <td width="25%"><b>Company</b></td>
         <td width="25%"><b>Services</b></td>
-        <td width="25%"><b>???</b></td>
+        <td width="25%"><b>Recent Coverage</b></td>
         <td width="25%"><b>Details</b></td>
     </tr>
 </thead>
@@ -29,7 +29,7 @@ SOL: Coverage Index
 
 
         <td>                    
-        Info of your choosing goes here
+        <a href="{% url 'articles_index'%}?tickers={{t.ticker_symbol}}" target='_blank'><button type="button">View</button></a>
         </td>
 
         <td>Edit notes, see authors, assign content<br/>
