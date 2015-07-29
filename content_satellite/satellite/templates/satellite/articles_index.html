@@ -66,11 +66,12 @@ SOL: Articles
 		<table class='listTable'>
 			<thead>
 				<tr style='text-align:left'>
-					<th width='40%'>Headline</th>
-					<th width='25%'>Author</th>
+					<th width='30%'>Headline</th>
+					<th width='20%'>Author</th>
 					<th width='10%'>Ticker</th>
 					<th width='10%'>Date</th>
 					<th width='15%'>Service</th>
+					<th width='15%'>Tags</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -88,6 +89,7 @@ SOL: Articles
 				</td>
 				<td>{{article_defn.article.date_pub|date:"M d, Y" }}</td>
 				<td>{{article_defn.article.service.pretty_name}}</td>
+				<td>{{article_defn.article.tags}}</td>
 			</tr>
 			{% endfor %}
 			</tbody>
