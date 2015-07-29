@@ -77,12 +77,9 @@ def get_articles():
 
 			service = service_matches[0]
 
-			# here I am trying to add an attribute called 'tags' that fetches, unsurprisingly, the tags.
-			# I typed 'gats' at first. That'd be hilarious. Anyway.
-
-			article_tags = article_json['tags']
-
-			print article_tags
+			for tags in article_json['tags']:
+				article_tags = tags['slug']
+				article_tags = article_tags.replace('-', ' ')
 			
 			publish_date = article_json['publish_at']
 			publish_date = publish_date.replace('T',' ')
