@@ -77,9 +77,11 @@ def get_articles():
 
 			service = service_matches[0]
 
+			article_tags = set() # we'll use this set to keep track of all tags associated with this article
 			for tags in article_json['tags']:
-				article_tags = tags['slug']
-				article_tags = article_tags.replace('-', ' ')
+				slug = tags['slug'].replace('-', ' ')
+				article_tags.add(slug)  # add to the list
+			article_tags = ', '.join(article_tags) # convert to a pretty string
 			
 			publish_date = article_json['publish_at']
 			publish_date = publish_date.replace('T',' ')
