@@ -114,6 +114,7 @@ EARNINGS_PREVIEW = 8
 EARNINGS_REVIEW = 9
 FOOL_DOT_COM_PREVIEW = 10
 FOOL_DOT_COM_REVIEW = 11
+GENERAL_COVERAGE = 12
 
 COVERAGE_CHOICES = (
 	(TEN_PERCENT_PROMISE, '10% Promise'),
@@ -127,6 +128,7 @@ COVERAGE_CHOICES = (
 	(EARNINGS_REVIEW, 'Team Review'),
 	(FOOL_DOT_COM_PREVIEW, 'Fool.com Preview'),
 	(FOOL_DOT_COM_REVIEW, 'Fool.com Review'),
+	(GENERAL_COVERAGE, 'General Coverage')
 	)
 
 class CoverageType(models.Model):
