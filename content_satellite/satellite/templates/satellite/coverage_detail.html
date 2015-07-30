@@ -7,7 +7,7 @@
 
 <h3>Coverage: {{title_value}}</h3>
 
-<a href="{% url 'coverage_index' %}"><small>back to coverage index</a>
+<p><small><a href="{% url 'coverage_index' %}"><small>back to coverage index</a> | <a href="{% url 'ticker_overview' %}">back to ticker index</a></small></p>
 
 <hr/>
 
@@ -62,5 +62,9 @@
         <a href="/sol/tickers/{{ticker}}">Edit</a>
     </p>
 <hr/>
+
+
+
+
 
 {% endblock container_contents %}
