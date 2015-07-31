@@ -8,9 +8,7 @@
 <h3>Coverage: {{title_value}}</h3>
 
 <p><small><a href="{% url 'coverage_index' %}"><small>back to coverage index</a> | <a href="{% url 'ticker_overview' %}">back to ticker index</a></small></p>
-
 <hr/>
-
         <form method="post">
 		{% csrf_token %}
 
@@ -62,9 +60,90 @@
         <a href="/sol/tickers/{{ticker}}">Edit</a>
     </p>
 <hr/>
-
-
-
+<p><b>Coverage tags for this ticker</b></p>
+<table>
+    <th>
+        <tr>
+        <td>10% Promises</td>
+        <td>Everlasting</td>
+        <td>Featured</td>
+        <td>Earnings</td>
+        <td>Mission Logs</td>
+    </tr>
+    </th>
+    <tbody>
+        <tr>
+            <td>
+            {% for a in ten_percent_promises %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in everlasting %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in featured %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in earnings %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in mission_log %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+<table>
+    <th>
+        <tr>
+        <td>Buy Recommendations</td>
+        <td>Five and Threes</td>
+        <td>Best Buys Now</td>
+        <td>Two-Minute Drills</td>
+        <td>Commentary</td>
+    </tr>
+    </th>
+    <tr>
+        <td>
+            {% for a in buy_recommendations %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in five_and_three %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in best_buys_now %}
+            {<a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in two_minute_drills %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+        <td>
+            {% for a in commentary %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {% for a in news %}
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            {% endfor %}
+        </td>
+    </tbody>
 
 
 {% endblock container_contents %}

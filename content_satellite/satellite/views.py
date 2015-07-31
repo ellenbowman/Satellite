@@ -537,8 +537,74 @@ def coverage_detail(request, ticker_symbol):
 	else:
 		pass
 
-
 	services = Service.objects.all()
+
+	articles = Article.objects.all()
+	relevant_articles = set()
+	for a in articles:
+		if a.ticker == ticker:
+			relevant_articles.add(a)
+
+	ten_percent_promises = set()
+	for a in relevant_articles:
+		if '10 promise' in a.tags:
+			ten_percent_promises.add(a)
+
+	everlasting = set()
+	for a in relevant_articles:
+		if 'everlasting' in a.tags:
+			everlasting.add(a)
+
+	analysis = set()
+	for a in relevant_articles:
+		if 'analysis' in a.tags:
+			analysis.add(a)
+
+	featured = set()
+	for a in relevant_articles:
+		if 'featured' in a.tags:
+			featured.add(a)
+
+	earnings = set()
+	for a in relevant_articles:
+		if 'earnings' in a.tags:
+			earnings.add(a)
+
+	mission_log = set()
+	for a in relevant_articles:
+		if 'mission_log' in a.tags:
+			mission_log.add(a)
+
+	buy_recommendations = set()
+	for a in relevant_articles:
+		if 'buy' in a.tags:
+			buy_recommendations.add(a)
+
+	five_and_three = set()
+	for a in relevant_articles:
+		if '5 and 3' in a.tags:
+			five_and_three.add(a)
+
+	best_buys_now = set()
+	for a in relevant_articles:
+		if 'best buys now' in a.tags:
+			best_buys_now.add(a)
+
+	two_minute_drills = set()
+	for a in relevant_articles:
+		if '2 minute drill' in a.tags:
+			two_minute_drills.add(a)
+
+	commentary = set()
+	for a in relevant_articles:
+		if 'commentary' in a.tags:
+			commentary.add(a)
+
+	news = set()
+	for a in relevant_articles:
+		if 'news' in a.tags:
+			news.add(a)
+
 
 	print request.POST
 
@@ -550,6 +616,18 @@ def coverage_detail(request, ticker_symbol):
 		'services': services,
 		'single_authors': single_authors,
 		'title_value': '%s (%s)' % (ticker.company_name, ticker.ticker_symbol),
+		'relevant_articles': relevant_articles,
+		'ten_percent_promises': ten_percent_promises,
+		'everlasting': everlasting,
+		'featured': featured,
+		'earnings': earnings,
+		'mission_log': mission_log,
+		'buy_recommendations': buy_recommendations,
+		'five_and_three': five_and_three,
+		'best_buys_now': best_buys_now,
+		'two_minute_drills': two_minute_drills,
+		'commentary': commentary,
+		'news': news,
 	}
 
 	return render(request, 'satellite/coverage_detail.html', dictionary_of_values)
