@@ -37,18 +37,18 @@ Upcoming Earnings
 			<em>{{t.services_for_ticker}}</em>
 			{% else %}
 			<strong>0</strong>
-			{% endifnotequal %}
-		</td>
-		<td>
-			{{t.earnings_announcement}}<br/>
-		</td>
-		<td>
+			{% endifnotequal %}<br/>
 			{% if t.tier %}
 			<span style='background-color:yellow'>
 				Tier {{t.tier}} ({{t.tier_status}})</span>
 			{% else %}
 			</span>
 			{% endif %}
+		</td>
+		<td>
+			{{t.earnings_announcement}}<br/>
+		</td>
+		<td>
 			{{t.notes|default_if_none:''}}<br/><a href="/sol/tickers/{{t.ticker_symbol}}">Edit</a>
 	</tr>
 {% endfor %}
