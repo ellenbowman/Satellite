@@ -50,30 +50,31 @@
         </tr>
         {% endfor %}
         </tbody>
-
         </table>
 		<input type="submit" name="coverage" value="Save {{t.ticker_symbol}}">
 		</form>
+
         <p>
             <hr/>
         <b>Notes:</b> {{ticker.notes|default_if_none:'[No notes]'}}<br/>
         <a href="/sol/tickers/{{ticker}}">Edit</a>
     </p>
 <hr/>
+
 <p><b>Coverage tags for this ticker</b></p>
-<table>
-    <th>
+<table class='listTable'>
+    <thead>
         <tr>
-        <td>10% Promises</td>
-        <td>Everlasting</td>
-        <td>Featured</td>
-        <td>Earnings</td>
-        <td>Mission Logs</td>
+        <th width="20%">10% Promises</th>
+        <th width="20%">Everlasting</th>
+        <th width="20%">Featured</th>
+        <th width="20%">Earnings</th>
+        <th width="20%">Mission Logs</th>
     </tr>
-    </th>
+    </thead>
     <tbody>
         <tr>
-            <td>
+        <td>
             {% for a in ten_percent_promises %}
             <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
             {% endfor %}
@@ -100,16 +101,16 @@
         </td>
     </tr>
 </table>
-<table>
-    <th>
+<table class='listTable'>
+    <thead>
         <tr>
-        <td>Buy Recommendations</td>
-        <td>Five and Threes</td>
-        <td>Best Buys Now</td>
-        <td>Two-Minute Drills</td>
-        <td>Commentary</td>
+        <th width="20%">Buy Recommendations</th>
+        <th width="20%">Five and Threes</th>
+        <th width="20%">Best Buys Now</th>
+        <th width="20%">Two-Minute Drills</th>
+        <th width="20%">Commentary</th>
     </tr>
-    </th>
+    </thead>
     <tr>
         <td>
             {% for a in buy_recommendations %}
@@ -137,12 +138,6 @@
             {% endfor %}
         </td>
     </tr>
-    <tr>
-        <td>
-            {% for a in news %}
-            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
-            {% endfor %}
-        </td>
     </tbody>
 
 

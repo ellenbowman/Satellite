@@ -10,13 +10,15 @@ SOL: Coverage Index
 {% block container_contents %}
 
 <h3>Coverage Index</h3>
+<p><b>General Coverage</b></p>
+
 <div>
 <table id='coverage_table' class="table table-striped table-bordered">
 <thead>
     <tr>
         <td width="25%"><b>Company</b></td>
         <td width="25%"><b>Services</b></td>
-        <td width="25%"><b>Recent Coverage</b></td>
+        <td width="25%"><b>Promised Coverage</b></td>
         <td width="25%"><b>Details</b></td>
     </tr>
 </thead>
@@ -29,10 +31,10 @@ SOL: Coverage Index
 
 
         <td>                    
-        Or whatever else you want here</a>
+        Ex. 10% Promise (SA, RB), Earnings (SA, RB, HG), etc.
         </td>
 
-        <td>Edit notes, see authors, assign content<br/>
+        <td>Edit notes, see authors, track and assign content<br/>
             <a href="{{t.ticker_symbol}}"><button type="button">Click here</button></a></td>
     </tr>
     {% endfor %}
