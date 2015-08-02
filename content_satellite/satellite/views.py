@@ -267,6 +267,7 @@ def service_overview(request):
 			mdp_articles.append(a)
 		elif 'Stock Advisor' in a.service.pretty_name:
 			stock_advisor_articles.append(a)
+			print stock_advisor_articles
 		elif 'Hidden Gems' in a.service.pretty_name:
 			hidden_gems_articles.append(a)
 		elif 'Income Investor' in a.service.pretty_name:
