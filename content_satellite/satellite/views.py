@@ -577,7 +577,7 @@ def coverage_detail(request, ticker_symbol):
 
 	buy_recommendations = set()
 	for a in relevant_articles:
-		if 'buy' in a.tags:
+		if 'buy recommendation' in a.tags:
 			buy_recommendations.add(a)
 
 	five_and_three = set()
