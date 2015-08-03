@@ -7,21 +7,63 @@ SOL: Articles
 {% block container_contents %}
 
 	<h2>All Articles</h2>
-
+	
 	<div>
 		<table style='width:100%'>
 			<tr>
 				<td style='vertical-align:top'>
-					Articles: {{num_articles}} {% if pub_date_newest %}({{pub_date_oldest}} - {{pub_date_newest}}){% endif %}
+					how many articles are in this result set? {{num_articles}}
 					<br/>
-					Authors: {{num_authors}}
+					the most recent article in this result set was published on {{pub_date_newest}}
+					<br/>
+					the oldest article in this results set was published on {{pub_date_oldest}}
+					<br/>
+					how many authors are in this result set? {{num_authors}}
+
+					{% if service_filter_description or ticker_filter_description %}
+					<div style='padding:12px;background-color:lightgray;width:500px;margin:12px 2px;'>
+						These results are filtered.
+						<br/>
+
+						{% if service_filter_description %}
+						<br/>
+						service filter: <strong>{{service_filter_description}}</strong>
+						<br/>
+						{% endif %}
+						
+						{% if ticker_filter_description %}
+						<br/>
+						ticker filter: <strong>{{ticker_filter_description}}</strong>
+						<br/>
+						{% endif %}
+
+						<br/>
+						<a href="{% url 'articles_index' %}"><button type='button'>Remove filters</button></a>
+						<br/>
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div style='padding:15px;max-width:280px;background-color:lightgray'>
+						<form action="" method="post">
+							{% csrf_token %}
+							Tickers:<br/>
+							{{form.tickers}}
+							<br/>
+							<br/>
+							Services:<br/>{{form.services}}
+							<br/>
+							<hr/>
+							 <input type="submit" value="Apply filter">
+						</form>
+					</div>
 				</td>
 			</tr>
 		</table>
 	</div>
 
 	<div>
-		<table id='articles_table' class="table table-striped table-bordered">
+		<table class='listTable'>
 			<thead>
 				<tr style='text-align:left'>
 					<th width='30%'>Headline</th>
@@ -33,41 +75,61 @@ SOL: Articles
 				</tr>
 			</thead>
 			<tbody>
-			{% for article in articles %}
+			{% for article_defn in article_defns %}
 			<tr>
-				<td><a href='http://{{article.url}}' target='_blank'>{{article.title}}</a></td>
+				<td><a href='http://{{article_defn.article.url}}' target='_blank'>{{article_defn.article.title}}</a></td>
 				<td>
-					{{article.author}}
+					{{article_defn.article.author}}
+					<br/>
+					<small>{{article_defn.author_service_associations}}</small>
 				</td>
 				<td>
-					<img width='24px' src='http://g.foolcdn.com/art/companylogos/mark/{{article.ticker}}.png' alt='{{article.ticker}}'/>
-					<small>{{article.ticker}}</small>
+					<img width='24px' src='http://g.foolcdn.com/art/companylogos/mark/{{article_defn.article.ticker}}.png' alt='{{article_defn.article.ticker}}'/>
+					<small>{{article_defn.article.ticker}}</small>
 				</td>
-				<td>{{article.date_pub|date:"M d, Y" }}</td>
-				<td>{{article.service.pretty_name}}</td>
-				<td>{{article.tags}}</td>
+				<td>{{article_defn.article.date_pub|date:"M d, Y" }}</td>
+				<td>{{article_defn.article.service.pretty_name}}</td>
+				<td>{{article_defn.article.tags}}</td>
 			</tr>
 			{% endfor %}
 			</tbody>
-		</table>
 	</div>
+
+
+	<div class="pagination">
+		<form action="" method="POST">
+			{% csrf_token %}
+			<div style='display:none'>
+				{{form.as_p}}
+			</div>
+			
+
+
+			<span class="step-links">
+
+
+
+	        {% if articles.has_previous %}
+	        	<button type='submit' class="button-link" name='page_number' value="{{articles.previous_page_number}}">&lt;&lt;</button>
+	        {% else %}
+	        	<button type='button' class="button-link disabled" disabled='disabled'> &lt;&lt;</button>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+	        </span>
+
+	        {% if articles.has_next %}
+	            <button type='submit' class="button-link" name='page_number' value="{{articles.next_page_number}}">&gt;&gt;</button>
+	        {% else %}
+	        	<button type='button' class="button-link disabled" disabled='disabled'> &gt;&gt;</button>
+	        {% endif %}
+	    </span>
+
+		</form>
+
+	    
+	</div>
+
 </div>
 {% endblock %}
-
-
-{% block script_block %}
-{{ block.super }}
-<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
-
-<script>
-
-    $(function() {
-			$('#articles_table').dataTable( {
-	        "order": [[ 3, "desc" ]],
-	        "lengthMenu": [[20,50,100,-1], [20,50,100, "All"]]
-	    } );
-
-    });
-</script>
-{% endblock script_block %}
