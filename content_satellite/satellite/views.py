@@ -49,8 +49,8 @@ def tiered_stocks(request):
 		else:
 			print 'newp'
 
-	services_to_filter_by = None 
-	service_filter_description = None 
+	services_to_filter_by = None
+	service_filter_description = None
 	tickers_to_filter_by = None
 	ticker_filter_description = None
 	service_options = Service.objects.all()
@@ -59,7 +59,7 @@ def tiered_stocks(request):
 
 	if request.POST:
 		tiered_filter_form = FilterForm(request.POST)
-	
+
 		if tiered_filter_form.is_valid():
 			if 'services' in tiered_filter_form.cleaned_data:
 				if len(tiered_filter_form.cleaned_data['services']) > 0:
@@ -82,10 +82,10 @@ def tiered_stocks(request):
 
 			ticker_to_update.notes = request.POST[key_of_ticker_note_data]
 			ticker_to_update.save()
-			
+
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
 
-	
+
 	elif request.GET:
 		initial_form_values = {}
 
@@ -108,7 +108,7 @@ def tiered_stocks(request):
 		tiered_filter_form = FilterForm()
 
 
-	if services_to_filter_by: 
+	if services_to_filter_by:
 		pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
 		pretty_names_of_services_we_matched.sort()
 		service_filter_description = ', '.join(pretty_names_of_services_we_matched)
@@ -142,7 +142,7 @@ def tiered_stocks(request):
 
 	elif tickers_to_filter_by is not None:
 		tiered_stocks = tickers_to_filter_by
-		
+
 	else:
 		tiered_stocks = []
 		for t in Ticker.objects.all():
@@ -202,7 +202,7 @@ def service_overview(request):
 	for t in Ticker.objects.all():
 		if not t.services_for_ticker:
 			continue
-		was_processed = False    
+		was_processed = False
 		if 'One' in t.services_for_ticker:
 			fool_one_tickers.append(t)
 			was_processed = True
@@ -256,7 +256,7 @@ def service_overview(request):
 	deep_value_articles = []
 	options_articles = []
 
-	for a in Article.objects.filter(date_pub__gt = (datetime.now() - timedelta(days=21)).date()):    
+	for a in Article.objects.filter(date_pub__gt = (datetime.now() - timedelta(days=21)).date()):
 		if 'One' in a.service.pretty_name:
 			fool_one_articles.append(a)
 		elif 'Supernova' in a.service.pretty_name:
@@ -267,7 +267,6 @@ def service_overview(request):
 			mdp_articles.append(a)
 		elif 'Stock Advisor' in a.service.pretty_name:
 			stock_advisor_articles.append(a)
-			print stock_advisor_articles
 		elif 'Hidden Gems' in a.service.pretty_name:
 			hidden_gems_articles.append(a)
 		elif 'Income Investor' in a.service.pretty_name:
@@ -295,7 +294,7 @@ def service_overview(request):
 	supernova_gainers, supernova_losers = gainers_losers(supernova_tickers)
 	supernova_earnings = upcoming_earnings(supernova_tickers)
 	supernova_articles = recent_articles(supernova_articles)
-        
+
 	pro_gainers, pro_losers = gainers_losers(pro_tickers)
 	pro_earnings = upcoming_earnings(pro_tickers)
 	pro_articles = recent_articles(pro_articles)
@@ -446,10 +445,10 @@ def ticker_detail(request, ticker_symbol):
 
 	if request.POST:
 		form = TickerForm(request.POST, instance=ticker)
-		
+
 		if form.is_valid():
 			model_instance = form.save(commit=True)
-	
+
 	form = TickerForm(instance=ticker)
 
 	context = {
@@ -475,9 +474,9 @@ def coverage_detail(request, ticker_symbol):
 	tickers_to_filter_by = None
 	single_authors = get_authors_from_article_set()
 	audit_filter_form = None
-	
+
 	if request.POST:
-		
+
 		if 'coverage' in request.POST:
 			audit_filter_form = FilterForm(request.POST)
 
@@ -485,7 +484,7 @@ def coverage_detail(request, ticker_symbol):
 			coverage_type_objects = CoverageType.objects.filter(ticker=ticker)
 			print 'deleting existing CoverageType records for %s (%d)' % (ticker.ticker_symbol, len(coverage_type_objects))
 			coverage_type_objects.delete()
-			
+
 			# replace them with the records passed along in POST
 			# we expect the keys per selection to have this format: "cid_x__sid_y", where x is a content choice integer value, y is a service id
 			selected_keys = [k for k in request.POST if k.startswith('author_')]
@@ -508,16 +507,16 @@ def coverage_detail(request, ticker_symbol):
 					ct.author = request.POST[author_key]
 
 				ct.save()
-				print 'added CoverageType record: %s %s %d %s' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type, ct.author)		
+				print 'added CoverageType record: %s %s %d %s' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type, ct.author)
 		else:
 			audit_filter_form = FilterForm(request.POST)
-			
-		
+
+
 		if audit_filter_form.is_valid():
 			if 'services' in audit_filter_form.cleaned_data:
 				if len(audit_filter_form.cleaned_data['services']) > 0:
 					services_to_filter_by = audit_filter_form.cleaned_data['services']
-	
+
 	elif request.GET:
 		initial_form_values = {}
 		if 'tickers' in request.GET:
@@ -525,7 +524,7 @@ def coverage_detail(request, ticker_symbol):
 		if 'service_ids' in request.GET:
 			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
 			initial_form_values['services'] = services_to_filter_by
-			
+
 		audit_filter_form = FilterForm(initial=initial_form_values)
 
 	else:
