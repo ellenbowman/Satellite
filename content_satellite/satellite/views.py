@@ -539,8 +539,9 @@ def coverage_detail(request, ticker_symbol):
 		pass
 
 	services = Service.objects.all()
-
-	articles = Article.objects.all()
+	
+	articles = Article.objects.filter(date_pub__gt = (datetime.now() - timedelta(days=90)).date())
+	print articles
 	relevant_articles = set()
 	for a in articles:
 		if a.ticker == ticker:
