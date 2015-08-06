@@ -550,6 +550,8 @@ def coverage_detail(request, ticker_symbol):
 
 	relevant_articles = set()
 	for a in articles:
+		if a.tags == None:
+			pass
 		if a.ticker == ticker:
 			relevant_articles.add(a)
 
