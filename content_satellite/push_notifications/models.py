@@ -42,12 +42,10 @@ class TickerMovementRule(models.Model):
 
         if is_satisfied_today:
             self.is_satisfied_today = True
-            if ticker.daily_percent_change > 0:
-                self.message_today = "%s is up %.2f%%" % (ticker.ticker_symbol, ticker.daily_percent_change)
-            else:
-                self.message_today = "%s is down %.2f%%" % (ticker.ticker_symbol, ticker.daily_percent_change)
+
+            self.message_today = " %s  %.2f%%" % (ticker.ticker_symbol, ticker.daily_percent_change)
             if ticker.services_for_ticker:
-                self.message_today += " _(%s)_" % ticker.services_for_ticker
+                self.message_today += " (%s)" % ticker.services_for_ticker
 
             self.timestamp_satisfied = timezone.now()
             self.save()

@@ -17,7 +17,7 @@ def process_rules():
 
     # find the rules thare are satisfied
     newly_satisfied_rules = []
-    for tmr in TickerMovementRule.objects.filter(is_satisfied_today=False):
+    for tmr in TickerMovementRule.objects.filter(is_satisfied_today=False).order_by('ticker_symbol'):
 
         is_satisfied = tmr.assess_is_satisfied()
         if is_satisfied:
@@ -36,9 +36,8 @@ def process_rules():
 
     # alert the subscriber
     for subscriber in alert_messages_by_subscriber:
-        message = '*Intraday Ticker Movement Alert*\n'
-        message += '\n'.join(alert_messages_by_subscriber[subscriber])
-        post_message_to_slack(message_text=message, channel=subscriber.slack_handle, username='Dr. Satellite', icon_emoji=':boom:')
-
+        message = '```' + '\n'.join(alert_messages_by_subscriber[subscriber]) + '```'
+        post_message_to_slack(message_text=message, channel=subscriber.slack_handle, username='Ticker Alert', icon_emoji=':boom:')
+        
     print 'users alerted:', len(alert_messages_by_subscriber)
     print ', '.join([s.name for s in alert_messages_by_subscriber])
