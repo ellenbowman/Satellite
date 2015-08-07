@@ -14,9 +14,9 @@ class Command(BaseCommand):
                 TickerMovementRule.objects.create(ticker_symbol=t.ticker_symbol, threshold=7, condition=TICKER_INTRADAY_MOVEMENT_GREATER_THAN)
 
         try:
-            satellite_admin_user = NotificationSubscriber.objects.get(slack_handle='@lchung')
+            satellite_admin_user = NotificationSubscriber.objects.get(slack_handle='#content_satellite')
         except:
-            satellite_admin_user = NotificationSubscriber.objects.create(slack_handle='@lchung', name='Satellite Admin')
+            satellite_admin_user = NotificationSubscriber.objects.create(slack_handle='#content_satellite', name='Satellite Admin')
 
         subscriptions_for_satellite_admin = RuleSubscription.objects.filter(subscriber=satellite_admin_user)
         subscribed_rules = [rs.rule for rs in subscriptions_for_satellite_admin]
