@@ -540,23 +540,23 @@ def coverage_detail(request, ticker_symbol):
 	services = Service.objects.all()
 	
 	today = datetime.now()
-	print today
 	date_today = today.date()
-	print date_today
 	ninety_days_ago = (date_today - timedelta(days=90))
-	print ninety_days_ago
 
-	articles = [a for a in Article.objects.all() if a.date_pub is not None and a.date_pub.date() >= ninety_days_ago]
+	articles = [a for a in Article.objects.filter(ticker=ticker) if a.date_pub is not None and a.date_pub.date() >= ninety_days_ago]
+
+	print ticker
+	print articles
 
 	relevant_articles = set()
 	for a in articles:
-		if a.tags == None:
-			pass
 		if a.ticker == ticker:
 			relevant_articles.add(a)
 
 	ten_percent_promises = set()
 	for a in relevant_articles:
+		if a.tags == None:
+			pass
 		if '10 promise' in a.tags:
 			ten_percent_promises.add(a)
 
