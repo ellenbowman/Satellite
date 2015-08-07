@@ -540,81 +540,50 @@ def coverage_detail(request, ticker_symbol):
 	services = Service.objects.all()
 	
 	today = datetime.now()
-	print today
 	date_today = today.date()
-	print date_today
 	ninety_days_ago = (date_today - timedelta(days=90))
-	print ninety_days_ago
 
-	articles = [a for a in Article.objects.all() if a.date_pub is not None and a.date_pub.date() >= ninety_days_ago]
+	articles = [a for a in Article.objects.filter(ticker=ticker).exclude(tags=None).exclude(tags='') if a.date_pub is not None and a.date_pub.date() >= ninety_days_ago]
 
 	relevant_articles = set()
-	for a in articles:
-		if a.tags == None:
-			pass
-		if a.ticker == ticker:
-			relevant_articles.add(a)
-
 	ten_percent_promises = set()
-	for a in relevant_articles:
+	everlasting = set()
+	analysis = set()
+	featured = set()
+	earnings = set()
+	mission_log = set()
+	buy_recommendations = set()
+	five_and_three = set()
+	best_buys_now = set()
+	two_minute_drills = set()
+	commentary = set()
+	news = set()
+
+	for a in articles:
 		if '10 promise' in a.tags:
 			ten_percent_promises.add(a)
-
-	everlasting = set()
-	for a in relevant_articles:
 		if 'everlasting' in a.tags:
 			everlasting.add(a)
-
-	analysis = set()
-	for a in relevant_articles:
 		if 'analysis' in a.tags:
 			analysis.add(a)
-
-	featured = set()
-	for a in relevant_articles:
 		if 'featured' in a.tags:
 			featured.add(a)
-
-	earnings = set()
-	for a in relevant_articles:
 		if 'earnings' in a.tags:
 			earnings.add(a)
-
-	mission_log = set()
-	for a in relevant_articles:
 		if 'mission_log' in a.tags:
 			mission_log.add(a)
-
-	buy_recommendations = set()
-	for a in relevant_articles:
 		if 'buy recommendation' in a.tags:
 			buy_recommendations.add(a)
-
-	five_and_three = set()
-	for a in relevant_articles:
 		if '5 and 3' in a.tags:
 			five_and_three.add(a)
-
-	best_buys_now = set()
-	for a in relevant_articles:
 		if 'best buys now' in a.tags:
 			best_buys_now.add(a)
-
-	two_minute_drills = set()
-	for a in relevant_articles:
 		if '2 minute drill' in a.tags:
 			two_minute_drills.add(a)
-
-	commentary = set()
-	for a in relevant_articles:
 		if 'commentary' in a.tags:
 			commentary.add(a)
-
-	news = set()
-	for a in relevant_articles:
 		if 'news' in a.tags:
 			news.add(a)
-
 
 	print request.POST
 
