@@ -15,7 +15,7 @@ Push Notifications
       <th width='10%'>Ticker</th>
       <th width='15%'>Alert</th>
       <th width='10%'>Now</th>
-      <th>services</th>
+      <th>Services</th>
   </thead>
   {% if receipts %}
   {% for r in receipts %}
@@ -31,7 +31,7 @@ Push Notifications
   {% endfor %}
   {% else %}
     <tr>
-      <td colspan='6'>
+      <td colspan='5'><em>no alerts</em></td>
     </tr>
   {% endif %}
 </table>
@@ -61,7 +61,7 @@ Push Notifications
   </thead>
   {% for s in subscribers %}
     <tr>
-      <td>{{s.slack_handle|truncatechars:15}}</td>
+      <td>{{s.slack_handle|truncatechars:21}}</td>
       <td>{{s.services_display_string|default:''}}</td>
       <td>{{s.tickers_csv}}</td>
     </tr>
