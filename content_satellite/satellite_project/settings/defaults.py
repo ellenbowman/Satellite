@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'fool_auth_for_django',
     'kronos',
     'satellite',
+    'push_notifications',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -121,4 +122,4 @@ ADMINS = (
 )
 
 FOOL_AUTH_STAFF = 'CMSUsers'
-FOOL_AUTH_SU = 'SatelliteOfLoveAdmin' 
+FOOL_AUTH_SU = 'SatelliteOfLoveAdmin'

@@ -1,0 +1,70 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+Push Notifications
+{% endblock %}
+
+{% block container_contents %}
+
+
+<h2>Today's alerts</h2>
+<table class='listTable'>
+  <thead>
+    <tr>
+      <th width='20%'>Company</th>
+      <th width='10%'>Ticker</th>
+      <th width='20%'>Alert</th>
+      <th width='10%'>Now</th>
+      <th>Services</th>
+  </thead>
+  {% if receipts %}
+  {% for r in receipts %}
+    <tr>
+      <td>{{r.ticker.company_name|truncatechars:35}}</td>
+      <td>{{r.ticker}}</td>
+      <td>
+        {{r.percent_change}}% at {{r.timestamp|time}}</small>
+      </td>
+      <td>{{r.ticker.daily_percent_change}}%</td>
+      <td>{{r.ticker.services_for_ticker}}</td>
+    </tr>
+  {% endfor %}
+  {% else %}
+    <tr>
+      <td colspan='5'><em>no alerts</em></td>
+    </tr>
+  {% endif %}
+</table>
+
+<hr/>
+
+<h2>Subscribers</h2>
+
+<div class='well'>
+  <div>Sign up to be alerted when a ticker moves more than {{threshold}}%. Specify tickers (separate multiple values with commas) and/or services. Following a service means you'll be notified anytime one of that service's recs has a big move.</div>
+  <div style='font-size:smaller'>
+    <form method='POST' id='subscriber_form'>
+      {% csrf_token %}
+      <table>
+      {{form.as_table}}
+      </table>
+      <input type='submit'> <input type='button' value='Clear' onclick="$('#subscriber_form')[0].reset(); return false;">
+    </form>
+  </div>
+</div>
+<table class='listTable'>
+  <thead>
+    <tr>
+      <th width='15%'>Slack ID</th>
+      <th width='50%'>Services</th>
+      <th>Tickers</th>
+  </thead>
+  {% for s in subscribers %}
+    <tr>
+      <td>{{s.slack_handle|truncatechars:21}}</td>
+      <td>{{s.services_display_string|default:''}}</td>
+      <td>{{s.tickers_csv}}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
