@@ -8,18 +8,18 @@
 			<td class="service-data-column">
 				<b><u>Up Today</u></b></br>
 				{% for t in gainers %}
-				<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
+				<b><a href="{% url 'coverage_detail' t.ticker_symbol %}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 				{% endfor %}
 			</td>
 			<td class="service-data-column">
 			<b><u>Down Today</u></b><br/>
 			{% for t in losers %}
-			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
+			<b><a href="{% url 'coverage_detail' t.ticker_symbol %}">{{t.ticker_symbol}}</a></b>, {{t.daily_percent_change}}%<br/>
 			{% endfor %}</td>
 			<td class="service-data-column">
 			<b><u>Upcoming Earnings</b></u><br/>
 			{% for t in earnings %}
-			<b><a href="/sol/ticker_world/all_tickers/#{{t.ticker_symbol}}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"N j"}}<br/>
+			<b><a href="{% url 'coverage_detail' t.ticker_symbol %}">{{t.ticker_symbol}}</a></b>, {{t.earnings_announcement|date:"N j"}}<br/>
 			{% endfor %}
 			</td>
 			</tr>
