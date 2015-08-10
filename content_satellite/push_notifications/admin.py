@@ -1,18 +1,17 @@
 from django.contrib import admin
-from models import TickerMovementRule, NotificationSubscriber, RuleSubscription
+from models import NotificationSubscriber, IntradayBigMovementReceipt
 
-class TickerMovementRuleAdmin(admin.ModelAdmin):
-    model = TickerMovementRule
-    list_display = ['ticker_symbol', 'threshold', 'is_satisfied_today']
-    search_fields = ['ticker_symbol',]
-    list_filter = ['is_satisfied_today',]
+class NotificationSubscriberAdmin(admin.ModelAdmin):
+    model = NotificationSubscriber
+    filter_horizontal = ['services',]
+    list_display = ['name','slack_handle', 'tickers_csv']
+    search_fields = ['name','slack_handle','email_address']
 
-admin.site.register(TickerMovementRule, TickerMovementRuleAdmin)
+admin.site.register(NotificationSubscriber, NotificationSubscriberAdmin)
 
-admin.site.register(NotificationSubscriber)
+class IntradayBigMovementReceiptAdmin(admin.ModelAdmin):
+    model = IntradayBigMovementReceipt
+    list_display = ['ticker', 'percent_change', 'timestamp']
+    search_fields = ['ticker',]
 
-class RuleSubscriptionAdmin(admin.ModelAdmin):
-    model = RuleSubscription
-    list_display = ['subscriber','rule', 'is_preference_asap',]
-
-admin.site.register(RuleSubscription, RuleSubscriptionAdmin)
+admin.site.register(IntradayBigMovementReceipt, IntradayBigMovementReceiptAdmin)

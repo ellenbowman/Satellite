@@ -1,43 +1,47 @@
+from django.db.models import Q
+from django.utils import timezone
 from satellite.slack_utils import post_message_to_slack
-from push_notifications.models import TickerMovementRule, NotificationSubscriber, RuleSubscription, TICKER_MOVEMENT_CONDITIONS
-from satellite.models import Ticker
-
-
-def reset_rules_status():
-    for tmr in TickerMovementRule:
-        tmr.is_satisfied_today = False
-        tmr.message_today = None
-        tmr.timestamp_satisfied = None
-        tmr.save()
+from push_notifications.models import INTRADAY_THRESHOLD, IntradayBigMovementReceipt, NotificationSubscriber
+from satellite.models import Ticker, Service
 
 
 def process_rules():
-    # find the rules that are satisfied
-    # alert the subscribers. per user, compile one alert.
+    # find tickers that newly satisfy the threshold value
+    # alert subscribers that follow any of those tickers
 
-    # find the rules thare are satisfied
-    newly_satisfied_rules = []
-    for tmr in TickerMovementRule.objects.filter(is_satisfied_today=False).order_by('ticker_symbol'):
+    # find tickers that satisfy the threshold value
+    tickers_with_big_movement = Ticker.objects.filter( Q(daily_percent_change__gt=INTRADAY_THRESHOLD) | Q(daily_percent_change__lt=-1*INTRADAY_THRESHOLD)).order_by('ticker_symbol')
 
-        is_satisfied = tmr.assess_is_satisfied()
-        if is_satisfied:
-            newly_satisfied_rules.append(tmr)
+    # filter down to the ones that have hit the threshold for the first time today
+    # create a receipt for each of these newly-detected big movers
+    new_movers_receipts = []
+    for t in tickers_with_big_movement:
+        try:
+            IntradayBigMovementReceipt.objects.get(ticker=t, timestamp__date=timezone.date())
+        except:
+            new_movers_receipts.append(IntradayBigMovementReceipt.create(t, t.daily_percent_change))
 
-    print 'newly satisfied rules:', len(newly_satisfied_rules)
-    print '\n'.join(['- %s' % nsr.message_today for nsr in newly_satisfied_rules])
+    print 'newly-detected big movers: %d (%s)' % (len(new_movers_receipts), ', '.join([nmr.ticker.ticker_symbol for nmr in new_movers_receipts]))
 
-    # group alerts by subscriber
-    alert_messages_by_subscriber = {}
-    rule_subscriptions = RuleSubscription.objects.filter(rule__in=newly_satisfied_rules)
-    for rs in rule_subscriptions:
-        if rs.subscriber not in alert_messages_by_subscriber:
-            alert_messages_by_subscriber[rs.subscriber] = []
-        alert_messages_by_subscriber[rs.subscriber].append(rs.rule.message_today)
+    if len(new_movers_receipts) == 0:
+        return
 
-    # alert the subscriber
-    for subscriber in alert_messages_by_subscriber:
-        message = '```' + '\n'.join(alert_messages_by_subscriber[subscriber]) + '```'
-        post_message_to_slack(message_text=message, channel=subscriber.slack_handle, username='Ticker Alert', icon_emoji=':boom:')
-        
-    print 'users alerted:', len(alert_messages_by_subscriber)
-    print ', '.join([s.name for s in alert_messages_by_subscriber])
+    # for each subscriber, figure out which of the newly-detected big movers match his interests
+    for subscriber in NotificationSubscriber.objects.all():
+        tickers_for_subscriber = [t.strip() for t in subscriber.tickers_csv.upper().split(',')]
+        subscriber_services = [s.pretty_name.strip() for s in subscriber.services.all()]
+
+        messages_for_subscriber = []
+        for r in new_movers_receipts:
+            if r.ticker.ticker_symbol in tickers_for_subscriber:
+                messages_for_subscriber.append(r.message)
+            elif r.ticker.services_for_ticker:
+                ticker_services = [s.strip() for s in r.ticker.services_for_ticker.split(',')]
+                if set(subscriber_services) & set(ticker_services):
+                    messages_for_subscriber.append(r.message)
+
+        if messages_for_subscriber:
+            message_text = '```' + '\n'.join(messages_for_subscriber) + '```'
+            post_message_to_slack(message_text=message_text, channel=subscriber.slack_handle, username='Ticker Alert', icon_emoji=':boom:')
+
+            print 'alerted %s: %s' % (subscriber.slack_handle, message_text)
