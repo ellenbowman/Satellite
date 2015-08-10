@@ -4,8 +4,8 @@ from models import NotificationSubscriber, IntradayBigMovementReceipt
 class NotificationSubscriberAdmin(admin.ModelAdmin):
     model = NotificationSubscriber
     filter_horizontal = ['services',]
-    list_display = ['name','slack_handle', 'tickers_csv']
-    search_fields = ['name','slack_handle','email_address']
+    list_display = ['slack_handle', 'tickers_csv']
+    search_fields = ['slack_handle',]
 
 admin.site.register(NotificationSubscriber, NotificationSubscriberAdmin)
 
