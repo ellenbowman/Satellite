@@ -16,9 +16,8 @@ def process_rules():
     # create a receipt for each of these newly-detected big movers
     new_movers_receipts = []
     for t in tickers_with_big_movement:
-        try:
-            IntradayBigMovementReceipt.objects.get(ticker=t, timestamp__date=timezone.date())
-        except:
+        matches_for_today = IntradayBigMovementReceipt.objects.filter(ticker=t, timestamp__gt=timezone.now().date())
+        if not matches_for_today:
             new_movers_receipts.append(IntradayBigMovementReceipt.create(t, t.daily_percent_change))
 
     print 'newly-detected big movers: %d (%s)' % (len(new_movers_receipts), ', '.join([nmr.ticker.ticker_symbol for nmr in new_movers_receipts]))
