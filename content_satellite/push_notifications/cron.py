@@ -15,7 +15,7 @@ def _assess_alerts():
 def assess_alerts():
 	_assess_alerts()
 
-# 10:05 AM to 4:55 PM
-@kronos.register('5,15,25,35,45,55 10-16 * * 1-5')
+# 10:05 AM to 5:05 PM -- changed to every hour
+@kronos.register('5 10-17 * * 1-5')
 def assess_alerts():
 	_assess_alerts()
