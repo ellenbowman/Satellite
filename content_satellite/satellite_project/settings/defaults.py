@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'kronos',
     'satellite',
     'push_notifications',
+    'risk_ratings',
 )
 
 MIDDLEWARE_CLASSES = (
