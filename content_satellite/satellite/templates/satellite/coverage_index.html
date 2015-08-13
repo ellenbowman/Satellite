@@ -10,7 +10,6 @@ SOL: Coverage Index
 {% block container_contents %}
 
 <h3>Coverage Index</h3>
-<p><b>General Coverage</b></p>
 
 <div>
 <table id='coverage_table' class="table table-striped table-bordered">
@@ -26,15 +25,15 @@ SOL: Coverage Index
     {% for t in tickers %}
     <tr>
         <td><img width=30px src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;<b>{{t.company_name}}</b><br/>{{t.ticker_symbol}}</td>
-        <td><em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}<br/><span style="background-color:yellow">Tier: {{t.tier}}</span>{% endif %}</td>
+        <td><em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}<br/><span style="background-color:yellow">Tier: {{t.tier}}</span> {{t.tier_status}} {% endif %}</td>
 
 
 
         <td>                    
-        Ex. 10% Promise (SA, RB), Earnings (SA, RB, HG), etc.
+        {{t.promised_coverage}}
         </td>
 
-        <td>Edit notes, see authors, track and assign content<br/>
+        <td>Edit notes and promised coverage, see authors, track and assign content<br/>
             <a href="{{t.ticker_symbol}}"><button type="button">Click here</button></a></td>
     </tr>
     {% endfor %}
