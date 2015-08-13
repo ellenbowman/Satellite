@@ -60,14 +60,20 @@
         {% endfor %}
         </tbody>
         </table>
-		<input type="submit" name="coverage" value="Save {{t.ticker_symbol}}">
+		<input type="submit" name="coverage" value="Save">
 		</form>
 
-        <p>
-            <hr/>
-        <b>Notes:</b> {{ticker.notes|default_if_none:'[No notes]'}}<br/>
-        <a href="/sol/tickers/{{ticker}}">Edit</a>
-    </p>
+<hr/>
+
+    <div>
+    <form method='POST'>
+        {% csrf_token %}
+        <table>
+            {{coverage_detail_form.as_table}}
+        </table>
+        <input type="submit" value="Save" />
+    </form>
+</div>
 <hr/>
 
 <p><b>Coverage tags for this ticker</b></p>
