@@ -32,7 +32,7 @@ def index(request):
         'receipts': IntradayBigMovementReceipt.objects.filter(timestamp__gt=timezone.now().date()).order_by('-timestamp'),
         'subscribers': NotificationSubscriber.objects.all().order_by('slack_handle'),
         'threshold':INTRADAY_THRESHOLD,
-        'form': form
+        'form': form,
     }
 
     return render(request, 'push_notifications/index.html', context)
