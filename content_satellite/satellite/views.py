@@ -474,8 +474,12 @@ def coverage_detail(request, ticker_symbol):
 	tickers_to_filter_by = None
 	single_authors = get_authors_from_article_set()
 	audit_filter_form = None
+	coverage_detail_form = None
 
-	if request.POST:
+	if request.POST:		
+
+		if 'promised' in request.POST:
+			coverage_detail_form = TickerForm(request.POST)
 
 		if 'coverage' in request.POST:
 			audit_filter_form = FilterForm(request.POST)
@@ -511,7 +515,6 @@ def coverage_detail(request, ticker_symbol):
 		else:
 			audit_filter_form = FilterForm(request.POST)
 
-
 		if audit_filter_form.is_valid():
 			if 'services' in audit_filter_form.cleaned_data:
 				if len(audit_filter_form.cleaned_data['services']) > 0:
@@ -526,9 +529,11 @@ def coverage_detail(request, ticker_symbol):
 			initial_form_values['services'] = services_to_filter_by
 
 		audit_filter_form = FilterForm(initial=initial_form_values)
+		
 
 	else:
 		audit_filter_form = FilterForm()
+		coverage_detail_form = TickerForm()
 
 	if services_to_filter_by:
 			pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
@@ -538,6 +543,8 @@ def coverage_detail(request, ticker_symbol):
 		pass
 
 	services = Service.objects.all()
+
+	coverage_detail_form = TickerForm()
 	
 	today = datetime.now()
 	date_today = today.date()
@@ -590,6 +597,7 @@ def coverage_detail(request, ticker_symbol):
 	dictionary_of_values = {
 		'ticker': ticker,
 		'form': audit_filter_form,
+		'coverage_detail_form': coverage_detail_form,
 		'service_filter_description': service_filter_description,
 		'coverage_type_choices': COVERAGE_CHOICES,
 		'services': services,
