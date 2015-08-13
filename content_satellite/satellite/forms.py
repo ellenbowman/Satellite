@@ -27,7 +27,8 @@ class FilterForm(forms.Form):
 class TickerForm(forms.ModelForm):
 	class Meta:
 		model = Ticker
-		fields = ('notes','tier','tier_status')
+		fields = ('tier','tier_status', 'promised_coverage', 'notes')
+		
 
 class CoverageTypeForm(forms.ModelForm):
 	class Meta:
