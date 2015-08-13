@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>{{page_title|default:'Risk Ratings Generator'}}</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <!-- autocomplete -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!-- autocomplete -->
+
+  <!-- bootstrap css, js, theme  -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- bootstrap end -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+  <link rel="icon" href="http://www.fool.com/favicon.ico">
+
+  <style>
+    h3{
+        font-size:22px;
+    }
+    .no_response {
+      color: red;
+      //border: 1px dotted red;
+    }
+    .yes_response {
+      color: seagreen;
+      //border: 1px dotted seagreen;
+    }
+    .topnav-breadcrumb{
+        padding:14px;
+    }
+    html {
+      position: relative;
+      min-height: 100%;
+    }
+    body {
+      margin-bottom: 100px;
+    }
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      /* Set the fixed height of the footer here */
+      height: 60px;
+      background-color: #e0e0e0 ;
+    }
+  </style>
+
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-56792542-2', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+       <div class="container-fluid">
+
+           <div class="navbar-header">
+               <a href="{% url 'index' %}">
+                   <span class="navbar-brand" style='font-size:24px;'>
+                       <strong>Risk Ratings Generator</strong> (beta)
+                   </span>
+               </a>
+           </div>
+
+           <div class="collapse navbar-collapse">
+
+               <div class="nav navbar-nav navbar-right">
+                   <span class="navbar-brand">
+                       <a class='topnav-breadcrumb'  href="{% url 'index' %}">Start</a>
+                       <a class='topnav-breadcrumb'  href="{% url 'view_log' %}">Activity</a>
+                       <a class='topnav-breadcrumb'  href="{% url 'contact' %}">Feedback</a>
+                   </span>
+               </div>
+
+           </div>
+
+       </div>
+   </nav>
+
+
+    {% block body_container %}
+     <div class="container" style='padding-bottom:10px'>
+    <center>
+      <h2>Create Risk Ratings in less time.</h2>
+    </center>
+
+    {% if error %}
+    <div class='row'>
+      <div class='col-md-6 well col-md-offset-3'  style='border:2px dashed red;'>
+      <center>
+        Sorry,
+        {{error}}
+      </center>
+
+    </div>
+    </div>
+    {% endif %}
+
+    <div class='row'>
+
+      <form action="{% url 'create_risk_rating' %}">
+        <div class='col-md-6 well col-md-offset-3'>
+          <label>Step 1: Enter the Ticker Symbol</label> &nbsp; &nbsp;
+          <input id="ticker_input_text" type="text" value='AAPL' name='ticker' autofocus>
+          <label for="ticker_input_text"></label>
+        </div>
+
+        <div class='col-md-6 well col-md-offset-3'>
+          <label>Step 2: Select the type of Questionnaire</label>
+
+          <div style='padding-left:28px; padding-top:5px;'>
+            <p>
+              <input name='team_name' type='radio' id='sa_david' value='sa_david' checked/>
+              <label for='sa_david'>SA: David</label>
+            </p>
+            <p>
+              <input name='team_name' type='radio' value='sa_tom'  id='sa_tom'/>
+              <label for='sa_tom'>SA: Tom</label>
+            </p>
+            <p>
+              <input name='team_name' type='radio' value='rb' id='rb'/>
+              <label for='rb'>RB</label>
+            </p>
+            <p>
+              <input name='team_name' type='radio' value='beta' id='beta'/>
+              <label for='beta'>beta (draft)</label>
+            </p>
+          </div>
+          <div>
+
+            <em><label>Are you updating a Risk Rating?</label></em>
+            <br/>
+            If you enter its URL and Crushability,  we'll embed the values in the generated markup.
+            <br/>
+            Url: <input type='text' size='55' placeholder='http://newsletters.fool.com/[...]/risk-rating[...].aspx'
+            style='font-size: smaller' name='previous_url'>
+            &nbsp;  &nbsp;
+            Crushability: <input type='number' step='1' min='1' max='25' placeholder='14' style='width:3em' name='previous_score' style='font-size: smaller'>
+
+          </div>
+
+
+        </div>
+
+        <div class='col-md-6 well col-md-offset-3'>
+          <label>Step 3: Complete the pre-populated form</label>
+          <br/>
+          <center>
+            <button class="btn btn-success btn-large" type="submit" style='padding:15px 30px'>
+              <strong>Go</strong>
+            </button>
+          </center>
+        </div>
+
+        <div class='col-md-6 well col-md-offset-3'>
+          <label>Step 4: Generate markup for CMS and MSWord</label>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+
+
+  <div class='container-fluid' >
+    <div class='row'  style='background-color:#b9f6ca; padding: 10px 0px 20px 0px' >
+      <div class='col-sm-8 col-sm-offset-2'>
+        <center>
+        <legend>  <h1>Time-Saving Features</h1></legend>
+        </center>
+      </div>
+
+      <div class='col-sm-3 col-sm-offset-1'>
+        <center>
+        <h3>Types for you</h3>
+        <i class="fa fa-check-square-o fa-5x"></i>
+        <i class="fa fa-times-circle fa-5x"></i>
+        <br/>
+        Click buttons instead of typing "Yes"/"No".
+      </center>
+      </div>
+      <div class='col-sm-4'>
+        <center>
+        <h3>Pulls in data for you</h3>
+        <i class="fa fa-bar-chart fa-5x"></i>
+        <i class="fa fa-line-chart fa-5x"></i>
+        <br/>
+        Spend less time looking up figures.
+      </center>
+      </div>
+      <div class='col-sm-3'>
+        <center>
+        <h3>Formats for you</h3>
+        <img class='img-rounded' src='http://img.soundtrackcollector.com/cd/large/Sound_Of_Music_Fox426702.jpg' width='70px' alt='CMS'>
+        <img class='img-rounded' src='http://megaicons.net/static/img/icons_title/8/60/title/microsoft-office-word-icon.png' width='70px' alt='MSWord'>
+        <br/>
+        Click a button to get CMS- and MSWord-friendly reports.
+      </center>
+      </div>
+    </div>
+    <!--
+    <div class='row'  style='background-color:#b9f6ca; padding: 10px 0px 20px 0px' >
+      <center><em>plus:</em> Tallies up the counts for you</center>
+    </div>
+  -->
+    <div  style='background-color:white; padding: 20px 0px' >
+      <center>
+        <a name='about'></a>
+      <h2>About</h2>
+      <p>This app builds on a prototype developed during the TMF July 2015 Hackathon. The team: Sara, Aaron, and Lisa.</p>
+      </center>
+
+      <div class='row' >
+        <div class='col-sm-2 col-sm-offset-3  text-center'>
+          {% include 'risk_ratings/_user_profile.html' with name='Sara' img_url='http://www.fool.com/avatar/1596466308/large.ashx' tmf_username='TMFTycoon' %}
+        </div>
+        <div class='col-sm-2  text-center'>
+          {% include 'risk_ratings/_user_profile.html' with name='Aaron' img_url='http://www.fool.com/avatar/353760670/large.ashx' tmf_username='TMFPaladin' %}
+        </div>
+        <div class='col-sm-2  text-center'>
+          <!-- img_id='1601337813' -->
+          {% include 'risk_ratings/_user_profile.html' with name='Lisa' img_url='http://38.media.tumblr.com/avatar_d31b77caf5b7_128.png'  tmf_username='TMFLisaC' %}
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+</div>
+    {% endblock body_container %}
+
+
+
+
+
+
+  {% block scripts_block %}
+
+  {% if ticker_box_options %}
+  <script>
+    var tickersWhitelist = {{ticker_box_options|safe}} ;
+        $( "#ticker_input_text" ).autocomplete({
+          source: tickersWhitelist
+        });
+  </script>
+  {% endif %}
+
+  <script>
+    $(function() {
+        console.log('page ready');
+
+
+    });
+  </script>
+  {% endblock %}
+
+  <footer class="footer">
+      <div class="container">
+        <br/>
+
+        <p style='float:left'>
+          Submit <strong><a href='{% url "contact" %}'>feedback</a></strong> on this app.
+        </p>
+
+        <p style='float:right' class="text-muted">
+          Data provided by Capital IQ.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

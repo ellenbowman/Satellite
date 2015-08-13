@@ -1,0 +1,192 @@
+{% extends 'risk_ratings/index.html' %}
+
+{% load ticker_hints %}
+{% block body_container %}
+<form id='risk_rating_form' target="_blank" action='{% url "generate_markup" %}' method='POST'>
+{% csrf_token %}
+
+  <input type="hidden" name="ticker_symbol" value="{{ticker}}">
+  <input type="hidden" name="team_name" value="{{team_name}}">
+  <input type="hidden" name="previous_url" value="{{previous_url}}">
+  <input type="hidden" name="previous_score" value="{{previous_score}}">
+
+
+
+    <div class='row'>
+
+    <div class='col-sm-3 col-md-3 col-xs-4' id='status_panel' data-spy='affix'>
+      <br/>
+      <div class='well' style='padding:5px 4px'>
+        <strong>Summary</strong>
+        <br/>
+
+        Yes: <label id='count_yes'>...</label>
+        &nbsp; &nbsp;
+        No: <label id='count_no'>...</label>
+        <br/>
+        Complete: <label id='count_answered'>...</label> of <label>{{questions|length}}</label> <small> (<label id='percent_complete'>...%</label>)</small>
+
+        <br/>
+
+        <input type='submit' class='btn btn-primary' value='Generate Markup' >
+        <br/>
+        <br/>
+        <table style='font-size:11px;'>
+          {% for q in questions %}
+          <tr>
+            <td align='right'>{{forloop.counter}}.&nbsp; </td>
+            <td><a href='#q_{{q.id}}'>{{q.label|safe|truncatechars:17}}</a></td>
+            <td id='summary_{{q.id}}'></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+      <!--
+      <hr>
+      <small>
+        <strong>Crushability:</strong>
+        <br/>
+        {{ crushability_scale_markup|safe }}
+      </small>
+    -->
+    </div>
+
+    <div class='col-sm-9 col-sm-offset-3 col-md-8 col-xs-8 col-xs-offset-4'  >
+
+      <h2>Risk Rating: <strong>{{company_name}} (<a target='_blank' href='{{snapshot_url}}'>{{ticker}}</a>)</strong></h2>
+      <hr/>
+
+
+      {% for question in questions %}
+
+      <a name='q_{{question.id}}'></a>
+      {% ifequal question.text '--custom--'%}
+      <p>
+        <strong id='label_{{question.id}}'>{{question.list_order}}. {{question.label|safe}}</strong>:
+        <input type='text' size='70' name='question_text_{{question.id}}'>
+      </p>
+      {% else %}
+      <p>
+        <strong id='label_{{question.id}}'>{{question.list_order}}. {{question.label|safe}}</strong>:
+        {{question.text|safe}}
+      </p>
+      {% endifequal %}
+
+      {% get_hint question as hint_values%}
+
+      <table>
+        <tr>
+          <td width='180'>
+      <input type='radio' name='decision_{{question.id}}' value='yes' id='decision_{{question.id}}_yes' {%ifequal hint_values.0 True %}checked{%endifequal%}>
+      <label for='decision_{{question.id}}_yes'>Yes</label>
+      &nbsp;
+      <input type='radio' name='decision_{{question.id}}' value='no' id='decision_{{question.id}}_no' {%ifequal hint_values.0 False %}checked{%endifequal%}>
+      <label for='decision_{{question.id}}_no'>No</label>
+      &nbsp; &nbsp;
+      <input type='radio' name='decision_{{question.id}}' value='unanswered'  id='decision_{{question.id}}_unanswered' {%ifequal hint_values.0 None %}checked{%endifequal%}>
+      <label for='decision_{{question.id}}_unanswered' >--</label>
+      &nbsp; &nbsp;
+    </td>
+    <td >
+      <small  style='background-color:yellow'>{{hint_values.1|default:''|safe}}</small>
+    </td>
+  </tr>
+</table>
+
+      <textarea cols=80 rows=1 name='decision_detail_{{question.id}}' id='decision_detail_{{question.id}}' ></textarea>
+      <hr/>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts_block %}
+{{block.super}}
+<script>
+function set_values(){
+  /*$('#decision_734_yes').prop('checked', true) */
+  /*$('#decision_detail_734').val("how is this?")*/
+}
+function count_boxes(){
+
+
+  var selected_boxes = $(":radio:checked");
+  for(i=0; i < selected_boxes.length; i++){
+    var question_id = selected_boxes[i].name.split('_').slice(-1)[0];
+
+    var resp = '--';
+    if(selected_boxes[i].value == 'no'){
+      resp = 'no';
+    }
+    else if (selected_boxes[i].value=='yes') {
+      resp = 'yes';
+    }
+
+    $('#summary_'+question_id).text(resp);
+
+  }
+
+
+  var unanswered_count = $(":radio[value='unanswered']:checked").length;
+  var yes_count = $(":radio[value='yes']:checked").length;
+  var no_count = $(":radio[value='no']:checked").length;
+
+  var total = unanswered_count + yes_count + no_count;
+  var percent_unanswered = unanswered_count * 1.0 / total;
+  var percent_complete = Math.round(100 * (1.0 - percent_unanswered));
+
+  $('#count_yes').text(yes_count);
+  $('#count_no').text(no_count);
+  $('#count_answered').text(yes_count + no_count);
+  $('#percent_complete').text(percent_complete +'%');
+
+
+  //$(':submit').prop('disabled', unanswered_count>0);
+
+}
+
+
+$('input:radio').on('change', function(){
+    // console.log($(this).attr('name') + '  ' +  $(this).val());
+    count_boxes();
+
+    var option_name  = $(this).attr('name');
+    option_name = option_name.replace('decision_', 'label_');
+
+    $('#'+option_name).removeClass('no_response');
+    $('#'+option_name).removeClass('yes_response');
+
+    if( $(this).val() == 'yes'){
+      $('#'+option_name).addClass('yes_response');
+    }
+    else if( $(this).val() == 'no'){
+      $('#'+option_name).addClass('no_response');
+    }
+});
+
+
+function initialize_styles(){
+  var i = 0;
+
+  var yes_selections =$(":radio[value='yes']:checked")
+  for(i=0; i < yes_selections.length; i++){
+    var question_id = yes_selections[i].name.split('_').slice(-1)[0];
+    $('#label_'+question_id).removeClass('no_response').addClass('yes_response');
+  }
+  var no_selections =$(":radio[value='no']:checked")
+  for(i=0; i < no_selections.length; i++){
+    var question_id = no_selections[i].name.split('_').slice(-1)[0];
+    $('#label_'+question_id).removeClass('yes_response').addClass('no_response');
+  }
+
+}
+
+count_boxes();
+initialize_styles();
+
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'risk_ratings/index.html' %}
+
+{% block body_container %}
+<div class='row'>
+  <div class='col-md-8 col-md-offset-2'>
+    <h3>
+      Activity Log
+    </h3>
+    <table class='table table-striped table-bordered'>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Questionnaire</th>
+          <th colspan='2'>Crushability</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for d in drafts %}
+          <tr>
+            <td>
+              <img src='//g.foolcdn.com/art/companylogos/mark/{{d.ticker_symbol}}.png'
+              alt='{{d.ticker_symbol}} logo'
+              height='35px'/>
+              {{d.ticker_symbol}}
+            </td>
+            <td>{{d.questionnaire_name}}</td>
+            <td>{{d.crushability_count}}</td>
+            <td>{{d.crushability_label}}</td>
+            <td>
+              {{d.timestamp|date:'M. d'}}
+              {{d.timestamp|time}}
+            </td>
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class='row'>
+  <div class='col-md-8 col-md-offset-2'>
+    <h3>
+      Data Imports from Capital IQ
+    </h3>
+    <table class='table table-striped table-bordered'>
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Ticker Count</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for d in data_imports %}
+          <tr>
+            <td>
+              {{d.timestamp|date:'M. d'}}
+              {{d.timestamp|time}}
+            </td>
+            <td>
+              {{d.ticker_count}}
+            </td>
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

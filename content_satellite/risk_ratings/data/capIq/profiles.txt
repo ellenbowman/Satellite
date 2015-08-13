@@ -1,0 +1,437 @@
+	IQ_CITY	IQ_STATE	IQ_COUNTRY_NAME	IQ_COMPANY_NAME	IQ_CEO_NAME	IQ_EST_NEXT_EARNINGS_DATE
+AAPL	Cupertino	CA	United States	Apple Inc.	"Cook, Timothy"	2015-10-20
+ACN	Dublin	0	Ireland	Accenture plc	"Nanterme, Pierre"	2015-09-25
+ADBE	San Jose	CA	United States	Adobe Systems Incorporated	"Narayen, Shantanu"	2015-09-16
+ADP	Roseland	NJ	United States	"Automatic Data Processing, Inc."	"Rodriguez, Carlos"	1900-01-00
+AFL	Columbus	GA	United States	Aflac Incorporated	"Amos, Daniel"	2015-10-27
+AGFS	New York	NY	United States	"AgroFresh Solutions, Inc."	"Trevor, Stephen"	2015-08-14
+AHS	San Diego	CA	United States	AMN Healthcare Services Inc.	"Salka, Susan"	1900-01-00
+AINV	New York	NY	United States	Apollo Investment Corporation	"Zelter, James"	2015-08-06
+AIRM	Englewood	CO	United States	Air Methods Corp.	"Todd, Aaron"	2015-08-06
+ALGN	San Jose	CA	United States	Align Technology Inc.	"Hogan, Joseph"	2015-10-23
+ALNY	Cambridge	MA	United States	"Alnylam Pharmaceuticals, Inc."	"Maraganore, John"	2015-08-06
+ALV	Stockholm	0	Sweden	"Autoliv, Inc."	"Carlson, Jan"	2015-10-23
+AMBA	Santa Clara	CA	United States	"Ambarella, Inc."	"Wang, Feng-Ming"	2015-09-03
+AMCX	New York	NY	United States	AMC Networks Inc.	"Sapan, Joshua"	2015-08-06
+AMRC	Framingham	MA	United States	"Ameresco, Inc."	"Sakellaris, George"	2015-11-06
+AMT	Boston	MA	United States	American Tower Corporation	"Taiclet, James"	2015-10-30
+AMTD	Omaha	NE	United States	TD Ameritrade Holding Corporation	"Tomczyk, Fredric"	2015-08-11
+AMZN	Seattle	WA	United States	Amazon.com Inc.	"Bezos, Jeffrey"	2015-10-23
+ANET	Santa Clara	CA	United States	"Arista Networks, Inc."	"Ullal, Jayshree"	2015-08-06
+ANTM	Indianapolis	IN	United States	"Anthem, Inc."	"Swedish, Joseph"	2015-10-28
+AP	Pittsburgh	PA	United States	Ampco-Pittsburgh Corp.	"Stanik, John"	2015-10-30
+APEI	Charles Town	WV	United States	"American Public Education, Inc."	"Boston, Wallace"	2015-08-10
+APOG	Minneapolis	MN	United States	"Apogee Enterprises, Inc."	"Puishys, Joseph"	2015-09-16
+ARLP	Tulsa	OK	United States	Alliance Resource Partners LP	"Craft, Joseph"	2015-10-26
+ASR	Englewood	CO	United States	Alacer Gold Corp.	"Antal, Rodney"	2015-10-27
+ATHN	Watertown	MA	United States	"athenahealth, Inc."	"Bush, Jonathan"	2015-10-16
+ATVI	Santa Monica	CA	United States	"Activision Blizzard, Inc."	"Kotick, Robert"	1900-01-00
+ATW	Houston	TX	United States	"Atwood Oceanics, Inc."	"Saltiel, Robert"	2015-11-10
+AVAV	Monrovia	CA	United States	"AeroVironment, Inc."	"Conver, Timothy"	2015-08-31
+AWAY	Austin	TX	United States	"HomeAway, Inc."	"Sharples, Brian"	1900-01-00
+AXP	New York	NY	United States	American Express Company	"Chenault, Kenneth"	2015-10-12
+AZZ	Fort Worth	TX	United States	AZZ incorporated	"Ferguson, Thomas"	2015-10-02
+BABY	Pleasanton	CA	United States	Natus Medical Inc.	"Hawkins, James"	2015-10-22
+BAC	Charlotte	NC	United States	Bank of America Corporation	"Moynihan, Brian"	2015-10-16
+BAMXF	Munich	0	Germany	Bayerische Motoren Werke Aktiengesellschaft	"Krueger, Harald"	2015-11-03
+BAX	Deerfield	IL	United States	Baxter International Inc.	"Parkinson, Robert"	2015-10-29
+BBBY	Union	NJ	United States	Bed Bath & Beyond Inc.	"Temares, Steven"	2015-09-23
+BBEP	Los Angeles	CA	United States	Breitburn Energy Partners LP	"Washburn, Halbert"	2015-08-06
+BCPC	New Hampton	NY	United States	Balchem Corp.	"Harris, Theodore"	1900-01-00
+BID	New York	NY	United States	Sotheby's	"Smith, Thomas "	2015-08-06
+BIDU	Beijing	0	China	"Baidu, Inc."	"Li, Yanhong"	2015-10-27
+BIG	Columbus	OH	United States	Big Lots Inc.	"Campisi, David"	2015-08-28
+BIP	Toronto	ON	Canada	Brookfield Infrastructure Partners L.P.	"Pollock, Samuel"	2015-08-05
+BJRI	Huntington Beach	CA	United States	"BJ's Restaurants, Inc."	"Trojan, Gregory"	2015-10-22
+BKE	Kearney	NE	United States	"The Buckle, Inc."	"Nelson, Dennis"	2015-08-20
+BKS	New York	NY	United States	"Barnes & Noble, Inc."	"Huseby, Michael"	2015-09-09
+BLKB	Charleston	SC	United States	Blackbaud Inc.	"Gianoni, Michael"	2015-10-30
+BLUE	Cambridge	MA	United States	"bluebird bio, Inc."	"Leschly, Nick"	2015-08-05
+BLX	Panama	0	Panama	"Banco Latinoamericano de Comercio Exterior, S.A"	"Amaral, Rubens"	2015-10-15
+BMRN	San Rafael	CA	United States	BioMarin Pharmaceutical Inc.	"Bienaime, Jean-Jacques"	2015-10-24
+BNED	Basking Ridge	NJ	United States	"Barnes & Noble Education, Inc."	0	2015-10-26
+BNS	London	0	United Kingdom	Baronsmead VCT 4 plc	0	1900-01-00
+BOBE	New Albany	OH	United States	"Bob Evans Farms, Inc."	0	2015-08-19
+BOBE  151218P00055000	(Invalid Identifier)	(Invalid Identifier)	(Invalid Identifier)	(Invalid Identifier)	(Invalid Identifier)	(Invalid Identifier)
+BOFI	San Diego	CA	United States	"BofI Holding, Inc."	"Garrabrants, Gregory"	1900-01-00
+BOOM	Boulder	CO	United States	Dynamic Materials Corp.	"Longe, Kevin"	2015-10-29
+BRK.B	Omaha	NE	United States	Berkshire Hathaway Inc.	"Buffett, Warren"	2015-08-07
+BWA	Auburn Hills	MI	United States	BorgWarner Inc.	"Verrier, James"	2015-10-29
+BWLD	Minneapolis	MN	United States	Buffalo Wild Wings Inc.	"Smith, Sally"	2015-10-27
+CABO	Phoenix	AZ	United States	"Cable ONE, Inc."	"Might, Thomas"	1900-01-00
+CAMP	Oxnard	CA	United States	CalAmp Corp.	"Burdiek, Michael"	2015-10-06
+CASY	Ankeny	IA	United States	"Casey's General Stores, Inc."	"Myers, Robert"	2015-09-04
+CBOE	Chicago	IL	United States	"CBOE Holdings, Inc."	"Tilly, Edward"	2015-10-30
+CCU	Santiago	0	Chile	Compania Cervecerias Unidas S.A.	"Nasrallah, Patricio"	1900-01-00
+CELG	Summit	NJ	United States	Celgene Corporation	"Hugin, Robert"	2015-10-15
+CERN	North Kansas City	MO	United States	Cerner Corporation	"Patterson, Neal"	1900-01-00
+CGNX	Natick	MA	United States	Cognex Corporation	"Willett, Robert"	2015-11-02
+CHEF	Ridgefield	CT	United States	"The Chefs' Warehouse, Inc."	"Pappas, Christopher"	2015-10-30
+CHKP	San Carlos	CA	United States	Check Point Software Technologies Ltd.	"Shwed, Gil"	2015-10-20
+CHL	London	0	United Kingdom	Churchill Mining Plc	"Smith, Nicholas"	2015-10-15
+CHRW	Eden Prairie	MN	United States	CH Robinson Worldwide Inc.	"Wiehoff, John"	2015-10-27
+CHUY	Austin	TX	United States	"Chuy's Holdings, Inc."	"Hislop, Steven"	1900-01-00
+CLB	Amsterdam	0	Netherlands	Core Laboratories NV	"Demshur, David"	2015-10-22
+CLDX	Hampton	NJ	United States	"Celldex Therapeutics, Inc."	"Marucci, Anthony"	2015-08-10
+CLNE	Newport Beach	CA	United States	Clean Energy Fuels Corp.	"Littlefair, Andrew"	2015-08-05
+CMG	Denver	CO	United States	"Chipotle Mexican Grill, Inc."	0	2015-10-20
+CMI	Columbus	IN	United States	Cummins Inc.	"Linebarger, N."	2015-10-30
+CMP	Overland Park	KS	United States	Compass Minerals International Inc.	"Malecha, Francis"	2015-10-26
+CMPR	Venlo	0	Netherlands	Cimpress N.V.	"Keane, Robert"	1900-01-00
+CNI	Sydney	NSW	Australia	Centuria Capital Limited	"McBain, John"	2015-08-24
+COH	New York	NY	United States	"Coach, Inc."	"Luis, Victor"	2015-10-27
+COST	Issaquah	WA	United States	Costco Wholesale Corporation	"Jelinek, W."	2015-10-01
+CPA	Panama City	0	Panama	Copa Holdings SA	"Heilbron, Pedro"	2015-08-12
+CPRT	Dallas	TX	United States	"Copart, Inc."	"Adair, A."	2015-09-23
+CRI	Atlanta	GA	United States	"Carter's, Inc."	"Casey, Michael"	2015-10-27
+CRM	San Francisco	CA	United States	"salesforce.com, inc."	"Benioff, Marc"	2015-08-20
+CROX	Niwot	CO	United States	"Crocs, Inc."	"Ribatt, Gregg"	2015-10-30
+CRTO	Paris	0	France	Criteo SA	"Rudelle, Jean-Baptiste"	2015-11-04
+CRUS	Austin	TX	United States	Cirrus Logic Inc.	"Rhode, Jason"	2015-10-28
+CSCO	San Jose	CA	United States	"Cisco Systems, Inc."	"Robbins, Charles"	2015-08-12
+CSGP	Washington	DC	United States	CoStar Group Inc.	"Florance, Andrew"	2015-10-28
+CSTE	MP Menashe	0	Israel	CaesarStone Sdot-Yam Ltd.	"Shiran, Yosef"	2015-08-05
+CSX	Jacksonville	FL	United States	CSX Corp.	"Ward, Michael"	2015-10-13
+CTAS	Cincinnati	OH	United States	Cintas Corporation	"Farmer, Scott"	2015-09-18
+CTRE	Mission Viejo	CA	United States	"CareTrust REIT, Inc."	"Stapley, Gregory"	2015-08-13
+CTRP	Shanghai	0	China	Ctrip.com International Ltd.	"Liang, Jianzhang"	1900-01-00
+CTSH	Teaneck	NJ	United States	Cognizant Technology Solutions Corporation	"D’Souza, Francisco"	2015-08-05
+CVS	Woonsocket	RI	United States	CVS Health Corporation	"Merlo, Larry"	1900-01-00
+CVT	Tysons Corner	VA	United States	"Cvent, Inc."	"Aggarwal, Rajeev"	2015-08-06
+CVX	San Ramon	CA	United States	Chevron Corporation	"Watson, John"	2015-10-30
+CWT	San Jose	CA	United States	California Water Service Group	"Kropelnicki, Martin"	2015-11-04
+CY	San Jose	CA	United States	Cypress Semiconductor Corporation	"Rodgers, T."	2015-10-15
+D	Richmond	VA	United States	"Dominion Resources, Inc."	"Farrell, Thomas"	2015-08-05
+DAR	Irving	TX	United States	Darling Ingredients Inc.	"Stuewe, Randall"	2015-08-13
+DASTY	Vélizy-Villacoublay	0	France	Dassault Systemes SA	"Charles, Bernard"	2015-08-07
+DDD	Rock Hill	SC	United States	3D Systems Corporation	"Reichental, Abraham"	2015-08-06
+DECK	Goleta	CA	United States	Deckers Outdoor Corp.	"Martinez, Angel"	2015-10-29
+DEO	London	0	United Kingdom	Diageo plc	"Menezes, Ivan"	1900-01-00
+DGI	Longmont	CO	United States	"DigitalGlobe, Inc."	"Tarr, Jeffrey"	2015-10-30
+DIS	Burbank	CA	United States	The Walt Disney Company	"Iger, Robert"	1900-01-00
+DISCK	Silver Spring	MD	United States	"Discovery Communications, Inc."	"Zaslav, David"	2015-08-05
+DLB	San Francisco	CA	United States	"Dolby Laboratories, Inc."	"Yeaman, Kevin"	2015-10-23
+DLX	Shoreview	MN	United States	Deluxe Corp.	"Schram, Lee"	2015-10-22
+DNOW	Houston	TX	United States	NOW Inc.	"Workman, Robert"	2015-08-05
+DORM	Colmar	PA	United States	"Dorman Products, Inc."	"Berman, Steven"	2015-10-29
+DPM	Denver	CO	United States	DCP Midstream Partners LP	"van Kempen, Wouter"	2015-08-05
+DVN	Oklahoma City	OK	United States	Devon Energy Corporation	"Hager, David"	1900-01-00
+DW	Elkhart	IN	United States	Drew Industries Incorporated	"Lippert, Jason"	1900-01-00
+DWA	Glendale	CA	United States	DreamWorks Animation SKG Inc.	"Katzenberg, Jeffrey"	1900-01-00
+DWSN	Midland	TX	United States	Dawson Geophysical Company	"Jumper, Stephen"	2015-08-07
+EBAY	San Jose	CA	United States	eBay Inc.	"Wenig, Devin"	2015-10-14
+EBS	Gaithersburg	MD	United States	"Emergent BioSolutions, Inc."	"Abdun-Nabi, Daniel"	2015-08-06
+ECOL	Boise	ID	United States	"US Ecology, Inc."	"Feeler, Jeffrey"	2015-08-05
+EDU	Beijing	0	China	New Oriental Education & Technology Group Inc.	"Yu, Minhong"	1900-01-00
+EEFT	Leawood	KS	United States	"Euronet Worldwide, Inc."	"Brown, Michael"	2015-10-28
+EEP	Houston	TX	United States	"Enbridge Energy Partners, L.P."	"Maki, Mark"	2015-10-30
+ELLI	Pleasanton	CA	United States	"Ellie Mae, Inc."	"Corr, Jonathan"	2015-10-30
+EMR	St. Louis	MO	United States	Emerson Electric Co.	"Farr, David"	2015-11-03
+ENOC	Boston	MA	United States	"EnerNOC, Inc."	"Healy, Timothy"	2015-08-06
+EPAM	Newtown	PA	United States	"EPAM Systems, Inc."	"Dobkin, Arkadiy"	1900-01-00
+EPD	Houston	TX	United States	Enterprise Products Partners L.P.	"Creel, Michael"	2015-10-14
+EQC	Newton	MA	United States	Equity Commonwealth	"Helfand, David"	2015-08-05
+EQIX	Redwood City	CA	United States	"Equinix, Inc."	"Smith, Stephen"	2015-10-28
+ERJ	Sao Jose dos Campos	SP	Brazil	Embraer SA	"Curado, Frederico"	2015-10-15
+ESRX	St. Louis	MO	United States	Express Scripts Holding Company	"Paz, George"	2015-10-26
+EXEL	South San Francisco	CA	United States	"Exelixis, Inc."	"Morrissey, Michael"	2015-08-11
+F	Dearborn	MI	United States	Ford Motor Co.	"Fields, Mark"	2015-10-27
+FAF	Santa Ana	CA	United States	First American Financial Corporation	"Gilmore, Dennis"	2015-10-23
+FB	Menlo Park	CA	United States	"Facebook, Inc."	"Zuckerberg, Mark"	2015-10-27
+FDS	Norwalk	CT	United States	FactSet Research Systems Inc.	"Snow, Frederick"	2015-09-15
+FDX	Memphis	TN	United States	FedEx Corporation	"Smith, Frederick"	2015-09-16
+FEIC	Hillsboro	OR	United States	FEI Company	"Kania, Don"	2015-10-27
+FEYE	Milpitas	CA	United States	"FireEye, Inc."	"DeWalt, David"	2015-11-04
+FFNW	Renton	WA	United States	"First Financial Northwest, Inc."	"Kiley, Joseph"	2015-10-22
+FII	Pittsburgh	PA	United States	"Federated Investors, Inc."	"Donahue, John"	2015-10-22
+FISI	Warsaw	NY	United States	Financial Institutions Inc.	"Birmingham, Martin"	2015-10-23
+FIVE	Philadelphia	PA	United States	"Five Below, Inc."	"Anderson, Joel"	2015-09-08
+FLO	Thomasville	GA	United States	"Flowers Foods, Inc."	"Shiver, Allen"	2015-08-13
+FORM	Livermore	CA	United States	FormFactor Inc.	"Slessor, Michael"	2015-10-26
+FOSL	Richardson	TX	United States	"Fossil Group, Inc."	"Kartsotis, Kosta"	2015-08-11
+FTD	Downers Grove	IL	United States	"FTD Companies, Inc."	"Apatoff, Robert"	2015-08-05
+FTI	Houston	TX	United States	"FMC Technologies, Inc."	"Gremp, John"	2015-10-20
+GBX	Lake Oswego	OR	United States	"The Greenbrier Companies, Inc."	"Furman, William"	2015-10-30
+GCI	McLean	VA	United States	"Gannett Co., Inc."	"Dickey, Robert"	2015-10-29
+GEOS	Houston	TX	United States	Geospace Technologies Corporation	"Wheeler, Walter"	2015-08-06
+GES	Los Angeles	CA	United States	Guess? Inc.	"Amigo, Victor"	2015-09-01
+GHC	Arlington	VA	United States	Graham Holdings Company	"Graham, Donald"	2015-08-05
+GHDX	Redwood City	CA	United States	Genomic Health Inc.	"Popovits, Kimberly"	1900-01-00
+GILD	Foster City	CA	United States	Gilead Sciences Inc.	"Martin, John"	2015-10-28
+GLW	Corning	NY	United States	Corning Inc.	"Weeks, Wendell"	2015-10-27
+GM	Detroit	MI	United States	General Motors Company	"Barra, Mary"	2015-10-23
+GMCR	Waterbury	VT	United States	"Keurig Green Mountain, Inc."	"Kelley, Brian"	2015-08-05
+GNCMA	Anchorage	AK	United States	General Communication Inc.	"Duncan, Ronald"	1900-01-00
+GNRC	Waukesha	WI	United States	Generac Holdings Inc.	"Jagdfeld, Aaron"	2015-08-06
+GNTX	Zeeland	MI	United States	Gentex Corp.	"Bauer, Fred"	2015-10-22
+GOOG	Mountain View	CA	United States	Google Inc.	"Page, Lawrence"	2015-10-15
+GOOGL	Mountain View	CA	United States	Google Inc.	"Page, Lawrence"	2015-10-15
+GPRO	San Mateo	CA	United States	"GoPro, Inc."	"Woodman, Nicholas"	2015-10-21
+GPT	New York	NY	United States	Gramercy Property Trust Inc.	"DuGan, Gordon"	2015-08-05
+GTLS	Garfield Heights	OH	United States	Chart Industries Inc.	"Thomas, Samuel"	2015-10-30
+GWR	Darien	CT	United States	Genesee & Wyoming Inc.	"Hellmann, John"	2015-10-30
+H	Chicago	IL	United States	Hyatt Hotels Corporation	"Hoplamazian, Mark"	1900-01-00
+HAIN	Lake Success	NY	United States	"The Hain Celestial Group, Inc."	"Simon, Irwin"	2015-08-20
+HAL	Houston	TX	United States	Halliburton Company	"Lesar, David"	2015-10-19
+HAS	Pawtucket	RI	United States	Hasbro Inc.	"Goldner, Brian"	2015-10-19
+HCN	Toledo	OH	United States	"Health Care REIT, Inc."	"DeRosa, Thomas"	2015-10-30
+HD	Atlanta	GA	United States	"The Home Depot, Inc."	"Menear, Craig"	2015-08-18
+HEI	Hollywood	FL	United States	HEICO Corporation	"Mendelson, Laurans"	2015-08-24
+HHC	Dallas	TX	United States	The Howard Hughes Corporation	"Weinreb, David"	2015-08-07
+HPY	Princeton	NJ	United States	"Heartland Payment Systems, Inc."	"Carr, Robert"	2015-10-30
+HTZ	Naples	FL	United States	"Hertz Global Holdings, Inc."	"Tague, John"	2015-08-05
+HY	Cleveland	OH	United States	"Hyster-Yale Materials Handling, Inc."	"Rankin, Alfred"	2015-10-28
+IBKR	Greenwich	CT	United States	"Interactive Brokers Group, Inc."	"Peterffy, Thomas"	2015-10-21
+ICE	Atlanta	GA	United States	"Intercontinental Exchange, Inc."	"Sprecher, Jeffrey"	2015-08-05
+IDXX	Westbrook	ME	United States	"IDEXX Laboratories, Inc."	"Ayers, Jonathan"	2015-10-30
+IIVI	Saxonburg	PA	United States	II-VI Incorporated	"Kramer, Francis"	1900-01-00
+ILMN	San Diego	CA	United States	Illumina Inc.	"Flatley, Jay"	2015-10-20
+IMAX	Mississauga	ON	Canada	IMAX Corporation	"Gelfond, Richard"	2015-10-23
+IMGN	Waltham	MA	United States	"ImmunoGen, Inc."	"Junius, Daniel"	1900-01-00
+INFN	Sunnyvale	CA	United States	Infinera Corporation	"Fallon, Thomas"	2015-10-21
+ININ	Indianapolis	IN	United States	Interactive Intelligence Group Inc.	"Brown, Donald"	2015-11-04
+INTC	Santa Clara	CA	United States	Intel Corporation	"Krzanich, Brian"	2015-10-13
+INTU	Mountain View	CA	United States	Intuit Inc.	"Smith, Brad"	2015-08-20
+INVN	San Jose	CA	United States	"InvenSense, Inc."	"Abdi, Behrooz"	1900-01-00
+IPGP	Oxford	MA	United States	IPG Photonics Corporation	"Gapontsev, Valentin"	2015-10-28
+IRBT	Bedford	MA	United States	iRobot Corporation	"Angle, Colin"	2015-10-20
+IRDM	McLean	VA	United States	Iridium Communications Inc.	"Desch, Matthew"	2015-10-30
+ISIS	Carlsbad	CA	United States	"Isis Pharmaceuticals, Inc."	"Crooke, Stanley"	1900-01-00
+ISRG	Sunnyvale	CA	United States	"Intuitive Surgical, Inc."	"Guthart, Gary"	2015-10-15
+IT	Stamford	CT	United States	Gartner Inc.	"Hall, Eugene"	2015-11-05
+ITC	Novi	MI	United States	ITC Holdings Corp.	"Welch, Joseph"	2015-11-05
+ITW	Glenview	IL	United States	Illinois Tool Works Inc.	"Santi, E."	2015-10-21
+JASN	Milwaukee	WI	United States	"Jason Industries, Inc."	"Westgate, David"	2015-10-30
+JBT	Chicago	IL	United States	John Bean Technologies Corporation	"Giacomini, Thomas"	2015-11-05
+JLL	Chicago	IL	United States	Jones Lang LaSalle Incorporated	"Dyer, Colin"	2015-10-27
+JNJ	New Brunswick	NJ	United States	Johnson & Johnson	"Gorsky, Alex"	2015-10-13
+JOBS	Shanghai	0	China	51job Inc.	"Yan, Rick"	2015-08-10
+JUNO	Seattle	WA	United States	Juno Therapeutics Inc.	"Bishop, Hans"	2015-08-10
+JWN	Seattle	WA	United States	Nordstrom Inc.	0	2015-08-13
+KMB	Dallas	TX	United States	Kimberly-Clark Corporation	"Falk, Thomas"	2015-10-21
+KMI	Houston	TX	United States	"Kinder Morgan, Inc."	"Kean, Steven"	2015-10-16
+KMX	Richmond	VA	United States	CarMax Inc.	"Folliard, Thomas"	2015-09-22
+KNDI	Jinhua	0	China	"Kandi Technologies Group, Inc."	"Hu, Xiaoming"	2015-08-10
+KO	Atlanta	GA	United States	The Coca-Cola Company	"Kent, Muhtar"	2015-10-16
+L	New York	NY	United States	Loews Corporation	"Tisch, James"	2015-10-26
+LBTYK	London	0	United Kingdom	Liberty Global plc	"Fries, Michael"	1900-01-00
+LDL	Manchester	CT	United States	"Lydall, Inc."	"Barnhart, Dale"	2015-08-05
+LF	Emeryville	CA	United States	LeapFrog Enterprises Inc.	"Barbour, John"	1900-01-00
+LFUS	Chicago	IL	United States	Littelfuse Inc.	"Hunter, Gordon"	2015-10-29
+LGF	Santa Monica	CA	United States	Lions Gate Entertainment Corp.	"Feltheimer, Jon"	2015-08-06
+LILAK	London	0	United Kingdom	Liberty LiLAC Group	0	2015-08-26
+LKQ	Chicago	IL	United States	LKQ Corp.	"Wagman, Robert"	2015-10-27
+LL	Toano	VA	United States	"Lumber Liquidators Holdings, Inc."	"Sullivan, Thomas"	2015-08-05
+LLTC	Milpitas	CA	United States	Linear Technology Corporation	"Maier, Lothar"	1900-01-00
+LNKD	Mountain View	CA	United States	LinkedIn Corporation	"Weiner, Jeffrey"	2015-10-29
+LOCK	Tempe	AZ	United States	"LifeLock, Inc."	"Davis, Richard"	2015-10-29
+LPSN	New York	NY	United States	LivePerson Inc.	"LoCascio, Robert"	2015-11-05
+LQDT	Washington	DC	United States	"Liquidity Services, Inc."	"Angrick, William"	2015-08-06
+LUK	New York	NY	United States	Leucadia National Corporation	"Handler, Richard"	1900-01-00
+LULU	Vancouver	BC	Canada	Lululemon Athletica Inc.	"Potdevin, Laurent"	2015-09-09
+MA	Purchase	NY	United States	MasterCard Incorporated	"Banga, Ajaypal"	2015-10-29
+MANH	Atlanta	GA	United States	"Manhattan Associates, Inc."	"Capel, Eddie"	2015-10-20
+MANT	Fairfax	VA	United States	ManTech International Corporation	"Pedersen, George"	2015-10-28
+MCK	San Francisco	CA	United States	McKesson Corporation	"Hammergren, John"	2015-10-23
+MELI	Vicente Lopez	0	Argentina	"Mercadolibre, Inc."	"Galperin, Marcos"	2015-08-05
+MG	Princeton Junction	NJ	United States	"Mistras Group, Inc."	"Vahaviolos, Sotirios"	2015-08-05
+MGRC	Livermore	CA	United States	McGrath Rentcorp	"Kakures, Dennis"	2015-10-29
+MHLD	Hamilton	0	Bermuda	"Maiden Holdings, Ltd."	"Raschbaum, Arturo"	1900-01-00
+MIDD	Elgin	IL	United States	Middleby Corp.	"Bassoul, Selim"	2015-08-12
+MINI	Phoenix	AZ	United States	"Mobile Mini, Inc."	"Olsson, Erik"	2015-10-23
+MKC	Sparks	MD	United States	"McCormick & Company, Incorporated"	"Wilson, Alan"	2015-10-01
+MKL	Glen Allen	VA	United States	Markel Corp.	"Kirshner, Alan"	2015-08-05
+MKTX	New York	NY	United States	MarketAxess Holdings Inc.	"McVey, Richard"	2015-10-21
+MMP	Tulsa	OK	United States	Magellan Midstream Partners LP	"Mears, Michael"	2015-08-06
+MNST	Corona	CA	United States	Monster Beverage Corporation	"Sacks, Rodney"	2015-08-06
+MNTA	Cambridge	MA	United States	Momenta Pharmaceuticals Inc.	"Wheeler, Craig"	1900-01-00
+MOD	Racine	WI	United States	Modine Manufacturing Company	"Burke, Thomas"	2015-10-30
+MOG.A	East Aurora	NY	United States	Moog Inc.	"Scannell, John"	2015-10-30
+MOV	Paramus	NJ	United States	"Movado Group, Inc."	"Grinberg, Efraim"	2015-08-27
+MRH	D?browa Górnicza	0	Poland	Mr Hamburger Spólka Akcyjna	0	2015-08-14
+MSA	Cranberry Township	PA	United States	MSA Safety Incorporated	"Lambert, William"	2015-10-22
+MSFT	Redmond	WA	United States	Microsoft Corporation	"Nadella, Satya"	1900-01-00
+MSM	Melville	NY	United States	MSC Industrial Direct Co. Inc.	"Gershwind, Erik"	2015-10-28
+MSTR	Tysons Corner	VA	United States	MicroStrategy Inc.	"Saylor, Michael"	2015-10-27
+MTH	Scottsdale	AZ	United States	Meritage Homes Corporation	"Hilton, Steven"	2015-10-29
+MTN	Broomfield	CO	United States	Vail Resorts Inc.	"Katz, Robert"	2015-09-24
+MTZ	Coral Gables	FL	United States	"MasTec, Inc."	"Mas, Jose"	2015-08-08
+N	San Mateo	CA	United States	NetSuite Inc.	"Nelson, Zachary"	2015-10-23
+NATI	Austin	TX	United States	National Instruments Corporation	"Truchard, James"	2015-10-28
+NCR	Duluth	GA	United States	NCR Corporation	"Nuti, William"	2015-10-21
+NDAQ	New York	NY	United States	"The Nasdaq OMX Group, Inc."	"Greifeld, Robert"	2015-10-23
+NDSN	Westlake	OH	United States	Nordson Corporation	"Hilton, Michael"	2015-08-20
+NFLX	Los Gatos	CA	United States	"Netflix, Inc."	"Hastings, Reed"	2015-10-15
+NGG	London	0	United Kingdom	National Grid plc	"Holliday, Steven"	2015-11-10
+NILE	Seattle	WA	United States	Blue Nile Inc.	"Kanter, Harvey"	2015-08-07
+NKE	Beaverton	OR	United States	"NIKE, Inc."	"Parker, Mark"	2015-09-23
+NOV	Houston	TX	United States	"National Oilwell Varco, Inc."	"Williams, Clay"	2015-10-28
+NSAM	New York	NY	United States	Northstar Asset Management Group Inc.	"Hamamoto, David"	2015-08-06
+NSH	San Antonio	TX	United States	"NuStar GP Holdings, LLC"	"Barron, Bradley"	2015-10-28
+NTES	Beijing	0	China	"NetEase, Inc."	"Ding, Lei"	2015-08-13
+NTGR	San Jose	CA	United States	Netgear Inc.	"Lo, C."	2015-10-22
+NUAN	Burlington	MA	United States	"Nuance Communications, Inc."	"Ricci, Paul"	2015-08-06
+NUE	Charlotte	NC	United States	Nucor Corporation	"Ferriola, John"	2015-10-22
+NUVA	San Diego	CA	United States	"NuVasive, Inc."	"Lucier, Gregory"	2015-10-28
+NVDA	Santa Clara	CA	United States	NVIDIA Corporation	"Huang, Jen-Hsun"	2015-08-06
+NXPI	Eindhoven	0	Netherlands	NXP Semiconductors NV	"Clemmer, Richard"	2015-10-26
+NXTM	Lawrence	MA	United States	"Nxstage Medical, Inc."	"Burbank, Jeffrey"	2015-08-06
+OA	Dulles	VA	United States	"Orbital ATK, Inc."	"Thompson, David"	2015-08-06
+OAK	Los Angeles	CA	United States	"Oaktree Capital Group, LLC"	"Wintrob, Jay"	2015-10-28
+OCN	Atlanta	GA	United States	Ocwen Financial Corp.	"Faris, Ronald"	2015-10-30
+OGS	Tulsa	OK	United States	"ONE Gas, Inc."	"Norton, Pierce"	2015-10-28
+OII	Houston	TX	United States	"Oceaneering International, Inc."	"McEvoy, M."	2015-10-28
+OKE	Tulsa	OK	United States	ONEOK Inc.	"Spencer, Terry"	2015-11-03
+OKS	Tulsa	OK	United States	"ONEOK Partners, L.P."	"Spencer, Terry"	2015-11-03
+OLED	Ewing	NJ	United States	Universal Display Corp.	"Abramson, Steven"	2015-08-06
+OMC	New York	NY	United States	Omnicom Group Inc.	"Wren, John"	2015-10-20
+ORAN	Paris	0	France	Orange	"Richard, Stéphane"	2015-10-22
+OTEX	Waterloo	ON	Canada	Open Text Corporation	"Barrenechea, Mark"	1900-01-00
+P	Oakland	CA	United States	"Pandora Media, Inc."	"McAndrews, Brian"	2015-10-22
+PAC	Edinburgh	0	United Kingdom	Pacific Assets Trust plc	"Wilson, Richard"	1900-01-00
+PACB	Menlo Park	CA	United States	"Pacific Biosciences of California, Inc."	"Hunkapiller, Michael"	1900-01-00
+PANW	Santa Clara	CA	United States	"Palo Alto Networks, Inc."	"McLaughlin, Mark"	2015-09-09
+PCAR	Bellevue	WA	United States	PACCAR Inc.	"Armstrong, Ronald"	2015-10-27
+PCLN	Norwalk	CT	United States	The Priceline Group Inc.	"Huston, Darren"	2015-08-05
+PCP	Portland	OR	United States	Precision Castparts Corp.	"Donegan, Mark"	2015-10-27
+PEB	Bethesda	MD	United States	Pebblebrook Hotel Trust	"Bortz, Jon"	2015-10-23
+PEGA	Cambridge	MA	United States	Pegasystems Inc.	"Trefler, Alan"	2015-10-29
+PEP	Purchase	NY	United States	"Pepsico, Inc."	"Nooyi, Indra"	2015-10-16
+PERY	Miami	FL	United States	Perry Ellis International Inc.	"Feldenkreis, George"	2015-08-19
+PG	Cincinnati	OH	United States	The Procter & Gamble Company	"Lafley, Alan"	2015-08-09
+PGR	Mayfield Village	OH	United States	Progressive Corp.	"Renwick, Glenn"	2015-08-05
+PII	Medina	MN	United States	Polaris Industries Inc.	"Wine, Scott"	2015-10-22
+PLAY	Dallas	TX	United States	"Dave & Buster's Entertainment, Inc."	"King, Stephen"	2015-09-04
+PLCM	San Jose	CA	United States	"Polycom, Inc."	"Leav, Peter"	2015-10-21
+PLKI	Atlanta	GA	United States	"Popeyes Louisiana Kitchen, Inc."	"Bachelder, Cheryl"	2015-09-01
+PLOW	Milwaukee	WI	United States	"Douglas Dynamics, Inc."	"Janik, James"	2015-11-03
+PNRA	St. Louis	MO	United States	Panera Bread Company	"Shaich, Ronald"	2015-10-27
+PNY	Charlotte	NC	United States	Piedmont Natural Gas Co. Inc.	"Skains, Thomas"	2015-09-04
+PODD	Billerica	MA	United States	Insulet Corporation	"Sullivan, Patrick"	2015-10-31
+POST	St. Louis	MO	United States	"Post Holdings, Inc."	"Vitale, Robert"	2015-08-06
+PRAA	Norfolk	VA	United States	"PRA Group, Inc."	"Fredrickson, Steven"	2015-08-10
+PRLB	Maple Plain	MN	United States	"Proto Labs, Inc."	"Holt, Victoria"	2015-10-23
+PSMT	San Diego	CA	United States	PriceSmart Inc.	"Laparte, Jose Luis"	2015-09-10
+PYPL	San Jose	CA	United States	"PayPal Holdings, Inc."	"Schulman, Daniel"	2015-10-29
+QCOM	San Diego	CA	United States	QUALCOMM Incorporated	"Mollenkopf, Steven"	2015-11-04
+QGEN	Venlo	0	Netherlands	Qiagen NV	"Schatz, Peer"	2015-10-26
+QLIK	Radnor	PA	United States	"Qlik Technologies, Inc."	"Bjork, Lars"	2015-10-23
+RAVN	Sioux Falls	SD	United States	Raven Industries Inc.	"Rykhus, Daniel"	2015-08-19
+RAX	San Antonio	TX	United States	"Rackspace Hosting, Inc."	"Rhodes, William"	2015-08-10
+RCI	Bangkok	0	Thailand	The Royal Ceramic Industry Public Company Limited	"Youthanavaraporn, Suthin"	2015-08-10
+RH	Corte Madera	CA	United States	"Restoration Hardware Holdings, Inc."	"Friedman, Gary"	2015-09-11
+RHI	Menlo Park	CA	United States	Robert Half International Inc.	"Messmer, Harold"	2015-10-16
+RKUS	Sunnyvale	CA	United States	"Ruckus Wireless, Inc."	"Lo, Selina"	2015-10-29
+RNET	Houston	TX	United States	"RigNet, Inc."	"Slaughter, Mark"	1900-01-00
+ROIC	San Diego	CA	United States	Retail Opportunity Investments Corp.	"Tanz, Stuart"	2015-10-29
+ROLL	Oxford	CT	United States	RBC Bearings Inc.	"Hartnett, Michael"	2015-08-06
+RPM	Medina	OH	United States	RPM International Inc.	"Sullivan, Frank"	1900-01-00
+RPXC	San Francisco	CA	United States	RPX Corporation	"Amster, John"	2015-10-28
+RSG	Phoenix	AZ	United States	"Republic Services, Inc."	"Slager, Donald"	2015-10-30
+RST	Arlington	VA	United States	"Rosetta Stone, Inc."	"Hass, Arthur "	2015-08-05
+RSTI	Plymouth	MI	United States	Rofin-Sinar Technologies Inc.	"Merk, Thomas"	2015-08-06
+SAFT	Boston	MA	United States	Safety Insurance Group Inc.	"Brussard, David"	2015-08-05
+SALE	Austin	TX	United States	"RetailMeNot, Inc."	"Cunningham, G."	2015-08-05
+SAM	Boston	MA	United States	Boston Beer Co. Inc.	"Roper, Martin"	2015-10-27
+SAVE	Miramar	FL	United States	"Spirit Airlines, Inc."	"Baldanza, B."	2015-10-28
+SBS	Birkenfeld	0	Germany	STRATEC Biomedical AG	"Wolfinger, Marcus"	2015-10-28
+SBUX	Seattle	WA	United States	Starbucks Corporation	"Schultz, Howard"	2015-10-30
+SCTY	San Mateo	CA	United States	SolarCity Corporation	"Rive, Lyndon"	2015-10-29
+SDRL	Hamilton	0	Bermuda	SeaDrill Limited	"Wullf, Per"	2015-08-27
+SE	Houston	TX	United States	Spectra Energy Corp.	"Ebel, Gregory"	2015-08-05
+SGEN	Bothell	WA	United States	"Seattle Genetics, Inc."	"Siegall, Clay"	2015-10-30
+SHW	Cleveland	OH	United States	The Sherwin-Williams Company	"Connor, Christopher"	2015-10-26
+SINA	Shanghai	0	China	SINA Corporation	"Chao, Guowei"	2015-08-14
+SJI	Folsom	NJ	United States	"South Jersey Industries, Inc."	"Renna, Michael"	2015-08-07
+SKUL	Park City	UT	United States	"Skullcandy, Inc."	"Darling, Seth"	2015-08-06
+SLAB	Austin	TX	United States	Silicon Laboratories Inc.	"Tuttle, G."	2015-10-28
+SLCA	Frederick	MD	United States	"U.S. Silica Holdings, Inc."	"Shinn, Bryan"	2015-10-29
+SNCR	Bridgewater	NJ	United States	"Synchronoss Technologies, Inc."	"Waldis, Stephen"	2015-11-04
+SNHY	Sarasota	FL	United States	Sun Hydraulics Corp.	"Carlson, Allen"	2015-11-06
+SNI	Knoxville	TN	United States	"Scripps Networks Interactive, Inc."	"Lowe, Kenneth"	1900-01-00
+SO	Atlanta	GA	United States	Southern Company	"Fanning, Thomas"	2015-10-29
+SODA	Airport City	0	Israel	SodaStream International Ltd.	"Birnbaum, Daniel"	2015-08-05
+SOHU	Beijing	0	China	Sohu.com Inc.	"Zhang, Charles"	2015-10-30
+SPLK	San Francisco	CA	United States	"Splunk, Inc."	"Sullivan, Godfrey"	2015-08-27
+SRCL	Lake Forest	IL	United States	"Stericycle, Inc."	"Alutto, Charles"	2015-10-23
+SSL	Moorabbin	VIC	Australia	Sietel Ltd.	"Rees, Richard"	2015-11-28
+SSNC	Windsor	CT	United States	"SS&C Technologies Holdings, Inc."	"Stone, William"	2015-10-29
+SSTK	New York	NY	United States	"Shutterstock, Inc."	"Oringer, Jonathan"	2015-08-06
+SSW	Majuro	0	Marshall Islands	Seaspan Corporation	"Wang, Gerry"	2015-10-13
+SSYS	Eden Prairie	MN	United States	Stratasys Ltd.	"Reis, David"	2015-11-05
+STAG	Boston	MA	United States	"STAG Industrial, Inc."	"Butcher, Benjamin"	2015-10-23
+STMP	El Segundo	CA	United States	Stamps.com Inc.	"McBride, Kenneth"	2015-08-06
+STO	Adelaide	SA	Australia	Santos Limited	"Knox, David"	2015-08-21
+STON	Levittown	PA	United States	StoneMor Partners L.P.	"Miller, Lawrence"	2015-10-23
+STRZA	Englewood	CO	United States	Starz	"Albrecht, Christopher"	2015-11-02
+SVU	Eden Prairie	MN	United States	SUPERVALU Inc.	"Duncan, Sammy"	2015-10-16
+SWIR	Richmond	BC	Canada	Sierra Wireless Inc.	"Cohenour, Jason"	2015-08-06
+SWKS	Woburn	MA	United States	Skyworks Solutions Inc.	"Aldrich, David"	2015-11-06
+SZYM	South San Francisco	CA	United States	"Solazyme, Inc."	"Wolfson, Jonathan"	2015-11-05
+TCS	Coppell	TX	United States	"The Container Store Group, Inc."	"Tindell, William"	2015-09-29
+TDC	Dayton	OH	United States	Teradata Corporation	"Koehler, Michael"	2015-08-06
+TDG	Cleveland	OH	United States	TransDigm Group Incorporated	"Howley, Walter"	2015-11-13
+TEVA	Petach Tikva	0	Israel	Teva Pharmaceutical Industries Limited	"Vigodman, Erez"	2015-10-30
+TEX	Westport	CT	United States	Terex Corporation	"DeFeo, Ronald"	2015-10-21
+TFSL	Cleveland	OH	United States	TFS Financial Corp	"Stefanski, Marc"	2015-10-29
+TGH	Hamilton	0	Bermuda	Textainer Group Holdings Limited	"Brewer, Philip"	1900-01-00
+TGNA	McLean	VA	United States	TEGNA Inc.	"Martore, Gracia"	2015-10-16
+TILE	Atlanta	GA	United States	Interface Inc.	"Hendrix, Daniel"	2015-10-28
+TLK	Toronto	ON	Canada	Frankly Inc.	"Chung, Steve"	2015-08-31
+TNC	Minneapolis	MN	United States	Tennant Company	"Killingstad, H."	2015-10-23
+TOT	Calgary	AB	Canada	Total Energy Services Inc.	"Halyk, Daniel"	2015-08-12
+TREX	Winchester	VA	United States	Trex Co. Inc.	"Kaplan, Ronald"	2015-11-03
+TRIP	Newton	MA	United States	TripAdvisor Inc.	"Kaufer, Stephen"	2015-11-02
+TRUE 	Santa Monica	CA	United States	"TrueCar, Inc."	"Painter, Scott"	2015-08-06
+TSLA	Palo Alto	CA	United States	"Tesla Motors, Inc."	"Musk, Elon"	2015-08-05
+TTS	Plymouth	MN	United States	"Tile Shop Holdings, Inc."	"Homeister, Chris"	2015-10-21
+TTWO	New York	NY	United States	Take-Two Interactive Software Inc.	"Zelnick, Strauss"	2015-08-10
+TUBE	Emeryville	CA	United States	"TubeMogul, Inc."	"Wilson, Brett"	2015-08-10
+TUMI	South Plainfield	NJ	United States	"Tumi Holdings, Inc."	"Griffith, Jerome"	2015-08-05
+TWI	Quincy	IL	United States	Titan International Inc.	"Taylor, Maurice"	2015-10-29
+TWTR	San Francisco	CA	United States	"Twitter, Inc."	"Dorsey, Jack"	2015-10-28
+TXRH	Louisville	KY	United States	"Texas Roadhouse, Inc."	"Taylor, Wayne"	2015-10-31
+UA	Baltimore	MD	United States	"Under Armour, Inc."	"Plank, Kevin"	2015-10-23
+UBNT	San Jose	CA	United States	"Ubiquiti Networks, Inc."	"Pera, Robert"	2015-08-06
+UGI	King Of Prussia	PA	United States	UGI Corporation	"Walsh, John"	1900-01-00
+UHAL	Reno	NV	United States	AMERCO	"Shoen, Edward"	2015-08-05
+UL	Paris	0	France	Unibail-Rodamco SE	"Cuvillier, Christophe"	1900-01-00
+ULTA	Bolingbrook	IL	United States	"ULTA Salon, Cosmetics & Fragrance, Inc."	"Dillon, Mary"	2015-08-27
+ULTI	Weston	FL	United States	"The Ultimate Software Group, Inc."	"Scherr, Scott"	2015-10-28
+UNH	Minnetonka	MN	United States	UnitedHealth Group Incorporated	"Hemsley, Stephen"	2015-10-16
+UPL	Houston	TX	United States	Ultra Petroleum Corp.	"Watford, Michael"	2015-10-30
+UPS	Atlanta	GA	United States	"United Parcel Service, Inc."	"Abney, David"	2015-10-27
+URBN	Philadelphia	PA	United States	Urban Outfitters Inc.	"Hayne, Richard"	2015-08-17
+USLM	Dallas	TX	United States	"United States Lime & Minerals, Inc."	"Byrne, Timothy"	2015-10-28
+V	San Francisco	CA	United States	Visa Inc.	"Scharf, Charles"	2015-10-29
+VEEV	Pleasanton	CA	United States	Veeva Systems Inc.	"Gassner, Peter"	2015-08-27
+VEOEY	Paris	0	France	Veolia Environnement S.A.	"Frérot, Antoine"	1900-01-00
+VMW	Palo Alto	CA	United States	"VMware, Inc."	"Gelsinger, Patrick"	2015-10-21
+VRTX	Boston	MA	United States	Vertex Pharmaceuticals Incorporated	"Leiden, Jeffrey"	2015-10-28
+VRX	West Perth	WA	Australia	Ventnor Resources Limited	"Maluish, Bruce"	2015-09-22
+VZ	New York	NY	United States	Verizon Communications Inc.	"McAdam, Lowell"	2015-10-20
+WAB	Wilmerding	PA	United States	Westinghouse Air Brake Technologies Corporation	"Betler, Raymond"	2015-10-20
+WD	Bethesda	MD	United States	"Walker & Dunlop, Inc."	"Walker, William"	2015-08-05
+WEC	Milwaukee	WI	United States	"WEC Energy Group, Inc."	"Klappa, Gale"	2015-11-04
+WETF	New York	NY	United States	"WisdomTree Investments, Inc."	"Steinberg, Jonathan"	2015-10-30
+WFC	San Francisco	CA	United States	Wells Fargo & Company	"Stumpf, John"	2015-10-14
+WFM	Austin	TX	United States	"Whole Foods Market, Inc."	0	2015-11-05
+WGO	Forest City	IA	United States	"Winnebago Industries, Inc."	"Potts, Randy"	2015-10-15
+WPRT	Vancouver	BC	Canada	Westport Innovations Inc.	"Demers, David"	2015-10-30
+WSM	San Francisco	CA	United States	Williams-Sonoma Inc.	"Alber, Laura"	2015-08-19
+WSO	Miami	FL	United States	Watsco Inc.	"Nahmad, Albert"	2015-10-21
+WTR	Bryn Mawr	PA	United States	Aqua America Inc.	"Franklin, Christopher"	2015-08-05
+WWAV	Denver	CO	United States	The WhiteWave Foods Company	"Engles, Gregg"	2015-08-07
+XHR	Orlando	FL	United States	"Xenia Hotels & Resorts, Inc."	"Verbaas, Marcel"	2015-08-13
+XONE	North Huntingdon	PA	United States	The ExOne Company	"Rockwell, S."	2015-08-10
+XOOM	San Francisco	CA	United States	Xoom Corporation	"Kunze, John"	2015-10-29
+XPO	Greenwich	CT	United States	"XPO Logistics, Inc."	"Jacobs, Bradley"	2015-08-05
+YELP	San Francisco	CA	United States	Yelp Inc.	"Stoppelman, Jeremy"	2015-10-22
+YHOO	Sunnyvale	CA	United States	Yahoo! Inc.	"Mayer, Marissa"	2015-10-20
+YNDX	Amsterdam	0	Netherlands	Yandex N.V.	"Volozh, Arkady"	2015-10-23
+Z	Seattle	WA	United States	"Zillow Group, Inc."	"Rascoff, Spencer"	1900-01-00
+ZAYO	Boulder	CO	United States	"Zayo Group Holdings, Inc."	"Caruso, Daniel"	2015-09-25
+ZEN	San Francisco	CA	United States	"Zendesk, Inc."	"Svane, Mikkel"	1900-01-00
+ZINC	Pittsburgh	PA	United States	Horsehead Holding Corp.	"Hensler, James"	2015-08-07
+ZLTQ	Pleasanton	CA	United States	"ZELTIQ Aesthetics, Inc."	"Foley, Mark"	2015-10-30
+ZOES	Plano	TX	United States	"Zoe's Kitchen, Inc."	"Miles, Kevin"	2015-08-28

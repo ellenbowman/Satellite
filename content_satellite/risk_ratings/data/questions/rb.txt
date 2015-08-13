@@ -1,0 +1,25 @@
+1:: Profitable:: Is the company profitable over both the past quarter and past 12 months?::profitable_ltm_and_mrq
+2:: Flow:: Is the company cash-flow positive over both the past quarter and past 12 months?::operating_cash_flow_positive_ltm_and_mrq
+3:: Brand:: Does the company's business rely on recognizable branding truly valued by its buyer base?::
+4:: Diversified:: Has the company diversified its buyer base such that no single customer accounts for more than 20% of revenue?::
+5:: Raving Fans:: Does the company receive, on the whole, positive word of mouth from its customers?::
+6:: Growth:: Has the company grown its sales by between 10%-40% annually over the previous three years?::cagr_between_10_and_40_percent
+7:: Independence:: Can the company operate its business over the next three years without relying on external funding?::independence
+8:: Disclosure:: Does the company report to a high standard of disclosure, consistent with SEC guidelines in the U.S.?::
+9:: Transparency:: Would an intermediate-level investor find the company's financial statements and management ownership disclosures relatively easy to sift through and understand?::
+10:: Well-Managed:: Over the most recent fiscal year, did the company report a return on equity of 15% or higher?::return_on_equity_over_fifteen_percent_last_year
+11:: Underdog:: Is the company free of any direct competitors possessing substantially (2x+) greater financial resources?::
+12:: Goliath:: Is the company free of any disruptive upstarts visibly challenging its business model?::
+13:: Moat:: Would potential new competitors face high economic, technological, or regulatory barriers to entry?::
+14:: Market Cap:: Does the stock have a market cap of greater than $500 million?::market_cap_over_half_billion
+15:: Beta:: Is this stock's beta rating over the past 12 months less than 1.3?::beta_under_one_point_three
+16:: P/E Ratio:: Does the stock have a positive price to earnings multiple that is below 30?::price_per_earnings_under_30
+17:: Insider Stake:: Do any key insiders have at least a 5% stake in the company?::founders_have_stake
+18:: Experience:: Of the top three officers, do they have more than 15 years of combined leadership at the company?::
+19:: 6 Signs of Rule Breaker:: Does this company meet a majority of the <a href="http://newsletters.fool.com/15/online-exclusives/features/2009/01/23/our-philosophy-6-signs-of-a-rule-breaker.aspx"><em>Rule Breakers</em> attributes</a>?::
+20:: Binary destiny:: Are the company's future business prospects easily able to withstand the <a href="http://wiki.fool.com/Binary_outcome">binary outcomes</a> that go against it?::
+21:: Immaculate:: Is this company certain to be fault-free and fraud-free in all its corporate statements and deeds?::default_negative
+22:: You:: Do I want to know more about this company; am I willing to dig deeper, learn more, ask questions on the boards — actively understand this company?::
+23:: About This Company No. 1:: --custom--::
+24:: About This Company No. 2:: --custom--::
+25:: Bulletproof? :: Can you be certain that this company is invulnerable to external world or macroeconomic events such that you're sure you can get all your capital back?::default_negative
