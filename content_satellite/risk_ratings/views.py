@@ -29,7 +29,7 @@ def activity_log_index(request):
         'drafts': RiskRatingDraft.objects.all().order_by('-timestamp'),
         'data_imports': DataImportLog.objects.all().order_by('-timestamp')
     }
-    return render(request, 'risk_ratings/activity_log_index.html', context)
+    return render(request, 'risk_ratings/activity_log.html', context)
 
 def create_risk_rating_unsupported_lookup(request, error_message):
     '''
