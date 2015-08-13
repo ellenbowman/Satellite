@@ -17,7 +17,7 @@ class Ticker(models.Model):
 	tier = models.IntegerField(default=0)
 	tier_status = models.CharField(max_length=50, null=True, blank=True, verbose_name='tier status')
 	analysts_for_ticker = models.CharField(max_length=500, null=True, blank=True, verbose_name='analysts for ticker')
-	promised_coverage = models.CharField(max_length=500, null=True, blank=True, verbose_name='promised coverage')
+	promised_coverage = models.TextField(max_length=500, null=True, blank=True, verbose_name='promised coverage')
 
 	def __unicode__(self):
 		return self.ticker_symbol
