@@ -1,0 +1,22 @@
+<table class='listTable'>
+  <thead>
+    <tr>
+      <th width='15%'>Slack ID</th>
+      <th width='50%'>Services</th>
+      <th>Tickers</th>
+      <th width='5%'/>
+  </thead>
+  {% for s in subscribers %}
+    <tr>
+      <td>{{s.slack_handle|truncatechars:21}}</td>
+      <td>{{s.services_display_string|default:''}}</td>
+      <td>{{s.tickers_csv|default:''}}</td>
+
+      {% ifequal show_suspend_option True %}
+      <td><a href='{% url "suspend_subscription" s.id s.slack_handle%}'><small>disable</small></a></td>
+      {% else %}
+      <td><a href='{% url "resume_subscription" s.id s.slack_handle%}'><small>enable</small></a></td>
+      {% endifequal %}
+    </tr>
+  {% endfor %}
+</table>

@@ -33,6 +33,7 @@ class NotificationSubscriber(models.Model):
     slack_handle = models.CharField(max_length=30)
     tickers_csv = models.CharField(max_length=400, blank=True, null=True)
     services = models.ManyToManyField(Service, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.slack_handle

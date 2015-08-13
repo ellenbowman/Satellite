@@ -53,19 +53,10 @@ Push Notifications
     </form>
   </div>
 </div>
-<table class='listTable'>
-  <thead>
-    <tr>
-      <th width='15%'>Slack ID</th>
-      <th width='50%'>Services</th>
-      <th>Tickers</th>
-  </thead>
-  {% for s in subscribers %}
-    <tr>
-      <td>{{s.slack_handle|truncatechars:21}}</td>
-      <td>{{s.services_display_string|default:''}}</td>
-      <td>{{s.tickers_csv}}</td>
-    </tr>
-  {% endfor %}
-</table>
+<h3>Active</h3>
+{% include 'push_notifications/_subscribers_table.html' with show_suspend_option=True subscribers=active_subscribers %}
+
+<h3>Disabled</h3>
+{% include 'push_notifications/_subscribers_table.html' with show_suspend_option=False subscribers=inactive_subscribers %}
+
 {% endblock %}

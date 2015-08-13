@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from push_notifications.models import IntradayBigMovementReceipt, NotificationSubscriber, INTRADAY_THRESHOLD
 from push_notifications.forms import SubscriberForm
@@ -29,10 +29,24 @@ def index(request):
 
     context = {
         'page_title': 'Intraday Movement Notifications',
-        'receipts': IntradayBigMovementReceipt.objects.filter(timestamp__gt=timezone.now().date()).order_by('-timestamp'),
-        'subscribers': NotificationSubscriber.objects.all().order_by('slack_handle'),
+        'receipts': IntradayBigMovementReceipt.objects.filter(timestamp__gt = timezone.now().date()).order_by('timestamp'),
+        'active_subscribers': NotificationSubscriber.objects.filter(is_active=True).order_by('slack_handle'),
+        'inactive_subscribers': NotificationSubscriber.objects.filter(is_active=False).order_by('slack_handle'),
         'threshold':INTRADAY_THRESHOLD,
         'form': form,
     }
 
     return render(request, 'push_notifications/index.html', context)
+
+def _change_subscription_status(subscriber_id, set_active):
+    subscriber = NotificationSubscriber.objects.get(id=subscriber_id)
+    subscriber.is_active = set_active
+    subscriber.save()
+
+def resume_subscription(request, subscriber_id, slack_handle):
+    _change_subscription_status(subscriber_id, True)
+    return redirect('alerts_index')
+
+def suspend_subscription(request, subscriber_id, slack_handle):
+    _change_subscription_status(subscriber_id, False)
+    return redirect('alerts_index')

@@ -25,8 +25,8 @@ def process_rules():
     if len(new_movers_receipts) == 0:
         return
 
-    # for each subscriber, figure out which of the newly-detected big movers match his interests
-    for subscriber in NotificationSubscriber.objects.all():
+    # for each active subscriber, figure out which of the newly-detected big movers match his interests
+    for subscriber in NotificationSubscriber.objects.filter(is_active=True):
         tickers_for_subscriber = [t.strip() for t in subscriber.tickers_csv.upper().split(',')]
         subscriber_services = [s.pretty_name.strip() for s in subscriber.services.all()]
 
