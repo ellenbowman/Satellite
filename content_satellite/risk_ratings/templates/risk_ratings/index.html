@@ -60,26 +60,38 @@
 
 
   <script>
+    <!-- SOL -->
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga_sol');
 
-    ga('create', 'UA-56792542-2', 'auto');
-    ga('send', 'pageview');
+    ga_sol('create', 'UA-63170666-1', 'auto');
+    ga_sol('send', 'pageview');
 
+    
+    <!-- lisa -->
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga_lisa');
+
+    ga_lisa('create', 'UA-56792542-2', 'auto');
+    ga_lisa('send', 'pageview');
   </script>
 </head>
 <body>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar  navbar-default">
        <div class="container-fluid">
 
+
            <div class="navbar-header">
-               <a href="{% url 'index' %}">
-                   <span class="navbar-brand" style='font-size:24px;'>
-                       <strong>Risk Ratings Generator</strong> (beta)
-                   </span>
-               </a>
+              <a href="/" title='back to Satellite of Love'>
+                <img width='100px' src="http://g.foolcdn.com/editorial/images/150992/sol-greetings_large.jpg" alt="Satellite of Love"/>
+              </a>
+               <span style='font-size:22px; color:black'>
+                   <strong>Risk Ratings Generator</strong> (beta)
+               </span>
            </div>
 
            <div class="collapse navbar-collapse">
