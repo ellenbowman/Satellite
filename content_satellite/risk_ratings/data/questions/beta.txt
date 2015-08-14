@@ -1,0 +1,20 @@
+1::	Geopolitical Risk:: Is this company free of meaningful geopolitical risk?::geopolitical_risk
+2::	Market Cap:: Is the market cap greater than $1 billion?::market_cap_over_one_billion
+3::	Repeat Business:: Does the business have high repeat customer usage?::
+4::	Brand:: Does the company have brand strength with passionate advocates?::
+5::	Profitability:: Was the company profitable during the past year?::
+6::	Consistency:: Has the company shown consistent profits each of the last five years?::profitable_last_five_years
+7::	Cash Flow:: Was free cash flow positive for two of the last three years?::free_cash_flow_positive_two_of_three_years
+8::	Diversification:: Is the company free of any customer or supplier that accounts for more than 10% of sales?::
+9::	Independence:: Can the company execute its business plan without relying on external funding?::independence
+10::	Leverage:: Is the company's debt to equity less than 40%?::debt_to_equity_under_40_percent
+11::	Financial Transparency:: Are the financials easy to understand?::
+12::	Return on Equity:: Is the ROE greater than 12% each year for the past five years?::return_on_equity_over_twelve_percent_last_five_years
+13::	Underdog:: Is it free from stronger competitors?::competitors
+14::	Goliath:: Is it free from disruptive upstarts?::
+15::	Insider Stake:: Do any key insiders have at least a 5% stake in the company?::founders_have_stake
+16::	Experience:: CEO approval rating of greater than X?::
+17::	Social:: Is it on our pro-social list?::pro_social_company
+18::	Sentiment:: Does the stock have high short interest?::
+19::	Immaculate:: Is this company guaranteed to be fault-free and fraud-free in all its corporate statements and deeds?::default_negative
+20::	Bulletproof:: Are you certain this company is invulnerable to external world or macroeconomic events such that you're sure you can get all your capital back?::default_negative

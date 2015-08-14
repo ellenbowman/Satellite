@@ -1,0 +1,14 @@
+<p>
+  Is <strong>{{ticker.company_name}}</strong> ({{ticker.exchange}}: {{ticker.symbol}}) built to last, or will it get crushed?
+</p>
+
+<ul>
+  <li><strong>Risk Rating: </strong>{{count_negative_responses}} — {{crushability}}</li>
+  {% if previous_rating_url %}
+  <li><strong>Previous Rating: </strong><a href='{{previous_rating_url}}'>{{previous_rating}} — {{previous_crushability}}</a></li>
+  <li><strong>Changes:</strong> {{changes_from_previous|default:'<em>please complete this by hand</em>'}}
+  {% endif %}
+
+  <li><a href='http://newsletters.fool.com/18/coverage/extras/2012/01/20/the-stock-advisor-risk-rating-tool.aspx'>See the names of the levels here.</a></li>
+  <li><a href='http://newsletters.fool.com/18/community/topfaq/david-gardner-answers-your-questions-what-are-risk.aspx'>David discusses Risk Ratings here.</a></li>
+</ul>
