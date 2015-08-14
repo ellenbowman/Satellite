@@ -68,9 +68,10 @@
     <div>
     <form method='POST'>
         {% csrf_token %}
-        <table>
-            {{coverage_detail_form.as_table}}
-        </table>
+        <p>
+        {{ticker.tier}}<br/>
+        {{ticker.tier_status}}<br/>
+    </p>
         <input type="submit" value="Save" />
     </form>
 </div>
