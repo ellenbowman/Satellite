@@ -1,0 +1,27 @@
+{% extends 'risk_ratings/index.html' %}
+
+{% block body_container %}
+
+<div class='col-md-8 col-md-offset-2'>
+
+{% if error %}
+<h2>Sorry.</h2>
+We ran into a bug while trying to save your feedback. As a workaround, please email your feedback to lchung@.
+<br/>
+(error: {{error}})
+<br/>
+{% else %}
+<h2>Thanks for your feedback.</h2>
+{% endif %}
+Here's a recap:
+<br/>
+<div class='well'>
+<table class='table'>
+  <tr><td width='15'>Name</td><td>{{name}}</td></tr>
+  <tr><td>Email</td><td>{{email}}</td></tr>
+  <tr><td>Comments</td><td>{{comments}}</td></tr>
+</table>
+</div>
+
+</div>
+{% endblock %}

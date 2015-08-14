@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sol/', include('satellite.urls')),
     url(r'^alerts/', include('push_notifications.urls')),
+    url(r'^apps/risk_ratings/', include('risk_ratings.urls', namespace='risk_ratings')),
 )
