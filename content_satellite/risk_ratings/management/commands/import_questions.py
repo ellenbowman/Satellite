@@ -1,8 +1,10 @@
 import urllib
 import json
 import os
+from inspect import getmembers, isfunction
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from risk_ratings import hint_manager
 from risk_ratings.models import Question, Questionnaire, Hint
 
 RISK_RATINGS_DATA_DIR = 'risk_ratings\\data\\questions\\'
@@ -14,9 +16,21 @@ TEMPLATE_TYPES = {
     'beta':'beta.txt'
     }
 
+def _populate_hints():
+    hint_functions = [member[0] for member in getmembers(hint_manager) if isfunction(member[1])]
+    for hf in hint_functions:
+        try:
+            Hint.objects.get(name=hf, function_name=hf)
+        except:
+            Hint.objects.create(name=hf, function_name=hf)
+
+    print 'hints:', Hint.objects.count()
+
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+
+        _populate_hints()
 
         for tt in TEMPLATE_TYPES:
             try:
