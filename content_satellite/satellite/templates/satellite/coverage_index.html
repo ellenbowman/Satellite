@@ -25,7 +25,7 @@ SOL: Coverage Index
     {% for t in tickers %}
     <tr>
         <td><img width=30px src="http://g.foolcdn.com/art/companylogos/mark/{{t.ticker_symbol}}.png">&nbsp;&nbsp;<b>{{t.company_name}}</b><br/>{{t.ticker_symbol}}</td>
-        <td><em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}<br/><span style="background-color:yellow">Tier: {{t.tier}}</span> {{t.tier_status}} {% endif %}</td>
+        <td><em>{{t.services_for_ticker}}</em>&nbsp;{% if t.tier %}<br/><span style="background-color:yellow">Tier: {{t.tier}} {% if t.tier_status %} ({{t.tier_status}}) {% endif %}</span> {% endif %}</td>
 
 
 
