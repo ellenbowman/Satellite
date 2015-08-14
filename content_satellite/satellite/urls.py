@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from satellite import views, views_2
+from satellite import views, views_2, views_scratchpad
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
@@ -14,8 +14,9 @@ urlpatterns = patterns('',
     url(r'^service_overview/$', views.service_overview, name="service_overview"),
     url(r'^data_freshness/$', views_2.data_freshness_index, name="data_freshness"),
     url(r'^author_bylines/$', views_2.get_author_bylines_index, name='author_bylines'),
-    url(r'^flagged_recs/$', views_2.get_flagged_recs_index, name='flagged_recs'),    
+    url(r'^flagged_recs/$', views_2.get_flagged_recs_index, name='flagged_recs'),
     url(r'^flagged_recs_csv/$', views_2.get_flagged_recs_as_csv, name='flagged_recs_as_csv'),
     url(r'^articles_index/$', views_2.articles_index, name='articles_index'),
     url(r'^json_blob_for_ticker/$', views_2.ticker_lookup, name='json_blob'),
+    url(r'^articles_on_demand/(?P<ticker_symbol>\S+)/$', views_scratchpad.articles_on_demand, name='articles_on_demand'),
     )
