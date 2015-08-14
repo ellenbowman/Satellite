@@ -19,8 +19,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
     	print 'starting script'
 
-        Ticker.objects.all().delete()
-
         script_start_time = datetime.now()
 
         for scorecard in SCORECARDS:
@@ -42,12 +40,17 @@ class Command(BaseCommand):
 
                 exchange_symbol = position['ExchangeSymbol']
 
-                # throw out cases where we couldn't at minimum identify exchange and ticker;
-                # and throw out delisted tickers
-                if not exchange_symbol or not ticker_symbol or '.DL' in ticker_symbol or ' ' in ticker_symbol:
+                # throw out these cases:
+                #   - we can't identify ticker
+                #   - ticker is delisted
+                #   - we can't identify exchange
+                if not ticker_symbol or '.DL' in ticker_symbol:
+                    continue
+                if not exchange_symbol:
                     continue
 
-                company_name = position['CompanyName'][:150]
+                ticker_symbol = ticker_symbol.split(' ')[0].upper()
+                company_name = position['CompanyName'][:150].upper()
                 instrument_id = position['InstrumentId']
 
                 try:

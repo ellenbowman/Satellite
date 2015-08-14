@@ -10,8 +10,6 @@
   <input type="hidden" name="previous_url" value="{{previous_url}}">
   <input type="hidden" name="previous_score" value="{{previous_score}}">
 
-
-
     <div class='row'>
 
     <div class='col-sm-3 col-md-3 col-xs-4' id='status_panel' data-spy='affix'>
@@ -55,6 +53,7 @@
     <div class='col-sm-9 col-sm-offset-3 col-md-8 col-xs-8 col-xs-offset-4'  >
 
       <h2>Risk Rating: <strong>{{company_name}} (<a target='_blank' href='{{snapshot_url}}'>{{ticker}}</a>)</strong></h2>
+      <small><em>figures pulled on {{ticker_stats.date_last_synced|date}} </em></small>
       <hr/>
 
 

@@ -15,23 +15,15 @@ class Command(BaseCommand):
 
         script_start_time = datetime.now()
 
-        for ticker in Ticker.objects.all():
-            try:
-                ticker_profile = TickerProfile.objects.get(ticker=ticker)
-            except:
-                print 'no ticker profile for', ticker.symbol
+        for ticker_profile in TickerProfile.objects.all():
 
-
-            url = BASE_URL + "?instrumentId=%d&apikey=%s" % (ticker.instrument_id, API_KEY)
-
+            url = BASE_URL + "?instrumentId=%d&apikey=%s" % (ticker_profile.ticker.instrument_id, API_KEY)
             data = json.loads(urllib.urlopen(url).read())
 
             competitors = ["%s (%s)" % (d['Name'], d['Symbol']) for d in data]
 
             ticker_profile.competitors = '; '.join(competitors)
             ticker_profile.save()
-
-            print ticker.symbol, ticker_profile.competitors
 
     	print 'finished script'
         print 'tickerProfiles:', TickerProfile.objects.count()
