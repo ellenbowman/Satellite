@@ -1,0 +1,39 @@
+{% extends 'satellite/_base_layout.html' %}
+
+{% block title_value %}
+SOL: Articles for ticker {{ticker_symbol}}
+{% endblock %}
+
+{% block container_contents %}
+
+
+	{% if error_message %}
+
+		<h3>Error: {{error_message}}</h3>
+
+	{% else %}
+
+		<h3>Recent articles for <strong>{{ticker.company_name}}</strong> ({{ticker.ticker_symbol}})</h3>
+		<hr/>
+		{% for tag_name, articles_for_tag in articles_by_tag.items %}
+			<div class='well'>
+			<h3>{{tag_name}}</h3>
+			<ul>
+				{% for a in articles_for_tag %}
+					<li>
+						<a href='https://newsletters.fool.com{{a.legacy_uri}}'>{{a.headline|truncatechars:50}}</a>
+						<small>
+						<br/>
+						{{a.publish_date_display}} | {{a.byline}} | {{a.service.name}}
+						<br/>
+						{{a.promo|truncatechars:200}}
+						</small>
+					</li>
+				{% endfor %}
+			</ul>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+
+	{% endblock %}
