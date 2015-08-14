@@ -116,7 +116,7 @@ class TickerProfile(models.Model):
 
 class Hint(models.Model):
     name = models.CharField(max_length=100, blank=False)
-    function_name = models.CharField(max_length=50, blank=False)
+    function_name = models.CharField(max_length=100, blank=False)
 
     def __unicode__(self):
         return self.name
