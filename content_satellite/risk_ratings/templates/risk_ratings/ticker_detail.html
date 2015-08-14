@@ -2,7 +2,7 @@
 
 {% load ticker_hints %}
 {% block body_container %}
-<form id='risk_rating_form' target="_blank" action='{% url "generate_markup" %}' method='POST'>
+<form id='risk_rating_form' target="_blank" action='{% url "risk_ratings:generate_markup" %}' method='POST'>
 {% csrf_token %}
 
   <input type="hidden" name="ticker_symbol" value="{{ticker}}">

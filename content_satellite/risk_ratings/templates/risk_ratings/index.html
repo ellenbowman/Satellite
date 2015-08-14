@@ -79,9 +79,9 @@
 
                <div class="nav navbar-nav navbar-right">
                    <span class="navbar-brand">
-                       <a class='topnav-breadcrumb'  href="{% url 'index' %}">Start</a>
-                       <a class='topnav-breadcrumb'  href="{% url 'view_log' %}">Activity</a>
-                       <a class='topnav-breadcrumb'  href="{% url 'contact' %}">Feedback</a>
+                       <a class='topnav-breadcrumb'  href="{% url 'risk_ratings:index' %}">Start</a>
+                       <a class='topnav-breadcrumb'  href="{% url 'risk_ratings:view_log' %}">Activity</a>
+                       <a class='topnav-breadcrumb'  href="{% url 'risk_ratings:contact' %}">Feedback</a>
                    </span>
                </div>
 
@@ -111,7 +111,7 @@
 
     <div class='row'>
 
-      <form action="{% url 'create_risk_rating' %}">
+      <form action="{% url 'risk_ratings:create_risk_rating' %}">
         <div class='col-md-6 well col-md-offset-3'>
           <label>Step 1: Enter the Ticker Symbol</label> &nbsp; &nbsp;
           <input id="ticker_input_text" type="text" value='AAPL' name='ticker' autofocus>
@@ -279,7 +279,7 @@
         <br/>
 
         <p style='float:left'>
-          Submit <strong><a href='{% url "contact" %}'>feedback</a></strong> on this app.
+          Submit <strong><a href='{% url "risk_ratings:contact" %}'>feedback</a></strong> on this app.
         </p>
 
         <p style='float:right' class="text-muted">
