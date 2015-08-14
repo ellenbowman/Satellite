@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from satellite.models import Article, Service, Ticker, DataHarvestEventLog, DATA_HARVEST_TYPE_ARTICLES
 
-num_articles_to_retrieve = 100
+num_articles_to_retrieve = 50000
 stop_value = num_articles_to_retrieve - 1  # the API treats the stop arg as zero-based and inclusive; eg to get 5 results, tell it to go up to (and include) index 4
 service_ids = '1081,1069,1502,1451,1371,1321,1255,1228,1128,1066,1062,1048,1008'
 url = 'http://apiary.fool.com/napi/secure/content/query/?stop=%d&format=json&service_ids=%s' % (stop_value, service_ids)
