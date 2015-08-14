@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from risk_ratings.models import Ticker, TickerProfile, DataImportLog
 
-CAP_IQ_WORKBOOK = 'risk_ratings\\data\\capIq\\stats.xls'
+CAP_IQ_WORKBOOK = 'risk_ratings/data/capIq/stats.xls'
 
 PROFILES_SHEET_NAME = 'profiles'
 FIGURES_SHEET_NAME = 'figures'

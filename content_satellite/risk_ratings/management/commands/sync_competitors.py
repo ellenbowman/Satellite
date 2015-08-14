@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 from risk_ratings.models import Ticker, TickerProfile
 
 BASE_URL = "http://www.fool.com/a/quotes/v3/Instrument/GetCompetitors/"
+API_KEY = 'eb730eca-42d9-4840-8003-d29aa2e30580'
 
 class Command(BaseCommand):
 
@@ -21,7 +22,7 @@ class Command(BaseCommand):
                 print 'no ticker profile for', ticker.symbol
 
 
-            url = BASE_URL + "?instrumentId=%d&apikey=%s" % (ticker.instrument_id, settings.APING_KEY)
+            url = BASE_URL + "?instrumentId=%d&apikey=%s" % (ticker.instrument_id, API_KEY)
 
             data = json.loads(urllib.urlopen(url).read())
 

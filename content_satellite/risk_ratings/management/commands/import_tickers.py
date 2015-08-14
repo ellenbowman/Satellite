@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 if not exchange_symbol or not ticker_symbol or '.DL' in ticker_symbol or ' ' in ticker_symbol:
                     continue
 
-                company_name = position['CompanyName']
+                company_name = position['CompanyName'][:150]
                 instrument_id = position['InstrumentId']
 
                 try:

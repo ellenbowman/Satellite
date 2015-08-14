@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand, CommandError
 from risk_ratings import hint_manager
 from risk_ratings.models import Question, Questionnaire, Hint
 
-RISK_RATINGS_DATA_DIR = 'risk_ratings\\data\\questions\\'
+RISK_RATINGS_DATA_DIR = 'risk_ratings/data/questions/'
 
 TEMPLATE_TYPES = {
     'sa_david':'sa_david.txt',
