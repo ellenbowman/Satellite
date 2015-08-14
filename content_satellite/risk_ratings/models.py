@@ -8,7 +8,7 @@ EASTERN_TZ = timezone('US/Eastern')
 class Ticker(models.Model):
 
     symbol = models.CharField(max_length=10, blank=False)
-    exchange = models.CharField(max_length=10, blank=False)
+    exchange = models.CharField(max_length=20, blank=False)
     company_name = models.CharField(max_length=200, blank=False)
     instrument_id = models.IntegerField()
 
