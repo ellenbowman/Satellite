@@ -60,24 +60,17 @@
 
 
   <script>
-    <!-- SOL -->
+
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga_sol');
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga_sol('create', 'UA-63170666-1', 'auto');
-    ga_sol('send', 'pageview');
-
+    ga('create', 'UA-63170666-1', 'auto');  // default tracker, belongs to SOL
+    ga('create', 'UA-56792542-2', 'auto', {'name': 'riskRatingsApp'});
+    ga('send', 'pageview');
+    ga('riskRatingsApp.send', 'pageview');
     
-    <!-- lisa -->
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga_lisa');
-
-    ga_lisa('create', 'UA-56792542-2', 'auto');
-    ga_lisa('send', 'pageview');
   </script>
 </head>
 <body>
