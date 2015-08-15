@@ -68,9 +68,10 @@
     <div>
     <form method='POST'>
         {% csrf_token %}
-        <p>
-        {{ticker.tier}}<br/>
-        {{ticker.tier_status}}<br/>
+    <p>
+        <table>
+        {{form.as_table}}
+    </table>
     </p>
         <input type="submit" value="Save" />
     </form>
@@ -140,7 +141,7 @@
         </td>
         <td>
             {% for a in best_buys_now %}
-            {<a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
+            <a href="http://{{a.url}}" target="_blank">{{ a.title }}</a> ({{ a.service }})<br/>
             {% endfor %}
         </td>
         <td>
