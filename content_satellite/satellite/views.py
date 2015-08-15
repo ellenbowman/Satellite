@@ -424,6 +424,26 @@ def _get_ticker_objects_for_tier_status(tier_status_csv=['core','first']):
 
 ######################################################################################
 
+def _get_promised_coverage_by_service(ticker_symbol):
+
+	ticker = Ticker.objects.get(ticker_symbol=ticker_symbol)
+	if 'Stock Advisor' in ticker.services_for_ticker:
+		ticker.services_for_ticker='10% Promise'
+		ticker.save()
+	else
+		pass
+
+	"""
+	1. get the ticker 
+	2. examine the services_for_ticker
+	3. if [service] in services_for_ticker, append [general coverage promises] to ticker.promised_coverage 
+	4. within each service: if tier exists, append [further coverage promises] 
+	5. save
+
+	"""
+
+#################################################################################
+
 def ticker_overview(request):
 
 	dictionary_of_values = {
@@ -564,8 +584,6 @@ def coverage_detail(request, ticker_symbol):
 			commentary.add(a)
 		if 'news' in a.tags:
 			news.add(a)
-
-	print request.POST
 
 	dictionary_of_values = {
 		'ticker': ticker,
