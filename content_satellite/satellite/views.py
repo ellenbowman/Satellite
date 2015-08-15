@@ -473,13 +473,15 @@ def coverage_detail(request, ticker_symbol):
 	service_filter_description = None
 	tickers_to_filter_by = None
 	single_authors = get_authors_from_article_set()
-	audit_filter_form = None
-	coverage_detail_form = None
+	form = TickerForm(instance=ticker)
 
-	if request.POST:		
+	if request.POST:
+
+		form = TickerForm(request.POST, instance=ticker)
+		if form.is_valid():
+			model_instance = form.save(commit=True)
 
 		if 'coverage' in request.POST:
-			audit_filter_form = FilterForm(request.POST)
 
 			# delete records that are already there
 			coverage_type_objects = CoverageType.objects.filter(ticker=ticker)
@@ -492,7 +494,7 @@ def coverage_detail(request, ticker_symbol):
 			for k in selected_keys:
 
 				k = k.replace('author_','')
-				print k, '----pants----'
+				print k, '---------------'
 				choice_id, service_id = k.replace("cid_","").replace("sid_","").split('__')
 
 				ct = CoverageType()
@@ -510,37 +512,12 @@ def coverage_detail(request, ticker_symbol):
 				ct.save()
 				print 'added CoverageType record: %s %s %d %s' % (ct.service.pretty_name, ct.ticker.ticker_symbol, ct.coverage_type, ct.author)
 		else:
-			audit_filter_form = FilterForm(request.POST)
-
-		if audit_filter_form.is_valid():
-			if 'services' in audit_filter_form.cleaned_data:
-				if len(audit_filter_form.cleaned_data['services']) > 0:
-					services_to_filter_by = audit_filter_form.cleaned_data['services']
-
-	elif request.GET:
-		initial_form_values = {}
-		if 'tickers' in request.GET:
-			initial_form_values['tickers'] = ticker
-		if 'service_ids' in request.GET:
-			services_to_filter_by = _get_service_objects_for_service_ids(request.GET.get('service_ids'))
-			initial_form_values['services'] = services_to_filter_by
-
-		audit_filter_form = FilterForm(initial=initial_form_values)
+			pass
 		
-
-	else:
-		audit_filter_form = FilterForm()
-
-	if services_to_filter_by:
-			pretty_names_of_services_we_matched = [s.pretty_name for s in services_to_filter_by]
-			pretty_names_of_services_we_matched.sort()
-			service_filter_description = ', '.join(pretty_names_of_services_we_matched)
 	else:
 		pass
 
 	services = Service.objects.all()
-
-	coverage_detail_form = TickerForm()
 	
 	today = datetime.now()
 	date_today = today.date()
@@ -592,8 +569,7 @@ def coverage_detail(request, ticker_symbol):
 
 	dictionary_of_values = {
 		'ticker': ticker,
-		'form': audit_filter_form,
-		'service_filter_description': service_filter_description,
+		'form': form,
 		'coverage_type_choices': COVERAGE_CHOICES,
 		'services': services,
 		'single_authors': single_authors,
