@@ -1,4 +1,6 @@
 '''
+creates Ticker objects if necessary
+updates services/scorecards for ticker
 updates the ServiceTake objects, adding BBN, new, core status
 '''
 
@@ -79,6 +81,12 @@ class Command(BaseCommand):
 
                 services_for_ticker = set(services_for_ticker)
                 t.services_for_ticker = ", ".join(services_for_ticker)
+
+
+                #add promised coverage for ticker
+                """
+                seriously add the hell out of it
+                """
 
                 t.save()
 
