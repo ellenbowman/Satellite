@@ -22,7 +22,7 @@ def tiers():
 
 	for t in Ticker.objects.all():
 		if t.ticker_symbol in tier_ones:
-			t.tier == 1
+			t.tier = 1
 			print t.ticker_symbol, t.tier
 			t.save()
 			print t.ticker_symbol, t.tier, '---------'
