@@ -13,21 +13,30 @@ def tiers():
 	with open('tiers.csv') as f:
 		reader = csv.DictReader(f) # read rows into a dictionary format
 		for row in reader: # read a row as {column1: value1, column2: value2,...}
-			for (k,v) in row.items(): # go over each column name and value 
+			for (k,v) in row.items(): # go over each column name and value
 				columns[k].append(v) # append the value into the appropriate list
                                  # based on column name k
 
-	tier_ones = (columns['ticker'])
-	print tier_ones
+	# get the tickers defined in the 'ticker' column.
+	# 	handle cases where a cell contains multiple tickers (separated by commas), eg "GOOGL, GOOG"
+	# 	remove duplicates (via set), and sort (via list)
+	tier_ones = set([t.strip().upper() for t in columns['ticker'] if t != ''])
+	elements_with_commas = set([t for t in tier_ones if ',' in t])
+	tier_ones = tier_ones - elements_with_commas
+	for e in elements_with_commas:
+		tokens = e.split(',')
+		for t in tokens:
+			tier_ones.add(t.strip())
+	tier_ones = list(tier_ones)
+	tier_ones.sort()
 
-	for t in Ticker.objects.all():
-		if t.ticker_symbol in tier_ones:
-			t.tier = 1
-			print t.ticker_symbol, t.tier
-			t.save()
-			print t.ticker_symbol, t.tier, '---------'
-		else:
-			pass
+	for ticker_symbol in tier_ones:
+		try:
+			ticker = Ticker.objects.get(ticker_symbol = ticker_symbol)
+			ticker.tier = 1
+			ticker.save()
+		except:
+			print 'ticker %s is not in SOL' % ticker_symbol
 
 
 def del_tiers():
@@ -63,7 +72,7 @@ def tier():
 			print t.ticker_symbol, t.tier
 		else:
 			continue
-		t.save() 
+		t.save()
 
 
 def coverage():
@@ -83,7 +92,7 @@ def coverage():
 	#PRO = nothing
 	RULE_BREAKERS_TIER_0 = ['10% Promise (RB)', 'Risk Ratings (RB)']
 	RULE_BREAKERS_TIER_1 = ['10% Promise (RB)', 'Risk Ratings (RB)', 'Fool.com Earnings (RB)',
-	'Fool.com Earnings Preview (RB)', 'Team Earnings (RB)', 'Potential 2-Minute Drill (RB)']	
+	'Fool.com Earnings Preview (RB)', 'Team Earnings (RB)', 'Potential 2-Minute Drill (RB)']
 	#RYR = nothing
 	SPECIAL_OPS_TIER_0 = ['Team Earnings (SpOps)']
 	STOCK_ADVISOR_TIER_0 = ['10% Promise (SA)', 'Risk Ratings (SA)', 'Fool.com Earnings (SA)',
@@ -113,7 +122,7 @@ def coverage():
 	}
 
 	for t in Ticker.objects.all():
-  
+
 		promised_coverage_for_this_ticker = []
 
 		if t.services_for_ticker:
@@ -127,13 +136,13 @@ def coverage():
 				if service_pretty_name in TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME:
 						promised_coverage_for_this_ticker += TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME[service_pretty_name]
 
-  
+
 			# turn into a set in order to remove duplicates
 			promised_coverage_for_this_ticker = set(promised_coverage_for_this_ticker)
 			# turn back into a list, so that we can sort the values
 			promised_coverage_for_this_ticker = list(promised_coverage_for_this_ticker)
 			promised_coverage_for_this_ticker.sort()
-    
+
 			t.promised_coverage = ', '.join(promised_coverage_for_this_ticker)
 			t.save()
 
