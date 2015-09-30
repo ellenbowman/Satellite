@@ -40,7 +40,7 @@ Upcoming Earnings
 			{% endifnotequal %}<br/>
 			{% if t.tier %}
 			<span style='background-color:yellow'>
-				Tier {{t.tier}} ({{t.tier_status}})</span>
+				Tier {{t.tier}}</span>
 			{% else %}
 			</span>
 			{% endif %}
@@ -70,8 +70,8 @@ Upcoming Earnings
 
     $(function() {
 		$('#earnings_date_table').dataTable( {
-	        "order": [[ 2, "asc" ]],
-	        "lengthMenu": [[-1,50,100], ["All",50,100]]
+	        "order": [ 4, "asc" ],
+	        "lengthMenu": [ 50,100,200, "All" ],
 	    } );
 
     });
