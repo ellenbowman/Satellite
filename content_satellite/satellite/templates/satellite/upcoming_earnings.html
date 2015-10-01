@@ -9,7 +9,7 @@ Upcoming Earnings
 {% block container_contents %}
 
 <h3>Upcoming Earnings Dates</h3>
-	<p>Sorted in ascending order</p>
+	<p>Displayed in ascending order</p>
 	<hr/>
 	<div>
 
@@ -46,7 +46,7 @@ Upcoming Earnings
 			{% endif %}
 		</td>
 		<td>
-			{{t.earnings_announcement}}<br/>
+			{{ t.earnings_announcement|date:"Y-m-d" }}<br/>
 		</td>
 		<td>
 			{{t.notes|default_if_none:''}}<br/><a href="/sol/tickers/{{t.ticker_symbol}}">Edit</a>
@@ -69,12 +69,6 @@ Upcoming Earnings
 <script src="//cdn.datatables.net/plug-ins/1.10.9/sorting/datetime-moment.js"></script>
 
 <script>
-
-	$.fn.dataTable.ext.type.detect.unshift( function ( d ) {
-    return moment( d, format, locale, true ).isValid() ?
-        'moment-'+format :
-        null;
-	} );
 
     $(function() {
 		$('#earnings_date_table').dataTable( {
