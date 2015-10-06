@@ -14,6 +14,19 @@ def get_count_of_tier_one_tickers():
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+
+        for t in Ticker.objects.all():
+            if t.tier == 1:
+                print t.ticker_symbol, t.tier
+                zero = 0
+                t.tier = zero
+                t.save()
+                print t.ticker_symbol, t.tier
+            else:
+                continue
+        t.tier == 0
+        t.save()
+
     	print 'starting script'
         print 'pre-import: number of tickers in SOL with tier 1: %d' % get_count_of_tier_one_tickers()
 
