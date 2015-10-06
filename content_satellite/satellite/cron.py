@@ -35,6 +35,18 @@ def update_articles_nightly():
 
 ### end of updating articles ------------------
 
+### import earnings announcement dates ----------------------
+
+# on weekdays run first thing in the morning, 8 AM
+@kronos.register('0 8 * * 1-5')
+def _update_earnings_announcement_dates():
+	try:
+		call_command('_update_earnings_announcement_dates')
+	except Exception as e:
+		print str(e)
+
+### end of updating announcement dates -----------------------
+
 
 ### import ticker status ------------------
 # at 4:15 every day but Sunday, check to see what's been made a BBN, new rec, etc.
