@@ -2,9 +2,9 @@ import csv
 from datetime import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from forms import FilterForm, TickerForm
+from forms import FilterForm, TickerForm, NotesForm
 from django.db.models import Q
 from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, \
 	AnalystForTicker, CoverageType, COVERAGE_CHOICES, DataHarvestEventLog, DATA_HARVEST_TYPE_CHOICES
@@ -24,10 +24,40 @@ def upcoming_earnings(request):
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)
 
+	if request.POST:
+
+		ticker_note_name_prefix = 'ticker_notes_'
+
+		# use 'python list comprehension' to create a list of all the keys in request.POST that 
+		# match this condition: the key must start with 'ticker_notes_' . equivalent to a multi-line
+		# 'for' loop.
+		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
+
+		for key_of_ticker_note_data in keys_of_ticker_note_data:
+		# from each key, we can extract the Ticker id that we've embedded in the key
+		# (eg, if we see 'ticker_notes_3', we know it corresponds to the Ticker with id 3)
+		# and we can use that id to retrieve the Ticker object from the db,
+		# update its notes field, and save the Ticker. voila!
+
+			ticker_id = key_of_ticker_note_data[len(ticker_note_name_prefix):]  # pick out everything in the string that follows the 'ticker_notes_' prefix
+			print ticker_id
+			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id) # ticker_id is a string, and ticker_symbol is an item from a list	
+
+			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
+			ticker_to_update.save() # write this update to the db!
+			
+			return redirect(reverse('upcoming_earnings'))
+
+			# print to console a sanity check
+			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
+
+	else:
+		pass
+
 	dictionary_of_values = {
 	'tickers': tickers,
 	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
-	'form': TickerForm,
+	'form': NotesForm,
 	}
 
 	return render(request, 'satellite/upcoming_earnings.html', dictionary_of_values)
