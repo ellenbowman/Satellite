@@ -48,12 +48,13 @@ Upcoming Earnings
 		<td>
 			{{ t.earnings_announcement|date:"Y-m-d" }}<br/>
 		</td>
+
 		<td>
 			<form method="post">
 			{% csrf_token %}
 			<textarea cols=60 rows=3 id = "edit_notes" name="ticker_notes_{{t.ticker_symbol}}"/>{{ t.notes|default_if_none:''}}
 			</textarea></br>
-			<input type="submit" value="Save" href="#{{ t.ticker_symbol }}"></span>
+			<input type="submit" value="Save"></span>
 			</form>
 		</td>
 	</tr>
