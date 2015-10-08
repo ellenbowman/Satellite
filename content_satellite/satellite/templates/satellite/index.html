@@ -13,7 +13,7 @@
 	<p align="center"><a href="{% url 'alerts_index' %}">Sign up for Slack alerts</a></p>
 	<br/>
 
-<p>The current biggest gainer across all premium services is <b>
+<p>The current biggest daily gainer across all premium services is <b>
 	{{gainer.company_name}}</b> ({{gainer.ticker_symbol}}), up {{gainer.daily_percent_change}}%.
 	<a href="{% url 'articles_index' %}?tickers={{gainer.ticker_symbol}}" target='_blank'>Coverage</a><br/>
 	The biggest loser is <b>{{loser.company_name}}</b> ({{loser.ticker_symbol}}), down {{loser.daily_percent_change}}%.
