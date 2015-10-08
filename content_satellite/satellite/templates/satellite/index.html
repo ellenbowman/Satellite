@@ -5,27 +5,13 @@
 <div align='center'; style='font-family:Verdana, Arial, Helvetica, sans-serif'>
 	<h1>Welcome to the Satellite</h1>
 	<p><em><font size=3>Explore Foolish premium coverage live and in color!</em></p>
-<table>
-	<tr align="center">
-		<td align="center" style="padding: 30px;">
-		<p><button type="button"><a href="{% url 'service_overview' %}"><h4>Service Overview</h4></a></button></p>
-		</td>
-		<td align="center" style="padding:30px;">
-		<p><button type="button"><a href="{% url 'upcoming_earnings' %}">
-		<h4>Upcoming Earnings</h4></a></button></p>
-		</td>
-		<td align="center" style="padding: 30px;">
-		<p><button type="button"><h4><a href="{% url 'articles_index' %}">All Articles</a></h4></button></p>
-		</td>
-		<td align="center" style="padding: 30px">
-		<p><button type="button"><a href="{% url 'ticker_overview' %}"><h4>All Tickers</h4></a></button></p>
-		</td>
-		<td align="center" style="padding: 30px;">
-		<p><button type="button"><a href="{% url 'coverage_index' %}"><h4>Coverage Index</a></button></h4></p>
-		</td>
-	</tr>
-</table>
-
+	<br/>
+	<p align="center"><button type="button"><a href="{% url 'upcoming_earnings' %}">
+	<h3>Upcoming Coverage</h3></a></button></p>
+	<p align="center"><a href="{% url 'articles_index' %}">All Articles</a></p>
+	<p align="center"><a href="{% url 'service_overview' %}">Service Overview</a></p>
+	<p align="center"><a href="{% url 'alerts_index' %}">Sign up for Slack alerts</a></p>
+	<br/>
 
 <p>The current biggest gainer across all premium services is <b>
 	{{gainer.company_name}}</b> ({{gainer.ticker_symbol}}), up {{gainer.daily_percent_change}}%.
@@ -37,7 +23,7 @@
 	<em>Information is updated every 10 minutes or so</em>. <a href="{% url 'data_freshness' %}" target="_blank">See data freshness</a></p>
 	<p><img src="http://g.foolcdn.com/editorial/images/150992/silhouettes_large.png"></p>
 </div>
-<p><a href="{% url 'author_bylines' %}">Author index</a> | <a href="/sol/flagged_recs/">Flagged recs</a> | <a href="{% url 'tiered_stocks' %}">Tiered stocks</a>
+<p><strong>Labs:</strong>&nbsp;<a href="{% url 'author_bylines' %}">Author index</a> | <a href="/sol/flagged_recs/">Flagged recs</a> | <a href="{% url 'tiered_stocks' %}">Tiered stocks</a> | <a href="/sol/tickers">All tickers</a> | <a href="{% url 'coverage_index' %}">Coverage index</a>
 </p>
 {% endblock container_contents %}
 
