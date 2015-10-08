@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from forms import FilterForm, TickerForm, NotesForm
 from django.db.models import Q
 from models import Article, BylineMetaData, Service, Ticker, Scorecard, ServiceTake, \
@@ -46,7 +46,14 @@ def upcoming_earnings(request):
 			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
 			ticker_to_update.save() # write this update to the db!
 			
-			return redirect(reverse('upcoming_earnings'))
+
+			redirect_url = reverse('upcoming_earnings')
+			extra_params = '#%s' % ticker_to_update.ticker_symbol
+			full_redirect_url = '%s%s' % (redirect_url, extra_params)
+			return HttpResponseRedirect(full_redirect_url)
+
+			# return redirect(reverse('upcoming_earnings'))
+			print request.POST
 
 			# print to console a sanity check
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
