@@ -52,7 +52,6 @@ def upcoming_earnings(request):
 			full_redirect_url = '%s%s' % (redirect_url, extra_params)
 			return HttpResponseRedirect(full_redirect_url)
 
-			# return redirect(reverse('upcoming_earnings'))
 			print request.POST
 
 			# print to console a sanity check
