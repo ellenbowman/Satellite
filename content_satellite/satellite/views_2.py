@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
@@ -21,6 +21,27 @@ def upcoming_earnings(request):
 
 	yesterday = (datetime.now() - timedelta(days=1)).date()
 
+	today = (datetime.now().date())
+	print today
+
+	monday_of_this_week = today - timedelta(days=today.weekday())
+	print monday_of_this_week
+
+	week_ago_monday = monday_of_this_week - timedelta(weeks=1)
+	print week_ago_monday
+
+	two_weeks_ago_monday = monday_of_this_week - timedelta(weeks=2)
+	print two_weeks_ago_monday
+
+	next_monday = monday_of_this_week + timedelta(weeks=1)
+	print next_monday
+
+	week_from_monday = monday_of_this_week + timedelta(weeks=2)
+	print week_from_monday
+
+	tickers_for_this_week = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement >= monday_of_this_week and t.earnings_announcement < week_from_monday]
+	print tickers_for_this_week
+
 	tickers_sorted_by_earnings_date = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement>yesterday]
 	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)
 
@@ -29,8 +50,7 @@ def upcoming_earnings(request):
 		ticker_note_name_prefix = 'ticker_notes_'
 
 		# use 'python list comprehension' to create a list of all the keys in request.POST that 
-		# match this condition: the key must start with 'ticker_notes_' . equivalent to a multi-line
-		# 'for' loop.
+		# match this condition: the key must start with 'ticker_notes_' .
 		keys_of_ticker_note_data = [key_in_post_dict for key_in_post_dict in request.POST.keys() if key_in_post_dict.startswith(ticker_note_name_prefix)]
 
 		for key_of_ticker_note_data in keys_of_ticker_note_data:
