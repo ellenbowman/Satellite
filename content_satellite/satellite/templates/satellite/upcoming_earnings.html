@@ -12,10 +12,13 @@ Upcoming Earnings
 	<p>Click any header to sort</p>
 	<hr/>
 
-	{{tickers_in_past_week}}
-
-
 	<div>
+<p>
+<form method="post">
+	{% csrf_token %}
+	<button type="submit" name="back_one_week" value="Back one week">Back one week</button>
+</form>
+</p>
 
 <table id='earnings_date_table' class="table table-striped table-bordered">
 	<thead>
@@ -27,7 +30,7 @@ Upcoming Earnings
 		</tr>
 	</thead>
 		<tbody class=''>
-{% for t in tickers_sorted_by_earnings_date %}
+{% for t in tickers_for_this_week %}
 	<tr>
 		<td id="{{ t.ticker_symbol }}">
 			<strong>{{t.ticker_symbol}}</strong><br/>

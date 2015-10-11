@@ -17,7 +17,6 @@ def upcoming_earnings(request):
 	}
 
 	tickers = Ticker.objects.all()
-	tickers = sorted(tickers, key=lambda x: x.daily_percent_change, reverse=True)
 
 	yesterday = (datetime.now() - timedelta(days=1)).date()
 
@@ -64,7 +63,7 @@ def upcoming_earnings(request):
 			ticker_to_update = Ticker.objects.get(ticker_symbol=ticker_id) # ticker_id is a string, and ticker_symbol is an item from a list	
 
 			ticker_to_update.notes = request.POST[key_of_ticker_note_data] # retrieve from the POST dictionary the user input corresponding to this Ticker object
-			ticker_to_update.save() # write this update to the db!
+			ticker_to_update.save()
 			
 
 			redirect_url = reverse('upcoming_earnings')
@@ -72,17 +71,18 @@ def upcoming_earnings(request):
 			full_redirect_url = '%s%s' % (redirect_url, extra_params)
 			return HttpResponseRedirect(full_redirect_url)
 
-			print request.POST
-
 			# print to console a sanity check
 			print 'updated Ticker %s (id: %s). notes value: %s' % (ticker_to_update.ticker_symbol, ticker_id, ticker_to_update.notes)
 
 	else:
 		pass
 
+	print request.POST
+
 	dictionary_of_values = {
 	'tickers': tickers,
 	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
+	'tickers_for_this_week': tickers_for_this_week,
 	'form': NotesForm,
 	}
 
