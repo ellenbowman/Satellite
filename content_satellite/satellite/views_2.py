@@ -23,26 +23,22 @@ def upcoming_earnings(request):
 	today = (datetime.now().date())
 	print today
 
-	monday_of_this_week = today - timedelta(days=today.weekday())
-	print monday_of_this_week
+	starting_monday = today - timedelta(days=today.weekday())
+	print starting_monday
 
-	week_ago_monday = monday_of_this_week - timedelta(weeks=1)
+	week_ago_monday = starting_monday - timedelta(weeks=1)
 	print week_ago_monday
 
-	two_weeks_ago_monday = monday_of_this_week - timedelta(weeks=2)
-	print two_weeks_ago_monday
-
-	next_monday = monday_of_this_week + timedelta(weeks=1)
+	next_monday = starting_monday + timedelta(weeks=1)
 	print next_monday
 
-	week_from_monday = monday_of_this_week + timedelta(weeks=2)
+	week_from_monday = starting_monday + timedelta(weeks=2)
 	print week_from_monday
 
-	tickers_for_this_week = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement >= monday_of_this_week and t.earnings_announcement < week_from_monday]
-	print tickers_for_this_week
 
-	tickers_sorted_by_earnings_date = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement>yesterday]
-	tickers_sorted_by_earnings_date = sorted(tickers_sorted_by_earnings_date, key=lambda x: x.earnings_announcement)
+	tickers_for_this_week = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement > starting_monday and t.earnings_announcement < week_from_monday]
+	#print tickers_for_this_week
+
 
 	if request.POST:
 
@@ -81,9 +77,7 @@ def upcoming_earnings(request):
 
 	dictionary_of_values = {
 	'tickers': tickers,
-	'tickers_sorted_by_earnings_date': tickers_sorted_by_earnings_date,
 	'tickers_for_this_week': tickers_for_this_week,
-	'form': NotesForm,
 	}
 
 	return render(request, 'satellite/upcoming_earnings.html', dictionary_of_values)
