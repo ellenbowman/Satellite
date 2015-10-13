@@ -17,13 +17,10 @@ class Command(BaseCommand):
         print 'start delete'
         for t in Ticker.objects.all():
             if t.tier_status != None:
-                print t.tier_status
                 t.tier_status = ''
                 t.save()
-                print t.tier_status
             if t.tier == 1:
                 t.tier_status = ''
-                print t.ticker_symbol, t.tier
                 t.tier = 0
                 t.save()
                 print t.ticker_symbol, t.tier, t.tier_status
