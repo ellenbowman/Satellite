@@ -22,10 +22,15 @@ class Command(BaseCommand):
                 t.tier = 0
                 t.save()
                 print t.ticker_symbol, t.tier, t.tier_status
+            if t.tier_status != None:
+                t.tier_status = ''
+                t.save()
+                print t.ticker_symbol, t.tier_status
             else:
                 continue
         t.tier == 0
         t.save()
+
         print 'end delete'
 
     	print 'starting script'
