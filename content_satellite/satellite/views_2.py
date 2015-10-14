@@ -35,9 +35,9 @@ def upcoming_earnings(request):
 	week_from_monday = starting_monday + timedelta(weeks=2)
 	print week_from_monday
 
-
-	tickers_for_this_week = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement > starting_monday and t.earnings_announcement < week_from_monday]
-	#print tickers_for_this_week
+	tickers_with_no_dates = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement is None]
+	tickers_for_this_week = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement > starting_monday]
+	all_tickers = tickers_with_no_dates+tickers_for_this_week
 
 
 	if request.POST:
@@ -78,6 +78,8 @@ def upcoming_earnings(request):
 	dictionary_of_values = {
 	'tickers': tickers,
 	'tickers_for_this_week': tickers_for_this_week,
+	'tickers_with_no_dates': tickers_with_no_dates,
+	'all_tickers': all_tickers,
 	}
 
 	return render(request, 'satellite/upcoming_earnings.html', dictionary_of_values)
