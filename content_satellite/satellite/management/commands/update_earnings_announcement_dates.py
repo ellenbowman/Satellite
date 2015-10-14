@@ -59,6 +59,11 @@ class Command(BaseCommand):
 				ticker.save()
 				print "couldn't set earnings date", ticker_symbol, str(e), ticker.earnings_announcement
 				tickers_symbols_that_errored.add(ticker_symbol)
+			if ticker.earnings_announcement == None:
+				ticker.earnings_announcement = "2099-01=01"
+				ticker.save()
+			else:
+				continue
 
 		script_end_time = datetime.datetime.now()
 		total_seconds = (script_end_time - script_start_time).total_seconds()
