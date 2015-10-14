@@ -1,4 +1,4 @@
-"Assigns coverage types to stocks depending on ticker, service, and tier status"
+"Assigns ??? to stocks depending on ticker, service, and tier status"
 
 import urllib
 import json
