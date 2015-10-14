@@ -39,9 +39,21 @@ def update_articles_nightly():
 
 # on weekdays run first thing in the morning, 8 AM
 @kronos.register('0 8 * * 1-5')
-def _update_earnings_announcement_dates():
+def update_earnings_announcement_dates():
 	try:
-		call_command('_update_earnings_announcement_dates')
+		call_command('update_earnings_announcement_dates')
+	except Exception as e:
+		print str(e)
+
+### end of updating announcement dates -----------------------
+
+### import new recs and their status ----------------------
+
+# on weekdays run first thing in the morning, 8 AM
+@kronos.register('0 8 * * 1-5')
+def import_tick_take():
+	try:
+		call_command('import_tick_take')
 	except Exception as e:
 		print str(e)
 
