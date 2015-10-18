@@ -47,7 +47,7 @@ def update_earnings_announcement_dates():
 
 ### end of updating announcement dates -----------------------
 
-### import new recs and their status ----------------------
+### import new recs and status ----------------------
 
 # on weekdays run first thing in the morning, 8 AM
 @kronos.register('0 8 * * 1-5')
@@ -57,7 +57,7 @@ def import_tick_take():
 	except Exception as e:
 		print str(e)
 
-### end of updating announcement dates -----------------------
+### end of updating new recs and status -----------------------
 
 
 ### import ticker status ------------------
