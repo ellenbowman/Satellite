@@ -22,7 +22,6 @@ def index(request):
 		'gainer': gainer,
 		'loser': loser,
 		'latest': latest,
-
 	}
 
 	return render(request, 'satellite/index.html', dictionary_of_values)

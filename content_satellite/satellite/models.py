@@ -171,8 +171,8 @@ DATA_HARVEST_TYPE_CHOICES = (
     (DATA_HARVEST_TYPE_ARTICLES, 'articles'),
     (DATA_HARVEST_TYPE_MARKET_DATA, 'market performance'),
     (DATA_HARVEST_TYPE_EARNINGS_DATES, 'earnings dates'),
-    (DATA_HARVEST_TYPE_SCORECARD_RECS, 'scorecard recs'),
-    (DATA_HARVEST_TYPE_BYLINE_META_DATA, 'bylines meta data')
+    (DATA_HARVEST_TYPE_SCORECARD_RECS, 'new recs/status changes'),
+    (DATA_HARVEST_TYPE_BYLINE_META_DATA, 'bylines meta data'),
 )
 
 class DataHarvestEventLog(models.Model):
