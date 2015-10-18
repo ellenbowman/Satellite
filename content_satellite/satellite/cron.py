@@ -69,7 +69,7 @@ def _import_tick_take():
 	except Exception as e:
 		print str(e)	
 
-### end of updating ticker status ----------------------------
+### end of updating ticker status ---------------------
 
 ### author meta data ------------------
 # every morning at 12:15 AM (not too long after the nightly 11:59 sweep for articles), let's re-compile the author meta data
@@ -81,6 +81,22 @@ def update_author_meta_data_nightly():
 		print str(e)
 
 ### end of updating author meta data ------------------
+
+
+### update tier status --------------------------------
+
+# every morning at 12:15 AM
+@kronos.register('15 0 * * *')
+def update_tier_status():
+	try:
+		call_command('import_tiers')
+	except Exception as e:
+		print str(e)
+
+### end of updating tier status -----------------------
+
+
+
 
 ### ticker performance ----------------
 def _update_daily_percent_change():
