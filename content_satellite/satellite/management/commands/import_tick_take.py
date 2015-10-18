@@ -9,16 +9,24 @@ import json
 import datetime
 from django.core.management.base import BaseCommand, CommandError
 from satellite.models import Ticker, Scorecard, ServiceTake
+from django.conf import settings
+from satellite.models import Article, Service, Ticker, DataHarvestEventLog, DATA_HARVEST_TYPE_SCORECARD_RECS
 
 base_url = 'http://apiary.fool.com/PremiumScorecards/v1/scorecards/'
-
 
 class Command(BaseCommand):
     help = "Imports core, first, BBN, new rec information for tickers."
 
     def handle(self, *args, **options):
-
         print "Let's do this"
+
+        event_log = DataHarvestEventLog()
+        event_log.data_type = DATA_HARVEST_TYPE_SCORECARD_RECS
+        event_log.notes = 'running'
+        event_log.save()
+
+        script_start_time = datetime.datetime.now()
+        notes = ''
 
         # delete all previous ServiceTakes
         ServiceTake.objects.all().delete()
@@ -84,4 +92,14 @@ class Command(BaseCommand):
 
                 t.save()
 
-#self.stdout.write("finished")
+
+            notes = 'updated Ticker objects'
+
+        script_end_time = datetime.datetime.now()
+        total_seconds = (script_end_time - script_start_time).total_seconds()
+
+        print 'time elapsed: %d seconds' %  total_seconds
+        event_log.notes = notes         
+        event_log.save()
+
+        print 'finished script'
