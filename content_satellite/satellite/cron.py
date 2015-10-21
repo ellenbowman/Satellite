@@ -84,7 +84,10 @@ def update_author_meta_data_nightly():
 
 
 ### update tier status --------------------------------
-
+"""
+EB: commenting out for now because it appeared to run last night (10/20/21) at 12:15 but displayed no stocks as having tiers,
+while when I ran it manually just now (11 am) they showed up as usual. I'm the one who updates tiers, so I know when it needs
+to be run, at least.
 # every morning at 12:15 AM
 @kronos.register('15 0 * * *')
 def update_tier_status():
@@ -92,7 +95,7 @@ def update_tier_status():
 		call_command('import_tiers')
 	except Exception as e:
 		print str(e)
-
+"""
 ### end of updating tier status -----------------------
 
 
