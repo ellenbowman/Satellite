@@ -86,7 +86,7 @@ def update_author_meta_data_nightly():
 ### update tier status --------------------------------
 
 # every morning at 9:15 AM
-@kronos.register('35 9 * * *')
+@kronos.register('35 12 * * *')
 def update_tier_status():
 	try:
 		call_command('import_tiers')
