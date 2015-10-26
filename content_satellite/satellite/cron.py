@@ -83,20 +83,6 @@ def update_author_meta_data_nightly():
 ### end of updating author meta data ------------------
 
 
-### update tier status --------------------------------
-
-# every morning at 9:15 AM
-@kronos.register('35 12 * * *')
-def update_tier_status():
-	try:
-		call_command('import_tiers')
-	except Exception as e:
-		print str(e)
-
-### end of updating tier status -----------------------
-
-
-
 
 ### ticker performance ----------------
 def _update_daily_percent_change():
