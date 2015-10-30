@@ -39,13 +39,25 @@ def update_articles_nightly():
 
 # on weekdays run first thing in the morning, 8 AM
 @kronos.register('0 8 * * 1-5')
-def _update_earnings_announcement_dates():
+def update_earnings_announcement_dates():
 	try:
-		call_command('_update_earnings_announcement_dates')
+		call_command('update_earnings_announcement_dates')
 	except Exception as e:
 		print str(e)
 
 ### end of updating announcement dates -----------------------
+
+### import new recs and status ----------------------
+
+# on weekdays run first thing in the morning, 8 AM
+@kronos.register('0 8 * * 1-5')
+def import_tick_take():
+	try:
+		call_command('import_tick_take')
+	except Exception as e:
+		print str(e)
+
+### end of updating new recs and status -----------------------
 
 
 ### import ticker status ------------------
@@ -57,7 +69,7 @@ def _import_tick_take():
 	except Exception as e:
 		print str(e)	
 
-### end of updating ticker status ----------------------------
+### end of updating ticker status ---------------------
 
 ### author meta data ------------------
 # every morning at 12:15 AM (not too long after the nightly 11:59 sweep for articles), let's re-compile the author meta data
@@ -69,6 +81,25 @@ def update_author_meta_data_nightly():
 		print str(e)
 
 ### end of updating author meta data ------------------
+
+
+### update tier status --------------------------------
+"""
+EB: commenting out for now because it appeared to run last night (10/20/21) at 12:15 but displayed no stocks as having tiers,
+while when I ran it manually just now (11 am) they showed up as usual. I'm the one who updates tiers, so I know when it needs
+to be run, at least.
+# every morning at 12:15 AM
+@kronos.register('15 0 * * *')
+def update_tier_status():
+	try:
+		call_command('import_tiers')
+	except Exception as e:
+		print str(e)
+"""
+### end of updating tier status -----------------------
+
+
+
 
 ### ticker performance ----------------
 def _update_daily_percent_change():
