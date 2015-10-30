@@ -9,26 +9,30 @@ from django.conf import settings
 import csv
 from collections import defaultdict
 
-def coverage():
+class Command(BaseCommand):
+    help = 'does nothing right now'
 
-	HIDDEN_GEMS_TIER_1 = ['HG Tier 1 Content']
-	RULE_BREAKERS_TIER_1 = ['RB Tier 1 Content']
-	STOCK_ADVISOR_TIER_1 = ['SA Tier 1 Content']
+    def handle(self, *args, **options):
+		print 'starting script'
+
+		HIDDEN_GEMS_TIER_1 = ['HG Tier 1 Content']
+		RULE_BREAKERS_TIER_1 = ['RB Tier 1 Content']
+		STOCK_ADVISOR_TIER_1 = ['SA Tier 1 Content']
 
 
-	# TIER_0_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME = {
-	# 'Hidden Gems': HIDDEN_GEMS_TIER_0,
-	# 'Rule Breakers': RULE_BREAKERS_TIER_0,
-	# 'Stock Advisor': STOCK_ADVISOR_TIER_0,
-	# }
+		# TIER_0_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME = {
+		# 'Hidden Gems': HIDDEN_GEMS_TIER_0,
+		# 'Rule Breakers': RULE_BREAKERS_TIER_0,
+		# 'Stock Advisor': STOCK_ADVISOR_TIER_0,
+		# }
 
-	TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME = {
-	'Hidden Gems': HIDDEN_GEMS_TIER_1,
-	'Rule Breakers': RULE_BREAKERS_TIER_1,
-	'Stock Advisor': STOCK_ADVISOR_TIER_1,
-	}
+		TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME = {
+		'Hidden Gems': HIDDEN_GEMS_TIER_1,
+		'Rule Breakers': RULE_BREAKERS_TIER_1,
+		'Stock Advisor': STOCK_ADVISOR_TIER_1,
+		}
 
-	for t in Ticker.objects.all():
+		for t in Ticker.objects.all():
 
 		promised_coverage_for_this_ticker = []
 
