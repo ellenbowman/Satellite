@@ -34,23 +34,23 @@ class Command(BaseCommand):
 
 		for t in Ticker.objects.all():
 
-		promised_coverage_for_this_ticker = []
+			promised_coverage_for_this_ticker = []
 
-		if t.services_for_ticker:
-			service_pretty_names = t.services_for_ticker.split(',')
-			for service_pretty_name in service_pretty_names:
-				service_pretty_name = service_pretty_name.strip()
-				if service_pretty_name in TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME:
-						promised_coverage_for_this_ticker += TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME[service_pretty_name]
+			if t.services_for_ticker:
+				service_pretty_names = t.services_for_ticker.split(',')
+				for service_pretty_name in service_pretty_names:
+					service_pretty_name = service_pretty_name.strip()
+					if service_pretty_name in TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME:
+							promised_coverage_for_this_ticker += TIER_1_COVERAGE_KEYED_BY_SERVICE_PRETTY_NAME[service_pretty_name]
 
 
-			# turn into a set in order to remove duplicates
-			promised_coverage_for_this_ticker = set(promised_coverage_for_this_ticker)
-			# turn back into a list, so that we can sort the values
-			promised_coverage_for_this_ticker = list(promised_coverage_for_this_ticker)
-			promised_coverage_for_this_ticker.sort()
+				# turn into a set in order to remove duplicates
+				promised_coverage_for_this_ticker = set(promised_coverage_for_this_ticker)
+				# turn back into a list, so that we can sort the values
+				promised_coverage_for_this_ticker = list(promised_coverage_for_this_ticker)
+				promised_coverage_for_this_ticker.sort()
 
-			t.promised_coverage = ', '.join(promised_coverage_for_this_ticker)
-			t.save()
+				t.promised_coverage = ', '.join(promised_coverage_for_this_ticker)
+				t.save()
 
-		print t.ticker_symbol, t.promised_coverage
+			print t.ticker_symbol, t.promised_coverage
