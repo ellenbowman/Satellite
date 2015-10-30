@@ -60,18 +60,7 @@ def import_tick_take():
 ### end of updating new recs and status -----------------------
 
 
-### import ticker status ------------------
-# at 4:15 every day but Sunday, check to see what's been made a BBN, new rec, etc.
-@kronos.register('16 15 * * 1-6')
-def _import_tick_take():
-	try:
-		call_command('import_tick_take')
-	except Exception as e:
-		print str(e)	
-
-### end of updating ticker status ---------------------
-
-### author meta data ------------------
+### author meta data ------------------------------------------
 # every morning at 12:15 AM (not too long after the nightly 11:59 sweep for articles), let's re-compile the author meta data
 @kronos.register('15 0 * * *')
 def update_author_meta_data_nightly():
@@ -84,10 +73,7 @@ def update_author_meta_data_nightly():
 
 
 ### update tier status --------------------------------
-"""
-EB: commenting out for now because it appeared to run last night (10/20/21) at 12:15 but displayed no stocks as having tiers,
-while when I ran it manually just now (11 am) they showed up as usual. I'm the one who updates tiers, so I know when it needs
-to be run, at least.
+
 # every morning at 12:15 AM
 @kronos.register('15 0 * * *')
 def update_tier_status():
@@ -95,10 +81,8 @@ def update_tier_status():
 		call_command('import_tiers')
 	except Exception as e:
 		print str(e)
-"""
+
 ### end of updating tier status -----------------------
-
-
 
 
 ### ticker performance ----------------
