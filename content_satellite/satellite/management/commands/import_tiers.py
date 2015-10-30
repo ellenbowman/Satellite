@@ -33,25 +33,16 @@ class Command(BaseCommand):
 
         print 'start delete'
         for t in Ticker.objects.all():
-            if t.tier_status != None:
-                t.tier_status = ''
-                t.save()
-            if t.tier == 1:
-                t.tier_status = ''
-                t.tier = 0
-                t.save()
-                print t.ticker_symbol, t.tier, t.tier_status
-            else:
-                continue
-        t.tier == 0
-        t.save()
+            t.tier_status = ''
+            t.tier = 0
+            t.save()
 
         print 'end delete'
 
     	print 'starting tier import'
         print 'pre-import: number of tickers in SOL with tier 1: %d' % get_count_of_tier_one_tickers()
 
-        columns = defaultdict(list) # each value in each column is appended to a list
+        #columns = defaultdict(list) # each value in each column is appended to a list
 
     	with open(TIERS_CSV, 'rU') as f:
     		reader = csv.DictReader(f) # read rows into a dictionary format
@@ -61,8 +52,11 @@ class Command(BaseCommand):
                     try:
                         ticker = Ticker.objects.get(ticker_symbol = ticker_symbol)
                         ticker.tier = 1
-                        ticker.tier_status += ' %s,' % service
-                        print ticker.tier_status
+                        if len(ticker.tier_status):
+                            ticker.tier_status += ", %s" % service
+                        else:
+                            ticker.tier_status = service
+                        print ticker_symbol, ticker.tier_status
                         ticker.save()
                     except:
                         print '%s tier status cannot be updated' % ticker_symbol
@@ -71,8 +65,6 @@ class Command(BaseCommand):
         EB work-in-progress note: the above solution does not convert tickers to U/C and remove commas like the old code did.
         However, I plan to maintain the tiers spreadsheet so that there will only ever be one U/C ticker per field.
         So I will leave that problem for now.
-        Also I need to find out how to make it so I can concat service names into tier_status with commas between names
-        but no comma on the end.
         """
 
         notes = 'updated tier status'
@@ -85,3 +77,4 @@ class Command(BaseCommand):
         event_log.save()
 
         print 'finished script'
+        print 'post-import: number of tickers in SOL with tier 1: %d' % get_count_of_tier_one_tickers()
