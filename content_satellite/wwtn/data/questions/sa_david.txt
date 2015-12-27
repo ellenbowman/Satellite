@@ -1,0 +1,25 @@
+1::  Profitability:: Was the company profitable during the previous quarter and past 12 months?::profitable_ltm_and_mrq
+2::  Cash Flow:: Was the company cash-flow positive during the previous quarter and past 12 months?::operating_cash_flow_positive_ltm_and_mrq
+3::  Brand:: Does the company's business rely on recognizable branding truly valued by its buyer base?::
+4::  Diversification:: Has the company diversified its buyer base so that no single customer accounts for more than 20% of revenue?::
+5::  Raving Fans:: Does the company, on the whole, receive positive word of mouth from its customers?::
+6::  Growth:: Did the company grow its sales by 10% to 40% annually in the past three years?::cagr_between_10_and_40_percent
+7::  Independence:: Can the company operate its business in the next three years without relying on external funding?::independence
+8::  Disclosure:: Does the company maintain a high standard of disclosure, consistent with SEC guidelines?::
+9::  Transparency:: Would an intermediate-level investor find the company's financial statements and management ownership disclosures relatively easy to sift through and understand?::
+10::  Well-Managed:: Over the most recent fiscal year, did the company earn a return on equity of 15% or higher?::return_on_equity_over_fifteen_percent_last_year
+11::  Underdog:: Is the company free of direct competitors that have substantially greater financial resources?::competitors
+12::  Goliath:: Is the company free of disruptive upstarts visibly challenging its business model?::
+13::  Moat:: Would potential new competitors face high economic, technological, or regulatory barriers to entry?::
+14::  Market Cap:: Does the stock have a market cap of more than $500 million?::market_cap_over_half_billion
+15::  Beta:: Is this stock's beta rating in the past 12 months less than 1.3?::beta_under_one_point_three
+16::  P/E Ratio:: Does the stock have a positive price-to-earnings multiple less than 30?::price_per_earnings_under_30
+17::  Insider Stake:: Do any key insiders have at least a 5% stake in the company?::founders_have_stake
+18::  Experience:: Do the top three officers have more than 15 years of combined leadership at the company?::
+19::  The <em>Stock Advisor</em> Way:: Is this a solid business with proven management and a stalwart balance sheet?::stock_advisor_savvy
+20::  Conscious Capitalism:: Is management looking out for the interests of all stakeholders — customers, employees, shareholders?::pro_social_company
+21::  Immaculate:: Is this company certain to be fault-free and fraud-free in all its corporate statements and deeds?::default_negative
+22::  You:: Do you want to know more about this company?  Are you willing to dig deeper, learn more, and ask questions to actively understand this company?::
+23::  About This Company No. 1:: --custom--::
+24::  About This Company No. 2:: --custom--::
+25::  Bulletproof:: Are you certain this company is invulnerable to external world or macroeconomic events such that you're sure you can get all your capital back?::default_negative

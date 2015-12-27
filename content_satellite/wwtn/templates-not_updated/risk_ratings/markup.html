@@ -1,0 +1,122 @@
+{% load ticker_hints %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Risk Ratings Markup</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://n.foolcdn.com/css/turbine5.min.css">
+
+{% ifequal is_stock_advisor True %}
+  <link href="http://n.foolcdn.com/18/css/product.css" rel="stylesheet" type="text/css" media="screen" />
+{% else %}
+  <link href="http://n.foolcdn.com/1069/css/product.css" rel="stylesheet" type="text/css" media="screen" />
+{% endifequal %}
+
+  <link rel="icon" href="http://www.fool.com/favicon.ico">
+
+  <style>
+    body{
+      padding:20px;
+      background-color: white;
+    }
+    .msword-friendly-box{
+      border-left: 1px solid blue;
+      font-family:"Calibri (Body)";
+      padding:10px;
+    }
+
+    .cms-friendly-box{
+      border-left: 1px solid blue;
+      padding:10px;
+    }
+
+    .section-header{
+      color:darkblue;
+    }
+  </style>
+
+  {% include 'risk_ratings/_ga_script.html' %}
+
+</head>
+<body>
+<a name='top'></a>
+<div class='row'>
+  <div class='well clear' style='background-color:lightgray'>
+    <h3>Risk Rating: <strong>{{ticker.company_name}}</strong> ({{ticker.symbol}})</h3>
+
+    Jump to:
+    <ul>
+      <li><a href='#msword'>MSWord-friendly</a></li>
+      <li><a href='#cms'>CMS-friendly</a></li>
+    </ul>
+
+
+  </div>
+
+  <div class='col-md-12'>
+    <a name='msword'></a>
+    <strong class='section-header'>MSWord-friendly</strong>
+     <a href='#top'>Top</a>
+
+    <div class='msword-friendly-box'>
+      <strong>Risk Rating: {{count_negative_responses}} -- {{crushability}}</strong>
+      <br/>
+      {% for qr in questions_and_responses %}
+
+        {{ forloop.counter|strong_label_for_question_number|safe }}
+      &nbsp; &nbsp;<strong>{{qr.number}}. {{qr.q_label|safe}}:</strong> {{qr.q_text|safe}}
+      &nbsp;
+
+      <strong {% ifequal qr.r_short 'No'%}style='color:red' {% endifequal %}>{{qr.r_short}}</strong><strong>.</strong>
+       {{qr.r_detail}}
+      <br/>
+      {% endfor %}
+      <br/>
+    </div>
+  </div>
+
+  <div class='col-md-12'>
+    <br/>
+    <br/>
+  </div>
+
+  <div class='col-md-12'>
+    <a name='cms'></a>
+    <strong class='section-header'>CMS-friendly</strong>
+     <a href='#top'>Top</a>
+
+    <div class=' cms-friendly-box'>
+
+      <p>
+        <img alt="" src="http://g.foolcdn.com/editorial/images/68707/risk-150_large.png">
+      </p>
+      {% ifequal is_stock_advisor True %}
+        {% include 'risk_ratings/_header_stock_advisor.html' with ticker=ticker %}
+      {% endifequal %}
+
+      {% ifequal is_rule_breakers True %}
+        {% include 'risk_ratings/_header_rule_breakers.html' with ticker=ticker %}
+      {% endifequal %}
+
+      {% for qr in questions_and_responses %}
+
+      {{ forloop.counter|heading_for_question_number|safe }}
+      <p>
+      <strong>{{qr.number}}. {{qr.q_label|safe}}:</strong> {{qr.q_text|safe}}
+      </p>
+      <ul>
+        <li>
+          <strong>{{qr.r_short}}.</strong> {{qr.r_detail}}
+        </li>
+      </ul>
+      {% endfor %}
+      <br/>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

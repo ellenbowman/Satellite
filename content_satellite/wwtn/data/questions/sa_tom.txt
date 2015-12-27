@@ -1,0 +1,25 @@
+1:: Geopolitical Risk:: Is this company free of meaningful geopolitical risk?::geopolitical_risk
+2:: Market Cap:: Is the market cap greater than $1 billion?::market_cap_over_one_billion
+3:: Business Model:: Is this a Green Circle business model?::
+4:: Repeat Business:: Does the business have high repeat customer usage?::
+5:: Brand:: Does the company have brand strength with passionate advocates?::
+6:: Profitability:: Was the company profitable during the past year?::profitable_ltm
+7:: Consistency:: Has the company shown consistent profits each of the last five years?::profitable_last_five_years
+8:: Cash Flow:: Was free cash flow positive for two of the last three years?::free_cash_flow_positive_two_of_three_years
+9:: Diversification:: Is the company free of any customer or supplier that accounts for more than 10% of sales?::
+10:: Independence:: Can the company execute its business plan without relying on external funding?::independence
+11:: Leverage:: Is the company's debt to equity less than 40%?::debt_to_equity_under_40_percent
+12:: Financial Transparency:: Are the financials easy to understand?::
+13:: Return on Equity:: Is the ROE greater than 12% each year for the past five years?::return_on_equity_over_twelve_percent_last_five_years
+14:: Underdog:: Is it free from stronger competitors?::competitors
+15:: Goliath:: Is it free from disruptive upstarts?::
+16:: Moat:: Are there signs of strong competitive advantage?::
+17:: Insider Stake:: Do any key insiders have at least a 5% stake in the company?::founders_have_stake
+18:: Experience:: Do the top three executives have 15 years of combined experience?::
+19:: The <em>Stock Advisor</em> Way:: Is management trustworthy?::
+20:: Stakeholders:: Is the board of directors looking out for you?::
+21:: Immaculate:: Is this company guaranteed to be fault-free and fraud-free in all its corporate statements and deeds?::default_negative
+22:: You:: Do you want to know more about this company?  Are you willing to dig deeper, learn more, and ask questions to actively understand this company?::
+23:: About This Company No. 1:: --custom--::
+24:: About This Company No. 2:: --custom--::
+25:: Bulletproof:: Are you certain this company is invulnerable to external world or macroeconomic events such that you're sure you can get all your capital back?::default_negative

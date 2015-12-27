@@ -1,0 +1,20 @@
+<p>
+  Our Risk Rating asks 25 questions to gauge the risk level of our recommendations
+  (<a href="http://newsletters.fool.com/1069/about/welcome-to-the-rule-breakers-risk-rating-tool.aspx">learn about the ratings</a>,
+  &nbsp;<a href="http://newsletters.fool.com/1069/about/rule-breakers-risk-ratings.aspx">see how our stocks fare</a>, and
+  &nbsp;<a href="http://newsletters.fool.com/1069/about/risk-ratings-introducing-crushability.aspx">find out how we determine Crushability</a>).
+</p>
+<p>
+  <strong>{{ticker.company_name}}</strong> ({{ticker.exchange}}: {{ticker.symbol}})
+</p>
+
+<ul>
+  <li><strong>Risk Rating: </strong>{{count_negative_responses}} — {{crushability}}</li>
+  {% if previous_rating_url %}
+  <li><strong>Previous Rating: </strong><a href='{{previous_rating_url}}'>{{previous_rating}} — {{previous_crushability}}</a></li>
+  <li><strong>Changes:</strong> {{changes_from_previous|default:'<em>please complete this by hand</em>'}}
+  {% endif %}
+</ul>
+<p>
+  Here are our questions and answers.
+</p>
