@@ -45,6 +45,9 @@ class Command(BaseCommand):
 		tickers = Ticker.objects.all().order_by('ticker_symbol')
 		for ticker in tickers:
 			ticker_symbol = ticker.ticker_symbol
+			if '-' in ticker_symbol:
+				ticker_symbol = ticker_symbol.replace('-','.')
+			print ticker_symbol
 			try:
 				earnings_announcement_date = get_earnings_announcement_date(ticker_symbol)
 				print ticker_symbol, earnings_announcement_date
