@@ -51,12 +51,12 @@ class Command(BaseCommand):
 				ticker.earnings_announcement = earnings_announcement_date
 				ticker.save()
 			except Exception as e:
-				ticker.earnings_announcement = "2099-01-01"
+				ticker.earnings_announcement = '2099-01-01'
 				ticker.save()
 				print "couldn't set earnings date", ticker_symbol, str(e), ticker.earnings_announcement
 				tickers_symbols_that_errored.add(ticker_symbol)
 			if ticker.earnings_announcement == None:
-				ticker.earnings_announcement = "2099-01=01"
+				ticker.earnings_announcement = '2099-01-01'
 				ticker.save()
 			else:
 				continue
