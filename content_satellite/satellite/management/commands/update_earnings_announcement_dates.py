@@ -25,12 +25,6 @@ def get_earnings_announcement_date(ticker_symbol):
 	earnings_response=earnings_response.json()
 	earnings_announcement_date = earnings_response[ticker_symbol]['earnings_date']
 
-# in the json that Quandl returns to us, the value representing the earnings date doesn't look like a typical date string. 
-	# here's an example of what it looks like in the Quandl json: 20150427.0
-	# these next two lines, we extract the value from the json and convert it into a conventional datetime type
-	#expected_report_date_quarter1 = str(int(earnings_json['data'][0][1]))
-	#earnings_announcement_date = datetime.datetime.strptime(expected_report_date_quarter1, '%Y%m%d')
-
 	return earnings_announcement_date
 
 
