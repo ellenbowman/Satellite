@@ -1,33 +1,35 @@
 '''
 update the 'earnings_announcement' field on all Ticker objects,
-using expected earnings report dates retrieved from Quandl
+using expected earnings report dates retrieved from Moosie's API
 '''
 import urllib
 import json
 import datetime
+import requests
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from requests.auth import HTTPBasicAuth
 from satellite.models import Ticker, DataHarvestEventLog, DATA_HARVEST_TYPE_EARNINGS_DATES
 
 
 def get_earnings_announcement_date(ticker_symbol):
 	""" 
-	get the 'EXP_RPT_DATE_QR1' (expected report date for 1st quarter?)
-	from Quandl, which pulls from Zachs Research
+	get the next expected earnings date from Moosie's API at:
+	https://fool.moosiefinance.com:8181/api/calendar/v1/company/ticker/{ticker1:ticker2}?pretty=1&canon=1
+	currently using http and 8081 while figuring out ssl
 	"""
 
-	# sample url: http://www.quandl.com/api/v1/datasets/ZEA/AOL.json?column=4&auth_token=[quandl_auth_token]
-	earnings_announcement_url = 'https://www.quandl.com/api/v1/datasets/ZEA/%s.json?column=4&auth_token=%s' % (ticker_symbol, settings.QUANDL_AUTH_TOKEN)
+	earnings_announcement_url = 'http://fool.moosiefinance.com:8081/api/calendar/v1/company/ticker/%s' % ticker_symbol
+	earnings_response = requests.get(earnings_announcement_url, auth=HTTPBasicAuth('calendar', 'aRfy!poo38;'))
+	earnings_response=earnings_response.json()
+	earnings_announcement_date = earnings_response[ticker_symbol]['earnings_date']
 
-	earnings_response = urllib.urlopen(earnings_announcement_url).read()
-	earnings_json = json.loads(earnings_response)
-
-	# in the json that Quandl returns to us, the value representing the earnings date doesn't look like a typical date string. 
+# in the json that Quandl returns to us, the value representing the earnings date doesn't look like a typical date string. 
 	# here's an example of what it looks like in the Quandl json: 20150427.0
 	# these next two lines, we extract the value from the json and convert it into a conventional datetime type
-	expected_report_date_quarter1 = str(int(earnings_json['data'][0][1]))
-	earnings_announcement_date = datetime.datetime.strptime(expected_report_date_quarter1, '%Y%m%d')
+	#expected_report_date_quarter1 = str(int(earnings_json['data'][0][1]))
+	#earnings_announcement_date = datetime.datetime.strptime(expected_report_date_quarter1, '%Y%m%d')
 
 	return earnings_announcement_date
 
