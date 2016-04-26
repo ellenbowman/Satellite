@@ -54,15 +54,15 @@ Upcoming Earnings
 			{{ t.earnings_announcement|date:"Y-m-d" }}<br/>
 		</td>
 
-		<td>Pending</td>
-		<td>Pending</td>
-		<td>Pending</td>
-		<td>Pending</td>
+		<td>{{t.cloud_captain}}</td>
+		<td>{{t.points}}</td>
+		<td>{{t.sector}}</td>
+		<td>{{t.instrument_id}}</td>
 
 		<td>
 			<form method="post">
 			{% csrf_token %}
-			<textarea cols=60 rows=3 id="edit_notes" name="ticker_notes_{{t.ticker_symbol}}">{{t.notes|default_if_none:''}}</textarea></br>
+			<textarea cols=30 rows=3 id="edit_notes" name="ticker_notes_{{t.ticker_symbol}}">{{t.notes|default_if_none:''}}</textarea></br>
 			<input type="submit" value="Save"></span>
 			</form>
 		</td>
