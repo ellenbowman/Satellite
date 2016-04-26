@@ -6,7 +6,7 @@ from satellite.models import Ticker, Service, ServiceTake, Article, Scorecard, D
 
 class TickerAdmin(admin.ModelAdmin):
 	list_display = ['ticker_symbol','company_name','daily_percent_change','exchange_symbol','services','scorecards','tier', 'tier_status',
-	'earnings_announcement','notes']
+	'earnings_announcement','notes', 'cloud_captain', 'points', 'sector', 'instrument_id']
 	search_fields = ['ticker_symbol', 'instrument_id','company_name']
 
 admin.site.register(Ticker, TickerAdmin)

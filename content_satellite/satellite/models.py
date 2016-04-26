@@ -18,6 +18,11 @@ class Ticker(models.Model):
 	tier_status = models.CharField(max_length=50, null=True, blank=True, verbose_name='tier status')
 	analysts_for_ticker = models.CharField(max_length=500, null=True, blank=True, verbose_name='analysts for ticker')
 	promised_coverage = models.TextField(max_length=500, null=True, blank=True, verbose_name='promised coverage')
+	cloud_captain = models.CharField(max_length=50, null=True, blank=True, verbose_name='cloud captain')
+	points = models.IntegerField(default=0)
+	sector = models.TextField(max_length=500, null=True, blank=True, verbose_name='sector')
+	instrument_id = models.IntegerField(default=0)
+
 
 	def __unicode__(self):
 		return self.ticker_symbol
