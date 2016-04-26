@@ -1,1 +1,187 @@
-ticker,serviceUA,Hidden GemsCMG,Hidden GemsBWLD,Hidden GemsPRAA,Hidden GemsASR,Hidden GemsFOSL,Hidden GemsSAM,Hidden GemsTRIP,Hidden GemsTDG,Hidden GemsHHC,Hidden GemsINFN,Hidden GemsBIP,Hidden GemsCTRP,Hidden GemsJLL,Hidden GemsAHS,Hidden GemsSSW,Hidden GemsBOOM,Hidden GemsFORM,Hidden GemsRSTI,Hidden GemsHPY,Hidden GemsGOOGL,Rule BreakersAMBA,Rule BreakersANET,Rule BreakersBIDU,Rule BreakersBOFI,Rule BreakersCELG,Rule BreakersCMG,Rule BreakersFB,Rule BreakersGPRO,Rule BreakersIMAX,Rule BreakersICE,Rule BreakersISRG,Rule BreakersINVN,Rule BreakersLNKD,Rule BreakersMELI,Rule BreakersMIDD,Rule BreakersNXPI,Rule BreakersPRLB,Rule BreakersSWKS,Rule BreakersSCTY,Rule BreakersSPLK,Rule BreakersSSYS,Rule BreakersTSLA,Rule BreakersTRIP,Rule BreakersUA,Rule BreakersVEEV,Rule BreakersZG,Rule BreakersDDD,Stock AdvisorATVI,Stock AdvisorGOOGL,Stock AdvisorAMZN,Stock AdvisorAAPL,Stock AdvisorBRK-B,Stock AdvisorKMX,Stock AdvisorCMG,Stock AdvisorCOST,Stock AdvisorDISCK,Stock AdvisorFB,Stock AdvisorFEYE,Stock AdvisorGILD,Stock AdvisorIBKR,Stock AdvisorKMI,Stock AdvisorLUK,Stock AdvisorNOV,Stock AdvisorNFLX,Stock AdvisorNKE,Stock AdvisorPCLN,Stock AdvisorSWIR,Stock AdvisorSBUX,Stock AdvisorUA,Stock AdvisorDIS,Stock AdvisorWFM,Stock AdvisorLNKD,Stock AdvisorDNOW,Stock AdvisorPYPL,Stock AdvisorTSLA,Stock AdvisorTRIP,Stock Advisor
+ticker,service
+DDD,SA
+ATVI,"MDP, SA, SN"
+apog,HG
+alny,SN
+goog,"SA, RB, MDP, One, IV, SN"
+amzn,"MDP, IV, SA, SN"
+amba,"MDP, RB, SN"
+amcx,SN
+amt,"Pro, SN"
+AP,DV
+afsi,Pro
+aapl,"MDP, SA, Pro, SN"
+anet,One
+atw,SN
+AZZ,HG
+bidu,"MDP, One, RB, SN"
+bks,Spops
+bned,Spops
+brk-b,"MDP, IV, SA, SN"
+blx,MDP
+bobe,Spops
+bofi,"RB, SN"
+sam,"MDP, HG, SN"
+br,Pro
+bwld,"One, HG"
+cabo,Spops
+czr,Pro
+cni,SN
+ctre,Spops
+kmx,"SA, SN"
+cri,SN
+casy,SN
+celg,"RB, SN"
+gtls,SN
+chkp,SN
+cvx,II
+cmg,"MDP, One, SA, RB, SN, HG"
+chuy,One
+clne,SN
+coh,One
+ko,IV
+cgnx,SN
+ctsh,One
+cigi,Spops
+cost,"MDP, SA"
+crto,SA
+crox,DV
+ctrp,HG
+cmi,SN
+fxe,Pro
+deck,HG
+de,Pro
+dvn,MDP
+faz,Pro
+disck,SN
+ebay,Spops
+elli,"MDP, RB, SN"
+evn,HG
+esrx,SN
+fb,"MDP, SN, One, SA, RB, Pro"
+fnfv,Spops
+fisi,II
+feye,"MDP, SA"
+ffnw,Spops
+f,SN
+form,HG
+ghdx,One
+gntx,"II, Pro"
+gild,"SA, Pro, SN"
+gpro,"RB, SN"
+ghc,Spops
+gpt,Spops
+hain,SN
+hal,MDP
+has,SN
+htz,Spops
+zincq,DV
+ilmn,"SA, SN"
+imax,"RB, SN"
+infn,"HG, SN"
+ibkr,IV
+ice,RB
+intu,One
+isrg,"RB, SN"
+invn,"RB, SN"
+ions,SN
+ipgp,"MDP, SN"
+irbt,SN
+jax,Spops
+jnj,IV
+kmi,"SA, SN"
+luk,"One, SA"
+lnkd,"MDP, One, RB, SN"
+lgf,SN
+LKQ,SN
+lulu,SN
+ldl,DV
+manh,HG
+mkl,"MDP, One, HG"
+mktx,HG
+ma,"One, IV, Pro"
+mdt,Pro
+meli,"MDP, RB, SN"
+kors,SN
+midd,"One, RB, SN"
+mod,DV
+mnst,SN
+msa,One
+msm,One
+nov,One
+baby,"HG, SN"
+nsrgy,II
+nflx,"One, SA, SN"
+nke,SA
+ndsn,One
+nsam,Spops
+dnow,"MDP, One"
+nxpi,"RB, SN"
+orly,Pro
+oke,"MDP, II"
+OTEX,Pro
+orcl,Pro
+pcar,One
+p,SN
+pnra,SN
+pzza,Pro
+prxl,Pro
+pypl,"MDP, Spops, SN"
+pery,DV
+pii,One
+praa,One
+pcln,"SA, SN"
+svxy,Pro
+prlb,"MDP, One, SN"
+qcom,One
+roic,MDP
+rsti,HG
+RPX,HG
+shop,RB
+swir,"SA, SN"
+skx,SN
+swks,"Pro, SN"
+soda,One
+scty,"MDP, RB, SN"
+szym,HG
+bid,HG
+se,"MDP, II"
+splk,MDP
+sbux,"One, SA, Pro, SN"
+ssys,RB
+nscr,SN
+ttwo,"RB, SN"
+amtd,Pro
+tgna,Spops
+tsla,"MDP, SN, One, RB"
+txrh,SA
+tgh,MDP
+tfsl,Spops
+tcs,One
+twi,DV
+tdg,"HG, SN"
+trex,SN
+trip,"MDP, SA, RB, HG, SN"
+tube,SN
+twtr,"MDP, SN"
+ecol,HG
+slca,HG
+UGI,II
+srs,Pro
+ua,"MDP, One, SA, RB, SN, HG"
+oled,SN
+vrx,One
+vmi,Pro
+veev,SN
+vrsk,Pro
+vz,II
+v,"IV, Pro"
+wab,HG
+wd,One
+dis,"MDP, SA, SN"
+wfc,"IV, Pro"
+wfm,"MDP, One, SN, SA"
+dgs,Pro
+xhr,Spops
+z,"RB, MDP, One, SN"
+zoes,SN

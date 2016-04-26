@@ -47,7 +47,8 @@ class Command(BaseCommand):
     	with open(TIERS_CSV, 'rU') as f:
     		reader = csv.DictReader(f) # read rows into a dictionary format
     		for row in reader: # read a row as {column1: value1, column2: value2,...}
-                    ticker_symbol = str(row['ticker'])
+                    ticker_symbol = str(row['ticker']).upper()
+                    print ticker_symbol
                     service = str(row['service'])
                     try:
                         ticker = Ticker.objects.get(ticker_symbol = ticker_symbol)
