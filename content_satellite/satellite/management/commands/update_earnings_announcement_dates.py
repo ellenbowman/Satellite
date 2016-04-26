@@ -17,11 +17,10 @@ def get_earnings_announcement_date(ticker_symbol):
 	""" 
 	get the next expected earnings date from Moosie's API at:
 	https://fool.moosiefinance.com:8181/api/calendar/v1/company/ticker/{ticker1:ticker2}?pretty=1&canon=1
-	currently using http and 8081 while figuring out ssl
 	"""
 
-	earnings_announcement_url = 'http://fool.moosiefinance.com:8081/api/calendar/v1/company/ticker/%s' % ticker_symbol
-	earnings_response = requests.get(earnings_announcement_url, auth=HTTPBasicAuth('calendar', 'aRfy!poo38;'))
+	earnings_announcement_url = 'https://fool.moosiefinance.com:8181/api/calendar/v1/company/ticker/%s' % ticker_symbol
+	earnings_response = requests.get(earnings_announcement_url, auth=HTTPBasicAuth('calendar', 'aRfy!poo38;'), verify=False)
 	earnings_response=earnings_response.json()
 	earnings_announcement_date = earnings_response[ticker_symbol]['earnings_date']
 
