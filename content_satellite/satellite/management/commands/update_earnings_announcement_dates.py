@@ -42,8 +42,9 @@ class Command(BaseCommand):
 		script_start_time = datetime.datetime.now()
 
 		tickers_symbols_that_errored = set()
-		tickers = Ticker.objects.all().order_by('ticker_symbol')[:50]
+		tickers = Ticker.objects.all().order_by('ticker_symbol')
 		for ticker in tickers:
+			ticker.promised_coverage = None
 			ticker_symbol = ticker.ticker_symbol
 			if '-' in ticker_symbol:
 				ticker_symbol = ticker_symbol.replace('-','.')
