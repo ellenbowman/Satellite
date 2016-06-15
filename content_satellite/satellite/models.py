@@ -21,8 +21,6 @@ class Ticker(models.Model):
 	cloud_captain = models.CharField(max_length=50, null=True, blank=True, verbose_name='cloud captain')
 	points = models.IntegerField(default=0)
 	sector = models.TextField(max_length=500, null=True, blank=True, verbose_name='sector')
-	instrument_id = models.IntegerField(default=0)
-
 
 	def __unicode__(self):
 		return self.ticker_symbol

@@ -28,7 +28,8 @@ Upcoming Earnings
 		</tr>
 	</thead>
 		<tbody class=''>
-{% for t in all_tickers %}
+
+{% for t in tickers %}
 	<tr>
 		<td id="{{ t.ticker_symbol }}">
 			<strong>{{t.ticker_symbol}}</strong><br/>
@@ -51,7 +52,11 @@ Upcoming Earnings
 			{% endif %}
 		</td>
 		<td>
+			{% if t.promised_coverage %}
+			{{t.promised_coverage}}
+			{% else %}
 			{{ t.earnings_announcement|date:"Y-m-d" }}<br/>
+			{% endif %}
 		</td>
 
 		<td>{{t.cloud_captain}}</td>
@@ -69,6 +74,7 @@ Upcoming Earnings
 
 	</tr>
 {% endfor %}
+
 </tbody>
 </table>
 </div>

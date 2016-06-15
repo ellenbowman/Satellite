@@ -24,6 +24,7 @@ def get_earnings_announcement_date(ticker_symbol):
 	earnings_response=earnings_response.json()
 	earnings_announcement_date = earnings_response[ticker_symbol]['earnings_date']
 
+	print earnings_announcement_date
 	return earnings_announcement_date
 
 
@@ -41,7 +42,7 @@ class Command(BaseCommand):
 		script_start_time = datetime.datetime.now()
 
 		tickers_symbols_that_errored = set()
-		tickers = Ticker.objects.all().order_by('ticker_symbol')
+		tickers = Ticker.objects.all().order_by('ticker_symbol')[:50]
 		for ticker in tickers:
 			ticker_symbol = ticker.ticker_symbol
 			if '-' in ticker_symbol:
@@ -60,8 +61,15 @@ class Command(BaseCommand):
 			if ticker.earnings_announcement == None:
 				ticker.earnings_announcement = '2099-01-01'
 				ticker.save()
+			'below sets a text value for pending dates for display'
+			if ticker.earnings_announcement == '2099-01-01':
+				print ticker.promised_coverage
+				ticker.promised_coverage = 'Earnings date pending'
+				print ticker.promised_coverage
+				ticker.save()
 			else:
 				continue
+
 
 		script_end_time = datetime.datetime.now()
 		total_seconds = (script_end_time - script_start_time).total_seconds()

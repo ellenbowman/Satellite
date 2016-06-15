@@ -17,11 +17,33 @@ def upcoming_earnings(request):
 	}
 
 	tickers = Ticker.objects.all()
+	tickers_with_no_dates = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement is None]
+	for t in tickers_with_no_dates:
+		t.earnings_announcement == "2099-01-31"
+		t.save()
+	print t.earnings_announcement
 
 	yesterday = (datetime.now() - timedelta(days=1)).date()
-
 	today = (datetime.now().date())
-	print today
+
+	'''
+	tickers_with_dates_in_past = [t for t in tickers if t.earnings_announcement <= yesterday]
+	for t in tickers_with_dates_in_past:
+		t.earnings_announcement == ""
+		t.save()
+		t.earnings_announcement == "2016-12-31"
+		t.save()
+		print t.earnings_announcement
+	'''
+	#tickers_with_dates_in_future = [t for t in tickers if t.earnings_announcement >= yesterday]
+	#tickers_before_yesterday = [t for t in tickers if t.earnings_announcement <= yesterday]
+	#tickers_not_before_yesterday_sorted = sorted(tickers_not_before_yesterday, key=lambda t: t.earnings_announcement)
+	#tickers_before_yesterday_sorted = sorted(tickers_before_yesterday, key=lambda t: t.earnings_announcement)
+	#all_tickers = tickers_with_no_dates
+	#+tickers_with_dates_in_past+tickers_with_dates_in_future
+	#all_tickers_sorted = sorted(all_tickers, key=lambda t: t.earnings_announcement)
+
+	'''
 
 	starting_monday = today - timedelta(days=today.weekday())
 	print starting_monday
@@ -39,6 +61,7 @@ def upcoming_earnings(request):
 	tickers_for_this_week = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement != None and t.earnings_announcement > starting_monday]
 	all_tickers = tickers_with_no_dates+tickers_for_this_week
 
+	'''
 
 	if request.POST:
 
@@ -77,9 +100,13 @@ def upcoming_earnings(request):
 
 	dictionary_of_values = {
 	'tickers': tickers,
-	'tickers_for_this_week': tickers_for_this_week,
+	#'all_tickers': all_tickers,
+	#'all_tickers_sorted': all_tickers_sorted,
+	#'tickers_for_this_week': tickers_for_this_week,
 	'tickers_with_no_dates': tickers_with_no_dates,
-	'all_tickers': all_tickers,
+	#'tickers_not_before_yesterday_sorted': tickers_not_before_yesterday_sorted,
+	#'tickers_before_yesterday_sorted': tickers_before_yesterday_sorted,
+	#'tickers_before_yesterday': tickers_before_yesterday,
 	}
 
 	return render(request, 'satellite/upcoming_earnings.html', dictionary_of_values)
