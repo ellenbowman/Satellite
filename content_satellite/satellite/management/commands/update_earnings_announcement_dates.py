@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
 		script_start_time = datetime.datetime.now()
 
-		earnings_in_far_future = datetime(2099, 1, 1)
+		#earnings_in_far_future = datetime(2099, 1, 1)
 
 		tickers_symbols_that_errored = set()
 		tickers = Ticker.objects.all().order_by('ticker_symbol')
@@ -57,15 +57,11 @@ class Command(BaseCommand):
 				ticker.earnings_announcement = earnings_announcement_date
 				ticker.save()
 			except Exception as e:
-				ticker.earnings_announcement = earnings_in_far_future
+				ticker.earnings_announcement = None
 				ticker.save()
 				print "couldn't set earnings date", ticker_symbol, str(e), ticker.earnings_announcement
 				tickers_symbols_that_errored.add(ticker_symbol)
 			if ticker.earnings_announcement == None:
-				ticker.earnings_announcement = earnings_in_far_future
-				ticker.save()
-			'below sets a text value for pending dates for display'
-			if ticker.earnings_announcement == earnings_in_far_future:
 				print ticker.promised_coverage
 				ticker.promised_coverage = 'Earnings date pending'
 				print ticker.promised_coverage
