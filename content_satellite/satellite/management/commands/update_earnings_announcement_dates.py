@@ -41,8 +41,6 @@ class Command(BaseCommand):
 
 		script_start_time = datetime.datetime.now()
 
-		#earnings_in_far_future = datetime(2099, 1, 1)
-
 		tickers_symbols_that_errored = set()
 		tickers = Ticker.objects.all().order_by('ticker_symbol')
 		for ticker in tickers:
