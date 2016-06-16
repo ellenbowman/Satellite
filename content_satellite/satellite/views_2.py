@@ -17,11 +17,11 @@ def upcoming_earnings(request):
 	}
 
 	tickers = Ticker.objects.all()
-	tickers_with_no_dates = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement is None]
-	for t in tickers_with_no_dates:
-		t.earnings_announcement == "2099-01-31"
-		t.save()
-	print t.earnings_announcement
+	#tickers_with_no_dates = [t for t in tickers if t.services_for_ticker != None and t.earnings_announcement = None]
+	#for t in tickers_with_no_dates:
+	#	t.earnings_announcement == "2099-01-31"
+	#	t.save()
+	#print t.earnings_announcement
 
 	yesterday = (datetime.now() - timedelta(days=1)).date()
 	today = (datetime.now().date())
@@ -103,7 +103,7 @@ def upcoming_earnings(request):
 	#'all_tickers': all_tickers,
 	#'all_tickers_sorted': all_tickers_sorted,
 	#'tickers_for_this_week': tickers_for_this_week,
-	'tickers_with_no_dates': tickers_with_no_dates,
+	#'tickers_with_no_dates': tickers_with_no_dates,
 	#'tickers_not_before_yesterday_sorted': tickers_not_before_yesterday_sorted,
 	#'tickers_before_yesterday_sorted': tickers_before_yesterday_sorted,
 	#'tickers_before_yesterday': tickers_before_yesterday,
